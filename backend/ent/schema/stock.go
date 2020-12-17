@@ -3,18 +3,18 @@ package schema
 import (
 
 )
-// User holds the schema definition for the User entity.
+// Stock holds the schema definition for the Stock entity.
 type User struct {
 }
 
-// Fields of the User.
-func (User) Fields() []ent.Field {
+// Fields of the Stock.
+func (Stock) Fields() []ent.Field {
     return []ent.Field{
     }
 }
 
-// Edges of the User.
-func (User) Edges() []ent.Edge {
+// Edges of the Stock.
+func (Stock) Edges() []ent.Edge {
     return []ent.Edge{
 
 }
