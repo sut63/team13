@@ -4,7 +4,7 @@ import (
 
 )
 // Stock holds the schema definition for the Stock entity.
-type User struct {
+type Stock struct {
 }
 
 // Fields of the Stock.
