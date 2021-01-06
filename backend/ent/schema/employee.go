@@ -23,6 +23,8 @@ func (Employee) Fields() []ent.Field {
 // Edges of the Employee.
 func (Employee) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("salary", salary.Type).StorageKey(edge.Column("salaryID")),
+		edge.To("salary", salary.Type),
+		edge.To("EmployeeWorkingHours", employeeworkinghours.Type),
+		edge.To("stock", Stock.Type),
 	}
 }
