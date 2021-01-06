@@ -3,6 +3,7 @@ package schema
 import (
 	"github.com/facebook/ent"
 	"github.com/facebook/ent/schema/field"
+	"github.com/facebook/ent/schema/edge"
 )
 
 // Employee holds the schema definition for the Employee entity.
@@ -21,5 +22,7 @@ func (Employee) Fields() []ent.Field {
 
 // Edges of the Employee.
 func (Employee) Edges() []ent.Edge {
-	return nil
+	return []ent.Edge{
+		edge.To("salary", salary.Type).StorageKey(edge.Column("salaryID")),
+	}
 }
