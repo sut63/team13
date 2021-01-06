@@ -14,9 +14,7 @@ type Paymentchannel struct {
 // Fields of the Paymentchannel.
 func (Paymentchannel) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("name").NotEmpty(),
-		field.String("email").NotEmpty().Unique(),
-		field.Int("age").Positive(),
+		field.String("Bank").NotEmpty(),
 	}
 }
 
