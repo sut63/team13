@@ -1,6 +1,7 @@
 package schema
 
 import (
+	"github.com/facebook/ent/schema/edge"
 	"github.com/facebook/ent/schema/field"
 	"github.com/facebookincubator/ent"
 )
@@ -22,5 +23,7 @@ func (Product) Fields() []ent.Field {
 
 // Edges of the Product.
 func (Product) Edges() []ent.Edge {
-	return nil
+	return []ent.Edge{
+		edge.To("orderproducts", Orderproduct.Type),
+	}
 }
