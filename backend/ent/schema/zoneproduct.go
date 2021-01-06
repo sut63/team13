@@ -1,9 +1,9 @@
 package schema
 
 import (
-	"github.com/facebook/ent"
-	"github.com/facebook/ent/schema/field"
-	"github.com/facebook/ent/schema/edeg"
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebookincubator/ent/schema/edge"
 )
 
 // Zoneproduct holds the schema definition for the Zoneproduct entity.
@@ -15,6 +15,7 @@ type Zoneproduct struct {
 func (Zoneproduct) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("Zone").NotEmpty(),
+	}
 }
 
 // Edges of the Zoneproduct.

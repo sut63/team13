@@ -1,10 +1,14 @@
 package schema
 
 import (
-	"github.com/facebook/ent/schema/field"
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebookincubator/ent/schema/edge"
 )
-// Giveawayholds the schema definition for the Giveawayentity.
-type Giveawaystruct {
+
+// Giveaway holds the schema definition for the Giveaway entity.
+type Giveaway struct {
+    ent.Schema
 }
 
 // Fields of the Giveaway.
@@ -17,6 +21,6 @@ func (Giveaway) Fields() []ent.Field {
 // Edges of the Promotion.
 func (Giveaway) Edges() []ent.Edge {
     return []ent.Edge{
-		edge.To("forGiveaway", Promotion.Type),
+		edge.To("forgiveaway", Promotion.Type),
 	}
 }

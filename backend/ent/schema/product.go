@@ -1,11 +1,9 @@
 package schema
 
 import (
-
-	"github.com/facebook/ent"
-  "github.com/facebook/ent/schema/edge"
-  "github.com/facebook/ent/schema/field"
-	
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebookincubator/ent/schema/edge"
 )
 
 // Product holds the schema definition for the Product entity.
@@ -29,5 +27,6 @@ func (Product) Edges() []ent.Edge {
     edge.To("stockproduct", Stock.Type).Unique(),
 	edge.To("products", Orderproduct.Type),
 	edge.To("forproduct", Promotion.Type).Unique(),
+	edge.To("formproductonline", Orderonline.Type),
 	}
 }

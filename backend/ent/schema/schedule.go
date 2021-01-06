@@ -1,11 +1,9 @@
 package schema
 
 import (
-	"github.com/facebook/ent"
-	"github.com/facebook/ent/schema/field"
-	"github.com/facebook/ent/schema/edge"
-
+	"github.com/facebookincubator/ent"
 )
+
 // Schedule holds the schema definition for the Schedule entity.
 type Schedule struct {
 	ent.Schema

@@ -1,9 +1,9 @@
 package schema
 
 import (
-	"github.com/facebook/ent"
-	"github.com/facebook/ent/schema/field"
-	"github.com/facebook/ent/schema/edeg"
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebookincubator/ent/schema/edge"
 )
 
 // Stock holds the schema definition for the Stock entity.
@@ -15,11 +15,10 @@ type Stock struct {
 func (Stock) Fields() []ent.Field {
 	return []ent.Field{
         field.String("Priceproduct"),
-        field.Time("Time").
-            Default(time.Now),
+        field.Time("Time"),
+	}
 }
 
-// Edges of the Stock.
 func (Stock) Edges() []ent.Edge {
 	return []ent.Edge{
         edge.From("product", Product.Type).
@@ -35,5 +34,5 @@ func (Stock) Edges() []ent.Edge {
 		edge.From("typeproduct", TypeProduct.Type).
             Ref("typestock").
             Unique(),
-		}
+	}
 }

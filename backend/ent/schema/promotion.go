@@ -1,9 +1,14 @@
 package schema
 
-import "github.com/facebook/ent/schema/field"
+import (
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebookincubator/ent/schema/edge"
+)
 
 // Promotion holds the schema definition for the Promotion entity.
 type Promotion struct {
+    ent.Schema
 }
 
 // Fields of the Promotion.

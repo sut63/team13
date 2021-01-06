@@ -24,7 +24,7 @@ func (Employee) Fields() []ent.Field {
 func (Employee) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("salary", salary.Type),
-		edge.To("EmployeeWorkingHours", employeeworkinghours.Type),
+		edge.To("whose", EmployeeWorkingHours.Type),
 		edge.To("employeestock", Stock.Type),
 	}
 }

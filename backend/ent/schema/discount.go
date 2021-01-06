@@ -1,10 +1,14 @@
 package schema
 
 import (
-	"github.com/facebook/ent/schema/field"
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebookincubator/ent/schema/edge"
 )
-// Discountholds the schema definition for the Discountentity.
-type Discountstruct {
+
+// Discount holds the schema definition for the Discount entity.
+type Discount struct {
+	ent.Schema
 }
 
 // Fields of the Discount.
