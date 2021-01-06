@@ -22,7 +22,8 @@ func (Orderproduct) Fields() []ent.Field {
 // Edges of the Orderproduct.
 func (Orderproduct) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("product", Product.Type).Ref("orderproducts").Unique(),
-		edge.From("company", Company.Type).Ref("orderproducts").Unique(),
+		edge.From("product", Product.Type).Ref("products").Unique(),
+		edge.From("company", Company.Type).Ref("companys").Unique(),
+		edge.From("typeproduct",TypeProduct.Type).Ref("typeproducts").Unique(),
 	}
 }

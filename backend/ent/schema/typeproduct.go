@@ -17,5 +17,6 @@ func (TypeProduct) Fields() []ent.Field {
 func (TypeProduct) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("typestock", Stock.Type),
+		edge.To("typeproducts", Orderproduct.Type),
 	}
 }

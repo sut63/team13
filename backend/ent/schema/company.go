@@ -21,6 +21,6 @@ func (Company) Fields() []ent.Field {
 // Edges of the Company.
 func (Company) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("orderproducts", Orderproduct.Type),
+		edge.To("companys", Orderproduct.Type),
 	}
 }
