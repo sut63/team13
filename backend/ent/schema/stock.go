@@ -14,7 +14,8 @@ type Stock struct {
 // Fields of the Stock.
 func (Stock) Fields() []ent.Field {
 	return []ent.Field{
-        field.String("Priceproduct"),
+		field.String("Priceproduct"),
+		field.String("Amount"),
         field.Time("Time"),
 	}
 }
