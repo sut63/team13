@@ -34,21 +34,21 @@ func (su *StockUpdate) Where(ps ...predicate.Stock) *StockUpdate {
 }
 
 // SetPriceproduct sets the Priceproduct field.
-func (su *StockUpdate) SetPriceproduct(i int) *StockUpdate {
-	su.mutation.ResetPriceproduct()
-	su.mutation.SetPriceproduct(i)
-	return su
-}
-
-// AddPriceproduct adds i to Priceproduct.
-func (su *StockUpdate) AddPriceproduct(i int) *StockUpdate {
-	su.mutation.AddPriceproduct(i)
+func (su *StockUpdate) SetPriceproduct(s string) *StockUpdate {
+	su.mutation.SetPriceproduct(s)
 	return su
 }
 
 // SetAmount sets the Amount field.
-func (su *StockUpdate) SetAmount(s string) *StockUpdate {
-	su.mutation.SetAmount(s)
+func (su *StockUpdate) SetAmount(i int) *StockUpdate {
+	su.mutation.ResetAmount()
+	su.mutation.SetAmount(i)
+	return su
+}
+
+// AddAmount adds i to Amount.
+func (su *StockUpdate) AddAmount(i int) *StockUpdate {
+	su.mutation.AddAmount(i)
 	return su
 }
 
@@ -231,21 +231,21 @@ func (su *StockUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := su.mutation.Priceproduct(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: stock.FieldPriceproduct,
-		})
-	}
-	if value, ok := su.mutation.AddedPriceproduct(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeString,
 			Value:  value,
 			Column: stock.FieldPriceproduct,
 		})
 	}
 	if value, ok := su.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: stock.FieldAmount,
+		})
+	}
+	if value, ok := su.mutation.AddedAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: stock.FieldAmount,
 		})
@@ -416,21 +416,21 @@ type StockUpdateOne struct {
 }
 
 // SetPriceproduct sets the Priceproduct field.
-func (suo *StockUpdateOne) SetPriceproduct(i int) *StockUpdateOne {
-	suo.mutation.ResetPriceproduct()
-	suo.mutation.SetPriceproduct(i)
-	return suo
-}
-
-// AddPriceproduct adds i to Priceproduct.
-func (suo *StockUpdateOne) AddPriceproduct(i int) *StockUpdateOne {
-	suo.mutation.AddPriceproduct(i)
+func (suo *StockUpdateOne) SetPriceproduct(s string) *StockUpdateOne {
+	suo.mutation.SetPriceproduct(s)
 	return suo
 }
 
 // SetAmount sets the Amount field.
-func (suo *StockUpdateOne) SetAmount(s string) *StockUpdateOne {
-	suo.mutation.SetAmount(s)
+func (suo *StockUpdateOne) SetAmount(i int) *StockUpdateOne {
+	suo.mutation.ResetAmount()
+	suo.mutation.SetAmount(i)
+	return suo
+}
+
+// AddAmount adds i to Amount.
+func (suo *StockUpdateOne) AddAmount(i int) *StockUpdateOne {
+	suo.mutation.AddAmount(i)
 	return suo
 }
 
@@ -611,21 +611,21 @@ func (suo *StockUpdateOne) sqlSave(ctx context.Context) (s *Stock, err error) {
 	_spec.Node.ID.Value = id
 	if value, ok := suo.mutation.Priceproduct(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: stock.FieldPriceproduct,
-		})
-	}
-	if value, ok := suo.mutation.AddedPriceproduct(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeString,
 			Value:  value,
 			Column: stock.FieldPriceproduct,
 		})
 	}
 	if value, ok := suo.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: stock.FieldAmount,
+		})
+	}
+	if value, ok := suo.mutation.AddedAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: stock.FieldAmount,
 		})

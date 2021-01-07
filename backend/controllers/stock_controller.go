@@ -4,6 +4,7 @@ import (
    "context"
    "fmt"
    "strconv"
+   "time"
    "github.com/team13/app/ent"
    "github.com/team13/app/ent/product"
    "github.com/team13/app/ent/zoneproduct"
@@ -24,8 +25,8 @@ type StockController struct {
 	Zoneid			int
 	Employeeid		int
 	Typeproductid 	int
-	Priceproduct	int
-	Amount			string
+	Priceproduct	string
+	Amount			int
 	Time			string
 
  }
@@ -180,6 +181,10 @@ func (ctl *StockController) ListStock(c *gin.Context) {
   
 	stocks, err := ctl.client.Stock.
 		Query().
+		WithProduct().
+		WithZoneproduct().
+		WithTypeproduct().
+		withEmployee().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())

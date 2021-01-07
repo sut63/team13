@@ -21,9 +21,9 @@ type Stock struct {
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
 	// Priceproduct holds the value of the "Priceproduct" field.
-	Priceproduct int `json:"Priceproduct,omitempty"`
+	Priceproduct string `json:"Priceproduct,omitempty"`
 	// Amount holds the value of the "Amount" field.
-	Amount string `json:"Amount,omitempty"`
+	Amount int `json:"Amount,omitempty"`
 	// Time holds the value of the "Time" field.
 	Time time.Time `json:"Time,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -110,8 +110,8 @@ func (e StockEdges) TypeproductOrErr() (*Typeproduct, error) {
 func (*Stock) scanValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{},  // id
-		&sql.NullInt64{},  // Priceproduct
-		&sql.NullString{}, // Amount
+		&sql.NullString{}, // Priceproduct
+		&sql.NullInt64{},  // Amount
 		&sql.NullTime{},   // Time
 	}
 }
@@ -138,15 +138,15 @@ func (s *Stock) assignValues(values ...interface{}) error {
 	}
 	s.ID = int(value.Int64)
 	values = values[1:]
-	if value, ok := values[0].(*sql.NullInt64); !ok {
+	if value, ok := values[0].(*sql.NullString); !ok {
 		return fmt.Errorf("unexpected type %T for field Priceproduct", values[0])
 	} else if value.Valid {
-		s.Priceproduct = int(value.Int64)
+		s.Priceproduct = value.String
 	}
-	if value, ok := values[1].(*sql.NullString); !ok {
+	if value, ok := values[1].(*sql.NullInt64); !ok {
 		return fmt.Errorf("unexpected type %T for field Amount", values[1])
 	} else if value.Valid {
-		s.Amount = value.String
+		s.Amount = int(value.Int64)
 	}
 	if value, ok := values[2].(*sql.NullTime); !ok {
 		return fmt.Errorf("unexpected type %T for field Time", values[2])
@@ -227,9 +227,9 @@ func (s *Stock) String() string {
 	builder.WriteString("Stock(")
 	builder.WriteString(fmt.Sprintf("id=%v", s.ID))
 	builder.WriteString(", Priceproduct=")
-	builder.WriteString(fmt.Sprintf("%v", s.Priceproduct))
+	builder.WriteString(s.Priceproduct)
 	builder.WriteString(", Amount=")
-	builder.WriteString(s.Amount)
+	builder.WriteString(fmt.Sprintf("%v", s.Amount))
 	builder.WriteString(", Time=")
 	builder.WriteString(s.Time.Format(time.ANSIC))
 	builder.WriteByte(')')

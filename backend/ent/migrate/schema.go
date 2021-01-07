@@ -387,8 +387,8 @@ var (
 	// StocksColumns holds the columns for the "stocks" table.
 	StocksColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "priceproduct", Type: field.TypeInt},
-		{Name: "amount", Type: field.TypeString},
+		{Name: "priceproduct", Type: field.TypeString},
+		{Name: "amount", Type: field.TypeInt},
 		{Name: "time", Type: field.TypeTime},
 		{Name: "employee_employeestock", Type: field.TypeInt, Nullable: true},
 		{Name: "product_stockproduct", Type: field.TypeInt, Unique: true, Nullable: true},
