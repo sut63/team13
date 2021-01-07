@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
@@ -22,15 +23,15 @@ type SalaryCreate struct {
 	hooks    []Hook
 }
 
-// SetPosition sets the position field.
-func (sc *SalaryCreate) SetPosition(s string) *SalaryCreate {
-	sc.mutation.SetPosition(s)
+// SetSalary sets the Salary field.
+func (sc *SalaryCreate) SetSalary(f float64) *SalaryCreate {
+	sc.mutation.SetSalary(f)
 	return sc
 }
 
-// SetSalary sets the Salary field.
-func (sc *SalaryCreate) SetSalary(i int) *SalaryCreate {
-	sc.mutation.SetSalary(i)
+// SetSalaryDatetime sets the SalaryDatetime field.
+func (sc *SalaryCreate) SetSalaryDatetime(t time.Time) *SalaryCreate {
+	sc.mutation.SetSalaryDatetime(t)
 	return sc
 }
 
@@ -98,14 +99,6 @@ func (sc *SalaryCreate) Mutation() *SalaryMutation {
 
 // Save creates the Salary in the database.
 func (sc *SalaryCreate) Save(ctx context.Context) (*Salary, error) {
-	if _, ok := sc.mutation.Position(); !ok {
-		return nil, &ValidationError{Name: "position", err: errors.New("ent: missing required field \"position\"")}
-	}
-	if v, ok := sc.mutation.Position(); ok {
-		if err := salary.PositionValidator(v); err != nil {
-			return nil, &ValidationError{Name: "position", err: fmt.Errorf("ent: validator failed for field \"position\": %w", err)}
-		}
-	}
 	if _, ok := sc.mutation.Salary(); !ok {
 		return nil, &ValidationError{Name: "Salary", err: errors.New("ent: missing required field \"Salary\"")}
 	}
@@ -113,6 +106,9 @@ func (sc *SalaryCreate) Save(ctx context.Context) (*Salary, error) {
 		if err := salary.SalaryValidator(v); err != nil {
 			return nil, &ValidationError{Name: "Salary", err: fmt.Errorf("ent: validator failed for field \"Salary\": %w", err)}
 		}
+	}
+	if _, ok := sc.mutation.SalaryDatetime(); !ok {
+		return nil, &ValidationError{Name: "SalaryDatetime", err: errors.New("ent: missing required field \"SalaryDatetime\"")}
 	}
 	var (
 		err  error
@@ -174,21 +170,21 @@ func (sc *SalaryCreate) createSpec() (*Salary, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
-	if value, ok := sc.mutation.Position(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: salary.FieldPosition,
-		})
-		s.Position = value
-	}
 	if value, ok := sc.mutation.Salary(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: salary.FieldSalary,
 		})
 		s.Salary = value
+	}
+	if value, ok := sc.mutation.SalaryDatetime(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: salary.FieldSalaryDatetime,
+		})
+		s.SalaryDatetime = value
 	}
 	if nodes := sc.mutation.AssessmentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

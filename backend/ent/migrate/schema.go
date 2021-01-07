@@ -337,8 +337,8 @@ var (
 	// SalariesColumns holds the columns for the "salaries" table.
 	SalariesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "position", Type: field.TypeString},
-		{Name: "salary", Type: field.TypeInt},
+		{Name: "salary", Type: field.TypeFloat64},
+		{Name: "salary_datetime", Type: field.TypeTime},
 		{Name: "assessment_formassessment", Type: field.TypeInt, Nullable: true},
 		{Name: "employee_formemployee", Type: field.TypeInt, Unique: true, Nullable: true},
 		{Name: "position_formposition", Type: field.TypeInt, Nullable: true},

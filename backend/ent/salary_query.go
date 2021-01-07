@@ -332,12 +332,12 @@ func (sq *SalaryQuery) WithEmployee(opts ...func(*EmployeeQuery)) *SalaryQuery {
 // Example:
 //
 //	var v []struct {
-//		Position string `json:"position,omitempty"`
+//		Salary float64 `json:"Salary,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Salary.Query().
-//		GroupBy(salary.FieldPosition).
+//		GroupBy(salary.FieldSalary).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -358,11 +358,11 @@ func (sq *SalaryQuery) GroupBy(field string, fields ...string) *SalaryGroupBy {
 // Example:
 //
 //	var v []struct {
-//		Position string `json:"position,omitempty"`
+//		Salary float64 `json:"Salary,omitempty"`
 //	}
 //
 //	client.Salary.Query().
-//		Select(salary.FieldPosition).
+//		Select(salary.FieldSalary).
 //		Scan(ctx, &v)
 //
 func (sq *SalaryQuery) Select(field string, fields ...string) *SalarySelect {

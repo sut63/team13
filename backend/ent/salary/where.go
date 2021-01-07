@@ -3,6 +3,8 @@
 package salary
 
 import (
+	"time"
+
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/team13/app/ent/predicate"
@@ -91,147 +93,36 @@ func IDLTE(id int) predicate.Salary {
 	})
 }
 
-// Position applies equality check predicate on the "position" field. It's identical to PositionEQ.
-func Position(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPosition), v))
-	})
-}
-
 // Salary applies equality check predicate on the "Salary" field. It's identical to SalaryEQ.
-func Salary(v int) predicate.Salary {
+func Salary(v float64) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldSalary), v))
 	})
 }
 
-// PositionEQ applies the EQ predicate on the "position" field.
-func PositionEQ(v string) predicate.Salary {
+// SalaryDatetime applies equality check predicate on the "SalaryDatetime" field. It's identical to SalaryDatetimeEQ.
+func SalaryDatetime(v time.Time) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldPosition), v))
-	})
-}
-
-// PositionNEQ applies the NEQ predicate on the "position" field.
-func PositionNEQ(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldPosition), v))
-	})
-}
-
-// PositionIn applies the In predicate on the "position" field.
-func PositionIn(vs ...string) predicate.Salary {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Salary(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldPosition), v...))
-	})
-}
-
-// PositionNotIn applies the NotIn predicate on the "position" field.
-func PositionNotIn(vs ...string) predicate.Salary {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Salary(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldPosition), v...))
-	})
-}
-
-// PositionGT applies the GT predicate on the "position" field.
-func PositionGT(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldPosition), v))
-	})
-}
-
-// PositionGTE applies the GTE predicate on the "position" field.
-func PositionGTE(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldPosition), v))
-	})
-}
-
-// PositionLT applies the LT predicate on the "position" field.
-func PositionLT(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldPosition), v))
-	})
-}
-
-// PositionLTE applies the LTE predicate on the "position" field.
-func PositionLTE(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldPosition), v))
-	})
-}
-
-// PositionContains applies the Contains predicate on the "position" field.
-func PositionContains(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldPosition), v))
-	})
-}
-
-// PositionHasPrefix applies the HasPrefix predicate on the "position" field.
-func PositionHasPrefix(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldPosition), v))
-	})
-}
-
-// PositionHasSuffix applies the HasSuffix predicate on the "position" field.
-func PositionHasSuffix(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldPosition), v))
-	})
-}
-
-// PositionEqualFold applies the EqualFold predicate on the "position" field.
-func PositionEqualFold(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldPosition), v))
-	})
-}
-
-// PositionContainsFold applies the ContainsFold predicate on the "position" field.
-func PositionContainsFold(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldPosition), v))
+		s.Where(sql.EQ(s.C(FieldSalaryDatetime), v))
 	})
 }
 
 // SalaryEQ applies the EQ predicate on the "Salary" field.
-func SalaryEQ(v int) predicate.Salary {
+func SalaryEQ(v float64) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldSalary), v))
 	})
 }
 
 // SalaryNEQ applies the NEQ predicate on the "Salary" field.
-func SalaryNEQ(v int) predicate.Salary {
+func SalaryNEQ(v float64) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldSalary), v))
 	})
 }
 
 // SalaryIn applies the In predicate on the "Salary" field.
-func SalaryIn(vs ...int) predicate.Salary {
+func SalaryIn(vs ...float64) predicate.Salary {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -248,7 +139,7 @@ func SalaryIn(vs ...int) predicate.Salary {
 }
 
 // SalaryNotIn applies the NotIn predicate on the "Salary" field.
-func SalaryNotIn(vs ...int) predicate.Salary {
+func SalaryNotIn(vs ...float64) predicate.Salary {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -265,30 +156,106 @@ func SalaryNotIn(vs ...int) predicate.Salary {
 }
 
 // SalaryGT applies the GT predicate on the "Salary" field.
-func SalaryGT(v int) predicate.Salary {
+func SalaryGT(v float64) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldSalary), v))
 	})
 }
 
 // SalaryGTE applies the GTE predicate on the "Salary" field.
-func SalaryGTE(v int) predicate.Salary {
+func SalaryGTE(v float64) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldSalary), v))
 	})
 }
 
 // SalaryLT applies the LT predicate on the "Salary" field.
-func SalaryLT(v int) predicate.Salary {
+func SalaryLT(v float64) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldSalary), v))
 	})
 }
 
 // SalaryLTE applies the LTE predicate on the "Salary" field.
-func SalaryLTE(v int) predicate.Salary {
+func SalaryLTE(v float64) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldSalary), v))
+	})
+}
+
+// SalaryDatetimeEQ applies the EQ predicate on the "SalaryDatetime" field.
+func SalaryDatetimeEQ(v time.Time) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldSalaryDatetime), v))
+	})
+}
+
+// SalaryDatetimeNEQ applies the NEQ predicate on the "SalaryDatetime" field.
+func SalaryDatetimeNEQ(v time.Time) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldSalaryDatetime), v))
+	})
+}
+
+// SalaryDatetimeIn applies the In predicate on the "SalaryDatetime" field.
+func SalaryDatetimeIn(vs ...time.Time) predicate.Salary {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Salary(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldSalaryDatetime), v...))
+	})
+}
+
+// SalaryDatetimeNotIn applies the NotIn predicate on the "SalaryDatetime" field.
+func SalaryDatetimeNotIn(vs ...time.Time) predicate.Salary {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Salary(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldSalaryDatetime), v...))
+	})
+}
+
+// SalaryDatetimeGT applies the GT predicate on the "SalaryDatetime" field.
+func SalaryDatetimeGT(v time.Time) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldSalaryDatetime), v))
+	})
+}
+
+// SalaryDatetimeGTE applies the GTE predicate on the "SalaryDatetime" field.
+func SalaryDatetimeGTE(v time.Time) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldSalaryDatetime), v))
+	})
+}
+
+// SalaryDatetimeLT applies the LT predicate on the "SalaryDatetime" field.
+func SalaryDatetimeLT(v time.Time) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldSalaryDatetime), v))
+	})
+}
+
+// SalaryDatetimeLTE applies the LTE predicate on the "SalaryDatetime" field.
+func SalaryDatetimeLTE(v time.Time) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldSalaryDatetime), v))
 	})
 }
 

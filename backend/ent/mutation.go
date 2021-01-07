@@ -7650,9 +7650,9 @@ type SalaryMutation struct {
 	op                Op
 	typ               string
 	id                *int
-	position          *string
-	_Salary           *int
-	add_Salary        *int
+	_Salary           *float64
+	add_Salary        *float64
+	_SalaryDatetime   *time.Time
 	clearedFields     map[string]struct{}
 	assessment        *int
 	clearedassessment bool
@@ -7743,51 +7743,14 @@ func (m *SalaryMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
-// SetPosition sets the position field.
-func (m *SalaryMutation) SetPosition(s string) {
-	m.position = &s
-}
-
-// Position returns the position value in the mutation.
-func (m *SalaryMutation) Position() (r string, exists bool) {
-	v := m.position
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldPosition returns the old position value of the Salary.
-// If the Salary object wasn't provided to the builder, the object is fetched
-// from the database.
-// An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *SalaryMutation) OldPosition(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldPosition is allowed only on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldPosition requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPosition: %w", err)
-	}
-	return oldValue.Position, nil
-}
-
-// ResetPosition reset all changes of the "position" field.
-func (m *SalaryMutation) ResetPosition() {
-	m.position = nil
-}
-
 // SetSalary sets the Salary field.
-func (m *SalaryMutation) SetSalary(i int) {
-	m._Salary = &i
+func (m *SalaryMutation) SetSalary(f float64) {
+	m._Salary = &f
 	m.add_Salary = nil
 }
 
 // Salary returns the Salary value in the mutation.
-func (m *SalaryMutation) Salary() (r int, exists bool) {
+func (m *SalaryMutation) Salary() (r float64, exists bool) {
 	v := m._Salary
 	if v == nil {
 		return
@@ -7799,7 +7762,7 @@ func (m *SalaryMutation) Salary() (r int, exists bool) {
 // If the Salary object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *SalaryMutation) OldSalary(ctx context.Context) (v int, err error) {
+func (m *SalaryMutation) OldSalary(ctx context.Context) (v float64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldSalary is allowed only on UpdateOne operations")
 	}
@@ -7813,17 +7776,17 @@ func (m *SalaryMutation) OldSalary(ctx context.Context) (v int, err error) {
 	return oldValue.Salary, nil
 }
 
-// AddSalary adds i to Salary.
-func (m *SalaryMutation) AddSalary(i int) {
+// AddSalary adds f to Salary.
+func (m *SalaryMutation) AddSalary(f float64) {
 	if m.add_Salary != nil {
-		*m.add_Salary += i
+		*m.add_Salary += f
 	} else {
-		m.add_Salary = &i
+		m.add_Salary = &f
 	}
 }
 
 // AddedSalary returns the value that was added to the Salary field in this mutation.
-func (m *SalaryMutation) AddedSalary() (r int, exists bool) {
+func (m *SalaryMutation) AddedSalary() (r float64, exists bool) {
 	v := m.add_Salary
 	if v == nil {
 		return
@@ -7835,6 +7798,43 @@ func (m *SalaryMutation) AddedSalary() (r int, exists bool) {
 func (m *SalaryMutation) ResetSalary() {
 	m._Salary = nil
 	m.add_Salary = nil
+}
+
+// SetSalaryDatetime sets the SalaryDatetime field.
+func (m *SalaryMutation) SetSalaryDatetime(t time.Time) {
+	m._SalaryDatetime = &t
+}
+
+// SalaryDatetime returns the SalaryDatetime value in the mutation.
+func (m *SalaryMutation) SalaryDatetime() (r time.Time, exists bool) {
+	v := m._SalaryDatetime
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSalaryDatetime returns the old SalaryDatetime value of the Salary.
+// If the Salary object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *SalaryMutation) OldSalaryDatetime(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldSalaryDatetime is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldSalaryDatetime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSalaryDatetime: %w", err)
+	}
+	return oldValue.SalaryDatetime, nil
+}
+
+// ResetSalaryDatetime reset all changes of the "SalaryDatetime" field.
+func (m *SalaryMutation) ResetSalaryDatetime() {
+	m._SalaryDatetime = nil
 }
 
 // SetAssessmentID sets the assessment edge to Assessment by id.
@@ -7969,11 +7969,11 @@ func (m *SalaryMutation) Type() string {
 // fields that were in/decremented, call AddedFields().
 func (m *SalaryMutation) Fields() []string {
 	fields := make([]string, 0, 2)
-	if m.position != nil {
-		fields = append(fields, salary.FieldPosition)
-	}
 	if m._Salary != nil {
 		fields = append(fields, salary.FieldSalary)
+	}
+	if m._SalaryDatetime != nil {
+		fields = append(fields, salary.FieldSalaryDatetime)
 	}
 	return fields
 }
@@ -7983,10 +7983,10 @@ func (m *SalaryMutation) Fields() []string {
 // not set, or was not define in the schema.
 func (m *SalaryMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case salary.FieldPosition:
-		return m.Position()
 	case salary.FieldSalary:
 		return m.Salary()
+	case salary.FieldSalaryDatetime:
+		return m.SalaryDatetime()
 	}
 	return nil, false
 }
@@ -7996,10 +7996,10 @@ func (m *SalaryMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *SalaryMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case salary.FieldPosition:
-		return m.OldPosition(ctx)
 	case salary.FieldSalary:
 		return m.OldSalary(ctx)
+	case salary.FieldSalaryDatetime:
+		return m.OldSalaryDatetime(ctx)
 	}
 	return nil, fmt.Errorf("unknown Salary field %s", name)
 }
@@ -8009,19 +8009,19 @@ func (m *SalaryMutation) OldField(ctx context.Context, name string) (ent.Value, 
 // type mismatch the field type.
 func (m *SalaryMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case salary.FieldPosition:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetPosition(v)
-		return nil
 	case salary.FieldSalary:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetSalary(v)
+		return nil
+	case salary.FieldSalaryDatetime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSalaryDatetime(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Salary field %s", name)
@@ -8054,7 +8054,7 @@ func (m *SalaryMutation) AddedField(name string) (ent.Value, bool) {
 func (m *SalaryMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case salary.FieldSalary:
-		v, ok := value.(int)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -8088,11 +8088,11 @@ func (m *SalaryMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *SalaryMutation) ResetField(name string) error {
 	switch name {
-	case salary.FieldPosition:
-		m.ResetPosition()
-		return nil
 	case salary.FieldSalary:
 		m.ResetSalary()
+		return nil
+	case salary.FieldSalaryDatetime:
+		m.ResetSalaryDatetime()
 		return nil
 	}
 	return fmt.Errorf("unknown Salary field %s", name)
