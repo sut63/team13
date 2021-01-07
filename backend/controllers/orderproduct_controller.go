@@ -21,10 +21,11 @@ type OrderproductController struct {
 }
 
 type Orderproduct struct {
-	ManagerID      int
-	TypeproductID  int
-	PhysicianID      int
-	Stock			 int
+	ManagerID       int
+	TypeproductID   int
+	ProductID  		int
+	CompanyID       int
+	Stock			int
 	Addedtime       string
 }
 
@@ -48,9 +49,9 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 		return
 	}
 
-	ph, err := ctl.client.Physician.
+	mn, err := ctl.client.Manager.
 		Query().
-		Where(physician.IDEQ(int(obj.PhysicianID))).
+		Where(manager.IDEQ(int(obj.ManagerID))).
 		Only(context.Background())
 
 	if err != nil {
@@ -60,9 +61,9 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 		return
 	}
 
-	mt, err := ctl.client.MedicalType.
+	tp, err := ctl.client.Typeproduct.
 		Query().
-		Where(medicaltype.IDEQ(int(obj.TypeEquipmentID))).
+		Where(typeproduct.IDEQ(int(obj.TypeproductID))).
 		Only(context.Background())
 
 	if err != nil {
@@ -72,9 +73,9 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 		return
 	}
 
-	men, err := ctl.client.MedicalEquipment.
+	pr, err := ctl.client.Product.
 		Query().
-		Where(medicalequipment.IDEQ(int(obj.NameEquipmentID))).
+		Where(product.IDEQ(int(obj.ProductID))).
 		Only(context.Background())
 
 	if err != nil {
@@ -84,15 +85,29 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 		return
 	}
 
+	cp, err := ctl.client.Company.
+		Query().
+		Where(company.IDEQ(int(obj.CompanyID))).
+		Only(context.Background())
+
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "NameEquipmentID   not found",
+		})
+		return
+	}
+
+
 	
 
 	times, err := time.Parse(time.RFC3339, obj.Addedtime)
 	
 	sa, err := ctl.client.Orderproduct.
 		Create().
-		SetPhysician(ph).
-		SetMedicaltype(mt).
-		SetMedicalequipment(men).
+		SetManagers(mn).
+		SetTypeproduct(tp).
+		SetProduct(pr).
+		SetCompany(cp).
 		SetStock(obj.Stock).
 		SetAddedtime(times).
 		Save(context.Background())
@@ -172,9 +187,10 @@ func (ctl *OrderproductController) ListOrderproduct(c *gin.Context) {
 
 	orderproducts, err := ctl.client.Orderproduct.
 		Query().
-		WithPhysician().
-		WithMedicalequipment().
-		WithMedicaltype().
+		WithManagers().
+		WithTypeproduct().
+		WithProduct().
+		WithCompany().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())
