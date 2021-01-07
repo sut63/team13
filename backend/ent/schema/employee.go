@@ -23,7 +23,7 @@ func (Employee) Fields() []ent.Field {
 // Edges of the Employee.
 func (Employee) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("whose", Employeeworkinghours.Type),
+		edge.To("whose", EmployeeWorkingHours.Type),
 		edge.To("employeestock", Stock.Type),
 		edge.To("formemployee", Salary.Type).Unique(),
 	}

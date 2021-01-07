@@ -18,7 +18,7 @@ func (EmployeeWorkingHours) Fields() []ent.Field {
 // Edges of the EmployeeWorkingHours.
 func (EmployeeWorkingHours) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("EmployeeWorkingHours", Employees.Type).
+		edge.From("EmployeeWorkingHours", Employee.Type).
 			Ref("whose").
 			Unique(),
 		edge.From("day", Day.Type).
