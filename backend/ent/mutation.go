@@ -7650,9 +7650,14 @@ type SalaryMutation struct {
 	op                Op
 	typ               string
 	id                *int
+<<<<<<< HEAD
 	_Salary           *float64
 	add_Salary        *float64
 	_SalaryDatetime   *time.Time
+=======
+	_Salary           *int
+	add_Salary        *int
+>>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	clearedFields     map[string]struct{}
 	assessment        *int
 	clearedassessment bool
@@ -7968,7 +7973,11 @@ func (m *SalaryMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *SalaryMutation) Fields() []string {
+<<<<<<< HEAD
 	fields := make([]string, 0, 2)
+=======
+	fields := make([]string, 0, 1)
+>>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	if m._Salary != nil {
 		fields = append(fields, salary.FieldSalary)
 	}
@@ -8010,6 +8019,7 @@ func (m *SalaryMutation) OldField(ctx context.Context, name string) (ent.Value, 
 func (m *SalaryMutation) SetField(name string, value ent.Value) error {
 	switch name {
 	case salary.FieldSalary:
+<<<<<<< HEAD
 		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -8018,6 +8028,9 @@ func (m *SalaryMutation) SetField(name string, value ent.Value) error {
 		return nil
 	case salary.FieldSalaryDatetime:
 		v, ok := value.(time.Time)
+=======
+		v, ok := value.(int)
+>>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -8645,7 +8658,8 @@ type StockMutation struct {
 	typ                 string
 	id                  *int
 	_Priceproduct       *string
-	_Amount             *string
+	_Amount             *int
+	add_Amount          *int
 	_Time               *time.Time
 	clearedFields       map[string]struct{}
 	product             *int
@@ -8777,12 +8791,13 @@ func (m *StockMutation) ResetPriceproduct() {
 }
 
 // SetAmount sets the Amount field.
-func (m *StockMutation) SetAmount(s string) {
-	m._Amount = &s
+func (m *StockMutation) SetAmount(i int) {
+	m._Amount = &i
+	m.add_Amount = nil
 }
 
 // Amount returns the Amount value in the mutation.
-func (m *StockMutation) Amount() (r string, exists bool) {
+func (m *StockMutation) Amount() (r int, exists bool) {
 	v := m._Amount
 	if v == nil {
 		return
@@ -8794,7 +8809,7 @@ func (m *StockMutation) Amount() (r string, exists bool) {
 // If the Stock object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *StockMutation) OldAmount(ctx context.Context) (v string, err error) {
+func (m *StockMutation) OldAmount(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldAmount is allowed only on UpdateOne operations")
 	}
@@ -8808,9 +8823,28 @@ func (m *StockMutation) OldAmount(ctx context.Context) (v string, err error) {
 	return oldValue.Amount, nil
 }
 
+// AddAmount adds i to Amount.
+func (m *StockMutation) AddAmount(i int) {
+	if m.add_Amount != nil {
+		*m.add_Amount += i
+	} else {
+		m.add_Amount = &i
+	}
+}
+
+// AddedAmount returns the value that was added to the Amount field in this mutation.
+func (m *StockMutation) AddedAmount() (r int, exists bool) {
+	v := m.add_Amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ResetAmount reset all changes of the "Amount" field.
 func (m *StockMutation) ResetAmount() {
 	m._Amount = nil
+	m.add_Amount = nil
 }
 
 // SetTime sets the Time field.
@@ -9076,7 +9110,7 @@ func (m *StockMutation) SetField(name string, value ent.Value) error {
 		m.SetPriceproduct(v)
 		return nil
 	case stock.FieldAmount:
-		v, ok := value.(string)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -9096,13 +9130,21 @@ func (m *StockMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented
 // or decremented during this mutation.
 func (m *StockMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.add_Amount != nil {
+		fields = append(fields, stock.FieldAmount)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was in/decremented
 // from a field with the given name. The second value indicates
 // that this field was not set, or was not define in the schema.
 func (m *StockMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case stock.FieldAmount:
+		return m.AddedAmount()
+	}
 	return nil, false
 }
 
@@ -9111,6 +9153,13 @@ func (m *StockMutation) AddedField(name string) (ent.Value, bool) {
 // type mismatch the field type.
 func (m *StockMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case stock.FieldAmount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddAmount(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Stock numeric field %s", name)
 }

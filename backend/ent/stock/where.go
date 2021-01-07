@@ -101,7 +101,7 @@ func Priceproduct(v string) predicate.Stock {
 }
 
 // Amount applies equality check predicate on the "Amount" field. It's identical to AmountEQ.
-func Amount(v string) predicate.Stock {
+func Amount(v int) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldAmount), v))
 	})
@@ -226,21 +226,21 @@ func PriceproductContainsFold(v string) predicate.Stock {
 }
 
 // AmountEQ applies the EQ predicate on the "Amount" field.
-func AmountEQ(v string) predicate.Stock {
+func AmountEQ(v int) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldAmount), v))
 	})
 }
 
 // AmountNEQ applies the NEQ predicate on the "Amount" field.
-func AmountNEQ(v string) predicate.Stock {
+func AmountNEQ(v int) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldAmount), v))
 	})
 }
 
 // AmountIn applies the In predicate on the "Amount" field.
-func AmountIn(vs ...string) predicate.Stock {
+func AmountIn(vs ...int) predicate.Stock {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -257,7 +257,7 @@ func AmountIn(vs ...string) predicate.Stock {
 }
 
 // AmountNotIn applies the NotIn predicate on the "Amount" field.
-func AmountNotIn(vs ...string) predicate.Stock {
+func AmountNotIn(vs ...int) predicate.Stock {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -274,65 +274,30 @@ func AmountNotIn(vs ...string) predicate.Stock {
 }
 
 // AmountGT applies the GT predicate on the "Amount" field.
-func AmountGT(v string) predicate.Stock {
+func AmountGT(v int) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldAmount), v))
 	})
 }
 
 // AmountGTE applies the GTE predicate on the "Amount" field.
-func AmountGTE(v string) predicate.Stock {
+func AmountGTE(v int) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldAmount), v))
 	})
 }
 
 // AmountLT applies the LT predicate on the "Amount" field.
-func AmountLT(v string) predicate.Stock {
+func AmountLT(v int) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldAmount), v))
 	})
 }
 
 // AmountLTE applies the LTE predicate on the "Amount" field.
-func AmountLTE(v string) predicate.Stock {
+func AmountLTE(v int) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldAmount), v))
-	})
-}
-
-// AmountContains applies the Contains predicate on the "Amount" field.
-func AmountContains(v string) predicate.Stock {
-	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldAmount), v))
-	})
-}
-
-// AmountHasPrefix applies the HasPrefix predicate on the "Amount" field.
-func AmountHasPrefix(v string) predicate.Stock {
-	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldAmount), v))
-	})
-}
-
-// AmountHasSuffix applies the HasSuffix predicate on the "Amount" field.
-func AmountHasSuffix(v string) predicate.Stock {
-	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldAmount), v))
-	})
-}
-
-// AmountEqualFold applies the EqualFold predicate on the "Amount" field.
-func AmountEqualFold(v string) predicate.Stock {
-	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldAmount), v))
-	})
-}
-
-// AmountContainsFold applies the ContainsFold predicate on the "Amount" field.
-func AmountContainsFold(v string) predicate.Stock {
-	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldAmount), v))
 	})
 }
 

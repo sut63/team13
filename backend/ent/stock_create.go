@@ -31,8 +31,8 @@ func (sc *StockCreate) SetPriceproduct(s string) *StockCreate {
 }
 
 // SetAmount sets the Amount field.
-func (sc *StockCreate) SetAmount(s string) *StockCreate {
-	sc.mutation.SetAmount(s)
+func (sc *StockCreate) SetAmount(i int) *StockCreate {
+	sc.mutation.SetAmount(i)
 	return sc
 }
 
@@ -199,7 +199,7 @@ func (sc *StockCreate) createSpec() (*Stock, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := sc.mutation.Amount(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: stock.FieldAmount,
 		})

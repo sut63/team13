@@ -40,8 +40,15 @@ func (su *StockUpdate) SetPriceproduct(s string) *StockUpdate {
 }
 
 // SetAmount sets the Amount field.
-func (su *StockUpdate) SetAmount(s string) *StockUpdate {
-	su.mutation.SetAmount(s)
+func (su *StockUpdate) SetAmount(i int) *StockUpdate {
+	su.mutation.ResetAmount()
+	su.mutation.SetAmount(i)
+	return su
+}
+
+// AddAmount adds i to Amount.
+func (su *StockUpdate) AddAmount(i int) *StockUpdate {
+	su.mutation.AddAmount(i)
 	return su
 }
 
@@ -231,7 +238,14 @@ func (su *StockUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := su.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: stock.FieldAmount,
+		})
+	}
+	if value, ok := su.mutation.AddedAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: stock.FieldAmount,
 		})
@@ -408,8 +422,15 @@ func (suo *StockUpdateOne) SetPriceproduct(s string) *StockUpdateOne {
 }
 
 // SetAmount sets the Amount field.
-func (suo *StockUpdateOne) SetAmount(s string) *StockUpdateOne {
-	suo.mutation.SetAmount(s)
+func (suo *StockUpdateOne) SetAmount(i int) *StockUpdateOne {
+	suo.mutation.ResetAmount()
+	suo.mutation.SetAmount(i)
+	return suo
+}
+
+// AddAmount adds i to Amount.
+func (suo *StockUpdateOne) AddAmount(i int) *StockUpdateOne {
+	suo.mutation.AddAmount(i)
 	return suo
 }
 
@@ -597,7 +618,14 @@ func (suo *StockUpdateOne) sqlSave(ctx context.Context) (s *Stock, err error) {
 	}
 	if value, ok := suo.mutation.Amount(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: stock.FieldAmount,
+		})
+	}
+	if value, ok := suo.mutation.AddedAmount(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: stock.FieldAmount,
 		})
