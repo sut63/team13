@@ -17,6 +17,7 @@ import (
 	"github.com/tanapon395/playlist-video/ent/employee"
 	"github.com/tanapon395/playlist-video/ent/employeeworkinghours"
 	"github.com/tanapon395/playlist-video/ent/giveaway"
+	"github.com/tanapon395/playlist-video/ent/manager"
 	"github.com/tanapon395/playlist-video/ent/orderonline"
 	"github.com/tanapon395/playlist-video/ent/orderproduct"
 	"github.com/tanapon395/playlist-video/ent/paymentchannel"
@@ -56,6 +57,8 @@ type Client struct {
 	Employeeworkinghours *EmployeeworkinghoursClient
 	// Giveaway is the client for interacting with the Giveaway builders.
 	Giveaway *GiveawayClient
+	// Manager is the client for interacting with the Manager builders.
+	Manager *ManagerClient
 	// Orderonline is the client for interacting with the Orderonline builders.
 	Orderonline *OrderonlineClient
 	// Orderproduct is the client for interacting with the Orderproduct builders.
@@ -101,6 +104,7 @@ func (c *Client) init() {
 	c.Employee = NewEmployeeClient(c.config)
 	c.Employeeworkinghours = NewEmployeeworkinghoursClient(c.config)
 	c.Giveaway = NewGiveawayClient(c.config)
+	c.Manager = NewManagerClient(c.config)
 	c.Orderonline = NewOrderonlineClient(c.config)
 	c.Orderproduct = NewOrderproductClient(c.config)
 	c.Paymentchannel = NewPaymentchannelClient(c.config)
@@ -153,6 +157,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		Employee:             NewEmployeeClient(cfg),
 		Employeeworkinghours: NewEmployeeworkinghoursClient(cfg),
 		Giveaway:             NewGiveawayClient(cfg),
+		Manager:              NewManagerClient(cfg),
 		Orderonline:          NewOrderonlineClient(cfg),
 		Orderproduct:         NewOrderproductClient(cfg),
 		Paymentchannel:       NewPaymentchannelClient(cfg),
@@ -188,6 +193,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		Employee:             NewEmployeeClient(cfg),
 		Employeeworkinghours: NewEmployeeworkinghoursClient(cfg),
 		Giveaway:             NewGiveawayClient(cfg),
+		Manager:              NewManagerClient(cfg),
 		Orderonline:          NewOrderonlineClient(cfg),
 		Orderproduct:         NewOrderproductClient(cfg),
 		Paymentchannel:       NewPaymentchannelClient(cfg),
@@ -236,6 +242,7 @@ func (c *Client) Use(hooks ...Hook) {
 	c.Employee.Use(hooks...)
 	c.Employeeworkinghours.Use(hooks...)
 	c.Giveaway.Use(hooks...)
+	c.Manager.Use(hooks...)
 	c.Orderonline.Use(hooks...)
 	c.Orderproduct.Use(hooks...)
 	c.Paymentchannel.Use(hooks...)
@@ -1122,6 +1129,105 @@ func (c *GiveawayClient) Hooks() []Hook {
 	return c.hooks.Giveaway
 }
 
+// ManagerClient is a client for the Manager schema.
+type ManagerClient struct {
+	config
+}
+
+// NewManagerClient returns a client for the Manager from the given config.
+func NewManagerClient(c config) *ManagerClient {
+	return &ManagerClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `manager.Hooks(f(g(h())))`.
+func (c *ManagerClient) Use(hooks ...Hook) {
+	c.hooks.Manager = append(c.hooks.Manager, hooks...)
+}
+
+// Create returns a create builder for Manager.
+func (c *ManagerClient) Create() *ManagerCreate {
+	mutation := newManagerMutation(c.config, OpCreate)
+	return &ManagerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Update returns an update builder for Manager.
+func (c *ManagerClient) Update() *ManagerUpdate {
+	mutation := newManagerMutation(c.config, OpUpdate)
+	return &ManagerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *ManagerClient) UpdateOne(m *Manager) *ManagerUpdateOne {
+	mutation := newManagerMutation(c.config, OpUpdateOne, withManager(m))
+	return &ManagerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *ManagerClient) UpdateOneID(id int) *ManagerUpdateOne {
+	mutation := newManagerMutation(c.config, OpUpdateOne, withManagerID(id))
+	return &ManagerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Manager.
+func (c *ManagerClient) Delete() *ManagerDelete {
+	mutation := newManagerMutation(c.config, OpDelete)
+	return &ManagerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *ManagerClient) DeleteOne(m *Manager) *ManagerDeleteOne {
+	return c.DeleteOneID(m.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *ManagerClient) DeleteOneID(id int) *ManagerDeleteOne {
+	builder := c.Delete().Where(manager.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &ManagerDeleteOne{builder}
+}
+
+// Create returns a query builder for Manager.
+func (c *ManagerClient) Query() *ManagerQuery {
+	return &ManagerQuery{config: c.config}
+}
+
+// Get returns a Manager entity by its id.
+func (c *ManagerClient) Get(ctx context.Context, id int) (*Manager, error) {
+	return c.Query().Where(manager.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *ManagerClient) GetX(ctx context.Context, id int) *Manager {
+	m, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return m
+}
+
+// QueryManagers queries the managers edge of a Manager.
+func (c *ManagerClient) QueryManagers(m *Manager) *OrderproductQuery {
+	query := &OrderproductQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(manager.Table, manager.FieldID, id),
+			sqlgraph.To(orderproduct.Table, orderproduct.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, manager.ManagersTable, manager.ManagersColumn),
+		)
+		fromV = sqlgraph.Neighbors(m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *ManagerClient) Hooks() []Hook {
+	return c.hooks.Manager
+}
+
 // OrderonlineClient is a client for the Orderonline schema.
 type OrderonlineClient struct {
 	config
@@ -1388,6 +1494,22 @@ func (c *OrderproductClient) QueryTypeproduct(o *Orderproduct) *TypeproductQuery
 			sqlgraph.From(orderproduct.Table, orderproduct.FieldID, id),
 			sqlgraph.To(typeproduct.Table, typeproduct.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, orderproduct.TypeproductTable, orderproduct.TypeproductColumn),
+		)
+		fromV = sqlgraph.Neighbors(o.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryManagers queries the managers edge of a Orderproduct.
+func (c *OrderproductClient) QueryManagers(o *Orderproduct) *ManagerQuery {
+	query := &ManagerQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := o.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(orderproduct.Table, orderproduct.FieldID, id),
+			sqlgraph.To(manager.Table, manager.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, orderproduct.ManagersTable, orderproduct.ManagersColumn),
 		)
 		fromV = sqlgraph.Neighbors(o.driver.Dialect(), step)
 		return fromV, nil

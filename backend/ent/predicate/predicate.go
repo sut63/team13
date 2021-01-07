@@ -30,6 +30,9 @@ type Employeeworkinghours func(*sql.Selector)
 // Giveaway is the predicate function for giveaway builders.
 type Giveaway func(*sql.Selector)
 
+// Manager is the predicate function for manager builders.
+type Manager func(*sql.Selector)
+
 // Orderonline is the predicate function for orderonline builders.
 type Orderonline func(*sql.Selector)
 

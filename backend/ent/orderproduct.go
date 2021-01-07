@@ -9,6 +9,7 @@ import (
 
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/tanapon395/playlist-video/ent/company"
+	"github.com/tanapon395/playlist-video/ent/manager"
 	"github.com/tanapon395/playlist-video/ent/orderproduct"
 	"github.com/tanapon395/playlist-video/ent/product"
 	"github.com/tanapon395/playlist-video/ent/typeproduct"
@@ -27,6 +28,7 @@ type Orderproduct struct {
 	// The values are being populated by the OrderproductQuery when eager-loading is set.
 	Edges                    OrderproductEdges `json:"edges"`
 	company_companys         *int
+	manager_managers         *int
 	product_products         *int
 	typeproduct_typeproducts *int
 }
@@ -39,9 +41,11 @@ type OrderproductEdges struct {
 	Company *Company
 	// Typeproduct holds the value of the Typeproduct edge.
 	Typeproduct *Typeproduct
+	// Managers holds the value of the managers edge.
+	Managers *Manager
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [3]bool
+	loadedTypes [4]bool
 }
 
 // ProductOrErr returns the Product value or an error if the edge
@@ -86,6 +90,20 @@ func (e OrderproductEdges) TypeproductOrErr() (*Typeproduct, error) {
 	return nil, &NotLoadedError{edge: "Typeproduct"}
 }
 
+// ManagersOrErr returns the Managers value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e OrderproductEdges) ManagersOrErr() (*Manager, error) {
+	if e.loadedTypes[3] {
+		if e.Managers == nil {
+			// The edge managers was loaded in eager-loading,
+			// but was not found.
+			return nil, &NotFoundError{label: manager.Label}
+		}
+		return e.Managers, nil
+	}
+	return nil, &NotLoadedError{edge: "managers"}
+}
+
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Orderproduct) scanValues() []interface{} {
 	return []interface{}{
@@ -99,6 +117,7 @@ func (*Orderproduct) scanValues() []interface{} {
 func (*Orderproduct) fkValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{}, // company_companys
+		&sql.NullInt64{}, // manager_managers
 		&sql.NullInt64{}, // product_products
 		&sql.NullInt64{}, // typeproduct_typeproducts
 	}
@@ -135,12 +154,18 @@ func (o *Orderproduct) assignValues(values ...interface{}) error {
 			*o.company_companys = int(value.Int64)
 		}
 		if value, ok := values[1].(*sql.NullInt64); !ok {
+			return fmt.Errorf("unexpected type %T for edge-field manager_managers", value)
+		} else if value.Valid {
+			o.manager_managers = new(int)
+			*o.manager_managers = int(value.Int64)
+		}
+		if value, ok := values[2].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field product_products", value)
 		} else if value.Valid {
 			o.product_products = new(int)
 			*o.product_products = int(value.Int64)
 		}
-		if value, ok := values[2].(*sql.NullInt64); !ok {
+		if value, ok := values[3].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field typeproduct_typeproducts", value)
 		} else if value.Valid {
 			o.typeproduct_typeproducts = new(int)
@@ -163,6 +188,11 @@ func (o *Orderproduct) QueryCompany() *CompanyQuery {
 // QueryTypeproduct queries the Typeproduct edge of the Orderproduct.
 func (o *Orderproduct) QueryTypeproduct() *TypeproductQuery {
 	return (&OrderproductClient{config: o.config}).QueryTypeproduct(o)
+}
+
+// QueryManagers queries the managers edge of the Orderproduct.
+func (o *Orderproduct) QueryManagers() *ManagerQuery {
+	return (&OrderproductClient{config: o.config}).QueryManagers(o)
 }
 
 // Update returns a builder for updating this Orderproduct.

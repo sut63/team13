@@ -25,5 +25,6 @@ func (Orderproduct) Edges() []ent.Edge {
 		edge.From("product", Product.Type).Ref("products").Unique(),
 		edge.From("company", Company.Type).Ref("companys").Unique(),
 		edge.From("Typeproduct",Typeproduct.Type).Ref("Typeproducts").Unique(),
+		edge.From("managers",Manager.Type).Ref("managers").Unique(),
 	}
 }

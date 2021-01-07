@@ -32,6 +32,7 @@ type hooks struct {
 	Employee             []ent.Hook
 	Employeeworkinghours []ent.Hook
 	Giveaway             []ent.Hook
+	Manager              []ent.Hook
 	Orderonline          []ent.Hook
 	Orderproduct         []ent.Hook
 	Paymentchannel       []ent.Hook

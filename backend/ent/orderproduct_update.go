@@ -11,6 +11,7 @@ import (
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
 	"github.com/tanapon395/playlist-video/ent/company"
+	"github.com/tanapon395/playlist-video/ent/manager"
 	"github.com/tanapon395/playlist-video/ent/orderproduct"
 	"github.com/tanapon395/playlist-video/ent/predicate"
 	"github.com/tanapon395/playlist-video/ent/product"
@@ -107,6 +108,25 @@ func (ou *OrderproductUpdate) SetTypeproduct(t *Typeproduct) *OrderproductUpdate
 	return ou.SetTypeproductID(t.ID)
 }
 
+// SetManagersID sets the managers edge to Manager by id.
+func (ou *OrderproductUpdate) SetManagersID(id int) *OrderproductUpdate {
+	ou.mutation.SetManagersID(id)
+	return ou
+}
+
+// SetNillableManagersID sets the managers edge to Manager by id if the given value is not nil.
+func (ou *OrderproductUpdate) SetNillableManagersID(id *int) *OrderproductUpdate {
+	if id != nil {
+		ou = ou.SetManagersID(*id)
+	}
+	return ou
+}
+
+// SetManagers sets the managers edge to Manager.
+func (ou *OrderproductUpdate) SetManagers(m *Manager) *OrderproductUpdate {
+	return ou.SetManagersID(m.ID)
+}
+
 // Mutation returns the OrderproductMutation object of the builder.
 func (ou *OrderproductUpdate) Mutation() *OrderproductMutation {
 	return ou.mutation
@@ -127,6 +147,12 @@ func (ou *OrderproductUpdate) ClearCompany() *OrderproductUpdate {
 // ClearTypeproduct clears the Typeproduct edge to Typeproduct.
 func (ou *OrderproductUpdate) ClearTypeproduct() *OrderproductUpdate {
 	ou.mutation.ClearTypeproduct()
+	return ou
+}
+
+// ClearManagers clears the managers edge to Manager.
+func (ou *OrderproductUpdate) ClearManagers() *OrderproductUpdate {
+	ou.mutation.ClearManagers()
 	return ou
 }
 
@@ -326,6 +352,41 @@ func (ou *OrderproductUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if ou.mutation.ManagersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   orderproduct.ManagersTable,
+			Columns: []string{orderproduct.ManagersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: manager.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ou.mutation.ManagersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   orderproduct.ManagersTable,
+			Columns: []string{orderproduct.ManagersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: manager.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, ou.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{orderproduct.Label}
@@ -420,6 +481,25 @@ func (ouo *OrderproductUpdateOne) SetTypeproduct(t *Typeproduct) *OrderproductUp
 	return ouo.SetTypeproductID(t.ID)
 }
 
+// SetManagersID sets the managers edge to Manager by id.
+func (ouo *OrderproductUpdateOne) SetManagersID(id int) *OrderproductUpdateOne {
+	ouo.mutation.SetManagersID(id)
+	return ouo
+}
+
+// SetNillableManagersID sets the managers edge to Manager by id if the given value is not nil.
+func (ouo *OrderproductUpdateOne) SetNillableManagersID(id *int) *OrderproductUpdateOne {
+	if id != nil {
+		ouo = ouo.SetManagersID(*id)
+	}
+	return ouo
+}
+
+// SetManagers sets the managers edge to Manager.
+func (ouo *OrderproductUpdateOne) SetManagers(m *Manager) *OrderproductUpdateOne {
+	return ouo.SetManagersID(m.ID)
+}
+
 // Mutation returns the OrderproductMutation object of the builder.
 func (ouo *OrderproductUpdateOne) Mutation() *OrderproductMutation {
 	return ouo.mutation
@@ -440,6 +520,12 @@ func (ouo *OrderproductUpdateOne) ClearCompany() *OrderproductUpdateOne {
 // ClearTypeproduct clears the Typeproduct edge to Typeproduct.
 func (ouo *OrderproductUpdateOne) ClearTypeproduct() *OrderproductUpdateOne {
 	ouo.mutation.ClearTypeproduct()
+	return ouo
+}
+
+// ClearManagers clears the managers edge to Manager.
+func (ouo *OrderproductUpdateOne) ClearManagers() *OrderproductUpdateOne {
+	ouo.mutation.ClearManagers()
 	return ouo
 }
 
@@ -629,6 +715,41 @@ func (ouo *OrderproductUpdateOne) sqlSave(ctx context.Context) (o *Orderproduct,
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: typeproduct.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if ouo.mutation.ManagersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   orderproduct.ManagersTable,
+			Columns: []string{orderproduct.ManagersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: manager.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := ouo.mutation.ManagersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   orderproduct.ManagersTable,
+			Columns: []string{orderproduct.ManagersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: manager.FieldID,
 				},
 			},
 		}

@@ -18,6 +18,8 @@ const (
 	EdgeCompany = "company"
 	// EdgeTypeproduct holds the string denoting the typeproduct edge name in mutations.
 	EdgeTypeproduct = "Typeproduct"
+	// EdgeManagers holds the string denoting the managers edge name in mutations.
+	EdgeManagers = "managers"
 
 	// Table holds the table name of the orderproduct in the database.
 	Table = "orderproducts"
@@ -42,6 +44,13 @@ const (
 	TypeproductInverseTable = "typeproducts"
 	// TypeproductColumn is the table column denoting the Typeproduct relation/edge.
 	TypeproductColumn = "typeproduct_typeproducts"
+	// ManagersTable is the table the holds the managers relation/edge.
+	ManagersTable = "orderproducts"
+	// ManagersInverseTable is the table name for the Manager entity.
+	// It exists in this package in order to avoid circular dependency with the "manager" package.
+	ManagersInverseTable = "managers"
+	// ManagersColumn is the table column denoting the managers relation/edge.
+	ManagersColumn = "manager_managers"
 )
 
 // Columns holds all SQL columns for orderproduct fields.
@@ -54,6 +63,7 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the Orderproduct type.
 var ForeignKeys = []string{
 	"company_companys",
+	"manager_managers",
 	"product_products",
 	"typeproduct_typeproducts",
 }

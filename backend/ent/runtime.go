@@ -6,6 +6,7 @@ import (
 	"github.com/tanapon395/playlist-video/ent/assessment"
 	"github.com/tanapon395/playlist-video/ent/customer"
 	"github.com/tanapon395/playlist-video/ent/employee"
+	"github.com/tanapon395/playlist-video/ent/manager"
 	"github.com/tanapon395/playlist-video/ent/paymentchannel"
 	"github.com/tanapon395/playlist-video/ent/position"
 	"github.com/tanapon395/playlist-video/ent/product"
@@ -54,6 +55,16 @@ func init() {
 	employeeDescAge := employeeFields[2].Descriptor()
 	// employee.AgeValidator is a validator for the "age" field. It is called by the builders before save.
 	employee.AgeValidator = employeeDescAge.Validators[0].(func(int) error)
+	managerFields := schema.Manager{}.Fields()
+	_ = managerFields
+	// managerDescName is the schema descriptor for name field.
+	managerDescName := managerFields[0].Descriptor()
+	// manager.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	manager.NameValidator = managerDescName.Validators[0].(func(string) error)
+	// managerDescEmail is the schema descriptor for email field.
+	managerDescEmail := managerFields[1].Descriptor()
+	// manager.EmailValidator is a validator for the "email" field. It is called by the builders before save.
+	manager.EmailValidator = managerDescEmail.Validators[0].(func(string) error)
 	paymentchannelFields := schema.Paymentchannel{}.Fields()
 	_ = paymentchannelFields
 	// paymentchannelDescBank is the schema descriptor for Bank field.

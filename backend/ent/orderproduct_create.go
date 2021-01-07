@@ -11,6 +11,7 @@ import (
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
 	"github.com/tanapon395/playlist-video/ent/company"
+	"github.com/tanapon395/playlist-video/ent/manager"
 	"github.com/tanapon395/playlist-video/ent/orderproduct"
 	"github.com/tanapon395/playlist-video/ent/product"
 	"github.com/tanapon395/playlist-video/ent/typeproduct"
@@ -90,6 +91,25 @@ func (oc *OrderproductCreate) SetNillableTypeproductID(id *int) *OrderproductCre
 // SetTypeproduct sets the Typeproduct edge to Typeproduct.
 func (oc *OrderproductCreate) SetTypeproduct(t *Typeproduct) *OrderproductCreate {
 	return oc.SetTypeproductID(t.ID)
+}
+
+// SetManagersID sets the managers edge to Manager by id.
+func (oc *OrderproductCreate) SetManagersID(id int) *OrderproductCreate {
+	oc.mutation.SetManagersID(id)
+	return oc
+}
+
+// SetNillableManagersID sets the managers edge to Manager by id if the given value is not nil.
+func (oc *OrderproductCreate) SetNillableManagersID(id *int) *OrderproductCreate {
+	if id != nil {
+		oc = oc.SetManagersID(*id)
+	}
+	return oc
+}
+
+// SetManagers sets the managers edge to Manager.
+func (oc *OrderproductCreate) SetManagers(m *Manager) *OrderproductCreate {
+	return oc.SetManagersID(m.ID)
 }
 
 // Mutation returns the OrderproductMutation object of the builder.
@@ -230,6 +250,25 @@ func (oc *OrderproductCreate) createSpec() (*Orderproduct, *sqlgraph.CreateSpec)
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
 					Column: typeproduct.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := oc.mutation.ManagersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   orderproduct.ManagersTable,
+			Columns: []string{orderproduct.ManagersColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: manager.FieldID,
 				},
 			},
 		}

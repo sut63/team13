@@ -343,6 +343,34 @@ func HasTypeproductWith(preds ...predicate.Typeproduct) predicate.Orderproduct {
 	})
 }
 
+// HasManagers applies the HasEdge predicate on the "managers" edge.
+func HasManagers() predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(ManagersTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, ManagersTable, ManagersColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasManagersWith applies the HasEdge predicate on the "managers" edge with a given conditions (other predicates).
+func HasManagersWith(preds ...predicate.Manager) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(ManagersInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, ManagersTable, ManagersColumn),
+		)
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // And groups list of predicates with the AND operator between them.
 func And(predicates ...predicate.Orderproduct) predicate.Orderproduct {
 	return predicate.Orderproduct(func(s *sql.Selector) {

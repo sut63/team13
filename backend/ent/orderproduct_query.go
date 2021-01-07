@@ -12,6 +12,7 @@ import (
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
 	"github.com/tanapon395/playlist-video/ent/company"
+	"github.com/tanapon395/playlist-video/ent/manager"
 	"github.com/tanapon395/playlist-video/ent/orderproduct"
 	"github.com/tanapon395/playlist-video/ent/predicate"
 	"github.com/tanapon395/playlist-video/ent/product"
@@ -30,6 +31,7 @@ type OrderproductQuery struct {
 	withProduct     *ProductQuery
 	withCompany     *CompanyQuery
 	withTypeproduct *TypeproductQuery
+	withManagers    *ManagerQuery
 	withFKs         bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
@@ -107,6 +109,24 @@ func (oq *OrderproductQuery) QueryTypeproduct() *TypeproductQuery {
 			sqlgraph.From(orderproduct.Table, orderproduct.FieldID, oq.sqlQuery()),
 			sqlgraph.To(typeproduct.Table, typeproduct.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, orderproduct.TypeproductTable, orderproduct.TypeproductColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(oq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryManagers chains the current query on the managers edge.
+func (oq *OrderproductQuery) QueryManagers() *ManagerQuery {
+	query := &ManagerQuery{config: oq.config}
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := oq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(orderproduct.Table, orderproduct.FieldID, oq.sqlQuery()),
+			sqlgraph.To(manager.Table, manager.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, orderproduct.ManagersTable, orderproduct.ManagersColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(oq.driver.Dialect(), step)
 		return fromU, nil
@@ -326,6 +346,17 @@ func (oq *OrderproductQuery) WithTypeproduct(opts ...func(*TypeproductQuery)) *O
 	return oq
 }
 
+//  WithManagers tells the query-builder to eager-loads the nodes that are connected to
+// the "managers" edge. The optional arguments used to configure the query builder of the edge.
+func (oq *OrderproductQuery) WithManagers(opts ...func(*ManagerQuery)) *OrderproductQuery {
+	query := &ManagerQuery{config: oq.config}
+	for _, opt := range opts {
+		opt(query)
+	}
+	oq.withManagers = query
+	return oq
+}
+
 // GroupBy used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
 //
@@ -393,13 +424,14 @@ func (oq *OrderproductQuery) sqlAll(ctx context.Context) ([]*Orderproduct, error
 		nodes       = []*Orderproduct{}
 		withFKs     = oq.withFKs
 		_spec       = oq.querySpec()
-		loadedTypes = [3]bool{
+		loadedTypes = [4]bool{
 			oq.withProduct != nil,
 			oq.withCompany != nil,
 			oq.withTypeproduct != nil,
+			oq.withManagers != nil,
 		}
 	)
-	if oq.withProduct != nil || oq.withCompany != nil || oq.withTypeproduct != nil {
+	if oq.withProduct != nil || oq.withCompany != nil || oq.withTypeproduct != nil || oq.withManagers != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -500,6 +532,31 @@ func (oq *OrderproductQuery) sqlAll(ctx context.Context) ([]*Orderproduct, error
 			}
 			for i := range nodes {
 				nodes[i].Edges.Typeproduct = n
+			}
+		}
+	}
+
+	if query := oq.withManagers; query != nil {
+		ids := make([]int, 0, len(nodes))
+		nodeids := make(map[int][]*Orderproduct)
+		for i := range nodes {
+			if fk := nodes[i].manager_managers; fk != nil {
+				ids = append(ids, *fk)
+				nodeids[*fk] = append(nodeids[*fk], nodes[i])
+			}
+		}
+		query.Where(manager.IDIn(ids...))
+		neighbors, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, n := range neighbors {
+			nodes, ok := nodeids[n.ID]
+			if !ok {
+				return nil, fmt.Errorf(`unexpected foreign-key "manager_managers" returned %v`, n.ID)
+			}
+			for i := range nodes {
+				nodes[i].Edges.Managers = n
 			}
 		}
 	}

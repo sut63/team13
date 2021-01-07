@@ -402,6 +402,30 @@ func (f GiveawayMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutati
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.GiveawayMutation", m)
 }
 
+// The ManagerQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type ManagerQueryRuleFunc func(context.Context, *ent.ManagerQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f ManagerQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.ManagerQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.ManagerQuery", q)
+}
+
+// The ManagerMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type ManagerMutationRuleFunc func(context.Context, *ent.ManagerMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f ManagerMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.ManagerMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.ManagerMutation", m)
+}
+
 // The OrderonlineQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type OrderonlineQueryRuleFunc func(context.Context, *ent.OrderonlineQuery) error

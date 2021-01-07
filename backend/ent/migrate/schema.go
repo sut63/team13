@@ -141,6 +141,19 @@ var (
 		PrimaryKey:  []*schema.Column{GiveawaysColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{},
 	}
+	// ManagersColumns holds the columns for the "managers" table.
+	ManagersColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "name", Type: field.TypeString, Unique: true},
+		{Name: "email", Type: field.TypeString, Unique: true},
+	}
+	// ManagersTable holds the schema information for the "managers" table.
+	ManagersTable = &schema.Table{
+		Name:        "managers",
+		Columns:     ManagersColumns,
+		PrimaryKey:  []*schema.Column{ManagersColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{},
+	}
 	// OrderonlinesColumns holds the columns for the "orderonlines" table.
 	OrderonlinesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -193,6 +206,7 @@ var (
 		{Name: "addedtime", Type: field.TypeTime},
 		{Name: "stock", Type: field.TypeInt},
 		{Name: "company_companys", Type: field.TypeInt, Nullable: true},
+		{Name: "manager_managers", Type: field.TypeInt, Nullable: true},
 		{Name: "product_products", Type: field.TypeInt, Nullable: true},
 		{Name: "typeproduct_typeproducts", Type: field.TypeInt, Nullable: true},
 	}
@@ -210,15 +224,22 @@ var (
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:  "orderproducts_products_products",
+				Symbol:  "orderproducts_managers_managers",
 				Columns: []*schema.Column{OrderproductsColumns[4]},
+
+				RefColumns: []*schema.Column{ManagersColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:  "orderproducts_products_products",
+				Columns: []*schema.Column{OrderproductsColumns[5]},
 
 				RefColumns: []*schema.Column{ProductsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "orderproducts_typeproducts_Typeproducts",
-				Columns: []*schema.Column{OrderproductsColumns[5]},
+				Columns: []*schema.Column{OrderproductsColumns[6]},
 
 				RefColumns: []*schema.Column{TypeproductsColumns[0]},
 				OnDelete:   schema.SetNull,
@@ -446,6 +467,7 @@ var (
 		EmployeesTable,
 		EmployeeworkinghoursTable,
 		GiveawaysTable,
+		ManagersTable,
 		OrderonlinesTable,
 		OrderproductsTable,
 		PaymentchannelsTable,
@@ -471,8 +493,9 @@ func init() {
 	OrderonlinesTable.ForeignKeys[2].RefTable = ProductsTable
 	OrderonlinesTable.ForeignKeys[3].RefTable = TypeproductsTable
 	OrderproductsTable.ForeignKeys[0].RefTable = CompaniesTable
-	OrderproductsTable.ForeignKeys[1].RefTable = ProductsTable
-	OrderproductsTable.ForeignKeys[2].RefTable = TypeproductsTable
+	OrderproductsTable.ForeignKeys[1].RefTable = ManagersTable
+	OrderproductsTable.ForeignKeys[2].RefTable = ProductsTable
+	OrderproductsTable.ForeignKeys[3].RefTable = TypeproductsTable
 	PromotionsTable.ForeignKeys[0].RefTable = DiscountsTable
 	PromotionsTable.ForeignKeys[1].RefTable = GiveawaysTable
 	PromotionsTable.ForeignKeys[2].RefTable = ProductsTable

@@ -28,6 +28,8 @@ type Tx struct {
 	Employeeworkinghours *EmployeeworkinghoursClient
 	// Giveaway is the client for interacting with the Giveaway builders.
 	Giveaway *GiveawayClient
+	// Manager is the client for interacting with the Manager builders.
+	Manager *ManagerClient
 	// Orderonline is the client for interacting with the Orderonline builders.
 	Orderonline *OrderonlineClient
 	// Orderproduct is the client for interacting with the Orderproduct builders.
@@ -195,6 +197,7 @@ func (tx *Tx) init() {
 	tx.Employee = NewEmployeeClient(tx.config)
 	tx.Employeeworkinghours = NewEmployeeworkinghoursClient(tx.config)
 	tx.Giveaway = NewGiveawayClient(tx.config)
+	tx.Manager = NewManagerClient(tx.config)
 	tx.Orderonline = NewOrderonlineClient(tx.config)
 	tx.Orderproduct = NewOrderproductClient(tx.config)
 	tx.Paymentchannel = NewPaymentchannelClient(tx.config)
