@@ -24,7 +24,7 @@ type StockController struct {
 	Zoneid			int
 	Employeeid		int
 	Typeproductid 	int
-	Priceproduct	string
+	Priceproduct	int
 	Amount			string
 	Time			string
 
