@@ -7,8 +7,6 @@ const (
 	Label = "employeeworkinghours"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldName holds the string denoting the name field in the database.
-	FieldName = "name"
 
 	// EdgeWorkinghour holds the string denoting the workinghour edge name in mutations.
 	EdgeWorkinghour = "workinghour"
@@ -54,7 +52,6 @@ const (
 // Columns holds all SQL columns for employeeworkinghours fields.
 var Columns = []string{
 	FieldID,
-	FieldName,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Employeeworkinghours type.

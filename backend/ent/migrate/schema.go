@@ -87,7 +87,6 @@ var (
 	// EmployeeworkinghoursColumns holds the columns for the "employeeworkinghours" table.
 	EmployeeworkinghoursColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "name", Type: field.TypeString},
 		{Name: "day_whatday", Type: field.TypeInt, Nullable: true},
 		{Name: "employee_whose", Type: field.TypeInt, Nullable: true},
 		{Name: "role_todo", Type: field.TypeInt, Nullable: true},
@@ -101,28 +100,28 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "employeeworkinghours_days_whatday",
-				Columns: []*schema.Column{EmployeeworkinghoursColumns[2]},
+				Columns: []*schema.Column{EmployeeworkinghoursColumns[1]},
 
 				RefColumns: []*schema.Column{DaysColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "employeeworkinghours_employees_whose",
-				Columns: []*schema.Column{EmployeeworkinghoursColumns[3]},
+				Columns: []*schema.Column{EmployeeworkinghoursColumns[2]},
 
 				RefColumns: []*schema.Column{EmployeesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "employeeworkinghours_roles_todo",
-				Columns: []*schema.Column{EmployeeworkinghoursColumns[4]},
+				Columns: []*schema.Column{EmployeeworkinghoursColumns[3]},
 
 				RefColumns: []*schema.Column{RolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "employeeworkinghours_shifts_when",
-				Columns: []*schema.Column{EmployeeworkinghoursColumns[5]},
+				Columns: []*schema.Column{EmployeeworkinghoursColumns[4]},
 
 				RefColumns: []*schema.Column{ShiftsColumns[0]},
 				OnDelete:   schema.SetNull,

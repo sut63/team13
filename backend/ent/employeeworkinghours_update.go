@@ -31,12 +31,6 @@ func (eu *EmployeeworkinghoursUpdate) Where(ps ...predicate.Employeeworkinghours
 	return eu
 }
 
-// SetName sets the name field.
-func (eu *EmployeeworkinghoursUpdate) SetName(s string) *EmployeeworkinghoursUpdate {
-	eu.mutation.SetName(s)
-	return eu
-}
-
 // SetWorkinghourID sets the workinghour edge to Employee by id.
 func (eu *EmployeeworkinghoursUpdate) SetWorkinghourID(id int) *EmployeeworkinghoursUpdate {
 	eu.mutation.SetWorkinghourID(id)
@@ -212,13 +206,6 @@ func (eu *EmployeeworkinghoursUpdate) sqlSave(ctx context.Context) (n int, err e
 			}
 		}
 	}
-	if value, ok := eu.mutation.Name(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: employeeworkinghours.FieldName,
-		})
-	}
 	if eu.mutation.WorkinghourCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -375,12 +362,6 @@ type EmployeeworkinghoursUpdateOne struct {
 	config
 	hooks    []Hook
 	mutation *EmployeeworkinghoursMutation
-}
-
-// SetName sets the name field.
-func (euo *EmployeeworkinghoursUpdateOne) SetName(s string) *EmployeeworkinghoursUpdateOne {
-	euo.mutation.SetName(s)
-	return euo
 }
 
 // SetWorkinghourID sets the workinghour edge to Employee by id.
@@ -556,13 +537,6 @@ func (euo *EmployeeworkinghoursUpdateOne) sqlSave(ctx context.Context) (e *Emplo
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Employeeworkinghours.ID for update")}
 	}
 	_spec.Node.ID.Value = id
-	if value, ok := euo.mutation.Name(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: employeeworkinghours.FieldName,
-		})
-	}
 	if euo.mutation.WorkinghourCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,

@@ -2738,7 +2738,6 @@ type EmployeeworkinghoursMutation struct {
 	op                 Op
 	typ                string
 	id                 *int
-	name               *string
 	clearedFields      map[string]struct{}
 	workinghour        *int
 	clearedworkinghour bool
@@ -2829,43 +2828,6 @@ func (m *EmployeeworkinghoursMutation) ID() (id int, exists bool) {
 		return
 	}
 	return *m.id, true
-}
-
-// SetName sets the name field.
-func (m *EmployeeworkinghoursMutation) SetName(s string) {
-	m.name = &s
-}
-
-// Name returns the name value in the mutation.
-func (m *EmployeeworkinghoursMutation) Name() (r string, exists bool) {
-	v := m.name
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldName returns the old name value of the Employeeworkinghours.
-// If the Employeeworkinghours object wasn't provided to the builder, the object is fetched
-// from the database.
-// An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *EmployeeworkinghoursMutation) OldName(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldName is allowed only on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldName requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldName: %w", err)
-	}
-	return oldValue.Name, nil
-}
-
-// ResetName reset all changes of the "name" field.
-func (m *EmployeeworkinghoursMutation) ResetName() {
-	m.name = nil
 }
 
 // SetWorkinghourID sets the workinghour edge to Employee by id.
@@ -3038,10 +3000,7 @@ func (m *EmployeeworkinghoursMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *EmployeeworkinghoursMutation) Fields() []string {
-	fields := make([]string, 0, 1)
-	if m.name != nil {
-		fields = append(fields, employeeworkinghours.FieldName)
-	}
+	fields := make([]string, 0, 0)
 	return fields
 }
 
@@ -3049,10 +3008,6 @@ func (m *EmployeeworkinghoursMutation) Fields() []string {
 // The second boolean value indicates that this field was
 // not set, or was not define in the schema.
 func (m *EmployeeworkinghoursMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case employeeworkinghours.FieldName:
-		return m.Name()
-	}
 	return nil, false
 }
 
@@ -3060,10 +3015,6 @@ func (m *EmployeeworkinghoursMutation) Field(name string) (ent.Value, bool) {
 // An error is returned if the mutation operation is not UpdateOne,
 // or the query to the database was failed.
 func (m *EmployeeworkinghoursMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case employeeworkinghours.FieldName:
-		return m.OldName(ctx)
-	}
 	return nil, fmt.Errorf("unknown Employeeworkinghours field %s", name)
 }
 
@@ -3072,13 +3023,6 @@ func (m *EmployeeworkinghoursMutation) OldField(ctx context.Context, name string
 // type mismatch the field type.
 func (m *EmployeeworkinghoursMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case employeeworkinghours.FieldName:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetName(v)
-		return nil
 	}
 	return fmt.Errorf("unknown Employeeworkinghours field %s", name)
 }
@@ -3100,8 +3044,6 @@ func (m *EmployeeworkinghoursMutation) AddedField(name string) (ent.Value, bool)
 // error if the field is not defined in the schema, or if the
 // type mismatch the field type.
 func (m *EmployeeworkinghoursMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	}
 	return fmt.Errorf("unknown Employeeworkinghours numeric field %s", name)
 }
 
@@ -3128,11 +3070,6 @@ func (m *EmployeeworkinghoursMutation) ClearField(name string) error {
 // given field name. It returns an error if the field is not
 // defined in the schema.
 func (m *EmployeeworkinghoursMutation) ResetField(name string) error {
-	switch name {
-	case employeeworkinghours.FieldName:
-		m.ResetName()
-		return nil
-	}
 	return fmt.Errorf("unknown Employeeworkinghours field %s", name)
 }
 

@@ -4,7 +4,6 @@ package ent
 
 import (
 	"context"
-	"errors"
 	"fmt"
 
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
@@ -21,12 +20,6 @@ type EmployeeworkinghoursCreate struct {
 	config
 	mutation *EmployeeworkinghoursMutation
 	hooks    []Hook
-}
-
-// SetName sets the name field.
-func (ec *EmployeeworkinghoursCreate) SetName(s string) *EmployeeworkinghoursCreate {
-	ec.mutation.SetName(s)
-	return ec
 }
 
 // SetWorkinghourID sets the workinghour edge to Employee by id.
@@ -112,9 +105,6 @@ func (ec *EmployeeworkinghoursCreate) Mutation() *EmployeeworkinghoursMutation {
 
 // Save creates the Employeeworkinghours in the database.
 func (ec *EmployeeworkinghoursCreate) Save(ctx context.Context) (*Employeeworkinghours, error) {
-	if _, ok := ec.mutation.Name(); !ok {
-		return nil, &ValidationError{Name: "name", err: errors.New("ent: missing required field \"name\"")}
-	}
 	var (
 		err  error
 		node *Employeeworkinghours
@@ -175,14 +165,6 @@ func (ec *EmployeeworkinghoursCreate) createSpec() (*Employeeworkinghours, *sqlg
 			},
 		}
 	)
-	if value, ok := ec.mutation.Name(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: employeeworkinghours.FieldName,
-		})
-		e.Name = value
-	}
 	if nodes := ec.mutation.WorkinghourIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,

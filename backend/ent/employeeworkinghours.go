@@ -16,11 +16,9 @@ import (
 
 // Employeeworkinghours is the model entity for the Employeeworkinghours schema.
 type Employeeworkinghours struct {
-	config `json:"-"`
+	config
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Name holds the value of the "name" field.
-	Name string `json:"name,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the EmployeeworkinghoursQuery when eager-loading is set.
 	Edges          EmployeeworkinghoursEdges `json:"edges"`
@@ -104,8 +102,7 @@ func (e EmployeeworkinghoursEdges) RoleOrErr() (*Role, error) {
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Employeeworkinghours) scanValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{},  // id
-		&sql.NullString{}, // name
+		&sql.NullInt64{}, // id
 	}
 }
 
@@ -131,12 +128,7 @@ func (e *Employeeworkinghours) assignValues(values ...interface{}) error {
 	}
 	e.ID = int(value.Int64)
 	values = values[1:]
-	if value, ok := values[0].(*sql.NullString); !ok {
-		return fmt.Errorf("unexpected type %T for field name", values[0])
-	} else if value.Valid {
-		e.Name = value.String
-	}
-	values = values[1:]
+	values = values[0:]
 	if len(values) == len(employeeworkinghours.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field day_whatday", value)
@@ -209,8 +201,6 @@ func (e *Employeeworkinghours) String() string {
 	var builder strings.Builder
 	builder.WriteString("Employeeworkinghours(")
 	builder.WriteString(fmt.Sprintf("id=%v", e.ID))
-	builder.WriteString(", name=")
-	builder.WriteString(e.Name)
 	builder.WriteByte(')')
 	return builder.String()
 }

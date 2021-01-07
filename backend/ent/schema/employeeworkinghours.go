@@ -2,7 +2,6 @@ package schema
 
 import (
 	"github.com/facebookincubator/ent"
-	"github.com/facebookincubator/ent/schema/field"
 	"github.com/facebookincubator/ent/schema/edge"
 )
 
@@ -13,9 +12,7 @@ type Employeeworkinghours struct {
 
 // Fields of the Employeeworkinghours.
 func (Employeeworkinghours) Fields() []ent.Field {
-	return []ent.Field{
-		field.String("name"),
-	}
+	return nil
 }
 
 // Edges of the Employeeworkinghours.
