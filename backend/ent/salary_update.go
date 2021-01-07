@@ -30,12 +30,6 @@ func (su *SalaryUpdate) Where(ps ...predicate.Salary) *SalaryUpdate {
 	return su
 }
 
-// SetPosition sets the position field.
-func (su *SalaryUpdate) SetPosition(s string) *SalaryUpdate {
-	su.mutation.SetPosition(s)
-	return su
-}
-
 // SetSalary sets the Salary field.
 func (su *SalaryUpdate) SetSalary(i int) *SalaryUpdate {
 	su.mutation.ResetSalary()
@@ -131,11 +125,6 @@ func (su *SalaryUpdate) ClearEmployee() *SalaryUpdate {
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (su *SalaryUpdate) Save(ctx context.Context) (int, error) {
-	if v, ok := su.mutation.Position(); ok {
-		if err := salary.PositionValidator(v); err != nil {
-			return 0, &ValidationError{Name: "position", err: fmt.Errorf("ent: validator failed for field \"position\": %w", err)}
-		}
-	}
 	if v, ok := su.mutation.Salary(); ok {
 		if err := salary.SalaryValidator(v); err != nil {
 			return 0, &ValidationError{Name: "Salary", err: fmt.Errorf("ent: validator failed for field \"Salary\": %w", err)}
@@ -208,13 +197,6 @@ func (su *SalaryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
-	}
-	if value, ok := su.mutation.Position(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: salary.FieldPosition,
-		})
 	}
 	if value, ok := su.mutation.Salary(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
@@ -353,12 +335,6 @@ type SalaryUpdateOne struct {
 	mutation *SalaryMutation
 }
 
-// SetPosition sets the position field.
-func (suo *SalaryUpdateOne) SetPosition(s string) *SalaryUpdateOne {
-	suo.mutation.SetPosition(s)
-	return suo
-}
-
 // SetSalary sets the Salary field.
 func (suo *SalaryUpdateOne) SetSalary(i int) *SalaryUpdateOne {
 	suo.mutation.ResetSalary()
@@ -454,11 +430,6 @@ func (suo *SalaryUpdateOne) ClearEmployee() *SalaryUpdateOne {
 
 // Save executes the query and returns the updated entity.
 func (suo *SalaryUpdateOne) Save(ctx context.Context) (*Salary, error) {
-	if v, ok := suo.mutation.Position(); ok {
-		if err := salary.PositionValidator(v); err != nil {
-			return nil, &ValidationError{Name: "position", err: fmt.Errorf("ent: validator failed for field \"position\": %w", err)}
-		}
-	}
 	if v, ok := suo.mutation.Salary(); ok {
 		if err := salary.SalaryValidator(v); err != nil {
 			return nil, &ValidationError{Name: "Salary", err: fmt.Errorf("ent: validator failed for field \"Salary\": %w", err)}
@@ -530,13 +501,6 @@ func (suo *SalaryUpdateOne) sqlSave(ctx context.Context) (s *Salary, err error) 
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Salary.ID for update")}
 	}
 	_spec.Node.ID.Value = id
-	if value, ok := suo.mutation.Position(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: salary.FieldPosition,
-		})
-	}
 	if value, ok := suo.mutation.Salary(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt,

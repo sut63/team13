@@ -14,7 +14,6 @@ type Salary struct {
 // Fields of the User.
 func (Salary) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("position").NotEmpty(),
 		field.Int("Salary").Positive(),
 	}
 }

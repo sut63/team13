@@ -6,9 +6,10 @@ import (
 	"strconv"
 
 	"github.com/team13/app/ent"
-	"github.com/team13/app/ent/organ"
-	"github.com/team13/app/ent/physician"
-	"github.com/team13/app/ent/typedisease"
+	"github.com/team13/app/ent/discount"
+	"github.com/team13/app/ent/giveaway"
+	"github.com/team13/app/ent/promotion"
+	"github.com/team13/app/ent/product"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,7 +23,7 @@ type PromotionController struct {
 type Promotion struct {
 	Discount       int
 	Giveaway       int
-	
+	Product		   int
 }
 
 // CreatePromotion handles POST requests for adding promotion entities
@@ -69,11 +70,24 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 		return
 	}
 
+	p, err := ctl.client.Product.
+		Query().
+		Where(product.IDEQ(int(obj.Productdata))).
+		Only(context.Background())
+
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "Productdata diagnostic  not found",
+		})
+		return
+	}
+
 
 	po, err := ctl.client.Promotion.
 		Create().
 		SetDiscount(d).
 		SetGiveaway(g).
+		SetProduct(p).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{

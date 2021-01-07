@@ -91,12 +91,8 @@ func init() {
 	role.RoleValidator = roleDescRole.Validators[0].(func(string) error)
 	salaryFields := schema.Salary{}.Fields()
 	_ = salaryFields
-	// salaryDescPosition is the schema descriptor for position field.
-	salaryDescPosition := salaryFields[0].Descriptor()
-	// salary.PositionValidator is a validator for the "position" field. It is called by the builders before save.
-	salary.PositionValidator = salaryDescPosition.Validators[0].(func(string) error)
 	// salaryDescSalary is the schema descriptor for Salary field.
-	salaryDescSalary := salaryFields[1].Descriptor()
+	salaryDescSalary := salaryFields[0].Descriptor()
 	// salary.SalaryValidator is a validator for the "Salary" field. It is called by the builders before save.
 	salary.SalaryValidator = salaryDescSalary.Validators[0].(func(int) error)
 	typeproductFields := schema.Typeproduct{}.Fields()
