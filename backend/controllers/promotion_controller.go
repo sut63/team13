@@ -8,6 +8,8 @@ import (
 	"github.com/team13/app/ent"
 	"github.com/team13/app/ent/discount"
 	"github.com/team13/app/ent/giveaway"
+	"github.com/team13/app/ent/promotion"
+	"github.com/team13/app/ent/product"
 	"github.com/gin-gonic/gin"
 )
 

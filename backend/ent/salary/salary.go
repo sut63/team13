@@ -7,8 +7,6 @@ const (
 	Label = "salary"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldPosition holds the string denoting the position field in the database.
-	FieldPosition = "position"
 	// FieldSalary holds the string denoting the salary field in the database.
 	FieldSalary = "salary"
 
@@ -47,7 +45,6 @@ const (
 // Columns holds all SQL columns for salary fields.
 var Columns = []string{
 	FieldID,
-	FieldPosition,
 	FieldSalary,
 }
 
@@ -59,8 +56,6 @@ var ForeignKeys = []string{
 }
 
 var (
-	// PositionValidator is a validator for the "position" field. It is called by the builders before save.
-	PositionValidator func(string) error
 	// SalaryValidator is a validator for the "Salary" field. It is called by the builders before save.
 	SalaryValidator func(int) error
 )

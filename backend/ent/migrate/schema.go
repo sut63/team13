@@ -337,7 +337,6 @@ var (
 	// SalariesColumns holds the columns for the "salaries" table.
 	SalariesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "position", Type: field.TypeString},
 		{Name: "salary", Type: field.TypeInt},
 		{Name: "assessment_formassessment", Type: field.TypeInt, Nullable: true},
 		{Name: "employee_formemployee", Type: field.TypeInt, Unique: true, Nullable: true},
@@ -351,21 +350,21 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "salaries_assessments_formassessment",
-				Columns: []*schema.Column{SalariesColumns[3]},
+				Columns: []*schema.Column{SalariesColumns[2]},
 
 				RefColumns: []*schema.Column{AssessmentsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "salaries_employees_formemployee",
-				Columns: []*schema.Column{SalariesColumns[4]},
+				Columns: []*schema.Column{SalariesColumns[3]},
 
 				RefColumns: []*schema.Column{EmployeesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "salaries_positions_formposition",
-				Columns: []*schema.Column{SalariesColumns[5]},
+				Columns: []*schema.Column{SalariesColumns[4]},
 
 				RefColumns: []*schema.Column{PositionsColumns[0]},
 				OnDelete:   schema.SetNull,

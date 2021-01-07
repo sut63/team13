@@ -18,8 +18,6 @@ type Salary struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Position holds the value of the "position" field.
-	Position string `json:"position,omitempty"`
 	// Salary holds the value of the "Salary" field.
 	Salary int `json:"Salary,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -88,9 +86,8 @@ func (e SalaryEdges) EmployeeOrErr() (*Employee, error) {
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Salary) scanValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{},  // id
-		&sql.NullString{}, // position
-		&sql.NullInt64{},  // Salary
+		&sql.NullInt64{}, // id
+		&sql.NullInt64{}, // Salary
 	}
 }
 
@@ -115,17 +112,12 @@ func (s *Salary) assignValues(values ...interface{}) error {
 	}
 	s.ID = int(value.Int64)
 	values = values[1:]
-	if value, ok := values[0].(*sql.NullString); !ok {
-		return fmt.Errorf("unexpected type %T for field position", values[0])
-	} else if value.Valid {
-		s.Position = value.String
-	}
-	if value, ok := values[1].(*sql.NullInt64); !ok {
-		return fmt.Errorf("unexpected type %T for field Salary", values[1])
+	if value, ok := values[0].(*sql.NullInt64); !ok {
+		return fmt.Errorf("unexpected type %T for field Salary", values[0])
 	} else if value.Valid {
 		s.Salary = int(value.Int64)
 	}
-	values = values[2:]
+	values = values[1:]
 	if len(values) == len(salary.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field assessment_formassessment", value)
@@ -187,8 +179,6 @@ func (s *Salary) String() string {
 	var builder strings.Builder
 	builder.WriteString("Salary(")
 	builder.WriteString(fmt.Sprintf("id=%v", s.ID))
-	builder.WriteString(", position=")
-	builder.WriteString(s.Position)
 	builder.WriteString(", Salary=")
 	builder.WriteString(fmt.Sprintf("%v", s.Salary))
 	builder.WriteByte(')')
