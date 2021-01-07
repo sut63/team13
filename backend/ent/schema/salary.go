@@ -28,7 +28,7 @@ func (Salary) Edges() []ent.Edge {
 		edge.From("position", Position.Type).
 		Ref("formposition").
 		Unique(),
-		edge.From("employees",Employees.Type).
+		edge.From("employee",Employee.Type).
 		Ref("formemployee").
 		Unique(),
 	}
