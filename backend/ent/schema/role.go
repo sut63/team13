@@ -21,6 +21,6 @@ func (Role) Fields() []ent.Field {
 // Edges of the Role.
 func (Role) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("todo", EmployeeWorkingHours.Type),
+		edge.To("todo", Employeeworkinghours.Type),
 	}
 }

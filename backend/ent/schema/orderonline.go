@@ -28,8 +28,8 @@ func (Orderonline) Edges() []ent.Edge {
 		edge.From("paymentchannel", Paymentchannel.Type).
 		Ref("formpaymentchannel").
 		Unique(),
-		edge.From("typeproduct",TypeProduct.Type).
-		Ref("fromtypeproductonline").
+		edge.From("Typeproduct",Typeproduct.Type).
+		Ref("fromTypeproductonline").
 		Unique(),
 		edge.From("customer",Customer.Type).
 		Ref("formcustomer").

@@ -1,9 +1,9 @@
 package schema
 
 import (
-	"github.com/facebookincubator/ent/schema/edge"
-	"github.com/facebookincubator/ent/schema/field"
 	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebookincubator/ent/schema/edge"
 )
 
 // Orderproduct holds the schema definition for the Orderproduct entity.
@@ -24,6 +24,6 @@ func (Orderproduct) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("product", Product.Type).Ref("products").Unique(),
 		edge.From("company", Company.Type).Ref("companys").Unique(),
-		edge.From("typeproduct",TypeProduct.Type).Ref("typeproducts").Unique(),
+		edge.From("Typeproduct",Typeproduct.Type).Ref("Typeproducts").Unique(),
 	}
 }

@@ -21,6 +21,6 @@ func (Day) Fields() []ent.Field {
 // Edges of the Day.
 func (Day) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("whatday", EmployeeWorkingHours.Type),
+		edge.To("whatday", Employeeworkinghours.Type),
 	}
 }

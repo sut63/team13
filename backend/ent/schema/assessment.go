@@ -1,8 +1,9 @@
 package schema
 
 import (
-	"github.com/facebook/ent"
-	"github.com/facebook/ent/schema/field"
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebookincubator/ent/schema/edge"
 )
 
 // Assessment holds the schema definition for the Assessment entity.
@@ -19,5 +20,7 @@ func (Assessment) Fields() []ent.Field {
 
 // Edges of the Assessment.
 func (Assessment) Edges() []ent.Edge {
-	return nil
+	return []ent.Edge{
+		edge.To("formassessment", Salary.Type),
+	}
 }

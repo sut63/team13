@@ -6,22 +6,52 @@ import (
 	"context"
 	"sync"
 
-	"github.com/facebook/ent/dialect"
+	"github.com/facebookincubator/ent/dialect"
 )
 
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
-	// Playlist is the client for interacting with the Playlist builders.
-	Playlist *PlaylistClient
-	// Playlist_Video is the client for interacting with the Playlist_Video builders.
-	Playlist_Video *Playlist_VideoClient
-	// Resolution is the client for interacting with the Resolution builders.
-	Resolution *ResolutionClient
-	// User is the client for interacting with the User builders.
-	User *UserClient
-	// Video is the client for interacting with the Video builders.
-	Video *VideoClient
+	// Assessment is the client for interacting with the Assessment builders.
+	Assessment *AssessmentClient
+	// Company is the client for interacting with the Company builders.
+	Company *CompanyClient
+	// Customer is the client for interacting with the Customer builders.
+	Customer *CustomerClient
+	// Day is the client for interacting with the Day builders.
+	Day *DayClient
+	// Discount is the client for interacting with the Discount builders.
+	Discount *DiscountClient
+	// Employee is the client for interacting with the Employee builders.
+	Employee *EmployeeClient
+	// Employeeworkinghours is the client for interacting with the Employeeworkinghours builders.
+	Employeeworkinghours *EmployeeworkinghoursClient
+	// Giveaway is the client for interacting with the Giveaway builders.
+	Giveaway *GiveawayClient
+	// Orderonline is the client for interacting with the Orderonline builders.
+	Orderonline *OrderonlineClient
+	// Orderproduct is the client for interacting with the Orderproduct builders.
+	Orderproduct *OrderproductClient
+	// Paymentchannel is the client for interacting with the Paymentchannel builders.
+	Paymentchannel *PaymentchannelClient
+	// Position is the client for interacting with the Position builders.
+	Position *PositionClient
+	// Product is the client for interacting with the Product builders.
+	Product *ProductClient
+	// Promotion is the client for interacting with the Promotion builders.
+	Promotion *PromotionClient
+	// Role is the client for interacting with the Role builders.
+	Role *RoleClient
+	// Salary is the client for interacting with the Salary builders.
+	Salary *SalaryClient
+	// Shift is the client for interacting with the Shift builders.
+	Shift *ShiftClient
+	// Stock is the client for interacting with the Stock builders.
+	Stock *StockClient
+	// Typeproduct is the client for interacting with the Typeproduct builders.
+	Typeproduct *TypeproductClient
+	// Zoneproduct is the client for interacting with the Zoneproduct builders.
+	Zoneproduct *ZoneproductClient
 
 	// lazily loaded.
 	client     *Client
@@ -157,11 +187,26 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
-	tx.Playlist = NewPlaylistClient(tx.config)
-	tx.Playlist_Video = NewPlaylist_VideoClient(tx.config)
-	tx.Resolution = NewResolutionClient(tx.config)
-	tx.User = NewUserClient(tx.config)
-	tx.Video = NewVideoClient(tx.config)
+	tx.Assessment = NewAssessmentClient(tx.config)
+	tx.Company = NewCompanyClient(tx.config)
+	tx.Customer = NewCustomerClient(tx.config)
+	tx.Day = NewDayClient(tx.config)
+	tx.Discount = NewDiscountClient(tx.config)
+	tx.Employee = NewEmployeeClient(tx.config)
+	tx.Employeeworkinghours = NewEmployeeworkinghoursClient(tx.config)
+	tx.Giveaway = NewGiveawayClient(tx.config)
+	tx.Orderonline = NewOrderonlineClient(tx.config)
+	tx.Orderproduct = NewOrderproductClient(tx.config)
+	tx.Paymentchannel = NewPaymentchannelClient(tx.config)
+	tx.Position = NewPositionClient(tx.config)
+	tx.Product = NewProductClient(tx.config)
+	tx.Promotion = NewPromotionClient(tx.config)
+	tx.Role = NewRoleClient(tx.config)
+	tx.Salary = NewSalaryClient(tx.config)
+	tx.Shift = NewShiftClient(tx.config)
+	tx.Stock = NewStockClient(tx.config)
+	tx.Typeproduct = NewTypeproductClient(tx.config)
+	tx.Zoneproduct = NewZoneproductClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.
@@ -171,7 +216,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: Playlist.QueryXXX(), the query will be executed
+// applies a query, for example: Assessment.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

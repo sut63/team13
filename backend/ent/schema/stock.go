@@ -14,7 +14,8 @@ type Stock struct {
 // Fields of the Stock.
 func (Stock) Fields() []ent.Field {
 	return []ent.Field{
-        field.String("Priceproduct"),
+		field.String("Priceproduct"),
+		field.String("Amount"),
         field.Time("Time"),
 	}
 }
@@ -31,7 +32,7 @@ func (Stock) Edges() []ent.Edge {
 		edge.From("employee", Employee.Type).
             Ref("employeestock").
 			Unique(),
-		edge.From("typeproduct", TypeProduct.Type).
+		edge.From("Typeproduct", Typeproduct.Type).
             Ref("typestock").
             Unique(),
 	}

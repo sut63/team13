@@ -2,23 +2,26 @@ package schema
 
 import (
 	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
 	"github.com/facebookincubator/ent/schema/edge"
 )
 
-// EmployeeWorkingHours holds the schema definition for the EmployeeWorkingHours entity.
-type EmployeeWorkingHours struct {
+// Employeeworkinghours holds the schema definition for the Employeeworkinghours entity.
+type Employeeworkinghours struct {
 	ent.Schema
 }
 
-// Fields of the EmployeeWorkingHours.
-func (EmployeeWorkingHours) Fields() []ent.Field {
-	return nil
+// Fields of the Employeeworkinghours.
+func (Employeeworkinghours) Fields() []ent.Field {
+	return []ent.Field{
+		field.String("name"),
+	}
 }
 
-// Edges of the EmployeeWorkingHours.
-func (EmployeeWorkingHours) Edges() []ent.Edge {
+// Edges of the Employeeworkinghours.
+func (Employeeworkinghours) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("EmployeeWorkingHours", Employee.Type).
+		edge.From("workinghour", Employee.Type).
 			Ref("whose").
 			Unique(),
 		edge.From("day", Day.Type).

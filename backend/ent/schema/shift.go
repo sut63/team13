@@ -22,6 +22,6 @@ func (Shift) Fields() []ent.Field {
 // Edges of the Shift.
 func (Shift) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("when", EmployeeWorkingHours.Type),
+		edge.To("when", Employeeworkinghours.Type),
 	}
 }

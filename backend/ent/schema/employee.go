@@ -1,9 +1,9 @@
 package schema
 
 import (
-	"github.com/facebook/ent"
-	"github.com/facebook/ent/schema/field"
-	"github.com/facebook/ent/schema/edge"
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebookincubator/ent/schema/edge"
 )
 
 // Employee holds the schema definition for the Employee entity.
@@ -23,8 +23,8 @@ func (Employee) Fields() []ent.Field {
 // Edges of the Employee.
 func (Employee) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("salary", salary.Type),
-		edge.To("whose", EmployeeWorkingHours.Type),
+		edge.To("whose", Employeeworkinghours.Type),
 		edge.To("employeestock", Stock.Type),
+		edge.To("formemployee", Salary.Type),
 	}
 }

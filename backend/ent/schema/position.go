@@ -1,8 +1,9 @@
 package schema
 
 import (
-	"github.com/facebook/ent"
-	"github.com/facebook/ent/schema/field"
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebookincubator/ent/schema/edge"
 )
 
 // Position holds the schema definition for the Position entity.
@@ -19,5 +20,7 @@ func (Position) Fields() []ent.Field {
 
 // Edges of the Position.
 func (Position) Edges() []ent.Edge {
-	return nil
+	return []ent.Edge{
+		edge.To("formposition", Salary.Type),
+	}
 }

@@ -6,23 +6,23 @@ import (
 	"github.com/facebookincubator/ent/schema/edge"
 )
 
-// TypeProduct holds the schema definition for the TypeProduct entity.
-type TypeProduct struct {
+// Typeproduct holds the schema definition for the Typeproduct entity.
+type Typeproduct struct {
 	ent.Schema
 }
 
-// Fields of the TypeProduct.
-func (TypeProduct) Fields() []ent.Field {
+// Fields of the Typeproduct.
+func (Typeproduct) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("TypeProduct").NotEmpty(),
+		field.String("Typeproduct").NotEmpty(),
 	}
 }
 
-// Edges of the TypeProduct.
-func (TypeProduct) Edges() []ent.Edge {
+// Edges of the Typeproduct.
+func (Typeproduct) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("typestock", Stock.Type),
-		edge.To("typeproducts", Orderproduct.Type),
-		edge.To("fromtypeproductonline", Orderonline.Type),
+		edge.To("Typeproducts", Orderproduct.Type),
+		edge.To("fromTypeproductonline", Orderonline.Type),
 	}
 }

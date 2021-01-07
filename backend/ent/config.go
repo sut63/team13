@@ -3,8 +3,8 @@
 package ent
 
 import (
-	"github.com/facebook/ent"
-	"github.com/facebook/ent/dialect"
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/dialect"
 )
 
 // Option function to configure the client.
@@ -24,11 +24,26 @@ type config struct {
 
 // hooks per client, for fast access.
 type hooks struct {
-	Playlist       []ent.Hook
-	Playlist_Video []ent.Hook
-	Resolution     []ent.Hook
-	User           []ent.Hook
-	Video          []ent.Hook
+	Assessment           []ent.Hook
+	Company              []ent.Hook
+	Customer             []ent.Hook
+	Day                  []ent.Hook
+	Discount             []ent.Hook
+	Employee             []ent.Hook
+	Employeeworkinghours []ent.Hook
+	Giveaway             []ent.Hook
+	Orderonline          []ent.Hook
+	Orderproduct         []ent.Hook
+	Paymentchannel       []ent.Hook
+	Position             []ent.Hook
+	Product              []ent.Hook
+	Promotion            []ent.Hook
+	Role                 []ent.Hook
+	Salary               []ent.Hook
+	Shift                []ent.Hook
+	Stock                []ent.Hook
+	Typeproduct          []ent.Hook
+	Zoneproduct          []ent.Hook
 }
 
 // Options applies the options on the config object.

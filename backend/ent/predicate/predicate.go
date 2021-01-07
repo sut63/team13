@@ -3,20 +3,65 @@
 package predicate
 
 import (
-	"github.com/facebook/ent/dialect/sql"
+	"github.com/facebookincubator/ent/dialect/sql"
 )
 
-// Playlist is the predicate function for playlist builders.
-type Playlist func(*sql.Selector)
+// Assessment is the predicate function for assessment builders.
+type Assessment func(*sql.Selector)
 
-// Playlist_Video is the predicate function for playlist_video builders.
-type Playlist_Video func(*sql.Selector)
+// Company is the predicate function for company builders.
+type Company func(*sql.Selector)
 
-// Resolution is the predicate function for resolution builders.
-type Resolution func(*sql.Selector)
+// Customer is the predicate function for customer builders.
+type Customer func(*sql.Selector)
 
-// User is the predicate function for user builders.
-type User func(*sql.Selector)
+// Day is the predicate function for day builders.
+type Day func(*sql.Selector)
 
-// Video is the predicate function for video builders.
-type Video func(*sql.Selector)
+// Discount is the predicate function for discount builders.
+type Discount func(*sql.Selector)
+
+// Employee is the predicate function for employee builders.
+type Employee func(*sql.Selector)
+
+// Employeeworkinghours is the predicate function for employeeworkinghours builders.
+type Employeeworkinghours func(*sql.Selector)
+
+// Giveaway is the predicate function for giveaway builders.
+type Giveaway func(*sql.Selector)
+
+// Orderonline is the predicate function for orderonline builders.
+type Orderonline func(*sql.Selector)
+
+// Orderproduct is the predicate function for orderproduct builders.
+type Orderproduct func(*sql.Selector)
+
+// Paymentchannel is the predicate function for paymentchannel builders.
+type Paymentchannel func(*sql.Selector)
+
+// Position is the predicate function for position builders.
+type Position func(*sql.Selector)
+
+// Product is the predicate function for product builders.
+type Product func(*sql.Selector)
+
+// Promotion is the predicate function for promotion builders.
+type Promotion func(*sql.Selector)
+
+// Role is the predicate function for role builders.
+type Role func(*sql.Selector)
+
+// Salary is the predicate function for salary builders.
+type Salary func(*sql.Selector)
+
+// Shift is the predicate function for shift builders.
+type Shift func(*sql.Selector)
+
+// Stock is the predicate function for stock builders.
+type Stock func(*sql.Selector)
+
+// Typeproduct is the predicate function for typeproduct builders.
+type Typeproduct func(*sql.Selector)
+
+// Zoneproduct is the predicate function for zoneproduct builders.
+type Zoneproduct func(*sql.Selector)
