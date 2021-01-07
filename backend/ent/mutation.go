@@ -8589,9 +8589,9 @@ type StockMutation struct {
 	op                  Op
 	typ                 string
 	id                  *int
-	_Priceproduct       *int
-	add_Priceproduct    *int
-	_Amount             *string
+	_Priceproduct       *string
+	_Amount             *int
+	add_Amount          *int
 	_Time               *time.Time
 	clearedFields       map[string]struct{}
 	product             *int
@@ -8686,13 +8686,12 @@ func (m *StockMutation) ID() (id int, exists bool) {
 }
 
 // SetPriceproduct sets the Priceproduct field.
-func (m *StockMutation) SetPriceproduct(i int) {
-	m._Priceproduct = &i
-	m.add_Priceproduct = nil
+func (m *StockMutation) SetPriceproduct(s string) {
+	m._Priceproduct = &s
 }
 
 // Priceproduct returns the Priceproduct value in the mutation.
-func (m *StockMutation) Priceproduct() (r int, exists bool) {
+func (m *StockMutation) Priceproduct() (r string, exists bool) {
 	v := m._Priceproduct
 	if v == nil {
 		return
@@ -8704,7 +8703,7 @@ func (m *StockMutation) Priceproduct() (r int, exists bool) {
 // If the Stock object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *StockMutation) OldPriceproduct(ctx context.Context) (v int, err error) {
+func (m *StockMutation) OldPriceproduct(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldPriceproduct is allowed only on UpdateOne operations")
 	}
@@ -8718,37 +8717,19 @@ func (m *StockMutation) OldPriceproduct(ctx context.Context) (v int, err error) 
 	return oldValue.Priceproduct, nil
 }
 
-// AddPriceproduct adds i to Priceproduct.
-func (m *StockMutation) AddPriceproduct(i int) {
-	if m.add_Priceproduct != nil {
-		*m.add_Priceproduct += i
-	} else {
-		m.add_Priceproduct = &i
-	}
-}
-
-// AddedPriceproduct returns the value that was added to the Priceproduct field in this mutation.
-func (m *StockMutation) AddedPriceproduct() (r int, exists bool) {
-	v := m.add_Priceproduct
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ResetPriceproduct reset all changes of the "Priceproduct" field.
 func (m *StockMutation) ResetPriceproduct() {
 	m._Priceproduct = nil
-	m.add_Priceproduct = nil
 }
 
 // SetAmount sets the Amount field.
-func (m *StockMutation) SetAmount(s string) {
-	m._Amount = &s
+func (m *StockMutation) SetAmount(i int) {
+	m._Amount = &i
+	m.add_Amount = nil
 }
 
 // Amount returns the Amount value in the mutation.
-func (m *StockMutation) Amount() (r string, exists bool) {
+func (m *StockMutation) Amount() (r int, exists bool) {
 	v := m._Amount
 	if v == nil {
 		return
@@ -8760,7 +8741,7 @@ func (m *StockMutation) Amount() (r string, exists bool) {
 // If the Stock object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *StockMutation) OldAmount(ctx context.Context) (v string, err error) {
+func (m *StockMutation) OldAmount(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldAmount is allowed only on UpdateOne operations")
 	}
@@ -8774,9 +8755,28 @@ func (m *StockMutation) OldAmount(ctx context.Context) (v string, err error) {
 	return oldValue.Amount, nil
 }
 
+// AddAmount adds i to Amount.
+func (m *StockMutation) AddAmount(i int) {
+	if m.add_Amount != nil {
+		*m.add_Amount += i
+	} else {
+		m.add_Amount = &i
+	}
+}
+
+// AddedAmount returns the value that was added to the Amount field in this mutation.
+func (m *StockMutation) AddedAmount() (r int, exists bool) {
+	v := m.add_Amount
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ResetAmount reset all changes of the "Amount" field.
 func (m *StockMutation) ResetAmount() {
 	m._Amount = nil
+	m.add_Amount = nil
 }
 
 // SetTime sets the Time field.
@@ -9035,14 +9035,14 @@ func (m *StockMutation) OldField(ctx context.Context, name string) (ent.Value, e
 func (m *StockMutation) SetField(name string, value ent.Value) error {
 	switch name {
 	case stock.FieldPriceproduct:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPriceproduct(v)
 		return nil
 	case stock.FieldAmount:
-		v, ok := value.(string)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -9063,8 +9063,8 @@ func (m *StockMutation) SetField(name string, value ent.Value) error {
 // or decremented during this mutation.
 func (m *StockMutation) AddedFields() []string {
 	var fields []string
-	if m.add_Priceproduct != nil {
-		fields = append(fields, stock.FieldPriceproduct)
+	if m.add_Amount != nil {
+		fields = append(fields, stock.FieldAmount)
 	}
 	return fields
 }
@@ -9074,8 +9074,8 @@ func (m *StockMutation) AddedFields() []string {
 // that this field was not set, or was not define in the schema.
 func (m *StockMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case stock.FieldPriceproduct:
-		return m.AddedPriceproduct()
+	case stock.FieldAmount:
+		return m.AddedAmount()
 	}
 	return nil, false
 }
@@ -9085,12 +9085,12 @@ func (m *StockMutation) AddedField(name string) (ent.Value, bool) {
 // type mismatch the field type.
 func (m *StockMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case stock.FieldPriceproduct:
+	case stock.FieldAmount:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddPriceproduct(v)
+		m.AddAmount(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Stock numeric field %s", name)
