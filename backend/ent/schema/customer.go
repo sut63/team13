@@ -6,21 +6,23 @@ import (
 	"github.com/facebookincubator/ent/schema/edge"
 )
 
-// Paymentchannel holds the schema definition for the Paymentchannel entity.
-type Paymentchannel struct {
+// Customer holds the schema definition for the Customer entity.
+type Customer struct {
 	ent.Schema
 }
 
-// Fields of the Paymentchannel.
-func (Paymentchannel) Fields() []ent.Field {
+// Fields of the Customer.
+func (Customer) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("Bank").NotEmpty(),
+		field.String("name").NotEmpty(),
+		field.String("email").NotEmpty().Unique(),
+		field.Int("age").Positive(),
 	}
 }
 
-// Edges of the Paymentchannel.
-func (Paymentchannel) Edges() []ent.Edge {
+// Edges of the Customer.
+func (Customer) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("formpaymentchannel", Orderonline.Type),
+		edge.To("formcustomer", Orderonline.Type),
 	}
 }

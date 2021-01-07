@@ -1,6 +1,10 @@
 package schema
 
-import "github.com/facebookincubator/ent"
+import (
+	"github.com/facebookincubator/ent"
+	"github.com/facebookincubator/ent/schema/field"
+	"github.com/facebookincubator/ent/schema/edge"
+)
 
 // Paymentchannel holds the schema definition for the Paymentchannel entity.
 type Paymentchannel struct {
@@ -9,10 +13,14 @@ type Paymentchannel struct {
 
 // Fields of the Paymentchannel.
 func (Paymentchannel) Fields() []ent.Field {
-	return nil
+	return []ent.Field{
+		field.String("Bank").NotEmpty(),
+	}
 }
 
 // Edges of the Paymentchannel.
 func (Paymentchannel) Edges() []ent.Edge {
-	return nil
+	return []ent.Edge{
+		edge.To("formpaymentchannel", Orderonline.Type),
+	}
 }
