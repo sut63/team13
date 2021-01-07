@@ -94,7 +94,7 @@ func init() {
 	// salaryDescSalary is the schema descriptor for Salary field.
 	salaryDescSalary := salaryFields[0].Descriptor()
 	// salary.SalaryValidator is a validator for the "Salary" field. It is called by the builders before save.
-	salary.SalaryValidator = salaryDescSalary.Validators[0].(func(int) error)
+	salary.SalaryValidator = salaryDescSalary.Validators[0].(func(float64) error)
 	typeproductFields := schema.Typeproduct{}.Fields()
 	_ = typeproductFields
 	// typeproductDescTypeproduct is the schema descriptor for Typeproduct field.

@@ -5,6 +5,7 @@ package ent
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
@@ -31,15 +32,27 @@ func (su *SalaryUpdate) Where(ps ...predicate.Salary) *SalaryUpdate {
 }
 
 // SetSalary sets the Salary field.
-func (su *SalaryUpdate) SetSalary(i int) *SalaryUpdate {
+<<<<<<< HEAD
+func (su *SalaryUpdate) SetSalary(f float64) *SalaryUpdate {
 	su.mutation.ResetSalary()
-	su.mutation.SetSalary(i)
+	su.mutation.SetSalary(f)
 	return su
 }
 
-// AddSalary adds i to Salary.
-func (su *SalaryUpdate) AddSalary(i int) *SalaryUpdate {
-	su.mutation.AddSalary(i)
+// AddSalary adds f to Salary.
+func (su *SalaryUpdate) AddSalary(f float64) *SalaryUpdate {
+	su.mutation.AddSalary(f)
+=======
+func (su *SalaryUpdate) SetSalary(i int) *SalaryUpdate {
+	su.mutation.ResetSalary()
+	su.mutation.SetSalary(i)
+>>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
+	return su
+}
+
+// SetSalaryDatetime sets the SalaryDatetime field.
+func (su *SalaryUpdate) SetSalaryDatetime(t time.Time) *SalaryUpdate {
+	su.mutation.SetSalaryDatetime(t)
 	return su
 }
 
@@ -200,16 +213,23 @@ func (su *SalaryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := su.mutation.Salary(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: salary.FieldSalary,
 		})
 	}
 	if value, ok := su.mutation.AddedSalary(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: salary.FieldSalary,
+		})
+	}
+	if value, ok := su.mutation.SalaryDatetime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: salary.FieldSalaryDatetime,
 		})
 	}
 	if su.mutation.AssessmentCleared() {
@@ -336,15 +356,27 @@ type SalaryUpdateOne struct {
 }
 
 // SetSalary sets the Salary field.
-func (suo *SalaryUpdateOne) SetSalary(i int) *SalaryUpdateOne {
+<<<<<<< HEAD
+func (suo *SalaryUpdateOne) SetSalary(f float64) *SalaryUpdateOne {
 	suo.mutation.ResetSalary()
-	suo.mutation.SetSalary(i)
+	suo.mutation.SetSalary(f)
 	return suo
 }
 
-// AddSalary adds i to Salary.
-func (suo *SalaryUpdateOne) AddSalary(i int) *SalaryUpdateOne {
-	suo.mutation.AddSalary(i)
+// AddSalary adds f to Salary.
+func (suo *SalaryUpdateOne) AddSalary(f float64) *SalaryUpdateOne {
+	suo.mutation.AddSalary(f)
+=======
+func (suo *SalaryUpdateOne) SetSalary(i int) *SalaryUpdateOne {
+	suo.mutation.ResetSalary()
+	suo.mutation.SetSalary(i)
+>>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
+	return suo
+}
+
+// SetSalaryDatetime sets the SalaryDatetime field.
+func (suo *SalaryUpdateOne) SetSalaryDatetime(t time.Time) *SalaryUpdateOne {
+	suo.mutation.SetSalaryDatetime(t)
 	return suo
 }
 
@@ -503,16 +535,23 @@ func (suo *SalaryUpdateOne) sqlSave(ctx context.Context) (s *Salary, err error) 
 	_spec.Node.ID.Value = id
 	if value, ok := suo.mutation.Salary(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: salary.FieldSalary,
 		})
 	}
 	if value, ok := suo.mutation.AddedSalary(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: salary.FieldSalary,
+		})
+	}
+	if value, ok := suo.mutation.SalaryDatetime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: salary.FieldSalaryDatetime,
 		})
 	}
 	if suo.mutation.AssessmentCleared() {

@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
@@ -23,8 +24,19 @@ type SalaryCreate struct {
 }
 
 // SetSalary sets the Salary field.
+<<<<<<< HEAD
+func (sc *SalaryCreate) SetSalary(f float64) *SalaryCreate {
+	sc.mutation.SetSalary(f)
+	return sc
+}
+
+// SetSalaryDatetime sets the SalaryDatetime field.
+func (sc *SalaryCreate) SetSalaryDatetime(t time.Time) *SalaryCreate {
+	sc.mutation.SetSalaryDatetime(t)
+=======
 func (sc *SalaryCreate) SetSalary(i int) *SalaryCreate {
 	sc.mutation.SetSalary(i)
+>>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	return sc
 }
 
@@ -100,6 +112,9 @@ func (sc *SalaryCreate) Save(ctx context.Context) (*Salary, error) {
 			return nil, &ValidationError{Name: "Salary", err: fmt.Errorf("ent: validator failed for field \"Salary\": %w", err)}
 		}
 	}
+	if _, ok := sc.mutation.SalaryDatetime(); !ok {
+		return nil, &ValidationError{Name: "SalaryDatetime", err: errors.New("ent: missing required field \"SalaryDatetime\"")}
+	}
 	var (
 		err  error
 		node *Salary
@@ -161,12 +176,23 @@ func (sc *SalaryCreate) createSpec() (*Salary, *sqlgraph.CreateSpec) {
 		}
 	)
 	if value, ok := sc.mutation.Salary(); ok {
+<<<<<<< HEAD
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: salary.FieldSalary,
 		})
 		s.Salary = value
+	}
+	if value, ok := sc.mutation.SalaryDatetime(); ok {
+=======
+>>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: salary.FieldSalaryDatetime,
+		})
+		s.SalaryDatetime = value
 	}
 	if nodes := sc.mutation.AssessmentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

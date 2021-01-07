@@ -9,6 +9,8 @@ const (
 	FieldID = "id"
 	// FieldSalary holds the string denoting the salary field in the database.
 	FieldSalary = "salary"
+	// FieldSalaryDatetime holds the string denoting the salarydatetime field in the database.
+	FieldSalaryDatetime = "salary_datetime"
 
 	// EdgeAssessment holds the string denoting the assessment edge name in mutations.
 	EdgeAssessment = "assessment"
@@ -46,6 +48,7 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldSalary,
+	FieldSalaryDatetime,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Salary type.
@@ -57,5 +60,5 @@ var ForeignKeys = []string{
 
 var (
 	// SalaryValidator is a validator for the "Salary" field. It is called by the builders before save.
-	SalaryValidator func(int) error
+	SalaryValidator func(float64) error
 )

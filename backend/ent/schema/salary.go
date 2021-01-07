@@ -6,19 +6,24 @@ import (
 	"github.com/facebookincubator/ent/schema/edge"
 )
 
-// User holds the schema definition for the Salary entity.
+// Salary holds the schema definition for the Salary entity.
 type Salary struct {
 	ent.Schema
 }
 
-// Fields of the User.
+// Fields of the Salary.
 func (Salary) Fields() []ent.Field {
 	return []ent.Field{
+<<<<<<< HEAD
+		field.Float("Salary").Positive(),
+		field.Time("SalaryDatetime"),
+=======
 		field.Int("Salary").Positive(),
+>>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	}
 }
 
-// Edges of the User.
+// Edges of the Salary.
 func (Salary) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("assessment", Assessment.Type).
