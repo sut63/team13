@@ -21,7 +21,7 @@ type Stock struct {
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
 	// Priceproduct holds the value of the "Priceproduct" field.
-	Priceproduct string `json:"Priceproduct,omitempty"`
+	Priceproduct int `json:"Priceproduct,omitempty"`
 	// Amount holds the value of the "Amount" field.
 	Amount string `json:"Amount,omitempty"`
 	// Time holds the value of the "Time" field.
@@ -110,7 +110,7 @@ func (e StockEdges) TypeproductOrErr() (*Typeproduct, error) {
 func (*Stock) scanValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{},  // id
-		&sql.NullString{}, // Priceproduct
+		&sql.NullInt64{},  // Priceproduct
 		&sql.NullString{}, // Amount
 		&sql.NullTime{},   // Time
 	}
@@ -138,10 +138,10 @@ func (s *Stock) assignValues(values ...interface{}) error {
 	}
 	s.ID = int(value.Int64)
 	values = values[1:]
-	if value, ok := values[0].(*sql.NullString); !ok {
+	if value, ok := values[0].(*sql.NullInt64); !ok {
 		return fmt.Errorf("unexpected type %T for field Priceproduct", values[0])
 	} else if value.Valid {
-		s.Priceproduct = value.String
+		s.Priceproduct = int(value.Int64)
 	}
 	if value, ok := values[1].(*sql.NullString); !ok {
 		return fmt.Errorf("unexpected type %T for field Amount", values[1])
@@ -227,7 +227,7 @@ func (s *Stock) String() string {
 	builder.WriteString("Stock(")
 	builder.WriteString(fmt.Sprintf("id=%v", s.ID))
 	builder.WriteString(", Priceproduct=")
-	builder.WriteString(s.Priceproduct)
+	builder.WriteString(fmt.Sprintf("%v", s.Priceproduct))
 	builder.WriteString(", Amount=")
 	builder.WriteString(s.Amount)
 	builder.WriteString(", Time=")
