@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-
 	"github.com/gin-gonic/gin"
 	"github.com/team13/app/ent"
 	"github.com/team13/app/ent/assessment"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/position"
+	
 )
 
 // SalaryController defines the struct for the salary controller
@@ -93,6 +93,7 @@ func (ctl *SalaryController) CreateSalary(c *gin.Context) {
 		SetEmployee(em).
 		SetPosition(po).
 		SetAssessment(ass).
+		SetSalary(salarys).
 		SetSalaryDatetime(salaryDatetime).
 		Save(context.Background())
 	if err != nil {

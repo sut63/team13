@@ -24,7 +24,6 @@ type SalaryCreate struct {
 }
 
 // SetSalary sets the Salary field.
-<<<<<<< HEAD
 func (sc *SalaryCreate) SetSalary(f float64) *SalaryCreate {
 	sc.mutation.SetSalary(f)
 	return sc
@@ -33,10 +32,6 @@ func (sc *SalaryCreate) SetSalary(f float64) *SalaryCreate {
 // SetSalaryDatetime sets the SalaryDatetime field.
 func (sc *SalaryCreate) SetSalaryDatetime(t time.Time) *SalaryCreate {
 	sc.mutation.SetSalaryDatetime(t)
-=======
-func (sc *SalaryCreate) SetSalary(i int) *SalaryCreate {
-	sc.mutation.SetSalary(i)
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	return sc
 }
 
@@ -176,7 +171,6 @@ func (sc *SalaryCreate) createSpec() (*Salary, *sqlgraph.CreateSpec) {
 		}
 	)
 	if value, ok := sc.mutation.Salary(); ok {
-<<<<<<< HEAD
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeFloat64,
 			Value:  value,
@@ -185,8 +179,6 @@ func (sc *SalaryCreate) createSpec() (*Salary, *sqlgraph.CreateSpec) {
 		s.Salary = value
 	}
 	if value, ok := sc.mutation.SalaryDatetime(); ok {
-=======
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
