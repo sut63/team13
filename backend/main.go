@@ -406,9 +406,9 @@ func main() {
 	}
 
 	for _, ass := range assessments.Assessment {
-		client.Company.
+		client.Assessment.
 			Create().
-			SetName(ass.AssessmentName).
+			SetAssessment(ass.AssessmentName).
 			Save(context.Background())
 	}
 
@@ -422,9 +422,9 @@ func main() {
 	}
 
 	for _, po := range positions.Position {
-		client.Company.
+		client.Position.
 			Create().
-			SetName(po.PositionName).
+			SetPosition(po.PositionName).
 			Save(context.Background())
 	}
 
