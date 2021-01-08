@@ -20,6 +20,8 @@ type Employee struct {
 	Name string `json:"name,omitempty"`
 	// Email holds the value of the "email" field.
 	Email string `json:"email,omitempty"`
+	// Password holds the value of the "password" field.
+	Password string `json:"password,omitempty"`
 	// Age holds the value of the "age" field.
 	Age int `json:"age,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -78,6 +80,7 @@ func (*Employee) scanValues() []interface{} {
 		&sql.NullInt64{},  // id
 		&sql.NullString{}, // name
 		&sql.NullString{}, // email
+		&sql.NullString{}, // password
 		&sql.NullInt64{},  // age
 	}
 }
@@ -104,8 +107,13 @@ func (e *Employee) assignValues(values ...interface{}) error {
 	} else if value.Valid {
 		e.Email = value.String
 	}
-	if value, ok := values[2].(*sql.NullInt64); !ok {
-		return fmt.Errorf("unexpected type %T for field age", values[2])
+	if value, ok := values[2].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field password", values[2])
+	} else if value.Valid {
+		e.Password = value.String
+	}
+	if value, ok := values[3].(*sql.NullInt64); !ok {
+		return fmt.Errorf("unexpected type %T for field age", values[3])
 	} else if value.Valid {
 		e.Age = int(value.Int64)
 	}
@@ -154,6 +162,8 @@ func (e *Employee) String() string {
 	builder.WriteString(e.Name)
 	builder.WriteString(", email=")
 	builder.WriteString(e.Email)
+	builder.WriteString(", password=")
+	builder.WriteString(e.Password)
 	builder.WriteString(", age=")
 	builder.WriteString(fmt.Sprintf("%v", e.Age))
 	builder.WriteByte(')')

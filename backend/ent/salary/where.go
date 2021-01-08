@@ -100,6 +100,13 @@ func Salary(v float64) predicate.Salary {
 	})
 }
 
+// Bonus applies equality check predicate on the "Bonus" field. It's identical to BonusEQ.
+func Bonus(v float64) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldBonus), v))
+	})
+}
+
 // SalaryDatetime applies equality check predicate on the "SalaryDatetime" field. It's identical to SalaryDatetimeEQ.
 func SalaryDatetime(v time.Time) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
@@ -180,6 +187,82 @@ func SalaryLT(v float64) predicate.Salary {
 func SalaryLTE(v float64) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldSalary), v))
+	})
+}
+
+// BonusEQ applies the EQ predicate on the "Bonus" field.
+func BonusEQ(v float64) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldBonus), v))
+	})
+}
+
+// BonusNEQ applies the NEQ predicate on the "Bonus" field.
+func BonusNEQ(v float64) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldBonus), v))
+	})
+}
+
+// BonusIn applies the In predicate on the "Bonus" field.
+func BonusIn(vs ...float64) predicate.Salary {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Salary(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldBonus), v...))
+	})
+}
+
+// BonusNotIn applies the NotIn predicate on the "Bonus" field.
+func BonusNotIn(vs ...float64) predicate.Salary {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Salary(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldBonus), v...))
+	})
+}
+
+// BonusGT applies the GT predicate on the "Bonus" field.
+func BonusGT(v float64) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldBonus), v))
+	})
+}
+
+// BonusGTE applies the GTE predicate on the "Bonus" field.
+func BonusGTE(v float64) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldBonus), v))
+	})
+}
+
+// BonusLT applies the LT predicate on the "Bonus" field.
+func BonusLT(v float64) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldBonus), v))
+	})
+}
+
+// BonusLTE applies the LTE predicate on the "Bonus" field.
+func BonusLTE(v float64) predicate.Salary {
+	return predicate.Salary(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldBonus), v))
 	})
 }
 

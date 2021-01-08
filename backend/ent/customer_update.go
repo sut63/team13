@@ -40,6 +40,12 @@ func (cu *CustomerUpdate) SetEmail(s string) *CustomerUpdate {
 	return cu
 }
 
+// SetPassword sets the password field.
+func (cu *CustomerUpdate) SetPassword(s string) *CustomerUpdate {
+	cu.mutation.SetPassword(s)
+	return cu
+}
+
 // SetAge sets the age field.
 func (cu *CustomerUpdate) SetAge(i int) *CustomerUpdate {
 	cu.mutation.ResetAge()
@@ -98,6 +104,11 @@ func (cu *CustomerUpdate) Save(ctx context.Context) (int, error) {
 	if v, ok := cu.mutation.Email(); ok {
 		if err := customer.EmailValidator(v); err != nil {
 			return 0, &ValidationError{Name: "email", err: fmt.Errorf("ent: validator failed for field \"email\": %w", err)}
+		}
+	}
+	if v, ok := cu.mutation.Password(); ok {
+		if err := customer.PasswordValidator(v); err != nil {
+			return 0, &ValidationError{Name: "password", err: fmt.Errorf("ent: validator failed for field \"password\": %w", err)}
 		}
 	}
 	if v, ok := cu.mutation.Age(); ok {
@@ -187,6 +198,13 @@ func (cu *CustomerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: customer.FieldEmail,
 		})
 	}
+	if value, ok := cu.mutation.Password(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: customer.FieldPassword,
+		})
+	}
 	if value, ok := cu.mutation.Age(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt,
@@ -269,6 +287,12 @@ func (cuo *CustomerUpdateOne) SetEmail(s string) *CustomerUpdateOne {
 	return cuo
 }
 
+// SetPassword sets the password field.
+func (cuo *CustomerUpdateOne) SetPassword(s string) *CustomerUpdateOne {
+	cuo.mutation.SetPassword(s)
+	return cuo
+}
+
 // SetAge sets the age field.
 func (cuo *CustomerUpdateOne) SetAge(i int) *CustomerUpdateOne {
 	cuo.mutation.ResetAge()
@@ -327,6 +351,11 @@ func (cuo *CustomerUpdateOne) Save(ctx context.Context) (*Customer, error) {
 	if v, ok := cuo.mutation.Email(); ok {
 		if err := customer.EmailValidator(v); err != nil {
 			return nil, &ValidationError{Name: "email", err: fmt.Errorf("ent: validator failed for field \"email\": %w", err)}
+		}
+	}
+	if v, ok := cuo.mutation.Password(); ok {
+		if err := customer.PasswordValidator(v); err != nil {
+			return nil, &ValidationError{Name: "password", err: fmt.Errorf("ent: validator failed for field \"password\": %w", err)}
 		}
 	}
 	if v, ok := cuo.mutation.Age(); ok {
@@ -412,6 +441,13 @@ func (cuo *CustomerUpdateOne) sqlSave(ctx context.Context) (c *Customer, err err
 			Type:   field.TypeString,
 			Value:  value,
 			Column: customer.FieldEmail,
+		})
+	}
+	if value, ok := cuo.mutation.Password(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: customer.FieldPassword,
 		})
 	}
 	if value, ok := cuo.mutation.Age(); ok {

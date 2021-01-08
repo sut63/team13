@@ -44,6 +44,19 @@ func (su *SalaryUpdate) AddSalary(f float64) *SalaryUpdate {
 	return su
 }
 
+// SetBonus sets the Bonus field.
+func (su *SalaryUpdate) SetBonus(f float64) *SalaryUpdate {
+	su.mutation.ResetBonus()
+	su.mutation.SetBonus(f)
+	return su
+}
+
+// AddBonus adds f to Bonus.
+func (su *SalaryUpdate) AddBonus(f float64) *SalaryUpdate {
+	su.mutation.AddBonus(f)
+	return su
+}
+
 // SetSalaryDatetime sets the SalaryDatetime field.
 func (su *SalaryUpdate) SetSalaryDatetime(t time.Time) *SalaryUpdate {
 	su.mutation.SetSalaryDatetime(t)
@@ -137,6 +150,11 @@ func (su *SalaryUpdate) Save(ctx context.Context) (int, error) {
 			return 0, &ValidationError{Name: "Salary", err: fmt.Errorf("ent: validator failed for field \"Salary\": %w", err)}
 		}
 	}
+	if v, ok := su.mutation.Bonus(); ok {
+		if err := salary.BonusValidator(v); err != nil {
+			return 0, &ValidationError{Name: "Bonus", err: fmt.Errorf("ent: validator failed for field \"Bonus\": %w", err)}
+		}
+	}
 
 	var (
 		err      error
@@ -217,6 +235,20 @@ func (su *SalaryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: salary.FieldSalary,
+		})
+	}
+	if value, ok := su.mutation.Bonus(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: salary.FieldBonus,
+		})
+	}
+	if value, ok := su.mutation.AddedBonus(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: salary.FieldBonus,
 		})
 	}
 	if value, ok := su.mutation.SalaryDatetime(); ok {
@@ -362,6 +394,19 @@ func (suo *SalaryUpdateOne) AddSalary(f float64) *SalaryUpdateOne {
 	return suo
 }
 
+// SetBonus sets the Bonus field.
+func (suo *SalaryUpdateOne) SetBonus(f float64) *SalaryUpdateOne {
+	suo.mutation.ResetBonus()
+	suo.mutation.SetBonus(f)
+	return suo
+}
+
+// AddBonus adds f to Bonus.
+func (suo *SalaryUpdateOne) AddBonus(f float64) *SalaryUpdateOne {
+	suo.mutation.AddBonus(f)
+	return suo
+}
+
 // SetSalaryDatetime sets the SalaryDatetime field.
 func (suo *SalaryUpdateOne) SetSalaryDatetime(t time.Time) *SalaryUpdateOne {
 	suo.mutation.SetSalaryDatetime(t)
@@ -455,6 +500,11 @@ func (suo *SalaryUpdateOne) Save(ctx context.Context) (*Salary, error) {
 			return nil, &ValidationError{Name: "Salary", err: fmt.Errorf("ent: validator failed for field \"Salary\": %w", err)}
 		}
 	}
+	if v, ok := suo.mutation.Bonus(); ok {
+		if err := salary.BonusValidator(v); err != nil {
+			return nil, &ValidationError{Name: "Bonus", err: fmt.Errorf("ent: validator failed for field \"Bonus\": %w", err)}
+		}
+	}
 
 	var (
 		err  error
@@ -533,6 +583,20 @@ func (suo *SalaryUpdateOne) sqlSave(ctx context.Context) (s *Salary, err error) 
 			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: salary.FieldSalary,
+		})
+	}
+	if value, ok := suo.mutation.Bonus(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: salary.FieldBonus,
+		})
+	}
+	if value, ok := suo.mutation.AddedBonus(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: salary.FieldBonus,
 		})
 	}
 	if value, ok := suo.mutation.SalaryDatetime(); ok {

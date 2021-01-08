@@ -98,7 +98,7 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 
 	u, err := ctl.client.EmployeeWorkingHours.
 		Create().
-		SetEmployee(em).
+		SetEmployeeWorkingHours(em).
 		SetDay(d).
 		SetRole(r).
 		SetShift(sh).
@@ -178,7 +178,7 @@ func (ctl *EmployeeWorkingHoursController) ListEmployeeWorkingHours(c *gin.Conte
 		Limit(limit).
 		Offset(offset).
 		WithDay().
-		WithEmployee().
+		WithEmployeeWorkingHours().
 		WithRole().
 		WithShift().
 		All(context.Background())

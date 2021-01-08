@@ -15,6 +15,7 @@ type Salary struct {
 func (Salary) Fields() []ent.Field {
 	return []ent.Field{
 		field.Float("Salary").Positive(),
+		field.Float("Bonus").Positive(),
 		field.Time("SalaryDatetime"),
 	}
 }

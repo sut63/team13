@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"log"
-    "time"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -20,8 +20,10 @@ type Customers struct {
 }
 
 type Customer struct {
-	Name  string
-	Email string
+	Name     string
+	Email    string
+	Password string
+	age      int
 }
 
 type Paymentchannels struct {
@@ -60,12 +62,13 @@ type Company struct {
 }
 
 type Managers struct {
-	Customer []Customer
+	Manager []Manager
 }
 
 type Manager struct {
-	Name  string
-	Email string
+	Name     string
+	Email    string
+	Password string
 }
 
 type Zoneproducts struct {
@@ -89,8 +92,10 @@ type Employees struct {
 }
 
 type Employee struct {
-	Name  string
-	Email string
+	Name     string
+	Email    string
+	Password string
+	Age      int
 }
 
 type Roles struct {
@@ -108,6 +113,22 @@ type Shifts struct {
 type Shift struct {
 	TimeStart time.Time
 	TimeEnd   time.Time
+}
+
+type Assessments struct {
+	Assessment []Assessment
+}
+
+type Assessment struct {
+	AssessmentName string
+}
+
+type Positions struct {
+	Position []Position
+}
+
+type Position struct {
+	PositionName string
 }
 
 // @title SUT SA Example API
@@ -176,32 +197,37 @@ func main() {
 
 	controllers.NewCompanyController(v1, client)
 	controllers.NewManagerController(v1, client)
-    controllers.NewOrderproductController(v1, client)
-    
-    controllers.NewDayController(v1, client)
+	controllers.NewOrderproductController(v1, client)
+
+	controllers.NewDayController(v1, client)
 	controllers.NewEmployeeController(v1, client)
 	controllers.NewEmployeeWorkingHoursController(v1, client)
 	controllers.NewRoleController(v1, client)
 	controllers.NewShiftController(v1, client)
 
+	controllers.NewAssessmentController(v1, client)
+	controllers.NewPositionController(v1, client)
+
 	customers := Customers{
 		Customer: []Customer{
-			Customer{"Dang Dang", "Dang@gmail.com"},
-			Customer{"AEK Dang", "AEK@gmail.com"},
-			Customer{"PANG Dang", "PANG@gmail.com"},
-			Customer{"NW Dang", "NW@gmail.com"},
+			Customer{"Dang Dang", "Dang@gmail.com", "123", 19},
+			Customer{"AEK Dang", "AEK@gmail.com", "1234", 20},
+			Customer{"PANG Dang", "PANG@gmail.com", "1235", 21},
+			Customer{"NW Dang", "NW@gmail.com", "1236", 22},
 		},
 	}
 
-	for _, c := range customer.Customer {
+	for _, c := range customers.Customer {
 		client.Customer.
 			Create().
 			SetName(c.Name).
+			SetPassword(c.Password).
+			SetAge(c.age).
 			SetEmail(c.Email).
 			Save(context.Background())
 	}
 
-	paymentchannels := paymentchannels{
+	paymentchannels := Paymentchannels{
 		Paymentchannel: []Paymentchannel{
 			Paymentchannel{"KBANK"},
 			Paymentchannel{"KTB"},
@@ -210,7 +236,7 @@ func main() {
 		},
 	}
 
-	for _, pay := range paymentchannel.Paymentchannel {
+	for _, pay := range paymentchannels.Paymentchannel {
 		client.Paymentchannel.
 			Create().
 			SetBank(pay.bank).
@@ -227,13 +253,13 @@ func main() {
 		},
 	}
 
-	for _, pd := range product.Product {
+	for _, pd := range products.Product {
 		client.Product.
 			Create().
 			SetNameProduct(pd.NameProduct).
 			SetBarcodeProduct(pd.BarcodeProduct).
 			SetMFG(pd.MFG).
-			SetEXP(pd.EXP).
+			SetEXP(pd.Example).
 			Save(context.Background())
 	}
 
@@ -246,10 +272,10 @@ func main() {
 		},
 	}
 
-	for _, tp := range typeproduct.Typeproduct {
+	for _, tp := range typeproducts.Typeproduct {
 		client.Typeproduct.
 			Create().
-			SetTypeProduct(tp.Typeproduct).
+			SetTypeproduct(tp.Typeproduct).
 			Save(context.Background())
 	}
 
@@ -262,7 +288,7 @@ func main() {
 		},
 	}
 
-	for _, z := range zoneproduct.Zoneproduct {
+	for _, z := range zoneproducts.Zoneproduct {
 		client.Zoneproduct.
 			Create().
 			SetZone(z.Zone).
@@ -271,18 +297,19 @@ func main() {
 
 	managers := Managers{
 		Manager: []Manager{
-			Manager{"Dang Dang", "Dang@gmail.com"},
-			Manager{"AEK Dang", "AEK@gmail.com"},
-			Manager{"PANG Dang", "PANG@gmail.com"},
-			Manager{"NW Dang", "NW@gmail.com"},
+			Manager{"Dang Dang", "Dang@gmail.com", "456"},
+			Manager{"AEK Dang", "AEK@gmail.com", "4567"},
+			Manager{"PANG Dang", "PANG@gmail.com", "4568"},
+			Manager{"NW Dang", "NW@gmail.com", "4569"},
 		},
 	}
 
-	for _, m := range manager.Manager {
+	for _, m := range managers.Manager {
 		client.Manager.
 			Create().
 			SetName(m.Name).
 			SetEmail(m.Email).
+			SetPassword(m.Password).
 			Save(context.Background())
 	}
 
@@ -295,14 +322,14 @@ func main() {
 		},
 	}
 
-	for _, cp := range company.Company {
+	for _, cp := range companys.Company {
 		client.Company.
 			Create().
 			SetName(cp.Name).
 			Save(context.Background())
-    }
-    
-    Days := Days{
+	}
+
+	Days := Days{
 		Day: []Day{
 			{"วันอาทิตย์"},
 			{"วันจันทร์"},
@@ -319,24 +346,26 @@ func main() {
 			Create().
 			SetDay(d.Day).
 			Save(context.Background())
-    }
-    
-    Employees := Employees{
+	}
+
+	Employees := Employees{
 		Employee: []Employee{
-			{"Poomin PhimPhimai","Poomin123@gmail.com"},
-			{"Pakiafa Kummungkun","Pakiafa456@gmail.com"},
+			{"Poomin PhimPhimai", "Poomin123@gmail.com", "1123", 19},
+			{"Pakiafa Kummungkun", "Pakiafa456@gmail.com", "11234", 20},
 		},
 	}
 
 	for _, em := range Employees.Employee {
 		client.Employee.
 			Create().
-            SetName(em.Name).
-            SetEmail(em.Email).
+			SetName(em.Name).
+			SetEmail(em.Email).
+			SetPassword(em.Password).
+			SetAge(em.Age).
 			Save(context.Background())
-    }
+	}
 
-    Roles := Roles{
+	Roles := Roles{
 		Role: []Role{
 			{"กวาดพื้น"},
 			{"จัดของ"},
@@ -351,23 +380,58 @@ func main() {
 			Create().
 			SetRole(r.Role).
 			Save(context.Background())
-    }
+	}
 
-    Shifts := Shifts{
+	Shifts := Shifts{
 		Shift: []Shift{
 			{time.Date(0, 0, 0, 6, 30, 0, 0, time.Local), time.Date(0, 0, 0, 14, 0, 0, 0, time.Local)},
-            {time.Date(0, 0, 0, 13, 0, 0, 0, time.Local), time.Date(0, 0, 0, 22, 0, 0, 0, time.Local)},
-            {time.Date(0, 0, 0, 22, 0, 0, 0, time.Local), time.Date(0, 0, 0, 7, 0, 0, 0, time.Local)},
+			{time.Date(0, 0, 0, 13, 0, 0, 0, time.Local), time.Date(0, 0, 0, 22, 0, 0, 0, time.Local)},
+			{time.Date(0, 0, 0, 22, 0, 0, 0, time.Local), time.Date(0, 0, 0, 7, 0, 0, 0, time.Local)},
 		},
 	}
 
 	for _, sh := range Shifts.Shift {
 		client.Shift.
 			Create().
-            SetTimeStart(sh.TimeStart).
-            SetTimeEnd(sh.TimeEnd).
+			SetTimeStart(sh.TimeStart).
+			SetTimeEnd(sh.TimeEnd).
 			Save(context.Background())
-    }
+	}
+
+	assessments := Assessments{
+		Assessment: []Assessment{
+			Assessment{"ยอดเยี่ยม"},
+			Assessment{"ดีมาก"},
+			Assessment{"ดี"},
+			Assessment{"ปานกลาง"},
+			Assessment{"ต่ำ"},
+			Assessment{"ต่ำมาก"},
+			Assessment{"ไม่ผ่านเกณฑ์"},
+		},
+	}
+
+	for _, ass := range assessments.Assessment {
+		client.Assessment.
+			Create().
+			SetAssessment(ass.AssessmentName).
+			Save(context.Background())
+	}
+
+	positions := Positions{
+		Position: []Position{
+			Position{"พนักงานทั่วไป"},
+			Position{"ผู้ช่วยผู้จัดการ"},
+			Position{"ผู้จัดการ"},
+			
+		},
+	}
+
+	for _, po := range positions.Position {
+		client.Position.
+			Create().
+			SetPosition(po.PositionName).
+			Save(context.Background())
+	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.Run()

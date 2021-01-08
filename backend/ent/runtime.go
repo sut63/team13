@@ -37,8 +37,12 @@ func init() {
 	customerDescEmail := customerFields[1].Descriptor()
 	// customer.EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	customer.EmailValidator = customerDescEmail.Validators[0].(func(string) error)
+	// customerDescPassword is the schema descriptor for password field.
+	customerDescPassword := customerFields[2].Descriptor()
+	// customer.PasswordValidator is a validator for the "password" field. It is called by the builders before save.
+	customer.PasswordValidator = customerDescPassword.Validators[0].(func(string) error)
 	// customerDescAge is the schema descriptor for age field.
-	customerDescAge := customerFields[2].Descriptor()
+	customerDescAge := customerFields[3].Descriptor()
 	// customer.AgeValidator is a validator for the "age" field. It is called by the builders before save.
 	customer.AgeValidator = customerDescAge.Validators[0].(func(int) error)
 	employeeFields := schema.Employee{}.Fields()
@@ -51,8 +55,12 @@ func init() {
 	employeeDescEmail := employeeFields[1].Descriptor()
 	// employee.EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	employee.EmailValidator = employeeDescEmail.Validators[0].(func(string) error)
+	// employeeDescPassword is the schema descriptor for password field.
+	employeeDescPassword := employeeFields[2].Descriptor()
+	// employee.PasswordValidator is a validator for the "password" field. It is called by the builders before save.
+	employee.PasswordValidator = employeeDescPassword.Validators[0].(func(string) error)
 	// employeeDescAge is the schema descriptor for age field.
-	employeeDescAge := employeeFields[2].Descriptor()
+	employeeDescAge := employeeFields[3].Descriptor()
 	// employee.AgeValidator is a validator for the "age" field. It is called by the builders before save.
 	employee.AgeValidator = employeeDescAge.Validators[0].(func(int) error)
 	managerFields := schema.Manager{}.Fields()
@@ -65,6 +73,10 @@ func init() {
 	managerDescEmail := managerFields[1].Descriptor()
 	// manager.EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	manager.EmailValidator = managerDescEmail.Validators[0].(func(string) error)
+	// managerDescPassword is the schema descriptor for password field.
+	managerDescPassword := managerFields[2].Descriptor()
+	// manager.PasswordValidator is a validator for the "password" field. It is called by the builders before save.
+	manager.PasswordValidator = managerDescPassword.Validators[0].(func(string) error)
 	paymentchannelFields := schema.Paymentchannel{}.Fields()
 	_ = paymentchannelFields
 	// paymentchannelDescBank is the schema descriptor for Bank field.
@@ -95,6 +107,10 @@ func init() {
 	salaryDescSalary := salaryFields[0].Descriptor()
 	// salary.SalaryValidator is a validator for the "Salary" field. It is called by the builders before save.
 	salary.SalaryValidator = salaryDescSalary.Validators[0].(func(float64) error)
+	// salaryDescBonus is the schema descriptor for Bonus field.
+	salaryDescBonus := salaryFields[1].Descriptor()
+	// salary.BonusValidator is a validator for the "Bonus" field. It is called by the builders before save.
+	salary.BonusValidator = salaryDescBonus.Validators[0].(func(float64) error)
 	typeproductFields := schema.Typeproduct{}.Fields()
 	_ = typeproductFields
 	// typeproductDescTypeproduct is the schema descriptor for Typeproduct field.

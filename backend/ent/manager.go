@@ -19,6 +19,8 @@ type Manager struct {
 	Name string `json:"name,omitempty"`
 	// Email holds the value of the "email" field.
 	Email string `json:"email,omitempty"`
+	// Password holds the value of the "password" field.
+	Password string `json:"password,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the ManagerQuery when eager-loading is set.
 	Edges ManagerEdges `json:"edges"`
@@ -48,6 +50,7 @@ func (*Manager) scanValues() []interface{} {
 		&sql.NullInt64{},  // id
 		&sql.NullString{}, // name
 		&sql.NullString{}, // email
+		&sql.NullString{}, // password
 	}
 }
 
@@ -72,6 +75,11 @@ func (m *Manager) assignValues(values ...interface{}) error {
 		return fmt.Errorf("unexpected type %T for field email", values[1])
 	} else if value.Valid {
 		m.Email = value.String
+	}
+	if value, ok := values[2].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field password", values[2])
+	} else if value.Valid {
+		m.Password = value.String
 	}
 	return nil
 }
@@ -108,6 +116,8 @@ func (m *Manager) String() string {
 	builder.WriteString(m.Name)
 	builder.WriteString(", email=")
 	builder.WriteString(m.Email)
+	builder.WriteString(", password=")
+	builder.WriteString(m.Password)
 	builder.WriteByte(')')
 	return builder.String()
 }

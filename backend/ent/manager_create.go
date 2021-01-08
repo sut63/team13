@@ -32,6 +32,12 @@ func (mc *ManagerCreate) SetEmail(s string) *ManagerCreate {
 	return mc
 }
 
+// SetPassword sets the password field.
+func (mc *ManagerCreate) SetPassword(s string) *ManagerCreate {
+	mc.mutation.SetPassword(s)
+	return mc
+}
+
 // AddManagerIDs adds the managers edge to Orderproduct by ids.
 func (mc *ManagerCreate) AddManagerIDs(ids ...int) *ManagerCreate {
 	mc.mutation.AddManagerIDs(ids...)
@@ -68,6 +74,14 @@ func (mc *ManagerCreate) Save(ctx context.Context) (*Manager, error) {
 	if v, ok := mc.mutation.Email(); ok {
 		if err := manager.EmailValidator(v); err != nil {
 			return nil, &ValidationError{Name: "email", err: fmt.Errorf("ent: validator failed for field \"email\": %w", err)}
+		}
+	}
+	if _, ok := mc.mutation.Password(); !ok {
+		return nil, &ValidationError{Name: "password", err: errors.New("ent: missing required field \"password\"")}
+	}
+	if v, ok := mc.mutation.Password(); ok {
+		if err := manager.PasswordValidator(v); err != nil {
+			return nil, &ValidationError{Name: "password", err: fmt.Errorf("ent: validator failed for field \"password\": %w", err)}
 		}
 	}
 	var (
@@ -145,6 +159,14 @@ func (mc *ManagerCreate) createSpec() (*Manager, *sqlgraph.CreateSpec) {
 			Column: manager.FieldEmail,
 		})
 		m.Email = value
+	}
+	if value, ok := mc.mutation.Password(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: manager.FieldPassword,
+		})
+		m.Password = value
 	}
 	if nodes := mc.mutation.ManagersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

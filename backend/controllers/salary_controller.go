@@ -10,6 +10,7 @@ import (
 	"github.com/team13/app/ent/assessment"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/position"
+	"github.com/team13/app/ent/salary"
 	
 )
 
@@ -25,6 +26,7 @@ type Salary struct {
 	PositionID     int
 	AssessmentID   int
 	Salarys		   float64
+	Bonus          float64
 	SalaryDate     string
 
 }
@@ -93,6 +95,7 @@ func (ctl *SalaryController) CreateSalary(c *gin.Context) {
 		SetEmployee(em).
 		SetPosition(po).
 		SetAssessment(ass).
+		SetBonus(obj.Bonus).
 		SetSalary(obj.Salarys).
 		SetSalaryDatetime(salaryDatetime).
 		Save(context.Background())
@@ -106,6 +109,37 @@ func (ctl *SalaryController) CreateSalary(c *gin.Context) {
 	c.JSON(200, se)
 }
 
+// GetSalary handles GET requests to retrieve a salary entity
+// @Summary Get a salary entity by ID
+// @Description get salary by ID
+// @ID get-salary
+// @Produce  json
+// @Param id path int true "Salary ID"
+// @Success 200 {object} ent.Salary
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /salarys/{id} [get]
+func (ctl *SalaryController) GetSalary(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	pa, err := ctl.client.Salary.
+		Query().
+		Where(salary.IDEQ(int(id))).
+		Only(context.Background())
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(200, pa)
+ }
 // ListSalary handles request to get a list of salary entities
 // @Summary List salary entities
 // @Description list salary entities
