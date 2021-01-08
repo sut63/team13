@@ -14,6 +14,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type EmployeeWorkingHours struct {
+	
+	Employee 	int
+	Day     	int
+	Role	  	int
+	Shift		int
+}
+
 // EmployeeWorkingHoursController defines the struct for the employeeworkinghours controller
 type EmployeeWorkingHoursController struct {
    client *ent.Client
@@ -32,7 +40,7 @@ type EmployeeWorkingHoursController struct {
 // @Failure 500 {object} gin.H
 // @Router /employeeworkinghourss [post]
 func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Context) {
-	obj := ent.EmployeeWorkingHours{}
+	obj := EmployeeWorkingHours{}
 	if err := c.ShouldBind(&obj); err != nil {
 		c.JSON(400, gin.H{
 			"error": "employeeworkinghours binding failed",
@@ -42,7 +50,7 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 
 	em, err := ctl.client.Employee.
 		Query().
-		Where(employee.IDEQ(int(obj.Edges.Employee.ID))).
+		Where(employee.IDEQ(int(obj.Employee)).
 		Only(context.Background())
 
 	if err != nil {
@@ -54,7 +62,7 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 
 	d, err := ctl.client.Day.
 		Query().
-		Where(day.IDEQ(int(obj.Edges.Day.ID))).
+		Where(day.IDEQ(int(obj.Day))).
 		Only(context.Background())
 
 	if err != nil {
@@ -66,7 +74,7 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 
 	r, err := ctl.client.Role.
 		Query().
-		Where(role.IDEQ(int(obj.Edges.Role.ID))).
+		Where(role.IDEQ(int(obj.Role))).
 		Only(context.Background())
 
 	if err != nil {
@@ -78,7 +86,7 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 
 	sh, err := ctl.client.Shift.
 		Query().
-		Where(shift.IDEQ(int(obj.Edges.Shift.ID))).
+		Where(shift.IDEQ(int(obj.Shift))).
 		Only(context.Background())
 
 	if err != nil {
@@ -90,7 +98,7 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 
 	u, err := ctl.client.EmployeeWorkingHours.
 		Create().
-		SetEmployees(em).
+		SetEmployee(em).
 		SetDay(d).
 		SetRole(r).
 		SetShift(sh).
