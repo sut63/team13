@@ -207,6 +207,7 @@ func main() {
 
 	controllers.NewAssessmentController(v1, client)
 	controllers.NewPositionController(v1, client)
+	controllers.NewSalaryController(v1, client)
 
 	customers := Customers{
 		Customer: []Customer{
