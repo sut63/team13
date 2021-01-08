@@ -50,7 +50,7 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 
 	em, err := ctl.client.Employee.
 		Query().
-		Where(employee.IDEQ(int(obj.Employee)).
+		Where(employee.IDEQ(int(obj.Employee))).
 		Only(context.Background())
 
 	if err != nil {
