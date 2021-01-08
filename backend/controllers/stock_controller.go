@@ -24,6 +24,7 @@ type StockController struct {
 // Stock defines the struct for the stock
 type Stock struct {
 	ProductID     int
+	Products      int
 	ZoneID        int
 	EmployeeID    int
 	TypeproductID int
@@ -54,12 +55,12 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 
 	p, err := ctl.client.Product.
 		Query().
-		Where(product.IDEQ(int(obj.ProductID))).
+		Where(product.IDEQ(int(obj.Edges.Product.ID))).
 		Only(context.Background())
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "product not found",
+			"error": "zoneproduct not found",
 		})
 		return
 	}
