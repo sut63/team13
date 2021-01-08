@@ -43,12 +43,16 @@ definitions:
     properties:
       assessmentID:
         type: integer
+      bonus:
+        type: number
       employeeID:
         type: integer
       positionID:
         type: integer
       salaryDate:
         type: string
+      salarys:
+        type: number
     type: object
   ent.Assessment:
     properties:
@@ -115,6 +119,9 @@ definitions:
         type: integer
       name:
         description: Name holds the value of the "name" field.
+        type: string
+      password:
+        description: Password holds the value of the "password" field.
         type: string
     type: object
   ent.CustomerEdges:
@@ -190,6 +197,9 @@ definitions:
         type: integer
       name:
         description: Name holds the value of the "name" field.
+        type: string
+      password:
+        description: Password holds the value of the "password" field.
         type: string
     type: object
   ent.EmployeeEdges:
@@ -280,6 +290,9 @@ definitions:
         type: integer
       name:
         description: Name holds the value of the "name" field.
+        type: string
+      password:
+        description: Password holds the value of the "password" field.
         type: string
     type: object
   ent.ManagerEdges:
@@ -514,6 +527,9 @@ definitions:
     type: object
   ent.Salary:
     properties:
+      Bonus:
+        description: Bonus holds the value of the "Bonus" field.
+        type: number
       Salary:
         description: Salary holds the value of the "Salary" field.
         type: number
@@ -2731,6 +2747,35 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Delete a promotion entity by ID
+    get:
+      description: get promotion by ID
+      operationId: get-promotion
+      parameters:
+      - description: Promotion ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Promotion'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a promotion entity by ID
   /roles:
     get:
       description: list role entities
@@ -2971,6 +3016,35 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Delete a salary entity by ID
+    get:
+      description: get salary by ID
+      operationId: get-salary
+      parameters:
+      - description: Salary ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Salary'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a salary entity by ID
   /shifts:
     get:
       description: list shift entities
@@ -3153,34 +3227,6 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: List stock entities
-    post:
-      consumes:
-      - application/json
-      description: Create stock
-      operationId: create-stock
-      parameters:
-      - description: Stock entity
-        in: body
-        name: stock
-        required: true
-        schema:
-          $ref: '#/definitions/ent.Stock'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.Stock'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Create stock
   /stocks/{id}:
     delete:
       description: get stock by ID
