@@ -3054,6 +3054,49 @@ var doc = `{
             }
         },
         "/promotions/{id}": {
+            "get": {
+                "description": "get promotion by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a promotion entity by ID",
+                "operationId": "get-promotion",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Promotion ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Promotion"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "get promotion by ID",
                 "produces": [
@@ -3414,6 +3457,49 @@ var doc = `{
             }
         },
         "/salarys/{id}": {
+            "get": {
+                "description": "get salary by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a salary entity by ID",
+                "operationId": "get-salary",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Salary ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Salary"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "get salary by ID",
                 "produces": [
@@ -3714,48 +3800,6 @@ var doc = `{
                             "items": {
                                 "$ref": "#/definitions/ent.Stock"
                             }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create stock",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Create stock",
-                "operationId": "create-stock",
-                "parameters": [
-                    {
-                        "description": "Stock entity",
-                        "name": "stock",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.Stock"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.Stock"
                         }
                     },
                     "400": {
@@ -4430,6 +4474,9 @@ var doc = `{
                 "assessmentID": {
                     "type": "integer"
                 },
+                "bonus": {
+                    "type": "number"
+                },
                 "employeeID": {
                     "type": "integer"
                 },
@@ -4438,6 +4485,9 @@ var doc = `{
                 },
                 "salaryDate": {
                     "type": "string"
+                },
+                "salarys": {
+                    "type": "number"
                 }
             }
         },
@@ -4523,6 +4573,10 @@ var doc = `{
                 },
                 "name": {
                     "description": "Name holds the value of the \"name\" field.",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "Password holds the value of the \"password\" field.",
                     "type": "string"
                 }
             }
@@ -4621,6 +4675,10 @@ var doc = `{
                 },
                 "name": {
                     "description": "Name holds the value of the \"name\" field.",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "Password holds the value of the \"password\" field.",
                     "type": "string"
                 }
             }
@@ -4736,6 +4794,10 @@ var doc = `{
                 },
                 "name": {
                     "description": "Name holds the value of the \"name\" field.",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "Password holds the value of the \"password\" field.",
                     "type": "string"
                 }
             }
@@ -5040,6 +5102,10 @@ var doc = `{
         "ent.Salary": {
             "type": "object",
             "properties": {
+                "Bonus": {
+                    "description": "Bonus holds the value of the \"Bonus\" field.",
+                    "type": "number"
+                },
                 "Salary": {
                     "description": "Salary holds the value of the \"Salary\" field.",
                     "type": "number"
