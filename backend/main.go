@@ -221,6 +221,8 @@ func main() {
 		client.Customer.
 			Create().
 			SetName(c.Name).
+			SetPassword(c.Password).
+			SetAge(c.age).
 			SetEmail(c.Email).
 			Save(context.Background())
 	}
@@ -307,6 +309,7 @@ func main() {
 			Create().
 			SetName(m.Name).
 			SetEmail(m.Email).
+			SetPassword(m.Password).
 			Save(context.Background())
 	}
 
@@ -357,6 +360,8 @@ func main() {
 			Create().
 			SetName(em.Name).
 			SetEmail(em.Email).
+			SetPassword(em.Password).
+			SetAge(em.Age).
 			Save(context.Background())
 	}
 
