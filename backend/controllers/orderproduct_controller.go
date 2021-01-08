@@ -59,7 +59,7 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "physician not found",
+			"error": "manager not found",
 		})
 		return
 	}
@@ -71,10 +71,10 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "MedicalType  not found",
+			"error": "typeproduct  not found",
 		})
 		return
-	}
+	}        
 
 	pr, err := ctl.client.Product.
 		Query().
@@ -83,7 +83,7 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "NameEquipmentID   not found",
+			"error": "product   not found",
 		})
 		return
 	}
@@ -95,7 +95,7 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "NameEquipmentID   not found",
+			"error": "company   not found",
 		})
 		return
 	}

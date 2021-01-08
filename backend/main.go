@@ -49,22 +49,48 @@ type Typeproducts struct {
 
 type Typeproduct struct {
 	Typeproduct string
+   "context"
+   "log"
+   
+
+   "github.com/gin-contrib/cors"
+   "github.com/gin-gonic/gin"
+   _ "github.com/mattn/go-sqlite3"
+   swaggerFiles "github.com/swaggo/files"
+   ginSwagger "github.com/swaggo/gin-swagger"
+   "github.com/team13/app/controllers"
+   _ "github.com/team13/app/docs"
+   "github.com/team13/app/ent"
+)
+
+type Customers struct{
+    Customer []Customer
 }
 
 type Zoneproducts struct {
 	Zoneproduct []Zoneproduct
 }
 
+<<<<<<< HEAD
 type Zoneproduct struct {
 	Zone string
+=======
+type Paymentchannels struct{
+    Paymentchannel []Paymentchannel
+>>>>>>> df33c7eef240f1ddc706d5a11a6f79c4c7c7ab82
 }
 
 type Days struct {
 	Day []Day
 }
 
+<<<<<<< HEAD
 type Day struct {
 	Day string
+=======
+type Products struct{
+    Product []Product
+>>>>>>> df33c7eef240f1ddc706d5a11a6f79c4c7c7ab82
 }
 
 type Employees struct {
@@ -80,8 +106,30 @@ type Roles struct {
 	Role []Role
 }
 
+<<<<<<< HEAD
 type Role struct {
 	Role string
+=======
+type Companys struct{
+    Company []Company
+}
+
+type Company struct{
+    Name string
+}
+
+type Managers struct{
+    Customer []Customer
+}
+
+type Manager struct{
+    Name string
+    Email string
+}
+
+type Zoneproducts struct{
+    Zoneproduct []Zoneproduct
+>>>>>>> df33c7eef240f1ddc706d5a11a6f79c4c7c7ab82
 }
 
 type Shifts struct {
@@ -134,6 +182,7 @@ type Shift struct {
 // @authorizationUrl https://example.com/oauth/authorize
 // @scope.admin Grants read and write access to administrative information
 func main() {
+<<<<<<< HEAD
 	router := gin.Default()
 	router.Use(cors.Default())
 
@@ -179,6 +228,55 @@ func main() {
 
 	paymentchannels := paymentchannels{
 		Paymentchannel: []Paymentchannel{
+=======
+   router := gin.Default()
+   router.Use(cors.Default())
+ 
+   client, err := ent.Open("sqlite3", "file:ent.db?&cache=shared&_fk=1")
+   if err != nil {
+       log.Fatalf("fail to open sqlite3: %v", err)
+   }
+   defer client.Close()
+ 
+   if err := client.Schema.Create(context.Background()); err != nil {
+       log.Fatalf("failed creating schema resources: %v", err)
+   }
+ 
+   v1 := router.Group("/api/v1")
+   controllers.NewCustomerController(v1, client)
+   controllers.NewOrderonlineController(v1, client)
+   controllers.NewPaymentchannelController(v1, client)
+   controllers.NewProductController(v1, client)
+   controllers.NewTypeproductController(v1, client)
+
+   controllers.NewZoneproductController(v1, client)
+   controllers.NewStockController(v1, client)
+
+   controllers.NewCompanyController(v1, client)
+   controllers.NewManagerController(v1, client)
+   controllers.NewOrderproductController(v1, client)
+   
+
+   customers := Customers{
+    Customer: []Customer{
+                Customer{"Dang Dang","Dang@gmail.com"},
+                Customer{"AEK Dang","AEK@gmail.com"},
+                Customer{"PANG Dang","PANG@gmail.com"},
+                Customer{"NW Dang","NW@gmail.com"},
+        },
+   }
+
+   for _, c := range customer.Customer {
+        client.Customer.
+            Create().
+            SetName(c.Name).
+            SetEmail(c.Email).
+            Save(context.Background())
+   }
+
+   paymentchannels := paymentchannels{
+    Paymentchannel: []Paymentchannel{
+>>>>>>> df33c7eef240f1ddc706d5a11a6f79c4c7c7ab82
 			Paymentchannel{"KBANK"},
 			Paymentchannel{"KTB"},
 			Paymentchannel{"TMB"},
@@ -226,6 +324,7 @@ func main() {
 		client.Typeproduct.
 			Create().
 			SetTypeProduct(tp.Typeproduct).
+<<<<<<< HEAD
 			Save(context.Background())
 	}
 
@@ -314,4 +413,61 @@ func main() {
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.Run()
+=======
+            Save(context.Background())
+   }
+
+   zoneproducts := Zoneproducts{
+    Zoneproduct: []Zoneproduct{
+            Zoneproduct{"A"},
+            Zoneproduct{"B"},
+            Zoneproduct{"C"},
+            Zoneproduct{"D"},
+            },
+   }
+
+   for _, z := range zoneproduct.Zoneproduct {
+        client.Zoneproduct.
+            Create().
+            SetZone(z.Zone).
+            Save(context.Background())
+   }
+
+   managers := Managers{
+    Manager: []Manager{
+         Manager{"Dang Dang","Dang@gmail.com"},
+         Manager{"AEK Dang","AEK@gmail.com"},
+         Manager{"PANG Dang","PANG@gmail.com"},
+         Manager{"NW Dang","NW@gmail.com"},
+        },
+   }
+
+   for _, m := range manager.Manager {
+        client.Manager.
+            Create().
+            SetName(m.Name).
+            SetEmail(m.Email).
+            Save(context.Background())
+   }
+
+   companys := Companys{
+    Company: []Company{
+            Company{"Dang Dang"},
+            Company{"AEK Dang"},
+            Company{"PANG Dang"},
+            Company{"Noom Dang"},
+        },
+   }
+
+   for _, cp := range company.Company {
+        client.Company.
+            Create().
+            SetName(cp.Name).
+            Save(context.Background())
+   }
+
+
+   router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+   router.Run()
+>>>>>>> df33c7eef240f1ddc706d5a11a6f79c4c7c7ab82
 }
