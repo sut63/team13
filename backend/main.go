@@ -49,19 +49,7 @@ type Typeproducts struct {
 
 type Typeproduct struct {
 	Typeproduct string
-   "context"
-   "log"
-   
-
-   "github.com/gin-contrib/cors"
-   "github.com/gin-gonic/gin"
-   _ "github.com/mattn/go-sqlite3"
-   swaggerFiles "github.com/swaggo/files"
-   ginSwagger "github.com/swaggo/gin-swagger"
-   "github.com/team13/app/controllers"
-   _ "github.com/team13/app/docs"
-   "github.com/team13/app/ent"
-)
+}
 
 type Customers struct{
     Customer []Customer
@@ -71,29 +59,26 @@ type Zoneproducts struct {
 	Zoneproduct []Zoneproduct
 }
 
-<<<<<<< HEAD
 type Zoneproduct struct {
 	Zone string
-=======
+	
 type Paymentchannels struct{
     Paymentchannel []Paymentchannel
->>>>>>> df33c7eef240f1ddc706d5a11a6f79c4c7c7ab82
 }
 
 type Days struct {
 	Day []Day
 }
 
-<<<<<<< HEAD
 type Day struct {
 	Day string
-=======
-type Products struct{
-    Product []Product
->>>>>>> df33c7eef240f1ddc706d5a11a6f79c4c7c7ab82
 }
 
-type Employees struct {
+type Products struct{
+    Product []Product
+}
+
+type Employees struct
 	Employee []Employee
 }
 
@@ -106,10 +91,10 @@ type Roles struct {
 	Role []Role
 }
 
-<<<<<<< HEAD
 type Role struct {
 	Role string
-=======
+}
+
 type Companys struct{
     Company []Company
 }
@@ -129,7 +114,6 @@ type Manager struct{
 
 type Zoneproducts struct{
     Zoneproduct []Zoneproduct
->>>>>>> df33c7eef240f1ddc706d5a11a6f79c4c7c7ab82
 }
 
 type Shifts struct {
@@ -182,7 +166,6 @@ type Shift struct {
 // @authorizationUrl https://example.com/oauth/authorize
 // @scope.admin Grants read and write access to administrative information
 func main() {
-<<<<<<< HEAD
 	router := gin.Default()
 	router.Use(cors.Default())
 
@@ -228,7 +211,6 @@ func main() {
 
 	paymentchannels := paymentchannels{
 		Paymentchannel: []Paymentchannel{
-=======
    router := gin.Default()
    router.Use(cors.Default())
  
@@ -276,7 +258,6 @@ func main() {
 
    paymentchannels := paymentchannels{
     Paymentchannel: []Paymentchannel{
->>>>>>> df33c7eef240f1ddc706d5a11a6f79c4c7c7ab82
 			Paymentchannel{"KBANK"},
 			Paymentchannel{"KTB"},
 			Paymentchannel{"TMB"},
@@ -324,7 +305,6 @@ func main() {
 		client.Typeproduct.
 			Create().
 			SetTypeProduct(tp.Typeproduct).
-<<<<<<< HEAD
 			Save(context.Background())
 	}
 
@@ -413,7 +393,6 @@ func main() {
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.Run()
-=======
             Save(context.Background())
    }
 
@@ -469,5 +448,4 @@ func main() {
 
    router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
    router.Run()
->>>>>>> df33c7eef240f1ddc706d5a11a6f79c4c7c7ab82
 }
