@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/team13/app/ent"
-	"github.com/team13/app/ent/discount"
 	"github.com/gin-gonic/gin"
+	"github.com/team13/app/ent"
+	"github.com/team13/app/ent/giveaway"
 )
 
 // GiveawayController defines the struct for the discount controller
@@ -72,7 +72,7 @@ func (ctl *GiveawayController) GetGiveaway(c *gin.Context) {
 
 	p, err := ctl.client.Giveaway.
 		Query().
-		Where(discount.IDEQ(int(id))).
+		Where(giveaway.IDEQ(int(id))).
 		Only(context.Background())
 	if err != nil {
 		c.JSON(404, gin.H{

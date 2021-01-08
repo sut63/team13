@@ -9,6 +9,8 @@ const (
 	FieldID = "id"
 	// FieldSalary holds the string denoting the salary field in the database.
 	FieldSalary = "salary"
+	// FieldBonus holds the string denoting the bonus field in the database.
+	FieldBonus = "bonus"
 	// FieldSalaryDatetime holds the string denoting the salarydatetime field in the database.
 	FieldSalaryDatetime = "salary_datetime"
 
@@ -48,6 +50,7 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldSalary,
+	FieldBonus,
 	FieldSalaryDatetime,
 }
 
@@ -61,4 +64,6 @@ var ForeignKeys = []string{
 var (
 	// SalaryValidator is a validator for the "Salary" field. It is called by the builders before save.
 	SalaryValidator func(float64) error
+	// BonusValidator is a validator for the "Bonus" field. It is called by the builders before save.
+	BonusValidator func(float64) error
 )

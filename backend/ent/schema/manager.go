@@ -16,6 +16,7 @@ func (Manager) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").NotEmpty().Unique(),
 		field.String("email").NotEmpty().Unique(),
+		field.String("password").NotEmpty(),
 	}
 }
 

@@ -34,6 +34,12 @@ func (ec *EmployeeCreate) SetEmail(s string) *EmployeeCreate {
 	return ec
 }
 
+// SetPassword sets the password field.
+func (ec *EmployeeCreate) SetPassword(s string) *EmployeeCreate {
+	ec.mutation.SetPassword(s)
+	return ec
+}
+
 // SetAge sets the age field.
 func (ec *EmployeeCreate) SetAge(i int) *EmployeeCreate {
 	ec.mutation.SetAge(i)
@@ -110,6 +116,14 @@ func (ec *EmployeeCreate) Save(ctx context.Context) (*Employee, error) {
 	if v, ok := ec.mutation.Email(); ok {
 		if err := employee.EmailValidator(v); err != nil {
 			return nil, &ValidationError{Name: "email", err: fmt.Errorf("ent: validator failed for field \"email\": %w", err)}
+		}
+	}
+	if _, ok := ec.mutation.Password(); !ok {
+		return nil, &ValidationError{Name: "password", err: errors.New("ent: missing required field \"password\"")}
+	}
+	if v, ok := ec.mutation.Password(); ok {
+		if err := employee.PasswordValidator(v); err != nil {
+			return nil, &ValidationError{Name: "password", err: fmt.Errorf("ent: validator failed for field \"password\": %w", err)}
 		}
 	}
 	if _, ok := ec.mutation.Age(); !ok {
@@ -195,6 +209,14 @@ func (ec *EmployeeCreate) createSpec() (*Employee, *sqlgraph.CreateSpec) {
 			Column: employee.FieldEmail,
 		})
 		e.Email = value
+	}
+	if value, ok := ec.mutation.Password(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: employee.FieldPassword,
+		})
+		e.Password = value
 	}
 	if value, ok := ec.mutation.Age(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{

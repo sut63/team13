@@ -48,7 +48,7 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 
 	d, err := ctl.client.Discount.
 		Query().
-		Where(discount.IDEQ(int(obj.Discountdata))).
+		Where(discount.IDEQ(int(obj.Discount))).
 		Only(context.Background())
 
 	if err != nil {
@@ -60,7 +60,7 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 
 	g, err := ctl.client.Giveaway.
 		Query().
-		Where(giveaway.IDEQ(int(obj.Giveawaydata))).
+		Where(giveaway.IDEQ(int(obj.Giveaway))).
 		Only(context.Background())
 
 	if err != nil {
@@ -72,7 +72,7 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 
 	p, err := ctl.client.Product.
 		Query().
-		Where(product.IDEQ(int(obj.Productdata))).
+		Where(product.IDEQ(int(obj.Product))).
 		Only(context.Background())
 
 	if err != nil {
@@ -85,8 +85,8 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 
 	po, err := ctl.client.Promotion.
 		Create().
-		SetDiscount(d).
-		SetGiveaway(g).
+		SetSale(d).
+		SetGive(g).
 		SetProduct(p).
 		Save(context.Background())
 	if err != nil {
@@ -98,6 +98,38 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 
 	c.JSON(200, po)
 }
+
+// GetPromotion handles GET requests to retrieve a promotion entity
+// @Summary Get a promotion entity by ID
+// @Description get promotion by ID
+// @ID get-promotion
+// @Produce  json
+// @Param id path int true "Promotion ID"
+// @Success 200 {object} ent.Promotion
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /promotions/{id} [get]
+func (ctl *PromotionController) GetPromotion(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	pa, err := ctl.client.Promotion.
+		Query().
+		Where(promotion.IDEQ(int(id))).
+		Only(context.Background())
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(200, pa)
+ }
 
 // ListPromotion handles request to get a list of promotion entities
 // @Summary List promotion entities
@@ -131,8 +163,9 @@ func (ctl *PromotionController) ListPromotion(c *gin.Context) {
 
 	promotions, err := ctl.client.Promotion.
 		Query().
-		WithDiscount().
-		WithGiveaway().
+		WithSale().
+		WithGive().
+		WithProduct().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())

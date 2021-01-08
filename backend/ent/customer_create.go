@@ -32,6 +32,12 @@ func (cc *CustomerCreate) SetEmail(s string) *CustomerCreate {
 	return cc
 }
 
+// SetPassword sets the password field.
+func (cc *CustomerCreate) SetPassword(s string) *CustomerCreate {
+	cc.mutation.SetPassword(s)
+	return cc
+}
+
 // SetAge sets the age field.
 func (cc *CustomerCreate) SetAge(i int) *CustomerCreate {
 	cc.mutation.SetAge(i)
@@ -74,6 +80,14 @@ func (cc *CustomerCreate) Save(ctx context.Context) (*Customer, error) {
 	if v, ok := cc.mutation.Email(); ok {
 		if err := customer.EmailValidator(v); err != nil {
 			return nil, &ValidationError{Name: "email", err: fmt.Errorf("ent: validator failed for field \"email\": %w", err)}
+		}
+	}
+	if _, ok := cc.mutation.Password(); !ok {
+		return nil, &ValidationError{Name: "password", err: errors.New("ent: missing required field \"password\"")}
+	}
+	if v, ok := cc.mutation.Password(); ok {
+		if err := customer.PasswordValidator(v); err != nil {
+			return nil, &ValidationError{Name: "password", err: fmt.Errorf("ent: validator failed for field \"password\": %w", err)}
 		}
 	}
 	if _, ok := cc.mutation.Age(); !ok {
@@ -159,6 +173,14 @@ func (cc *CustomerCreate) createSpec() (*Customer, *sqlgraph.CreateSpec) {
 			Column: customer.FieldEmail,
 		})
 		c.Email = value
+	}
+	if value, ok := cc.mutation.Password(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: customer.FieldPassword,
+		})
+		c.Password = value
 	}
 	if value, ok := cc.mutation.Age(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{

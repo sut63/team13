@@ -29,6 +29,12 @@ func (sc *SalaryCreate) SetSalary(f float64) *SalaryCreate {
 	return sc
 }
 
+// SetBonus sets the Bonus field.
+func (sc *SalaryCreate) SetBonus(f float64) *SalaryCreate {
+	sc.mutation.SetBonus(f)
+	return sc
+}
+
 // SetSalaryDatetime sets the SalaryDatetime field.
 func (sc *SalaryCreate) SetSalaryDatetime(t time.Time) *SalaryCreate {
 	sc.mutation.SetSalaryDatetime(t)
@@ -107,6 +113,14 @@ func (sc *SalaryCreate) Save(ctx context.Context) (*Salary, error) {
 			return nil, &ValidationError{Name: "Salary", err: fmt.Errorf("ent: validator failed for field \"Salary\": %w", err)}
 		}
 	}
+	if _, ok := sc.mutation.Bonus(); !ok {
+		return nil, &ValidationError{Name: "Bonus", err: errors.New("ent: missing required field \"Bonus\"")}
+	}
+	if v, ok := sc.mutation.Bonus(); ok {
+		if err := salary.BonusValidator(v); err != nil {
+			return nil, &ValidationError{Name: "Bonus", err: fmt.Errorf("ent: validator failed for field \"Bonus\": %w", err)}
+		}
+	}
 	if _, ok := sc.mutation.SalaryDatetime(); !ok {
 		return nil, &ValidationError{Name: "SalaryDatetime", err: errors.New("ent: missing required field \"SalaryDatetime\"")}
 	}
@@ -177,6 +191,14 @@ func (sc *SalaryCreate) createSpec() (*Salary, *sqlgraph.CreateSpec) {
 			Column: salary.FieldSalary,
 		})
 		s.Salary = value
+	}
+	if value, ok := sc.mutation.Bonus(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: salary.FieldBonus,
+		})
+		s.Bonus = value
 	}
 	if value, ok := sc.mutation.SalaryDatetime(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{

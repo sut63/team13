@@ -42,6 +42,12 @@ func (eu *EmployeeUpdate) SetEmail(s string) *EmployeeUpdate {
 	return eu
 }
 
+// SetPassword sets the password field.
+func (eu *EmployeeUpdate) SetPassword(s string) *EmployeeUpdate {
+	eu.mutation.SetPassword(s)
+	return eu
+}
+
 // SetAge sets the age field.
 func (eu *EmployeeUpdate) SetAge(i int) *EmployeeUpdate {
 	eu.mutation.ResetAge()
@@ -157,6 +163,11 @@ func (eu *EmployeeUpdate) Save(ctx context.Context) (int, error) {
 			return 0, &ValidationError{Name: "email", err: fmt.Errorf("ent: validator failed for field \"email\": %w", err)}
 		}
 	}
+	if v, ok := eu.mutation.Password(); ok {
+		if err := employee.PasswordValidator(v); err != nil {
+			return 0, &ValidationError{Name: "password", err: fmt.Errorf("ent: validator failed for field \"password\": %w", err)}
+		}
+	}
 	if v, ok := eu.mutation.Age(); ok {
 		if err := employee.AgeValidator(v); err != nil {
 			return 0, &ValidationError{Name: "age", err: fmt.Errorf("ent: validator failed for field \"age\": %w", err)}
@@ -242,6 +253,13 @@ func (eu *EmployeeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeString,
 			Value:  value,
 			Column: employee.FieldEmail,
+		})
+	}
+	if value, ok := eu.mutation.Password(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: employee.FieldPassword,
 		})
 	}
 	if value, ok := eu.mutation.Age(); ok {
@@ -399,6 +417,12 @@ func (euo *EmployeeUpdateOne) SetEmail(s string) *EmployeeUpdateOne {
 	return euo
 }
 
+// SetPassword sets the password field.
+func (euo *EmployeeUpdateOne) SetPassword(s string) *EmployeeUpdateOne {
+	euo.mutation.SetPassword(s)
+	return euo
+}
+
 // SetAge sets the age field.
 func (euo *EmployeeUpdateOne) SetAge(i int) *EmployeeUpdateOne {
 	euo.mutation.ResetAge()
@@ -514,6 +538,11 @@ func (euo *EmployeeUpdateOne) Save(ctx context.Context) (*Employee, error) {
 			return nil, &ValidationError{Name: "email", err: fmt.Errorf("ent: validator failed for field \"email\": %w", err)}
 		}
 	}
+	if v, ok := euo.mutation.Password(); ok {
+		if err := employee.PasswordValidator(v); err != nil {
+			return nil, &ValidationError{Name: "password", err: fmt.Errorf("ent: validator failed for field \"password\": %w", err)}
+		}
+	}
 	if v, ok := euo.mutation.Age(); ok {
 		if err := employee.AgeValidator(v); err != nil {
 			return nil, &ValidationError{Name: "age", err: fmt.Errorf("ent: validator failed for field \"age\": %w", err)}
@@ -597,6 +626,13 @@ func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (e *Employee, err err
 			Type:   field.TypeString,
 			Value:  value,
 			Column: employee.FieldEmail,
+		})
+	}
+	if value, ok := euo.mutation.Password(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: employee.FieldPassword,
 		})
 	}
 	if value, ok := euo.mutation.Age(); ok {

@@ -37,6 +37,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString},
 		{Name: "email", Type: field.TypeString, Unique: true},
+		{Name: "password", Type: field.TypeString},
 		{Name: "age", Type: field.TypeInt},
 	}
 	// CustomersTable holds the schema information for the "customers" table.
@@ -75,6 +76,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString},
 		{Name: "email", Type: field.TypeString, Unique: true},
+		{Name: "password", Type: field.TypeString},
 		{Name: "age", Type: field.TypeInt},
 	}
 	// EmployeesTable holds the schema information for the "employees" table.
@@ -145,6 +147,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString, Unique: true},
 		{Name: "email", Type: field.TypeString, Unique: true},
+		{Name: "password", Type: field.TypeString},
 	}
 	// ManagersTable holds the schema information for the "managers" table.
 	ManagersTable = &schema.Table{
@@ -338,6 +341,7 @@ var (
 	SalariesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "salary", Type: field.TypeFloat64},
+		{Name: "bonus", Type: field.TypeFloat64},
 		{Name: "salary_datetime", Type: field.TypeTime},
 		{Name: "assessment_formassessment", Type: field.TypeInt, Nullable: true},
 		{Name: "employee_formemployee", Type: field.TypeInt, Unique: true, Nullable: true},
@@ -351,21 +355,21 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "salaries_assessments_formassessment",
-				Columns: []*schema.Column{SalariesColumns[3]},
+				Columns: []*schema.Column{SalariesColumns[4]},
 
 				RefColumns: []*schema.Column{AssessmentsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "salaries_employees_formemployee",
-				Columns: []*schema.Column{SalariesColumns[4]},
+				Columns: []*schema.Column{SalariesColumns[5]},
 
 				RefColumns: []*schema.Column{EmployeesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "salaries_positions_formposition",
-				Columns: []*schema.Column{SalariesColumns[5]},
+				Columns: []*schema.Column{SalariesColumns[6]},
 
 				RefColumns: []*schema.Column{PositionsColumns[0]},
 				OnDelete:   schema.SetNull,

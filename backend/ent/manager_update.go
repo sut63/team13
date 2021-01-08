@@ -40,6 +40,12 @@ func (mu *ManagerUpdate) SetEmail(s string) *ManagerUpdate {
 	return mu
 }
 
+// SetPassword sets the password field.
+func (mu *ManagerUpdate) SetPassword(s string) *ManagerUpdate {
+	mu.mutation.SetPassword(s)
+	return mu
+}
+
 // AddManagerIDs adds the managers edge to Orderproduct by ids.
 func (mu *ManagerUpdate) AddManagerIDs(ids ...int) *ManagerUpdate {
 	mu.mutation.AddManagerIDs(ids...)
@@ -85,6 +91,11 @@ func (mu *ManagerUpdate) Save(ctx context.Context) (int, error) {
 	if v, ok := mu.mutation.Email(); ok {
 		if err := manager.EmailValidator(v); err != nil {
 			return 0, &ValidationError{Name: "email", err: fmt.Errorf("ent: validator failed for field \"email\": %w", err)}
+		}
+	}
+	if v, ok := mu.mutation.Password(); ok {
+		if err := manager.PasswordValidator(v); err != nil {
+			return 0, &ValidationError{Name: "password", err: fmt.Errorf("ent: validator failed for field \"password\": %w", err)}
 		}
 	}
 
@@ -169,6 +180,13 @@ func (mu *ManagerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: manager.FieldEmail,
 		})
 	}
+	if value, ok := mu.mutation.Password(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: manager.FieldPassword,
+		})
+	}
 	if nodes := mu.mutation.RemovedManagersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
@@ -237,6 +255,12 @@ func (muo *ManagerUpdateOne) SetEmail(s string) *ManagerUpdateOne {
 	return muo
 }
 
+// SetPassword sets the password field.
+func (muo *ManagerUpdateOne) SetPassword(s string) *ManagerUpdateOne {
+	muo.mutation.SetPassword(s)
+	return muo
+}
+
 // AddManagerIDs adds the managers edge to Orderproduct by ids.
 func (muo *ManagerUpdateOne) AddManagerIDs(ids ...int) *ManagerUpdateOne {
 	muo.mutation.AddManagerIDs(ids...)
@@ -282,6 +306,11 @@ func (muo *ManagerUpdateOne) Save(ctx context.Context) (*Manager, error) {
 	if v, ok := muo.mutation.Email(); ok {
 		if err := manager.EmailValidator(v); err != nil {
 			return nil, &ValidationError{Name: "email", err: fmt.Errorf("ent: validator failed for field \"email\": %w", err)}
+		}
+	}
+	if v, ok := muo.mutation.Password(); ok {
+		if err := manager.PasswordValidator(v); err != nil {
+			return nil, &ValidationError{Name: "password", err: fmt.Errorf("ent: validator failed for field \"password\": %w", err)}
 		}
 	}
 
@@ -362,6 +391,13 @@ func (muo *ManagerUpdateOne) sqlSave(ctx context.Context) (m *Manager, err error
 			Type:   field.TypeString,
 			Value:  value,
 			Column: manager.FieldEmail,
+		})
+	}
+	if value, ok := muo.mutation.Password(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: manager.FieldPassword,
 		})
 	}
 	if nodes := muo.mutation.RemovedManagersIDs(); len(nodes) > 0 {
