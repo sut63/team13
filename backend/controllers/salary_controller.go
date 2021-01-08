@@ -24,7 +24,7 @@ type Salary struct {
 	EmployeeID     int
 	PositionID     int
 	AssessmentID   int
-	salarys		   float32
+	Salarys		   float64
 	SalaryDate     string
 
 }
@@ -93,7 +93,7 @@ func (ctl *SalaryController) CreateSalary(c *gin.Context) {
 		SetEmployee(em).
 		SetPosition(po).
 		SetAssessment(ass).
-		SetSalary(salarys).
+		SetSalary(obj.Salarys).
 		SetSalaryDatetime(salaryDatetime).
 		Save(context.Background())
 	if err != nil {
