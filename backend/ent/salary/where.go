@@ -94,7 +94,6 @@ func IDLTE(id int) predicate.Salary {
 }
 
 // Salary applies equality check predicate on the "Salary" field. It's identical to SalaryEQ.
-<<<<<<< HEAD
 func Salary(v float64) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldSalary), v))
@@ -103,16 +102,12 @@ func Salary(v float64) predicate.Salary {
 
 // SalaryDatetime applies equality check predicate on the "SalaryDatetime" field. It's identical to SalaryDatetimeEQ.
 func SalaryDatetime(v time.Time) predicate.Salary {
-=======
-func Salary(v int) predicate.Salary {
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldSalaryDatetime), v))
 	})
 }
 
 // SalaryEQ applies the EQ predicate on the "Salary" field.
-<<<<<<< HEAD
 func SalaryEQ(v float64) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldSalary), v))
@@ -190,9 +185,6 @@ func SalaryLTE(v float64) predicate.Salary {
 
 // SalaryDatetimeEQ applies the EQ predicate on the "SalaryDatetime" field.
 func SalaryDatetimeEQ(v time.Time) predicate.Salary {
-=======
-func SalaryEQ(v int) predicate.Salary {
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldSalaryDatetime), v))
 	})

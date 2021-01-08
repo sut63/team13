@@ -89,14 +89,9 @@ func (e SalaryEdges) EmployeeOrErr() (*Employee, error) {
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Salary) scanValues() []interface{} {
 	return []interface{}{
-<<<<<<< HEAD
 		&sql.NullInt64{},   // id
 		&sql.NullFloat64{}, // Salary
 		&sql.NullTime{},    // SalaryDatetime
-=======
-		&sql.NullInt64{}, // id
-		&sql.NullInt64{}, // Salary
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	}
 }
 
@@ -121,7 +116,6 @@ func (s *Salary) assignValues(values ...interface{}) error {
 	}
 	s.ID = int(value.Int64)
 	values = values[1:]
-<<<<<<< HEAD
 	if value, ok := values[0].(*sql.NullFloat64); !ok {
 		return fmt.Errorf("unexpected type %T for field Salary", values[0])
 	} else if value.Valid {
@@ -129,14 +123,10 @@ func (s *Salary) assignValues(values ...interface{}) error {
 	}
 	if value, ok := values[1].(*sql.NullTime); !ok {
 		return fmt.Errorf("unexpected type %T for field SalaryDatetime", values[1])
-=======
-	if value, ok := values[0].(*sql.NullInt64); !ok {
-		return fmt.Errorf("unexpected type %T for field Salary", values[0])
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	} else if value.Valid {
 		s.SalaryDatetime = value.Time
 	}
-	values = values[1:]
+	values = values[2:]
 	if len(values) == len(salary.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field assessment_formassessment", value)

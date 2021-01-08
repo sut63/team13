@@ -34,7 +34,7 @@ func (ctl *PaymentchannelController) CreatePaymentchannel(c *gin.Context) {
   
 	u, err := ctl.client.Paymentchannel.
 		Create().
-		SetPaymentchannelname(obj.Paymentchannelname).
+		SetBank(obj.Bank).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{

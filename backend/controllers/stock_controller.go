@@ -20,11 +20,12 @@ type StockController struct {
    router gin.IRouter
 }
 
-type StockController struct {
-	Productid		int
-	Zoneid			int
-	Employeeid		int
-	Typeproductid 	int
+// Stock defines the struct for the stock
+type Stock struct {
+	ProductID		int
+	ZoneID			int
+	EmployeeID		int
+	TypeproductID 	int
 	Priceproduct	string
 	Amount			int
 	Time			string
@@ -52,7 +53,7 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 
 	p, err := ctl.client.Product.
 		Query().
-		Where(product.IDEQ(int(obj.Productid))).
+		Where(product.IDEQ(int(obj.ID))).
 		Only(context.Background())
 
 	if err != nil {
@@ -64,7 +65,7 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 
 	z, err := ctl.client.Zoneproduct.
 		Query().
-		Where(zoneproduct.IDEQ(int(obj.Zoneid))).
+		Where(zoneproduct.IDEQ(int(obj.ID))).
 		Only(context.Background())
 
 	if err != nil {
@@ -76,7 +77,7 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 
 	e, err := ctl.client.Employee.
 		Query().
-		Where(employee.IDEQ(int(obj.Employeeid))).
+		Where(employee.IDEQ(int(obj.ID))).
 		Only(context.Background())
 
 	if err != nil {
@@ -88,7 +89,7 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 
 	t, err := ctl.client.Typeproduct.
 		Query().
-		Where(typeproduct.IDEQ(int(obj.Typeproductid))).
+		Where(typeproduct.IDEQ(int(obj.ID))).
 		Only(context.Background())
 
 	if err != nil {
@@ -184,7 +185,7 @@ func (ctl *StockController) ListStock(c *gin.Context) {
 		WithProduct().
 		WithZoneproduct().
 		WithTypeproduct().
-		withEmployee().
+		WithEmployee().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())

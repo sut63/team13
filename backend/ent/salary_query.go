@@ -332,11 +332,7 @@ func (sq *SalaryQuery) WithEmployee(opts ...func(*EmployeeQuery)) *SalaryQuery {
 // Example:
 //
 //	var v []struct {
-<<<<<<< HEAD
 //		Salary float64 `json:"Salary,omitempty"`
-=======
-//		Salary int `json:"Salary,omitempty"`
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 //		Count int `json:"count,omitempty"`
 //	}
 //
@@ -362,11 +358,7 @@ func (sq *SalaryQuery) GroupBy(field string, fields ...string) *SalaryGroupBy {
 // Example:
 //
 //	var v []struct {
-<<<<<<< HEAD
 //		Salary float64 `json:"Salary,omitempty"`
-=======
-//		Salary int `json:"Salary,omitempty"`
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 //	}
 //
 //	client.Salary.Query().

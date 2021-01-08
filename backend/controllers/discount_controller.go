@@ -38,7 +38,7 @@ func (ctl *DiscountController) CreateDiscount(c *gin.Context) {
 
 	u, err := ctl.client.Discount.
 		Create().
-		SetDiscountName(obj.DiscountName).
+		SetSale(obj.Sale).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -192,7 +192,7 @@ func (ctl *DiscountController) UpdateDiscount(c *gin.Context) {
 	fmt.Println(obj.ID)
 	u, err := ctl.client.Discount.
 		UpdateOneID(int(id)).
-		SetDiscountName(obj.DiscountName).
+		SetSale(obj.Sale).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{"error": "update failed"})

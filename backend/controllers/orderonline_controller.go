@@ -62,7 +62,7 @@ func (ctl *OrderonlineController) CreateOrderonline(c *gin.Context) {
 
 	pay, err := ctl.client.Paymentchannel.
 		Query().
-		Where(paymentchannelid.IDEQ(int(obj.Paymentchannelid))).
+		Where(paymentchannel.IDEQ(int(obj.Paymentchannelid))).
 		Only(context.Background())
 
 	if err != nil {
@@ -101,8 +101,7 @@ func (ctl *OrderonlineController) CreateOrderonline(c *gin.Context) {
 	ol, err := ctl.client.Orderonline.
 		Create().
 		SetCustomer(u).
-		SetPaymentchannel(pay).
-		SetProduct(p).
+		SetPaymentchannel(pay).SetProducton(p).
 		SetTypeproduct(tp).
 		SetStock(obj.Stock).
         SetAddedtime(times).
@@ -146,7 +145,7 @@ func (ctl *OrderonlineController) GetOrderonline(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(200, ol)
+	c.JSON(200, pa)
  }
  // ListOrderonline handles request to get a list of orderonline entities
 // @Summary List orderonline entities
@@ -177,7 +176,7 @@ func (ctl *OrderonlineController) ListOrderonline(c *gin.Context) {
 		WithCustomer().
 		WithPaymentchannel().
 		WithTypeproduct().
-		WithProduct().
+		WithProducton().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())

@@ -32,7 +32,6 @@ func (su *SalaryUpdate) Where(ps ...predicate.Salary) *SalaryUpdate {
 }
 
 // SetSalary sets the Salary field.
-<<<<<<< HEAD
 func (su *SalaryUpdate) SetSalary(f float64) *SalaryUpdate {
 	su.mutation.ResetSalary()
 	su.mutation.SetSalary(f)
@@ -42,11 +41,6 @@ func (su *SalaryUpdate) SetSalary(f float64) *SalaryUpdate {
 // AddSalary adds f to Salary.
 func (su *SalaryUpdate) AddSalary(f float64) *SalaryUpdate {
 	su.mutation.AddSalary(f)
-=======
-func (su *SalaryUpdate) SetSalary(i int) *SalaryUpdate {
-	su.mutation.ResetSalary()
-	su.mutation.SetSalary(i)
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	return su
 }
 
@@ -356,7 +350,6 @@ type SalaryUpdateOne struct {
 }
 
 // SetSalary sets the Salary field.
-<<<<<<< HEAD
 func (suo *SalaryUpdateOne) SetSalary(f float64) *SalaryUpdateOne {
 	suo.mutation.ResetSalary()
 	suo.mutation.SetSalary(f)
@@ -366,11 +359,6 @@ func (suo *SalaryUpdateOne) SetSalary(f float64) *SalaryUpdateOne {
 // AddSalary adds f to Salary.
 func (suo *SalaryUpdateOne) AddSalary(f float64) *SalaryUpdateOne {
 	suo.mutation.AddSalary(f)
-=======
-func (suo *SalaryUpdateOne) SetSalary(i int) *SalaryUpdateOne {
-	suo.mutation.ResetSalary()
-	suo.mutation.SetSalary(i)
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	return suo
 }
 
