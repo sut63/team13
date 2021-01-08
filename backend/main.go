@@ -13,29 +13,38 @@ import (
    "github.com/team13/app/ent"
 )
 
-type Physicians struct{
-    Physician []Physician
+type Customer struct{
+    Customer []Customer
 }
 
-type Physician struct{
-    NAME string
-    EMAIL string
+type Customer struct{
+    Name string
+    Email string
 }
 
-type Departments struct{
-    Department []Department
+type Paymentchannel struct{
+    Paymentchannel []Paymentchannel
 }
 
-type Department struct{
-    Departmentname string
+type Paymentchannel struct{
+    bank string
 }
 
-type Positions struct{
-    Position []Position
+type Product struct{
+    Product []Product
 }
 
-type Position struct{
-    Nameposition string
+type Product struct{
+	NameProduct string
+	BarcodeProduct string
+}
+
+type Typeproduct struct{
+    Typeproduct []Typeproduct
+}
+
+type Typeproduct struct{
+    Typeproduct string
 }
 
 
@@ -94,61 +103,79 @@ func main() {
    }
  
    v1 := router.Group("/api/v1")
-   controllers.NewPositionassingmentController(v1, client)
-   controllers.NewPositionController(v1, client)
-   controllers.NewPhysicianController(v1, client)
-   controllers.NewDepartmentController(v1, client)
+   controllers.NewCustomerController(v1, client)
+   controllers.NewOrderController(v1, client)
+   controllers.NewPaymentchannelController(v1, client)
+   controllers.NewProductController(v1, client)
+   controllers.NewTypeproductController(v1, client)
    
-   physicians := Physicians{
-    Physician: []Physician{
-                Physician{"Dang Dang","Dang@gmail.com"},
-                Physician{"AEK Dang","AEK@gmail.com"},
-                Physician{"PANG Dang","PANG@gmail.com"},
-                Physician{"NW Dang","NW@gmail.com"},
+   customer := Customer{
+    Customer: []Customer{
+                Customer{"Dang Dang","Dang@gmail.com"},
+                Customer{"AEK Dang","AEK@gmail.com"},
+                Customer{"PANG Dang","PANG@gmail.com"},
+                Customer{"NW Dang","NW@gmail.com"},
         },
    }
 
-   for _, p := range physicians.Physician {
-        client.Physician.
+   for _, c := range customer.Customer {
+        client.Customer.
             Create().
-            SetNAME(p.NAME).
-            SetEMAIL(p.EMAIL).
+            SetName(c.Name).
+            SetEmail(c.Email).
             Save(context.Background())
    }
 
-   departments := Departments{
-    Department: []Department{
-            Department{"ICU"},
-            Department{"Radiology Department"},
-            Department{"Emergency Room"},
-            Department{"Outpatient Department"},
-            Department{"Inpatient Department"},
-            Department{"Laboratory Department"},
-            Department{"Surgical Department"},
+   paymentchannel := Paymentchannel{
+    Paymentchannel: []Paymentchannel{
+			Paymentchannel{"KBANK"},
+            Paymentchannel{"KTB"},
+            Paymentchannel{"TMB"},
+            Paymentchannel{"SCB"},
         },
    }
 
-   for _, d := range departments.Department {  
-        client.Department.
-            Create().
-            SetDepartmentname(d.Departmentname).
+   for _, pay := range paymentchannel.Paymentchannel {  
+        client.Paymentchannel.
+			Create().
+			SetBank(pay.bank).
             Save(context.Background())
    }
 
-   positions := Positions{
-    Position: []Position{
-        Position{"Department head"},
-        Position{"member"},
+   product := Product{
+    Product: []Product{
+        Product{"A","001"},
+		Product{"B","002"},
+		Product{"C","003"},
+		Product{"D","004"},
+		Product{"E","005"},
         },
    }
 
-   for _, po := range positions.Position {
-        client.Position.
+   for _, pd := range product.Product {
+        client.Product.
             Create().
-            SetNameposition(po.Nameposition).
+			SetNameProduct(pd.NameProduct).
+			SetBarcodeProduct(pd.BarcodeProduct).
             Save(context.Background())
    }
-   
+
+   typeproduct := Typeproduct{
+    Typeproduct: []Typeproduct{
+			Typeproduct{"KBANK"},
+            Typeproduct{"KTB"},
+            Typeproduct{"TMB"},
+            Typeproduct{"SCB"},
+        },
+   }
+
+   for _, tp := range typeproduct.Typeproduct {  
+        client.Typeproduct.
+			Create().
+			SetTypeProduct(tp.Typeproduct).
+            Save(context.Background())
+   }
+
    router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
    router.Run()
 }
