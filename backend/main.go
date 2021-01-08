@@ -47,6 +47,23 @@ type Typeproduct struct{
     Typeproduct string
 }
 
+type Companys struct{
+    Company []Company
+}
+
+type Company struct{
+    Name string
+}
+
+type Managers struct{
+    Customer []Customer
+}
+
+type Manager struct{
+    Name string
+    Email string
+}
+
 
 // @title SUT SA Example API
 // @version 1.0
