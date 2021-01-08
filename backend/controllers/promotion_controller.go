@@ -65,7 +65,7 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "Giveawaydata diagnostic  not found",
+			"error": "Giveaway diagnostic  not found",
 		})
 		return
 	}
@@ -77,7 +77,7 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "Productdata diagnostic  not found",
+			"error": "Product diagnostic  not found",
 		})
 		return
 	}
