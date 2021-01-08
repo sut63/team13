@@ -2,7 +2,7 @@ package main
 import (
    "context"
    "log"
-   "time"
+   
 
    "github.com/gin-contrib/cors"
    "github.com/gin-gonic/gin"
@@ -14,7 +14,7 @@ import (
    "github.com/team13/app/ent"
 )
 
-type Customer struct{
+type Customers struct{
     Customer []Customer
 }
 
@@ -23,7 +23,7 @@ type Customer struct{
     Email string
 }
 
-type Paymentchannel struct{
+type Paymentchannels struct{
     Paymentchannel []Paymentchannel
 }
 
@@ -31,7 +31,7 @@ type Paymentchannel struct{
     bank string
 }
 
-type Product struct{
+type Products struct{
     Product []Product
 }
 
@@ -48,6 +48,23 @@ type Typeproducts struct{
 
 type Typeproduct struct{
     Typeproduct string
+}
+
+type Companys struct{
+    Company []Company
+}
+
+type Company struct{
+    Name string
+}
+
+type Managers struct{
+    Customer []Customer
+}
+
+type Manager struct{
+    Name string
+    Email string
 }
 
 type Zoneproducts struct{
@@ -114,12 +131,17 @@ func main() {
  
    v1 := router.Group("/api/v1")
    controllers.NewCustomerController(v1, client)
-   controllers.NewOrderController(v1, client)
+   controllers.NewOrderonlineController(v1, client)
    controllers.NewPaymentchannelController(v1, client)
    controllers.NewProductController(v1, client)
    controllers.NewTypeproductController(v1, client)
 
    controllers.NewZoneproductController(v1, client)
+   controllers.NewStockController(v1, client)
+
+   controllers.NewCompanyController(v1, client)
+   controllers.NewManagerController(v1, client)
+   controllers.NewOrderproductController(v1, client)
    
 
    customers := Customers{
@@ -204,6 +226,39 @@ func main() {
         client.Zoneproduct.
             Create().
             SetZone(z.Zone).
+            Save(context.Background())
+   }
+
+   managers := Managers{
+    Manager: []Manager{
+         Manager{"Dang Dang","Dang@gmail.com"},
+         Manager{"AEK Dang","AEK@gmail.com"},
+         Manager{"PANG Dang","PANG@gmail.com"},
+         Manager{"NW Dang","NW@gmail.com"},
+        },
+   }
+
+   for _, m := range manager.Manager {
+        client.Manager.
+            Create().
+            SetName(m.Name).
+            SetEmail(m.Email).
+            Save(context.Background())
+   }
+
+   companys := Companys{
+    Company: []Company{
+            Company{"Dang Dang"},
+            Company{"AEK Dang"},
+            Company{"PANG Dang"},
+            Company{"Noom Dang"},
+        },
+   }
+
+   for _, cp := range company.Company {
+        client.Company.
+            Create().
+            SetName(cp.Name).
             Save(context.Background())
    }
 
