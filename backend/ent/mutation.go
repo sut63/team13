@@ -7650,14 +7650,9 @@ type SalaryMutation struct {
 	op                Op
 	typ               string
 	id                *int
-<<<<<<< HEAD
 	_Salary           *float64
 	add_Salary        *float64
 	_SalaryDatetime   *time.Time
-=======
-	_Salary           *int
-	add_Salary        *int
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	clearedFields     map[string]struct{}
 	assessment        *int
 	clearedassessment bool
@@ -7973,11 +7968,7 @@ func (m *SalaryMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *SalaryMutation) Fields() []string {
-<<<<<<< HEAD
 	fields := make([]string, 0, 2)
-=======
-	fields := make([]string, 0, 1)
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 	if m._Salary != nil {
 		fields = append(fields, salary.FieldSalary)
 	}
@@ -8019,7 +8010,6 @@ func (m *SalaryMutation) OldField(ctx context.Context, name string) (ent.Value, 
 func (m *SalaryMutation) SetField(name string, value ent.Value) error {
 	switch name {
 	case salary.FieldSalary:
-<<<<<<< HEAD
 		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -8028,9 +8018,6 @@ func (m *SalaryMutation) SetField(name string, value ent.Value) error {
 		return nil
 	case salary.FieldSalaryDatetime:
 		v, ok := value.(time.Time)
-=======
-		v, ok := value.(int)
->>>>>>> f34210ab6b6442c2024f1f2cc6eb75a8ccfbe5ef
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

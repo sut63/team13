@@ -34,7 +34,7 @@ func (ctl *CustomerController) CreateCustomer(c *gin.Context) {
   
 	u, err := ctl.client.Customer.
 		Create().
-		SetCustomername(obj.Customername).
+		SetEmail(obj.Email).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{

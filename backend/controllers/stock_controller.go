@@ -1,35 +1,37 @@
 package controllers
- 
+
 import (
-   "context"
-   "fmt"
-   "strconv"
-   "time"
-   "github.com/team13/app/ent"
-   "github.com/team13/app/ent/product"
-   "github.com/team13/app/ent/zoneproduct"
-   "github.com/team13/app/ent/employee"
-   "github.com/team13/app/ent/typeproduct"
-   "github.com/team13/app/ent/stock"
-   "github.com/gin-gonic/gin"
+	"context"
+	"fmt"
+	"strconv"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/team13/app/ent"
+	"github.com/team13/app/ent/employee"
+	"github.com/team13/app/ent/product"
+	"github.com/team13/app/ent/stock"
+	"github.com/team13/app/ent/typeproduct"
+	"github.com/team13/app/ent/zoneproduct"
 )
- 
+
 // StockController defines the struct for the stock controller
 type StockController struct {
-   client *ent.Client
-   router gin.IRouter
+	client *ent.Client
+	router gin.IRouter
 }
 
-type StockController struct {
-	Productid		int
-	Zoneid			int
-	Employeeid		int
-	Typeproductid 	int
-	Priceproduct	string
-	Amount			int
-	Time			string
+// Stock defines the struct for the stock
+type Stock struct {
+	ProductID     int
+	ZoneID        int
+	EmployeeID    int
+	TypeproductID int
+	Priceproduct  string
+	Amount        int
+	Time          string
+}
 
- }
 // CreateStock handles POST requests for adding stock entities
 // @Summary Create stock
 // @Description Create stock
@@ -52,7 +54,7 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 
 	p, err := ctl.client.Product.
 		Query().
-		Where(product.IDEQ(int(obj.Productid))).
+		Where(product.IDEQ(int(obj.ProductID))).
 		Only(context.Background())
 
 	if err != nil {
@@ -64,7 +66,7 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 
 	z, err := ctl.client.Zoneproduct.
 		Query().
-		Where(zoneproduct.IDEQ(int(obj.Zoneid))).
+		Where(zoneproduct.IDEQ(int(obj.ZoneID))).
 		Only(context.Background())
 
 	if err != nil {
@@ -76,7 +78,7 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 
 	e, err := ctl.client.Employee.
 		Query().
-		Where(employee.IDEQ(int(obj.Employeeid))).
+		Where(employee.IDEQ(int(obj.EmployeeID))).
 		Only(context.Background())
 
 	if err != nil {
@@ -88,7 +90,7 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 
 	t, err := ctl.client.Typeproduct.
 		Query().
-		Where(typeproduct.IDEQ(int(obj.Typeproductid))).
+		Where(typeproduct.IDEQ(int(obj.TypeproductID))).
 		Only(context.Background())
 
 	if err != nil {
@@ -99,7 +101,7 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 	}
 
 	times, err := time.Parse(time.RFC3339, obj.Time)
-  
+
 	s, err := ctl.client.Stock.
 		Create().
 		SetProduct(p).
@@ -116,9 +118,10 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 		})
 		return
 	}
-  
+
 	c.JSON(200, s)
- }
+}
+
 // GetStock handles GET requests to retrieve a stock entity
 // @Summary Get a stock entity by ID
 // @Description get stock by ID
@@ -138,7 +141,7 @@ func (ctl *StockController) GetStock(c *gin.Context) {
 		})
 		return
 	}
-  
+
 	u, err := ctl.client.Stock.
 		Query().
 		Where(stock.IDEQ(int(id))).
@@ -149,10 +152,10 @@ func (ctl *StockController) GetStock(c *gin.Context) {
 		})
 		return
 	}
-  
+
 	c.JSON(200, u)
- }
- 
+}
+
 // ListStock handles request to get a list of stock entities
 // @Summary List stock entities
 // @Description list stock entities
@@ -169,33 +172,37 @@ func (ctl *StockController) ListStock(c *gin.Context) {
 	limit := 10
 	if limitQuery != "" {
 		limit64, err := strconv.ParseInt(limitQuery, 10, 64)
-		if err == nil {limit = int(limit64)}
+		if err == nil {
+			limit = int(limit64)
+		}
 	}
-  
+
 	offsetQuery := c.Query("offset")
 	offset := 0
 	if offsetQuery != "" {
 		offset64, err := strconv.ParseInt(offsetQuery, 10, 64)
-		if err == nil {offset = int(offset64)}
+		if err == nil {
+			offset = int(offset64)
+		}
 	}
-  
+
 	stocks, err := ctl.client.Stock.
 		Query().
 		WithProduct().
 		WithZoneproduct().
 		WithTypeproduct().
-		withEmployee().
+		WithEmployee().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())
-		if err != nil {
-		c.JSON(400, gin.H{"error": err.Error(),})
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-  
+
 	c.JSON(200, stocks)
- }
- 
+}
+
 // DeleteStock handles DELETE requests to delete a stock entity
 // @Summary Delete a stock entity by ID
 // @Description get stock by ID
@@ -215,7 +222,7 @@ func (ctl *StockController) DeleteStock(c *gin.Context) {
 		})
 		return
 	}
-  
+
 	err = ctl.client.Stock.
 		DeleteOneID(int(id)).
 		Exec(context.Background())
@@ -225,12 +232,10 @@ func (ctl *StockController) DeleteStock(c *gin.Context) {
 		})
 		return
 	}
-  
+
 	c.JSON(200, gin.H{"result": fmt.Sprintf("ok deleted %v", id)})
- }
-  
- 
- 
+}
+
 // UpdateStock handles PUT requests to update a stock entity
 // @Summary Update a stock entity by ID
 // @Description update stock by ID
@@ -251,7 +256,7 @@ func (ctl *StockController) UpdateStock(c *gin.Context) {
 		})
 		return
 	}
-  
+
 	obj := ent.Stock{}
 	if err := c.ShouldBind(&obj); err != nil {
 		c.JSON(400, gin.H{
@@ -264,12 +269,13 @@ func (ctl *StockController) UpdateStock(c *gin.Context) {
 		UpdateOne(&obj).
 		Save(context.Background())
 	if err != nil {
-		c.JSON(400, gin.H{"error": "update failed",})
+		c.JSON(400, gin.H{"error": "update failed"})
 		return
 	}
-  
+
 	c.JSON(200, u)
- }
+}
+
 // NewStockController creates and registers handles for the stock controller
 func NewStockController(router gin.IRouter, client *ent.Client) *StockController {
 	uc := &StockController{
@@ -278,17 +284,17 @@ func NewStockController(router gin.IRouter, client *ent.Client) *StockController
 	}
 	uc.register()
 	return uc
- }
-  
- // InitStockController registers routes to the main engine
- func (ctl *StockController) register() {
+}
+
+// InitStockController registers routes to the main engine
+func (ctl *StockController) register() {
 	stocks := ctl.router.Group("/stocks")
-  
+
 	stocks.GET("", ctl.ListStock)
-  
+
 	// CRUD
 	stocks.POST("", ctl.CreateStock)
 	stocks.GET(":id", ctl.GetStock)
 	stocks.PUT(":id", ctl.UpdateStock)
 	stocks.DELETE(":id", ctl.DeleteStock)
- }
+}

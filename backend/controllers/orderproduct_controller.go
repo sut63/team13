@@ -11,6 +11,8 @@ import (
 	"github.com/team13/app/ent/typeproduct"
 	"github.com/team13/app/ent/company"
 	"github.com/team13/app/ent/manager"
+	"github.com/team13/app/ent/product"
+	"github.com/team13/app/ent/orderproduct"
 	
 )
 
@@ -20,6 +22,7 @@ type OrderproductController struct {
 	router gin.IRouter
 }
 
+// Orderproduct defines the struct for the orderproduct
 type Orderproduct struct {
 	ManagerID       int
 	TypeproductID   int
