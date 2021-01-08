@@ -2,6 +2,7 @@ package main
 import (
    "context"
    "log"
+   
 
    "github.com/gin-contrib/cors"
    "github.com/gin-gonic/gin"
@@ -13,7 +14,7 @@ import (
    "github.com/team13/app/ent"
 )
 
-type Customer struct{
+type Customers struct{
     Customer []Customer
 }
 
@@ -22,7 +23,7 @@ type Customer struct{
     Email string
 }
 
-type Paymentchannel struct{
+type Paymentchannels struct{
     Paymentchannel []Paymentchannel
 }
 
@@ -30,16 +31,18 @@ type Paymentchannel struct{
     bank string
 }
 
-type Product struct{
+type Products struct{
     Product []Product
 }
 
 type Product struct{
-	NameProduct string
-	BarcodeProduct string
+	NameProduct     string
+    BarcodeProduct  string
+    MFG             string
+    Example         string
 }
 
-type Typeproduct struct{
+type Typeproducts struct{
     Typeproduct []Typeproduct
 }
 
@@ -64,6 +67,13 @@ type Manager struct{
     Email string
 }
 
+type Zoneproducts struct{
+    Zoneproduct []Zoneproduct
+}
+
+type Zoneproduct struct{
+    Zone string
+}
 
 // @title SUT SA Example API
 // @version 1.0
@@ -121,12 +131,20 @@ func main() {
  
    v1 := router.Group("/api/v1")
    controllers.NewCustomerController(v1, client)
-   controllers.NewOrderController(v1, client)
+   controllers.NewOrderonlineController(v1, client)
    controllers.NewPaymentchannelController(v1, client)
    controllers.NewProductController(v1, client)
    controllers.NewTypeproductController(v1, client)
+
+   controllers.NewZoneproductController(v1, client)
+   controllers.NewStockController(v1, client)
+
+   controllers.NewCompanyController(v1, client)
+   controllers.NewManagerController(v1, client)
+   controllers.NewOrderproductController(v1, client)
    
-   customer := Customer{
+
+   customers := Customers{
     Customer: []Customer{
                 Customer{"Dang Dang","Dang@gmail.com"},
                 Customer{"AEK Dang","AEK@gmail.com"},
@@ -143,7 +161,7 @@ func main() {
             Save(context.Background())
    }
 
-   paymentchannel := Paymentchannel{
+   paymentchannels := paymentchannels{
     Paymentchannel: []Paymentchannel{
 			Paymentchannel{"KBANK"},
             Paymentchannel{"KTB"},
@@ -159,13 +177,13 @@ func main() {
             Save(context.Background())
    }
 
-   product := Product{
+   products := Products{
     Product: []Product{
-        Product{"A","001"},
-		Product{"B","002"},
-		Product{"C","003"},
-		Product{"D","004"},
-		Product{"E","005"},
+        Product{"A","001","01-01-2018","01-01-2024"},
+		Product{"B","002","01-01-2018","01-01-2024"},
+		Product{"C","003","01-01-2018","01-01-2024"},
+		Product{"D","004","01-01-2018","01-01-2024"},
+		Product{"E","005","01-01-2018","01-01-2024"},
         },
    }
 
@@ -173,11 +191,13 @@ func main() {
         client.Product.
             Create().
 			SetNameProduct(pd.NameProduct).
-			SetBarcodeProduct(pd.BarcodeProduct).
+            SetBarcodeProduct(pd.BarcodeProduct).
+            SetMFG(pd.MFG).
+			SetEXP(pd.EXP).
             Save(context.Background())
    }
 
-   typeproduct := Typeproduct{
+   typeproducts := Typeproducts{
     Typeproduct: []Typeproduct{
 			Typeproduct{"KBANK"},
             Typeproduct{"KTB"},
@@ -192,6 +212,56 @@ func main() {
 			SetTypeProduct(tp.Typeproduct).
             Save(context.Background())
    }
+
+   zoneproducts := Zoneproducts{
+    Zoneproduct: []Zoneproduct{
+            Zoneproduct{"A"},
+            Zoneproduct{"B"},
+            Zoneproduct{"C"},
+            Zoneproduct{"D"},
+            },
+   }
+
+   for _, z := range zoneproduct.Zoneproduct {
+        client.Zoneproduct.
+            Create().
+            SetZone(z.Zone).
+            Save(context.Background())
+   }
+
+   managers := Managers{
+    Manager: []Manager{
+         Manager{"Dang Dang","Dang@gmail.com"},
+         Manager{"AEK Dang","AEK@gmail.com"},
+         Manager{"PANG Dang","PANG@gmail.com"},
+         Manager{"NW Dang","NW@gmail.com"},
+        },
+   }
+
+   for _, m := range manager.Manager {
+        client.Manager.
+            Create().
+            SetName(m.Name).
+            SetEmail(m.Email).
+            Save(context.Background())
+   }
+
+   companys := Companys{
+    Company: []Company{
+            Company{"Dang Dang"},
+            Company{"AEK Dang"},
+            Company{"PANG Dang"},
+            Company{"Noom Dang"},
+        },
+   }
+
+   for _, cp := range company.Company {
+        client.Company.
+            Create().
+            SetName(cp.Name).
+            Save(context.Background())
+   }
+
 
    router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
    router.Run()
