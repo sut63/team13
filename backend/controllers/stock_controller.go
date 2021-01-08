@@ -10,9 +10,9 @@ import (
 	"github.com/team13/app/ent"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/product"
-	"github.com/team13/app/ent/stock"
 	"github.com/team13/app/ent/typeproduct"
 	"github.com/team13/app/ent/zoneproduct"
+	"github.com/team13/app/ent/stock"
 )
 
 // StockController defines the struct for the stock controller
@@ -23,7 +23,7 @@ type StockController struct {
 
 // Stock defines the struct for the stock
 type Stock struct {
-	ProductID     int
+	ProductID	  int
 	ZoneID        int
 	EmployeeID    int
 	TypeproductID int
@@ -43,71 +43,75 @@ type Stock struct {
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /stocks [post]
-func (ctl *StockController) CreateStock(c *gin.Context) {
-	obj := ent.Stock{}
-	if err := c.ShouldBind(&obj); err != nil {
-		c.JSON(400, gin.H{
-			"error": "stock binding failed",
-		})
-		return
-	}
 
-	p, err := ctl.client.Product.
-		Query().
-		Where(product.IDEQ(int(obj.ProductID))).
-		Only(context.Background())
 
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "product not found",
-		})
-		return
-	}
+	func (ctl *StockController) CreateStock(c *gin.Context) {
+		obj := Stock{}
+		if err := c.ShouldBind(&obj); err != nil {
+			c.JSON(400, gin.H{
+				"error": "stock binding failed",
+			})
+			return
+		}
+	
+		em, err := ctl.client.Employee.
+			Query().
+			Where(employee.IDEQ(int(obj.EmployeeID))).
+			Only(context.Background())
+	
+		if err != nil {
+			c.JSON(400, gin.H{
+				"error": "employee not found",
+			})
+			return
+		}
+	
+		pr, err := ctl.client.Product.
+			Query().
+			Where(product.IDEQ(int(obj.ProductID))).
+			Only(context.Background())
+	
+		if err != nil {
+			c.JSON(400, gin.H{
+				"error": "product diagnostic  not found",
+			})
+			return
+		}
+	
+		ty, err := ctl.client.Typeproduct.
+			Query().
+			Where(typeproduct.IDEQ(int(obj.TypeproductID))).
+			Only(context.Background())
+	
+		if err != nil {
+			c.JSON(400, gin.H{
+				"error": "typeproduct not found",
+			})
+			return
+		}
 
-	z, err := ctl.client.Zoneproduct.
-		Query().
-		Where(zoneproduct.IDEQ(int(obj.ZoneID))).
-		Only(context.Background())
-
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "zoneproduct not found",
-		})
-		return
-	}
-
-	e, err := ctl.client.Employee.
-		Query().
-		Where(employee.IDEQ(int(obj.EmployeeID))).
-		Only(context.Background())
-
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "employee not found",
-		})
-		return
-	}
-
-	t, err := ctl.client.Typeproduct.
-		Query().
-		Where(typeproduct.IDEQ(int(obj.TypeproductID))).
-		Only(context.Background())
-
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "tyeproduct not found",
-		})
-		return
-	}
-
-	times, err := time.Parse(time.RFC3339, obj.Time)
+		zo, err := ctl.client.Zoneproduct.
+			Query().
+			Where(zoneproduct.IDEQ(int(obj.ZoneID))).
+			Only(context.Background())
+	
+		if err != nil {
+			c.JSON(400, gin.H{
+				"error": "zoneproduct not found",
+			})
+			return
+		}
+	
+		times, err := time.Parse(time.RFC3339, obj.Time)
+		
+	
 
 	s, err := ctl.client.Stock.
 		Create().
-		SetProduct(p).
-		SetZoneproduct(z).
-		SetTypeproduct(t).
-		SetEmployee(e).
+		SetProduct(pr).
+		SetZoneproduct(zo).
+		SetTypeproduct(ty).
+		SetEmployee(em).
 		SetAmount(obj.Amount).
 		SetPriceproduct(obj.Priceproduct).
 		SetTime(times).
