@@ -2,6 +2,7 @@ package main
 import (
    "context"
    "log"
+   "time"
 
    "github.com/gin-contrib/cors"
    "github.com/gin-gonic/gin"
@@ -35,11 +36,13 @@ type Product struct{
 }
 
 type Product struct{
-	NameProduct string
-	BarcodeProduct string
+	NameProduct     string
+    BarcodeProduct  string
+    MFG             string
+    Example         string
 }
 
-type Typeproduct struct{
+type Typeproducts struct{
     Typeproduct []Typeproduct
 }
 
@@ -47,6 +50,13 @@ type Typeproduct struct{
     Typeproduct string
 }
 
+type Zoneproducts struct{
+    Zoneproduct []Zoneproduct
+}
+
+type Zoneproduct struct{
+    Zone string
+}
 
 // @title SUT SA Example API
 // @version 1.0
@@ -108,8 +118,11 @@ func main() {
    controllers.NewPaymentchannelController(v1, client)
    controllers.NewProductController(v1, client)
    controllers.NewTypeproductController(v1, client)
+
+   controllers.NewZoneproductController(v1, client)
    
-   customer := Customer{
+
+   customers := Customers{
     Customer: []Customer{
                 Customer{"Dang Dang","Dang@gmail.com"},
                 Customer{"AEK Dang","AEK@gmail.com"},
@@ -126,7 +139,7 @@ func main() {
             Save(context.Background())
    }
 
-   paymentchannel := Paymentchannel{
+   paymentchannels := paymentchannels{
     Paymentchannel: []Paymentchannel{
 			Paymentchannel{"KBANK"},
             Paymentchannel{"KTB"},
@@ -142,13 +155,13 @@ func main() {
             Save(context.Background())
    }
 
-   product := Product{
+   products := Products{
     Product: []Product{
-        Product{"A","001"},
-		Product{"B","002"},
-		Product{"C","003"},
-		Product{"D","004"},
-		Product{"E","005"},
+        Product{"A","001","01-01-2018","01-01-2024"},
+		Product{"B","002","01-01-2018","01-01-2024"},
+		Product{"C","003","01-01-2018","01-01-2024"},
+		Product{"D","004","01-01-2018","01-01-2024"},
+		Product{"E","005","01-01-2018","01-01-2024"},
         },
    }
 
@@ -156,11 +169,13 @@ func main() {
         client.Product.
             Create().
 			SetNameProduct(pd.NameProduct).
-			SetBarcodeProduct(pd.BarcodeProduct).
+            SetBarcodeProduct(pd.BarcodeProduct).
+            SetMFG(pd.MFG).
+			SetEXP(pd.EXP).
             Save(context.Background())
    }
 
-   typeproduct := Typeproduct{
+   typeproducts := Typeproducts{
     Typeproduct: []Typeproduct{
 			Typeproduct{"KBANK"},
             Typeproduct{"KTB"},
@@ -175,6 +190,23 @@ func main() {
 			SetTypeProduct(tp.Typeproduct).
             Save(context.Background())
    }
+
+   zoneproducts := Zoneproducts{
+    Zoneproduct: []Zoneproduct{
+            Zoneproduct{"A"},
+            Zoneproduct{"B"},
+            Zoneproduct{"C"},
+            Zoneproduct{"D"},
+            },
+   }
+
+   for _, z := range zoneproduct.Zoneproduct {
+        client.Zoneproduct.
+            Create().
+            SetZone(z.Zone).
+            Save(context.Background())
+   }
+
 
    router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
    router.Run()

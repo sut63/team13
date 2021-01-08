@@ -1,0 +1,3616 @@
+basePath: /api/v1
+definitions:
+  controllers.Orderonline:
+    properties:
+      addedtime:
+        type: string
+      customerid:
+        type: integer
+      paymentchannelid:
+        type: integer
+      productid:
+        type: integer
+      stock:
+        type: integer
+      typeproductid:
+        type: integer
+    type: object
+  controllers.Orderproduct:
+    properties:
+      addedtime:
+        type: string
+      companyID:
+        type: integer
+      managerID:
+        type: integer
+      productID:
+        type: integer
+      stock:
+        type: integer
+      typeproductID:
+        type: integer
+    type: object
+  controllers.Promotion:
+    properties:
+      discount:
+        type: integer
+      giveaway:
+        type: integer
+      product:
+        type: integer
+    type: object
+  controllers.Salary:
+    properties:
+      assessmentID:
+        type: integer
+      employeeID:
+        type: integer
+      positionID:
+        type: integer
+      salaryDate:
+        type: string
+    type: object
+  ent.Assessment:
+    properties:
+      assessment:
+        description: Assessment holds the value of the "assessment" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.AssessmentEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the AssessmentQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.AssessmentEdges:
+    properties:
+      formassessment:
+        description: Formassessment holds the value of the formassessment edge.
+        items:
+          $ref: '#/definitions/ent.Salary'
+        type: array
+    type: object
+  ent.Company:
+    properties:
+      Name:
+        description: Name holds the value of the "Name" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.CompanyEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the CompanyQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.CompanyEdges:
+    properties:
+      companys:
+        description: Companys holds the value of the companys edge.
+        items:
+          $ref: '#/definitions/ent.Orderproduct'
+        type: array
+    type: object
+  ent.Customer:
+    properties:
+      age:
+        description: Age holds the value of the "age" field.
+        type: integer
+      edges:
+        $ref: '#/definitions/ent.CustomerEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the CustomerQuery when eager-loading is set.
+        type: object
+      email:
+        description: Email holds the value of the "email" field.
+        type: string
+      id:
+        description: ID of the ent.
+        type: integer
+      name:
+        description: Name holds the value of the "name" field.
+        type: string
+    type: object
+  ent.CustomerEdges:
+    properties:
+      formcustomer:
+        description: Formcustomer holds the value of the formcustomer edge.
+        items:
+          $ref: '#/definitions/ent.Orderonline'
+        type: array
+    type: object
+  ent.Day:
+    properties:
+      Day:
+        description: Day holds the value of the "Day" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.DayEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the DayQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.DayEdges:
+    properties:
+      whatday:
+        description: Whatday holds the value of the whatday edge.
+        items:
+          $ref: '#/definitions/ent.EmployeeWorkingHours'
+        type: array
+    type: object
+  ent.Discount:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.DiscountEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the DiscountQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      sale:
+        description: Sale holds the value of the "sale" field.
+        type: integer
+    type: object
+  ent.DiscountEdges:
+    properties:
+      fordiscount:
+        description: Fordiscount holds the value of the fordiscount edge.
+        items:
+          $ref: '#/definitions/ent.Promotion'
+        type: array
+    type: object
+  ent.Employee:
+    properties:
+      age:
+        description: Age holds the value of the "age" field.
+        type: integer
+      edges:
+        $ref: '#/definitions/ent.EmployeeEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the EmployeeQuery when eager-loading is set.
+        type: object
+      email:
+        description: Email holds the value of the "email" field.
+        type: string
+      id:
+        description: ID of the ent.
+        type: integer
+      name:
+        description: Name holds the value of the "name" field.
+        type: string
+    type: object
+  ent.EmployeeEdges:
+    properties:
+      employeestock:
+        description: Employeestock holds the value of the employeestock edge.
+        items:
+          $ref: '#/definitions/ent.Stock'
+        type: array
+      formemployee:
+        $ref: '#/definitions/ent.Salary'
+        description: Formemployee holds the value of the formemployee edge.
+        type: object
+      whose:
+        description: Whose holds the value of the whose edge.
+        items:
+          $ref: '#/definitions/ent.EmployeeWorkingHours'
+        type: array
+    type: object
+  ent.EmployeeWorkingHours:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.EmployeeWorkingHoursEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the EmployeeWorkingHoursQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.EmployeeWorkingHoursEdges:
+    properties:
+      day:
+        $ref: '#/definitions/ent.Day'
+        description: Day holds the value of the day edge.
+        type: object
+      employeeWorkingHours:
+        $ref: '#/definitions/ent.Employee'
+        description: EmployeeWorkingHours holds the value of the EmployeeWorkingHours
+          edge.
+        type: object
+      role:
+        $ref: '#/definitions/ent.Role'
+        description: Role holds the value of the role edge.
+        type: object
+      shift:
+        $ref: '#/definitions/ent.Shift'
+        description: Shift holds the value of the shift edge.
+        type: object
+    type: object
+  ent.Giveaway:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.GiveawayEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the GiveawayQuery when eager-loading is set.
+        type: object
+      giveawayName:
+        description: GiveawayName holds the value of the "giveawayName" field.
+        type: integer
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.GiveawayEdges:
+    properties:
+      forgiveaway:
+        description: Forgiveaway holds the value of the forgiveaway edge.
+        items:
+          $ref: '#/definitions/ent.Promotion'
+        type: array
+    type: object
+  ent.Manager:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.ManagerEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the ManagerQuery when eager-loading is set.
+        type: object
+      email:
+        description: Email holds the value of the "email" field.
+        type: string
+      id:
+        description: ID of the ent.
+        type: integer
+      name:
+        description: Name holds the value of the "name" field.
+        type: string
+    type: object
+  ent.ManagerEdges:
+    properties:
+      managers:
+        description: Managers holds the value of the managers edge.
+        items:
+          $ref: '#/definitions/ent.Orderproduct'
+        type: array
+    type: object
+  ent.Orderonline:
+    properties:
+      addedtime:
+        description: Addedtime holds the value of the "addedtime" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.OrderonlineEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the OrderonlineQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      stock:
+        description: Stock holds the value of the "stock" field.
+        type: integer
+    type: object
+  ent.OrderonlineEdges:
+    properties:
+      customer:
+        $ref: '#/definitions/ent.Customer'
+        description: Customer holds the value of the customer edge.
+        type: object
+      paymentchannel:
+        $ref: '#/definitions/ent.Paymentchannel'
+        description: Paymentchannel holds the value of the paymentchannel edge.
+        type: object
+      producton:
+        $ref: '#/definitions/ent.Product'
+        description: Producton holds the value of the producton edge.
+        type: object
+      typeproduct:
+        $ref: '#/definitions/ent.Typeproduct'
+        description: Typeproduct holds the value of the Typeproduct edge.
+        type: object
+    type: object
+  ent.Orderproduct:
+    properties:
+      addedtime:
+        description: Addedtime holds the value of the "addedtime" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.OrderproductEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the OrderproductQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      stock:
+        description: Stock holds the value of the "stock" field.
+        type: integer
+    type: object
+  ent.OrderproductEdges:
+    properties:
+      company:
+        $ref: '#/definitions/ent.Company'
+        description: Company holds the value of the company edge.
+        type: object
+      managers:
+        $ref: '#/definitions/ent.Manager'
+        description: Managers holds the value of the managers edge.
+        type: object
+      product:
+        $ref: '#/definitions/ent.Product'
+        description: Product holds the value of the product edge.
+        type: object
+      typeproduct:
+        $ref: '#/definitions/ent.Typeproduct'
+        description: Typeproduct holds the value of the Typeproduct edge.
+        type: object
+    type: object
+  ent.Paymentchannel:
+    properties:
+      Bank:
+        description: Bank holds the value of the "Bank" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.PaymentchannelEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the PaymentchannelQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.PaymentchannelEdges:
+    properties:
+      formpaymentchannel:
+        description: Formpaymentchannel holds the value of the formpaymentchannel
+          edge.
+        items:
+          $ref: '#/definitions/ent.Orderonline'
+        type: array
+    type: object
+  ent.Position:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.PositionEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the PositionQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      position:
+        description: Position holds the value of the "position" field.
+        type: string
+    type: object
+  ent.PositionEdges:
+    properties:
+      formposition:
+        description: Formposition holds the value of the formposition edge.
+        items:
+          $ref: '#/definitions/ent.Salary'
+        type: array
+    type: object
+  ent.Product:
+    properties:
+      BarcodeProduct:
+        description: BarcodeProduct holds the value of the "BarcodeProduct" field.
+        type: string
+      EXP:
+        description: EXP holds the value of the "EXP" field.
+        type: string
+      MFG:
+        description: MFG holds the value of the "MFG" field.
+        type: string
+      NameProduct:
+        description: NameProduct holds the value of the "NameProduct" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.ProductEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the ProductQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.ProductEdges:
+    properties:
+      formproductonline:
+        description: Formproductonline holds the value of the formproductonline edge.
+        items:
+          $ref: '#/definitions/ent.Orderonline'
+        type: array
+      forproduct:
+        $ref: '#/definitions/ent.Promotion'
+        description: Forproduct holds the value of the forproduct edge.
+        type: object
+      products:
+        description: Products holds the value of the products edge.
+        items:
+          $ref: '#/definitions/ent.Orderproduct'
+        type: array
+      stockproduct:
+        $ref: '#/definitions/ent.Stock'
+        description: Stockproduct holds the value of the stockproduct edge.
+        type: object
+    type: object
+  ent.Promotion:
+    properties:
+      Price:
+        description: Price holds the value of the "Price" field.
+        type: string
+      PromotionName:
+        description: PromotionName holds the value of the "PromotionName" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.PromotionEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the PromotionQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.PromotionEdges:
+    properties:
+      give:
+        $ref: '#/definitions/ent.Giveaway'
+        description: Give holds the value of the give edge.
+        type: object
+      product:
+        $ref: '#/definitions/ent.Product'
+        description: Product holds the value of the product edge.
+        type: object
+      sale:
+        $ref: '#/definitions/ent.Discount'
+        description: Sale holds the value of the sale edge.
+        type: object
+    type: object
+  ent.Role:
+    properties:
+      Role:
+        description: Role holds the value of the "Role" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.RoleEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the RoleQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.RoleEdges:
+    properties:
+      todo:
+        description: Todo holds the value of the todo edge.
+        items:
+          $ref: '#/definitions/ent.EmployeeWorkingHours'
+        type: array
+    type: object
+  ent.Salary:
+    properties:
+      Salary:
+        description: Salary holds the value of the "Salary" field.
+        type: number
+      SalaryDatetime:
+        description: SalaryDatetime holds the value of the "SalaryDatetime" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.SalaryEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the SalaryQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.SalaryEdges:
+    properties:
+      assessment:
+        $ref: '#/definitions/ent.Assessment'
+        description: Assessment holds the value of the assessment edge.
+        type: object
+      employee:
+        $ref: '#/definitions/ent.Employee'
+        description: Employee holds the value of the employee edge.
+        type: object
+      position:
+        $ref: '#/definitions/ent.Position'
+        description: Position holds the value of the position edge.
+        type: object
+    type: object
+  ent.Shift:
+    properties:
+      TimeEnd:
+        description: TimeEnd holds the value of the "TimeEnd" field.
+        type: string
+      TimeStart:
+        description: TimeStart holds the value of the "TimeStart" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.ShiftEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the ShiftQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.ShiftEdges:
+    properties:
+      when:
+        description: When holds the value of the when edge.
+        items:
+          $ref: '#/definitions/ent.EmployeeWorkingHours'
+        type: array
+    type: object
+  ent.Stock:
+    properties:
+      Amount:
+        description: Amount holds the value of the "Amount" field.
+        type: integer
+      Priceproduct:
+        description: Priceproduct holds the value of the "Priceproduct" field.
+        type: string
+      Time:
+        description: Time holds the value of the "Time" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.StockEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the StockQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.StockEdges:
+    properties:
+      employee:
+        $ref: '#/definitions/ent.Employee'
+        description: Employee holds the value of the employee edge.
+        type: object
+      product:
+        $ref: '#/definitions/ent.Product'
+        description: Product holds the value of the product edge.
+        type: object
+      typeproduct:
+        $ref: '#/definitions/ent.Typeproduct'
+        description: Typeproduct holds the value of the Typeproduct edge.
+        type: object
+      zoneproduct:
+        $ref: '#/definitions/ent.Zoneproduct'
+        description: Zoneproduct holds the value of the zoneproduct edge.
+        type: object
+    type: object
+  ent.Typeproduct:
+    properties:
+      Typeproduct:
+        description: Typeproduct holds the value of the "Typeproduct" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.TypeproductEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the TypeproductQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.TypeproductEdges:
+    properties:
+      fromTypeproductonline:
+        description: FromTypeproductonline holds the value of the fromTypeproductonline
+          edge.
+        items:
+          $ref: '#/definitions/ent.Orderonline'
+        type: array
+      typeproducts:
+        description: Typeproducts holds the value of the Typeproducts edge.
+        items:
+          $ref: '#/definitions/ent.Orderproduct'
+        type: array
+      typestock:
+        description: Typestock holds the value of the typestock edge.
+        items:
+          $ref: '#/definitions/ent.Stock'
+        type: array
+    type: object
+  ent.Zoneproduct:
+    properties:
+      Zone:
+        description: Zone holds the value of the "Zone" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.ZoneproductEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the ZoneproductQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.ZoneproductEdges:
+    properties:
+      zonestock:
+        description: Zonestock holds the value of the zonestock edge.
+        items:
+          $ref: '#/definitions/ent.Stock'
+        type: array
+    type: object
+  gin.H:
+    additionalProperties: true
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server for SUT SE 2563
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: SUT SA Example API
+  version: "1.0"
+paths:
+  /assessments:
+    get:
+      description: list assessment entities
+      operationId: list-assessment
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Assessment'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List assessment entities
+    post:
+      consumes:
+      - application/json
+      description: Create assessment
+      operationId: create-assessment
+      parameters:
+      - description: Assessment entity
+        in: body
+        name: assessment
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Assessment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Assessment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create assessment
+  /assessments/{id}:
+    delete:
+      description: get assessment by ID
+      operationId: delete-assessment
+      parameters:
+      - description: Assessment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a assessment entity by ID
+    get:
+      description: get assessment by ID
+      operationId: get-assessment
+      parameters:
+      - description: Assessment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Assessment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a assessment entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update assessment by ID
+      operationId: update-assessment
+      parameters:
+      - description: Assessment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Assessment entity
+        in: body
+        name: assessment
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Assessment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Assessment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a assessment entity by ID
+  /companys:
+    get:
+      description: list company entities
+      operationId: list-company
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Company'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List company entities
+    post:
+      consumes:
+      - application/json
+      description: Create company
+      operationId: create-company
+      parameters:
+      - description: Company entity
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Company'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Company'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create company
+  /companys/{id}:
+    delete:
+      description: get company by ID
+      operationId: delete-company
+      parameters:
+      - description: Company ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a company entity by ID
+    get:
+      description: get company by ID
+      operationId: get-company
+      parameters:
+      - description: Company ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Company'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a company entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update company by ID
+      operationId: update-company
+      parameters:
+      - description: Company ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Company entity
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Company'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Company'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a company entity by ID
+  /customers:
+    get:
+      description: list customer entities
+      operationId: list-customer
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Customer'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List customer entities
+    post:
+      consumes:
+      - application/json
+      description: Create customer
+      operationId: create-customer
+      parameters:
+      - description: Customer entity
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Customer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Customer'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create customer
+  /customers/{id}:
+    get:
+      description: get customer by ID
+      operationId: get-customer
+      parameters:
+      - description: Customer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Customer'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a customer entity by ID
+  /days:
+    get:
+      description: list day entities
+      operationId: list-day
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Day'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List day entities
+    post:
+      consumes:
+      - application/json
+      description: Create day
+      operationId: create-day
+      parameters:
+      - description: Day entity
+        in: body
+        name: day
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Day'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Day'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create day
+  /days/{id}:
+    delete:
+      description: get day by ID
+      operationId: delete-day
+      parameters:
+      - description: Day ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a day entity by ID
+    get:
+      description: get day by ID
+      operationId: get-day
+      parameters:
+      - description: Day ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Day'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a day entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update day by ID
+      operationId: update-day
+      parameters:
+      - description: Day ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Day entity
+        in: body
+        name: day
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Day'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Day'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a day entity by ID
+  /discounts:
+    get:
+      description: list discount entities
+      operationId: list-discount
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Discount'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List discount entities
+    post:
+      consumes:
+      - application/json
+      description: Create discount
+      operationId: create-discount
+      parameters:
+      - description: Discount entity
+        in: body
+        name: discount
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Discount'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Discount'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create discount
+  /discounts/{id}:
+    delete:
+      description: get discount by ID
+      operationId: delete-discount
+      parameters:
+      - description: Discount ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a discount entity by ID
+    get:
+      description: get discount by ID
+      operationId: get-discount
+      parameters:
+      - description: Discount ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Discount'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a discount entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update discount by ID
+      operationId: update-discount
+      parameters:
+      - description: Discount ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Discount entity
+        in: body
+        name: discount
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Discount'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Discount'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a discount entity by ID
+  /employees:
+    get:
+      description: list employee entities
+      operationId: list-employee
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Employee'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List employee entities
+    post:
+      consumes:
+      - application/json
+      description: Create employee
+      operationId: create-employee
+      parameters:
+      - description: Employee entity
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Employee'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Employee'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create employee
+  /employees/{id}:
+    delete:
+      description: get employee by ID
+      operationId: delete-employee
+      parameters:
+      - description: Employee ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a employee entity by ID
+    get:
+      description: get employee by ID
+      operationId: get-employee
+      parameters:
+      - description: Employee ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Employee'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a employee entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update employee by ID
+      operationId: update-employee
+      parameters:
+      - description: Employee ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Employee entity
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Employee'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Employee'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a employee entity by ID
+  /employeeworkinghourss:
+    get:
+      description: list employeeworkinghours entities
+      operationId: list-employeeworkinghours
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.EmployeeWorkingHours'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List employeeworkinghours entities
+    post:
+      consumes:
+      - application/json
+      description: Create employeeworkinghours
+      operationId: create-employeeworkinghours
+      parameters:
+      - description: EmployeeWorkingHours entity
+        in: body
+        name: employeeworkinghours
+        required: true
+        schema:
+          $ref: '#/definitions/ent.EmployeeWorkingHours'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.EmployeeWorkingHours'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create employeeworkinghours
+  /employeeworkinghourss/{id}:
+    delete:
+      description: get employeeworkinghours by ID
+      operationId: delete-employeeworkinghours
+      parameters:
+      - description: EmployeeWorkingHours ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a employeeworkinghours entity by ID
+    get:
+      description: get employeeworkinghours by ID
+      operationId: get-employeeworkinghours
+      parameters:
+      - description: EmployeeWorkingHours ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.EmployeeWorkingHours'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a employeeworkinghours entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update employeeworkinghours by ID
+      operationId: update-employeeworkinghours
+      parameters:
+      - description: EmployeeWorkingHours ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: EmployeeWorkingHours entity
+        in: body
+        name: employeeworkinghours
+        required: true
+        schema:
+          $ref: '#/definitions/ent.EmployeeWorkingHours'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.EmployeeWorkingHours'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a employeeworkinghours entity by ID
+  /giveaway:
+    get:
+      description: list discount entities
+      operationId: list-discount
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Giveaway'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List discount entities
+    post:
+      consumes:
+      - application/json
+      description: Create discount
+      operationId: create-discount
+      parameters:
+      - description: Giveaway entity
+        in: body
+        name: discount
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Giveaway'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Giveaway'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create discount
+  /giveaway/{id}:
+    delete:
+      description: get discount by ID
+      operationId: delete-discount
+      parameters:
+      - description: Giveaway ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a discount entity by ID
+    get:
+      description: get discount by ID
+      operationId: get-discount
+      parameters:
+      - description: Giveaway ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Giveaway'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a discount entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update discount by ID
+      operationId: update-discount
+      parameters:
+      - description: Giveaway ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Giveaway entity
+        in: body
+        name: discount
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Giveaway'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Giveaway'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a discount entity by ID
+  /managers:
+    get:
+      description: list manager entities
+      operationId: list-manager
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Manager'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List manager entities
+    post:
+      consumes:
+      - application/json
+      description: Create manager
+      operationId: create-manager
+      parameters:
+      - description: Manager entity
+        in: body
+        name: manager
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Manager'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Manager'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create manager
+  /managers/{id}:
+    delete:
+      description: get manager by ID
+      operationId: delete-manager
+      parameters:
+      - description: Manager ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a manager entity by ID
+    get:
+      description: get manager by ID
+      operationId: get-manager
+      parameters:
+      - description: Manager ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Manager'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a manager entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update manager by ID
+      operationId: update-manager
+      parameters:
+      - description: Manager ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Manager entity
+        in: body
+        name: manager
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Manager'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Manager'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a manager entity by ID
+  /orderonlines:
+    get:
+      description: list orderonline entities
+      operationId: list-orderonline
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Orderonline'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List orderonline entities
+    post:
+      consumes:
+      - application/json
+      description: Create orderonline
+      operationId: create-orderonline
+      parameters:
+      - description: Orderonline entity
+        in: body
+        name: orderonline
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Orderonline'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Orderonline'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create orderonline
+  /orderonlines/{id}:
+    delete:
+      description: get orderonline by ID
+      operationId: delete-orderonline
+      parameters:
+      - description: Orderonline ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a orderonline entity by ID
+    get:
+      description: get orderonline by ID
+      operationId: get-orderonline
+      parameters:
+      - description: Orderonline ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Orderonline'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a orderonline entity by ID
+  /orderproducts:
+    get:
+      description: list orderproduct entities
+      operationId: list-orderproduct
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Orderproduct'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List orderproduct entities
+    post:
+      consumes:
+      - application/json
+      description: Create orderproduct
+      operationId: create-orderproduct
+      parameters:
+      - description: Orderproduct entity
+        in: body
+        name: orderproduct
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Orderproduct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Orderproduct'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create orderproduct
+  /orderproducts/{id}:
+    delete:
+      description: get orderproduct by ID
+      operationId: delete-orderproduct
+      parameters:
+      - description: Orderproduct ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a orderproduct entity by ID
+    get:
+      description: get orderproduct by ID
+      operationId: get-orderproduct
+      parameters:
+      - description: Orderproduct ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Orderproduct'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a orderproduct entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update orderproduct by ID
+      operationId: update-orderproduct
+      parameters:
+      - description: Orderproduct ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Orderproduct entity
+        in: body
+        name: orderproduct
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Orderproduct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Orderproduct'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a orderproduct entity by ID
+  /paymentchannels:
+    get:
+      description: list paymentchannel entities
+      operationId: list-paymentchannel
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Paymentchannel'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List paymentchannel entities
+    post:
+      consumes:
+      - application/json
+      description: Create paymentchannel
+      operationId: create-paymentchannel
+      parameters:
+      - description: Paymentchannel entity
+        in: body
+        name: paymentchannel
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Paymentchannel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Paymentchannel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create paymentchannel
+  /paymentchannels/{id}:
+    get:
+      description: get paymentchannel by ID
+      operationId: get-paymentchannel
+      parameters:
+      - description: Paymentchannel ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Paymentchannel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a paymentchannel entity by ID
+  /positions:
+    get:
+      description: list position entities
+      operationId: list-position
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Position'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List position entities
+    post:
+      consumes:
+      - application/json
+      description: Create position
+      operationId: create-position
+      parameters:
+      - description: Position entity
+        in: body
+        name: position
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Position'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Position'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create position
+  /positions/{id}:
+    delete:
+      description: get position by ID
+      operationId: delete-position
+      parameters:
+      - description: Position ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a position entity by ID
+    get:
+      description: get position by ID
+      operationId: get-position
+      parameters:
+      - description: Position ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Position'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a position entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update position by ID
+      operationId: update-position
+      parameters:
+      - description: Position ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Position entity
+        in: body
+        name: position
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Position'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Position'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a position entity by ID
+  /products:
+    get:
+      description: list product entities
+      operationId: list-product
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Product'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List product entities
+    post:
+      consumes:
+      - application/json
+      description: Create product
+      operationId: create-product
+      parameters:
+      - description: Product entity
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Product'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create product
+  /products/{id}:
+    delete:
+      description: get product by ID
+      operationId: delete-product
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a product entity by ID
+    get:
+      description: get product by ID
+      operationId: get-product
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Product'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a product entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update product by ID
+      operationId: update-product
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Product entity
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Product'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a product entity by ID
+  /promotions:
+    get:
+      description: list promotion entities
+      operationId: list-promotion
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Promotion'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List promotion entities
+    post:
+      consumes:
+      - application/json
+      description: Create promotion
+      operationId: create-promotion
+      parameters:
+      - description: Promotion entity
+        in: body
+        name: promotion
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Promotion'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Promotion'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create promotion
+  /promotions/{id}:
+    delete:
+      description: get promotion by ID
+      operationId: delete-promotion
+      parameters:
+      - description: Promotion ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a promotion entity by ID
+  /roles:
+    get:
+      description: list role entities
+      operationId: list-role
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Role'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List role entities
+    post:
+      consumes:
+      - application/json
+      description: Create role
+      operationId: create-role
+      parameters:
+      - description: Role entity
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Role'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create role
+  /roles/{id}:
+    delete:
+      description: get role by ID
+      operationId: delete-role
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a role entity by ID
+    get:
+      description: get role by ID
+      operationId: get-role
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Role'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a role entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update role by ID
+      operationId: update-role
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Role entity
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Role'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a role entity by ID
+  /salarys:
+    get:
+      description: list salary entities
+      operationId: list-salary
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Salary'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List salary entities
+    post:
+      consumes:
+      - application/json
+      description: Create salary
+      operationId: create-salary
+      parameters:
+      - description: Salary entity
+        in: body
+        name: salary
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Salary'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Salary'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create salary
+  /salarys/{id}:
+    delete:
+      description: get salary by ID
+      operationId: delete-salary
+      parameters:
+      - description: Salary ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a salary entity by ID
+  /shifts:
+    get:
+      description: list shift entities
+      operationId: list-shift
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Shift'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List shift entities
+    post:
+      consumes:
+      - application/json
+      description: Create shift
+      operationId: create-shift
+      parameters:
+      - description: Shift entity
+        in: body
+        name: shift
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Shift'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Shift'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create shift
+  /shifts/{id}:
+    delete:
+      description: get shift by ID
+      operationId: delete-shift
+      parameters:
+      - description: Shift ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a shift entity by ID
+    get:
+      description: get shift by ID
+      operationId: get-shift
+      parameters:
+      - description: Shift ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Shift'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a shift entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update shift by ID
+      operationId: update-shift
+      parameters:
+      - description: Shift ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Shift entity
+        in: body
+        name: shift
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Shift'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Shift'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a shift entity by ID
+  /stocks:
+    get:
+      description: list stock entities
+      operationId: list-stock
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Stock'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List stock entities
+    post:
+      consumes:
+      - application/json
+      description: Create stock
+      operationId: create-stock
+      parameters:
+      - description: Stock entity
+        in: body
+        name: stock
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Stock'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Stock'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create stock
+  /stocks/{id}:
+    delete:
+      description: get stock by ID
+      operationId: delete-stock
+      parameters:
+      - description: Stock ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a stock entity by ID
+    get:
+      description: get stock by ID
+      operationId: get-stock
+      parameters:
+      - description: Stock ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Stock'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a stock entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update stock by ID
+      operationId: update-stock
+      parameters:
+      - description: Stock ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Stock entity
+        in: body
+        name: stock
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Stock'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Stock'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a stock entity by ID
+  /typeproducts:
+    get:
+      description: list typeproduct entities
+      operationId: list-typeproduct
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Typeproduct'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List typeproduct entities
+    post:
+      consumes:
+      - application/json
+      description: Create typeproduct
+      operationId: create-typeproduct
+      parameters:
+      - description: Typeproduct entity
+        in: body
+        name: typeproduct
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Typeproduct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Typeproduct'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create typeproduct
+  /typeproducts/{id}:
+    delete:
+      description: get typeproduct by ID
+      operationId: delete-typeproduct
+      parameters:
+      - description: Typeproduct ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a typeproduct entity by ID
+    get:
+      description: get typeproduct by ID
+      operationId: get-typeproduct
+      parameters:
+      - description: Typeproduct ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Typeproduct'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a typeproduct entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update typeproduct by ID
+      operationId: update-typeproduct
+      parameters:
+      - description: Typeproduct ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Typeproduct entity
+        in: body
+        name: typeproduct
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Typeproduct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Typeproduct'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a typeproduct entity by ID
+  /zoneproducts:
+    get:
+      description: list zoneproduct entities
+      operationId: list-zoneproduct
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Zoneproduct'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List zoneproduct entities
+    post:
+      consumes:
+      - application/json
+      description: Create zoneproduct
+      operationId: create-zoneproduct
+      parameters:
+      - description: Zoneproduct entity
+        in: body
+        name: zoneproduct
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Zoneproduct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Zoneproduct'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create zoneproduct
+  /zoneproducts/{id}:
+    delete:
+      description: get zoneproduct by ID
+      operationId: delete-zoneproduct
+      parameters:
+      - description: Zoneproduct ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a zoneproduct entity by ID
+    get:
+      description: get zoneproduct by ID
+      operationId: get-zoneproduct
+      parameters:
+      - description: Zoneproduct ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Zoneproduct'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a zoneproduct entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update zoneproduct by ID
+      operationId: update-zoneproduct
+      parameters:
+      - description: Zoneproduct ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Zoneproduct entity
+        in: body
+        name: zoneproduct
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Zoneproduct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Zoneproduct'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a zoneproduct entity by ID
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+  OAuth2AccessCode:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: accessCode
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Application:
+    authorizationUrl: ""
+    flow: application
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Implicit:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: implicit
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    type: oauth2
+  OAuth2Password:
+    authorizationUrl: ""
+    flow: password
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      read: ' Grants read access'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+swagger: "2.0"
