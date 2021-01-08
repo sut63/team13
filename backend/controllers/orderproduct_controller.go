@@ -108,7 +108,7 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 	sa, err := ctl.client.Orderproduct.
 		Create().
 		SetManagers(mn).
-		SetTypeproduct(tp).
+		SetTypeproduct(tp).set
 		SetProduct(pr).
 		SetCompany(cp).
 		SetStock(obj.Stock).

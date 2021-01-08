@@ -48,7 +48,7 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 
 	d, err := ctl.client.Discount.
 		Query().
-		Where(discount.IDEQ(int(obj.Discountdata))).
+		Where(discount.IDEQ(int(obj.Discount))).
 		Only(context.Background())
 
 	if err != nil {
@@ -60,24 +60,24 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 
 	g, err := ctl.client.Giveaway.
 		Query().
-		Where(giveaway.IDEQ(int(obj.Giveawaydata))).
+		Where(giveaway.IDEQ(int(obj.Giveaway))).
 		Only(context.Background())
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "Giveawaydata diagnostic  not found",
+			"error": "Giveaway diagnostic  not found",
 		})
 		return
 	}
 
 	p, err := ctl.client.Product.
 		Query().
-		Where(product.IDEQ(int(obj.Productdata))).
+		Where(product.IDEQ(int(obj.Product))).
 		Only(context.Background())
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "Productdata diagnostic  not found",
+			"error": "Product diagnostic  not found",
 		})
 		return
 	}
