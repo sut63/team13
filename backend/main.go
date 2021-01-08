@@ -266,3 +266,4 @@ func main() {
    router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
    router.Run()
 }
+//testdel
