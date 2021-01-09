@@ -230,10 +230,10 @@ func main() {
 
 	customers := Customers{
 		Customer: []Customer{
-			Customer{"Dang Dang", "Dang@gmail.com", "123", 19},
-			Customer{"AEK Dang", "AEK@gmail.com", "1234", 20},
-			Customer{"PANG Dang", "PANG@gmail.com", "1235", 21},
-			Customer{"NW Dang", "NW@gmail.com", "1236", 22},
+			Customer{"AEK", "AEK@gmail.com", "123", 19},
+			Customer{"KEN", "KEN@gmail.com", "1234", 20},
+			Customer{"NAME", "NAME@gmail.com", "1235", 21},
+			Customer{"TJ", "TJ@gmail.com", "1236", 22},
 		},
 	}
 
@@ -266,10 +266,10 @@ func main() {
 	products := Products{
 		Product: []Product{
 			Product{"A", "001", "01-01-2018", "01-01-2024"},
-			Product{"B", "002", "01-01-2018", "01-01-2024"},
-			Product{"C", "003", "01-01-2018", "01-01-2024"},
-			Product{"D", "004", "01-01-2018", "01-01-2024"},
-			Product{"E", "005", "01-01-2018", "01-01-2024"},
+			Product{"B", "002", "02-01-2018", "02-01-2024"},
+			Product{"C", "003", "03-01-2018", "03-01-2024"},
+			Product{"D", "004", "04-01-2018", "04-01-2024"},
+			Product{"E", "005", "05-01-2018", "05-01-2024"},
 		},
 	}
 
