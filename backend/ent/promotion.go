@@ -21,7 +21,7 @@ type Promotion struct {
 	// PromotionName holds the value of the "PromotionName" field.
 	PromotionName string `json:"PromotionName,omitempty"`
 	// Price holds the value of the "Price" field.
-	Price string `json:"Price,omitempty"`
+	Price float64 `json:"Price,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the PromotionQuery when eager-loading is set.
 	Edges                PromotionEdges `json:"edges"`
@@ -88,9 +88,9 @@ func (e PromotionEdges) ProductOrErr() (*Product, error) {
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Promotion) scanValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{},  // id
-		&sql.NullString{}, // PromotionName
-		&sql.NullString{}, // Price
+		&sql.NullInt64{},   // id
+		&sql.NullString{},  // PromotionName
+		&sql.NullFloat64{}, // Price
 	}
 }
 
@@ -120,10 +120,10 @@ func (pr *Promotion) assignValues(values ...interface{}) error {
 	} else if value.Valid {
 		pr.PromotionName = value.String
 	}
-	if value, ok := values[1].(*sql.NullString); !ok {
+	if value, ok := values[1].(*sql.NullFloat64); !ok {
 		return fmt.Errorf("unexpected type %T for field Price", values[1])
 	} else if value.Valid {
-		pr.Price = value.String
+		pr.Price = value.Float64
 	}
 	values = values[2:]
 	if len(values) == len(promotion.ForeignKeys) {
@@ -190,7 +190,7 @@ func (pr *Promotion) String() string {
 	builder.WriteString(", PromotionName=")
 	builder.WriteString(pr.PromotionName)
 	builder.WriteString(", Price=")
-	builder.WriteString(pr.Price)
+	builder.WriteString(fmt.Sprintf("%v", pr.Price))
 	builder.WriteByte(')')
 	return builder.String()
 }

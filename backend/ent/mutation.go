@@ -3318,8 +3318,7 @@ type GiveawayMutation struct {
 	op                 Op
 	typ                string
 	id                 *int
-	giveawayName       *int
-	addgiveawayName    *int
+	giveawayName       *string
 	clearedFields      map[string]struct{}
 	forgiveaway        map[int]struct{}
 	removedforgiveaway map[int]struct{}
@@ -3407,13 +3406,12 @@ func (m *GiveawayMutation) ID() (id int, exists bool) {
 }
 
 // SetGiveawayName sets the giveawayName field.
-func (m *GiveawayMutation) SetGiveawayName(i int) {
-	m.giveawayName = &i
-	m.addgiveawayName = nil
+func (m *GiveawayMutation) SetGiveawayName(s string) {
+	m.giveawayName = &s
 }
 
 // GiveawayName returns the giveawayName value in the mutation.
-func (m *GiveawayMutation) GiveawayName() (r int, exists bool) {
+func (m *GiveawayMutation) GiveawayName() (r string, exists bool) {
 	v := m.giveawayName
 	if v == nil {
 		return
@@ -3425,7 +3423,7 @@ func (m *GiveawayMutation) GiveawayName() (r int, exists bool) {
 // If the Giveaway object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *GiveawayMutation) OldGiveawayName(ctx context.Context) (v int, err error) {
+func (m *GiveawayMutation) OldGiveawayName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldGiveawayName is allowed only on UpdateOne operations")
 	}
@@ -3439,28 +3437,9 @@ func (m *GiveawayMutation) OldGiveawayName(ctx context.Context) (v int, err erro
 	return oldValue.GiveawayName, nil
 }
 
-// AddGiveawayName adds i to giveawayName.
-func (m *GiveawayMutation) AddGiveawayName(i int) {
-	if m.addgiveawayName != nil {
-		*m.addgiveawayName += i
-	} else {
-		m.addgiveawayName = &i
-	}
-}
-
-// AddedGiveawayName returns the value that was added to the giveawayName field in this mutation.
-func (m *GiveawayMutation) AddedGiveawayName() (r int, exists bool) {
-	v := m.addgiveawayName
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ResetGiveawayName reset all changes of the "giveawayName" field.
 func (m *GiveawayMutation) ResetGiveawayName() {
 	m.giveawayName = nil
-	m.addgiveawayName = nil
 }
 
 // AddForgiveawayIDs adds the forgiveaway edge to Promotion by ids.
@@ -3554,7 +3533,7 @@ func (m *GiveawayMutation) OldField(ctx context.Context, name string) (ent.Value
 func (m *GiveawayMutation) SetField(name string, value ent.Value) error {
 	switch name {
 	case giveaway.FieldGiveawayName:
-		v, ok := value.(int)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3567,21 +3546,13 @@ func (m *GiveawayMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented
 // or decremented during this mutation.
 func (m *GiveawayMutation) AddedFields() []string {
-	var fields []string
-	if m.addgiveawayName != nil {
-		fields = append(fields, giveaway.FieldGiveawayName)
-	}
-	return fields
+	return nil
 }
 
 // AddedField returns the numeric value that was in/decremented
 // from a field with the given name. The second value indicates
 // that this field was not set, or was not define in the schema.
 func (m *GiveawayMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case giveaway.FieldGiveawayName:
-		return m.AddedGiveawayName()
-	}
 	return nil, false
 }
 
@@ -3590,13 +3561,6 @@ func (m *GiveawayMutation) AddedField(name string) (ent.Value, bool) {
 // type mismatch the field type.
 func (m *GiveawayMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case giveaway.FieldGiveawayName:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddGiveawayName(v)
-		return nil
 	}
 	return fmt.Errorf("unknown Giveaway numeric field %s", name)
 }
@@ -6913,7 +6877,8 @@ type PromotionMutation struct {
 	typ            string
 	id             *int
 	_PromotionName *string
-	_Price         *string
+	_Price         *float64
+	add_Price      *float64
 	clearedFields  map[string]struct{}
 	sale           *int
 	clearedsale    bool
@@ -7042,12 +7007,13 @@ func (m *PromotionMutation) ResetPromotionName() {
 }
 
 // SetPrice sets the Price field.
-func (m *PromotionMutation) SetPrice(s string) {
-	m._Price = &s
+func (m *PromotionMutation) SetPrice(f float64) {
+	m._Price = &f
+	m.add_Price = nil
 }
 
 // Price returns the Price value in the mutation.
-func (m *PromotionMutation) Price() (r string, exists bool) {
+func (m *PromotionMutation) Price() (r float64, exists bool) {
 	v := m._Price
 	if v == nil {
 		return
@@ -7059,7 +7025,7 @@ func (m *PromotionMutation) Price() (r string, exists bool) {
 // If the Promotion object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *PromotionMutation) OldPrice(ctx context.Context) (v string, err error) {
+func (m *PromotionMutation) OldPrice(ctx context.Context) (v float64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldPrice is allowed only on UpdateOne operations")
 	}
@@ -7073,9 +7039,28 @@ func (m *PromotionMutation) OldPrice(ctx context.Context) (v string, err error) 
 	return oldValue.Price, nil
 }
 
+// AddPrice adds f to Price.
+func (m *PromotionMutation) AddPrice(f float64) {
+	if m.add_Price != nil {
+		*m.add_Price += f
+	} else {
+		m.add_Price = &f
+	}
+}
+
+// AddedPrice returns the value that was added to the Price field in this mutation.
+func (m *PromotionMutation) AddedPrice() (r float64, exists bool) {
+	v := m.add_Price
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
 // ResetPrice reset all changes of the "Price" field.
 func (m *PromotionMutation) ResetPrice() {
 	m._Price = nil
+	m.add_Price = nil
 }
 
 // SetSaleID sets the sale edge to Discount by id.
@@ -7258,7 +7243,7 @@ func (m *PromotionMutation) SetField(name string, value ent.Value) error {
 		m.SetPromotionName(v)
 		return nil
 	case promotion.FieldPrice:
-		v, ok := value.(string)
+		v, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -7271,13 +7256,21 @@ func (m *PromotionMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented
 // or decremented during this mutation.
 func (m *PromotionMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.add_Price != nil {
+		fields = append(fields, promotion.FieldPrice)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was in/decremented
 // from a field with the given name. The second value indicates
 // that this field was not set, or was not define in the schema.
 func (m *PromotionMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case promotion.FieldPrice:
+		return m.AddedPrice()
+	}
 	return nil, false
 }
 
@@ -7286,6 +7279,13 @@ func (m *PromotionMutation) AddedField(name string) (ent.Value, bool) {
 // type mismatch the field type.
 func (m *PromotionMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case promotion.FieldPrice:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPrice(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Promotion numeric field %s", name)
 }

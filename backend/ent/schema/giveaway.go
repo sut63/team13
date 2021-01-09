@@ -14,7 +14,7 @@ type Giveaway struct {
 // Fields of the Giveaway.
 func (Giveaway) Fields() []ent.Field {
     return []ent.Field{
-        field.Int("giveawayName"),
+        field.String("giveawayName"),
     }
 }
 

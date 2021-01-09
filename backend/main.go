@@ -131,6 +131,22 @@ type Position struct {
 	PositionName string
 }
 
+type Discounts struct {
+	Discount []Discount
+}
+
+type Discount struct {
+	Sale int
+}
+
+type Giveaways struct {
+	Giveaway []Giveaway
+}
+
+type Giveaway struct {
+	GiveawayName string
+}
+
 // @title SUT SA Example API
 // @version 1.0
 // @description This is a sample server for SUT SE 2563
@@ -208,6 +224,9 @@ func main() {
 	controllers.NewAssessmentController(v1, client)
 	controllers.NewPositionController(v1, client)
 	controllers.NewSalaryController(v1, client)
+
+	controllers.NewDiscountController(v1, client)
+	controllers.NewGiveawayController(v1, client)
 
 	customers := Customers{
 		Customer: []Customer{
@@ -423,7 +442,6 @@ func main() {
 			Position{"พนักงานทั่วไป"},
 			Position{"ผู้ช่วยผู้จัดการ"},
 			Position{"ผู้จัดการ"},
-			
 		},
 	}
 
@@ -431,6 +449,36 @@ func main() {
 		client.Position.
 			Create().
 			SetPosition(po.PositionName).
+			Save(context.Background())
+	}
+
+	Discounts := Discounts{
+		Discount: []Discount{
+			{10},
+			{50},
+			{80},
+		},
+	}
+
+	for _, d := range Discounts.Discount {
+		client.Discount.
+			Create().
+			SetSale(d.Sale).
+			Save(context.Background())
+	}
+
+	Giveaways := Giveaways{
+		Giveaway: []Giveaway{
+			{"ตุ๊กตาหมี"},
+			{"ร่มแบบพกพา"},
+			{"เก้าอี้"},
+		},
+	}
+
+	for _, gc := range Giveaways.Giveaway {
+		client.Giveaway.
+			Create().
+			SetGiveawayName(gc.GiveawayName).
 			Save(context.Background())
 	}
 

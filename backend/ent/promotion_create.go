@@ -29,8 +29,8 @@ func (pc *PromotionCreate) SetPromotionName(s string) *PromotionCreate {
 }
 
 // SetPrice sets the Price field.
-func (pc *PromotionCreate) SetPrice(s string) *PromotionCreate {
-	pc.mutation.SetPrice(s)
+func (pc *PromotionCreate) SetPrice(f float64) *PromotionCreate {
+	pc.mutation.SetPrice(f)
 	return pc
 }
 
@@ -174,7 +174,7 @@ func (pc *PromotionCreate) createSpec() (*Promotion, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := pc.mutation.Price(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: promotion.FieldPrice,
 		})

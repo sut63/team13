@@ -37,8 +37,15 @@ func (pu *PromotionUpdate) SetPromotionName(s string) *PromotionUpdate {
 }
 
 // SetPrice sets the Price field.
-func (pu *PromotionUpdate) SetPrice(s string) *PromotionUpdate {
-	pu.mutation.SetPrice(s)
+func (pu *PromotionUpdate) SetPrice(f float64) *PromotionUpdate {
+	pu.mutation.ResetPrice()
+	pu.mutation.SetPrice(f)
+	return pu
+}
+
+// AddPrice adds f to Price.
+func (pu *PromotionUpdate) AddPrice(f float64) *PromotionUpdate {
+	pu.mutation.AddPrice(f)
 	return pu
 }
 
@@ -201,7 +208,14 @@ func (pu *PromotionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := pu.mutation.Price(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: promotion.FieldPrice,
+		})
+	}
+	if value, ok := pu.mutation.AddedPrice(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: promotion.FieldPrice,
 		})
@@ -336,8 +350,15 @@ func (puo *PromotionUpdateOne) SetPromotionName(s string) *PromotionUpdateOne {
 }
 
 // SetPrice sets the Price field.
-func (puo *PromotionUpdateOne) SetPrice(s string) *PromotionUpdateOne {
-	puo.mutation.SetPrice(s)
+func (puo *PromotionUpdateOne) SetPrice(f float64) *PromotionUpdateOne {
+	puo.mutation.ResetPrice()
+	puo.mutation.SetPrice(f)
+	return puo
+}
+
+// AddPrice adds f to Price.
+func (puo *PromotionUpdateOne) AddPrice(f float64) *PromotionUpdateOne {
+	puo.mutation.AddPrice(f)
 	return puo
 }
 
@@ -498,7 +519,14 @@ func (puo *PromotionUpdateOne) sqlSave(ctx context.Context) (pr *Promotion, err 
 	}
 	if value, ok := puo.mutation.Price(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: promotion.FieldPrice,
+		})
+	}
+	if value, ok := puo.mutation.AddedPrice(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: promotion.FieldPrice,
 		})
