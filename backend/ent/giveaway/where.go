@@ -92,28 +92,28 @@ func IDLTE(id int) predicate.Giveaway {
 }
 
 // GiveawayName applies equality check predicate on the "giveawayName" field. It's identical to GiveawayNameEQ.
-func GiveawayName(v int) predicate.Giveaway {
+func GiveawayName(v string) predicate.Giveaway {
 	return predicate.Giveaway(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldGiveawayName), v))
 	})
 }
 
 // GiveawayNameEQ applies the EQ predicate on the "giveawayName" field.
-func GiveawayNameEQ(v int) predicate.Giveaway {
+func GiveawayNameEQ(v string) predicate.Giveaway {
 	return predicate.Giveaway(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldGiveawayName), v))
 	})
 }
 
 // GiveawayNameNEQ applies the NEQ predicate on the "giveawayName" field.
-func GiveawayNameNEQ(v int) predicate.Giveaway {
+func GiveawayNameNEQ(v string) predicate.Giveaway {
 	return predicate.Giveaway(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldGiveawayName), v))
 	})
 }
 
 // GiveawayNameIn applies the In predicate on the "giveawayName" field.
-func GiveawayNameIn(vs ...int) predicate.Giveaway {
+func GiveawayNameIn(vs ...string) predicate.Giveaway {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -130,7 +130,7 @@ func GiveawayNameIn(vs ...int) predicate.Giveaway {
 }
 
 // GiveawayNameNotIn applies the NotIn predicate on the "giveawayName" field.
-func GiveawayNameNotIn(vs ...int) predicate.Giveaway {
+func GiveawayNameNotIn(vs ...string) predicate.Giveaway {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -147,30 +147,65 @@ func GiveawayNameNotIn(vs ...int) predicate.Giveaway {
 }
 
 // GiveawayNameGT applies the GT predicate on the "giveawayName" field.
-func GiveawayNameGT(v int) predicate.Giveaway {
+func GiveawayNameGT(v string) predicate.Giveaway {
 	return predicate.Giveaway(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldGiveawayName), v))
 	})
 }
 
 // GiveawayNameGTE applies the GTE predicate on the "giveawayName" field.
-func GiveawayNameGTE(v int) predicate.Giveaway {
+func GiveawayNameGTE(v string) predicate.Giveaway {
 	return predicate.Giveaway(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldGiveawayName), v))
 	})
 }
 
 // GiveawayNameLT applies the LT predicate on the "giveawayName" field.
-func GiveawayNameLT(v int) predicate.Giveaway {
+func GiveawayNameLT(v string) predicate.Giveaway {
 	return predicate.Giveaway(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldGiveawayName), v))
 	})
 }
 
 // GiveawayNameLTE applies the LTE predicate on the "giveawayName" field.
-func GiveawayNameLTE(v int) predicate.Giveaway {
+func GiveawayNameLTE(v string) predicate.Giveaway {
 	return predicate.Giveaway(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldGiveawayName), v))
+	})
+}
+
+// GiveawayNameContains applies the Contains predicate on the "giveawayName" field.
+func GiveawayNameContains(v string) predicate.Giveaway {
+	return predicate.Giveaway(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldGiveawayName), v))
+	})
+}
+
+// GiveawayNameHasPrefix applies the HasPrefix predicate on the "giveawayName" field.
+func GiveawayNameHasPrefix(v string) predicate.Giveaway {
+	return predicate.Giveaway(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldGiveawayName), v))
+	})
+}
+
+// GiveawayNameHasSuffix applies the HasSuffix predicate on the "giveawayName" field.
+func GiveawayNameHasSuffix(v string) predicate.Giveaway {
+	return predicate.Giveaway(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldGiveawayName), v))
+	})
+}
+
+// GiveawayNameEqualFold applies the EqualFold predicate on the "giveawayName" field.
+func GiveawayNameEqualFold(v string) predicate.Giveaway {
+	return predicate.Giveaway(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldGiveawayName), v))
+	})
+}
+
+// GiveawayNameContainsFold applies the ContainsFold predicate on the "giveawayName" field.
+func GiveawayNameContainsFold(v string) predicate.Giveaway {
+	return predicate.Giveaway(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldGiveawayName), v))
 	})
 }
 

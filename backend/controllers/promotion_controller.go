@@ -24,6 +24,8 @@ type Promotion struct {
 	Discount       int
 	Giveaway       int
 	Product		   int
+	PromotionName  string
+	Price		   float64
 }
 
 // CreatePromotion handles POST requests for adding promotion entities
@@ -88,6 +90,8 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 		SetSale(d).
 		SetGive(g).
 		SetProduct(p).
+		SetPrice(obj.Price).
+		SetPromotionName(obj.PromotionName).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{

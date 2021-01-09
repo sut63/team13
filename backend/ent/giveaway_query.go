@@ -270,7 +270,7 @@ func (gq *GiveawayQuery) WithForgiveaway(opts ...func(*PromotionQuery)) *Giveawa
 // Example:
 //
 //	var v []struct {
-//		GiveawayName int `json:"giveawayName,omitempty"`
+//		GiveawayName string `json:"giveawayName,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
@@ -296,7 +296,7 @@ func (gq *GiveawayQuery) GroupBy(field string, fields ...string) *GiveawayGroupB
 // Example:
 //
 //	var v []struct {
-//		GiveawayName int `json:"giveawayName,omitempty"`
+//		GiveawayName string `json:"giveawayName,omitempty"`
 //	}
 //
 //	client.Giveaway.Query().

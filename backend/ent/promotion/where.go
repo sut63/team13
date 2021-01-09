@@ -99,7 +99,7 @@ func PromotionName(v string) predicate.Promotion {
 }
 
 // Price applies equality check predicate on the "Price" field. It's identical to PriceEQ.
-func Price(v string) predicate.Promotion {
+func Price(v float64) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldPrice), v))
 	})
@@ -217,21 +217,21 @@ func PromotionNameContainsFold(v string) predicate.Promotion {
 }
 
 // PriceEQ applies the EQ predicate on the "Price" field.
-func PriceEQ(v string) predicate.Promotion {
+func PriceEQ(v float64) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldPrice), v))
 	})
 }
 
 // PriceNEQ applies the NEQ predicate on the "Price" field.
-func PriceNEQ(v string) predicate.Promotion {
+func PriceNEQ(v float64) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldPrice), v))
 	})
 }
 
 // PriceIn applies the In predicate on the "Price" field.
-func PriceIn(vs ...string) predicate.Promotion {
+func PriceIn(vs ...float64) predicate.Promotion {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -248,7 +248,7 @@ func PriceIn(vs ...string) predicate.Promotion {
 }
 
 // PriceNotIn applies the NotIn predicate on the "Price" field.
-func PriceNotIn(vs ...string) predicate.Promotion {
+func PriceNotIn(vs ...float64) predicate.Promotion {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -265,65 +265,30 @@ func PriceNotIn(vs ...string) predicate.Promotion {
 }
 
 // PriceGT applies the GT predicate on the "Price" field.
-func PriceGT(v string) predicate.Promotion {
+func PriceGT(v float64) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldPrice), v))
 	})
 }
 
 // PriceGTE applies the GTE predicate on the "Price" field.
-func PriceGTE(v string) predicate.Promotion {
+func PriceGTE(v float64) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldPrice), v))
 	})
 }
 
 // PriceLT applies the LT predicate on the "Price" field.
-func PriceLT(v string) predicate.Promotion {
+func PriceLT(v float64) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldPrice), v))
 	})
 }
 
 // PriceLTE applies the LTE predicate on the "Price" field.
-func PriceLTE(v string) predicate.Promotion {
+func PriceLTE(v float64) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldPrice), v))
-	})
-}
-
-// PriceContains applies the Contains predicate on the "Price" field.
-func PriceContains(v string) predicate.Promotion {
-	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldPrice), v))
-	})
-}
-
-// PriceHasPrefix applies the HasPrefix predicate on the "Price" field.
-func PriceHasPrefix(v string) predicate.Promotion {
-	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldPrice), v))
-	})
-}
-
-// PriceHasSuffix applies the HasSuffix predicate on the "Price" field.
-func PriceHasSuffix(v string) predicate.Promotion {
-	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldPrice), v))
-	})
-}
-
-// PriceEqualFold applies the EqualFold predicate on the "Price" field.
-func PriceEqualFold(v string) predicate.Promotion {
-	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldPrice), v))
-	})
-}
-
-// PriceContainsFold applies the ContainsFold predicate on the "Price" field.
-func PriceContainsFold(v string) predicate.Promotion {
-	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldPrice), v))
 	})
 }
 

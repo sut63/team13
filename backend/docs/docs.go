@@ -4463,8 +4463,14 @@ var doc = `{
                 "giveaway": {
                     "type": "integer"
                 },
+                "price": {
+                    "type": "number"
+                },
                 "product": {
                     "type": "integer"
+                },
+                "promotionName": {
+                    "type": "string"
                 }
             }
         },
@@ -4756,7 +4762,7 @@ var doc = `{
                 },
                 "giveawayName": {
                     "description": "GiveawayName holds the value of the \"giveawayName\" field.",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "id": {
                     "description": "ID of the ent.",
@@ -5032,7 +5038,7 @@ var doc = `{
             "properties": {
                 "Price": {
                     "description": "Price holds the value of the \"Price\" field.",
-                    "type": "string"
+                    "type": "number"
                 },
                 "PromotionName": {
                     "description": "PromotionName holds the value of the \"PromotionName\" field.",

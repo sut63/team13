@@ -21,8 +21,8 @@ type GiveawayCreate struct {
 }
 
 // SetGiveawayName sets the giveawayName field.
-func (gc *GiveawayCreate) SetGiveawayName(i int) *GiveawayCreate {
-	gc.mutation.SetGiveawayName(i)
+func (gc *GiveawayCreate) SetGiveawayName(s string) *GiveawayCreate {
+	gc.mutation.SetGiveawayName(s)
 	return gc
 }
 
@@ -113,7 +113,7 @@ func (gc *GiveawayCreate) createSpec() (*Giveaway, *sqlgraph.CreateSpec) {
 	)
 	if value, ok := gc.mutation.GiveawayName(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeString,
 			Value:  value,
 			Column: giveaway.FieldGiveawayName,
 		})

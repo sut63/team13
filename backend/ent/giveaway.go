@@ -16,7 +16,7 @@ type Giveaway struct {
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
 	// GiveawayName holds the value of the "giveawayName" field.
-	GiveawayName int `json:"giveawayName,omitempty"`
+	GiveawayName string `json:"giveawayName,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the GiveawayQuery when eager-loading is set.
 	Edges GiveawayEdges `json:"edges"`
@@ -43,8 +43,8 @@ func (e GiveawayEdges) ForgiveawayOrErr() ([]*Promotion, error) {
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Giveaway) scanValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{}, // id
-		&sql.NullInt64{}, // giveawayName
+		&sql.NullInt64{},  // id
+		&sql.NullString{}, // giveawayName
 	}
 }
 
@@ -60,10 +60,10 @@ func (gi *Giveaway) assignValues(values ...interface{}) error {
 	}
 	gi.ID = int(value.Int64)
 	values = values[1:]
-	if value, ok := values[0].(*sql.NullInt64); !ok {
+	if value, ok := values[0].(*sql.NullString); !ok {
 		return fmt.Errorf("unexpected type %T for field giveawayName", values[0])
 	} else if value.Valid {
-		gi.GiveawayName = int(value.Int64)
+		gi.GiveawayName = value.String
 	}
 	return nil
 }
@@ -97,7 +97,7 @@ func (gi *Giveaway) String() string {
 	builder.WriteString("Giveaway(")
 	builder.WriteString(fmt.Sprintf("id=%v", gi.ID))
 	builder.WriteString(", giveawayName=")
-	builder.WriteString(fmt.Sprintf("%v", gi.GiveawayName))
+	builder.WriteString(gi.GiveawayName)
 	builder.WriteByte(')')
 	return builder.String()
 }

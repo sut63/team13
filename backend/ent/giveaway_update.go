@@ -29,15 +29,8 @@ func (gu *GiveawayUpdate) Where(ps ...predicate.Giveaway) *GiveawayUpdate {
 }
 
 // SetGiveawayName sets the giveawayName field.
-func (gu *GiveawayUpdate) SetGiveawayName(i int) *GiveawayUpdate {
-	gu.mutation.ResetGiveawayName()
-	gu.mutation.SetGiveawayName(i)
-	return gu
-}
-
-// AddGiveawayName adds i to giveawayName.
-func (gu *GiveawayUpdate) AddGiveawayName(i int) *GiveawayUpdate {
-	gu.mutation.AddGiveawayName(i)
+func (gu *GiveawayUpdate) SetGiveawayName(s string) *GiveawayUpdate {
+	gu.mutation.SetGiveawayName(s)
 	return gu
 }
 
@@ -148,14 +141,7 @@ func (gu *GiveawayUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := gu.mutation.GiveawayName(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: giveaway.FieldGiveawayName,
-		})
-	}
-	if value, ok := gu.mutation.AddedGiveawayName(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeString,
 			Value:  value,
 			Column: giveaway.FieldGiveawayName,
 		})
@@ -217,15 +203,8 @@ type GiveawayUpdateOne struct {
 }
 
 // SetGiveawayName sets the giveawayName field.
-func (guo *GiveawayUpdateOne) SetGiveawayName(i int) *GiveawayUpdateOne {
-	guo.mutation.ResetGiveawayName()
-	guo.mutation.SetGiveawayName(i)
-	return guo
-}
-
-// AddGiveawayName adds i to giveawayName.
-func (guo *GiveawayUpdateOne) AddGiveawayName(i int) *GiveawayUpdateOne {
-	guo.mutation.AddGiveawayName(i)
+func (guo *GiveawayUpdateOne) SetGiveawayName(s string) *GiveawayUpdateOne {
+	guo.mutation.SetGiveawayName(s)
 	return guo
 }
 
@@ -334,14 +313,7 @@ func (guo *GiveawayUpdateOne) sqlSave(ctx context.Context) (gi *Giveaway, err er
 	_spec.Node.ID.Value = id
 	if value, ok := guo.mutation.GiveawayName(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: giveaway.FieldGiveawayName,
-		})
-	}
-	if value, ok := guo.mutation.AddedGiveawayName(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeString,
 			Value:  value,
 			Column: giveaway.FieldGiveawayName,
 		})
