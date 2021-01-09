@@ -285,10 +285,10 @@ func main() {
 
 	typeproducts := Typeproducts{
 		Typeproduct: []Typeproduct{
-			Typeproduct{"KBANK"},
-			Typeproduct{"KTB"},
-			Typeproduct{"TMB"},
-			Typeproduct{"SCB"},
+			Typeproduct{"ของใช้"},
+			Typeproduct{"อาหารหมา"},
+			Typeproduct{"เครื่องครัว"},
+			Typeproduct{"ผักสด"},
 		},
 	}
 
