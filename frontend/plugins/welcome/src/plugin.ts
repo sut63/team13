@@ -3,7 +3,7 @@ import WelcomePage from './components/WelcomePage';
 import WatchVideo from './components/WatchVideo'
 import SignIn from './components/SignIn'
 import Orderonline from './components/Orderonline'
-
+import Orderproduct from './components/orderproduct'
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -12,5 +12,6 @@ export const plugin = createPlugin({
     router.registerRoute('/watch_video', WatchVideo);
     router.registerRoute('/signin', SignIn);
     router.registerRoute('/Orderonline', Orderonline);
+    router.registerRoute('/Orderproduct', Orderproduct);
   },
 });
