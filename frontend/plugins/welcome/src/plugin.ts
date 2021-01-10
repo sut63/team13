@@ -3,7 +3,7 @@ import WelcomePage from './components/WelcomePage';
 import WatchVideo from './components/WatchVideo'
 import SignIn from './components/SignIn'
 import Orderonline from './components/Orderonline'
-import Orderproduct from './components/orderproduct'
+import Orderproduct from './components/Orderproduct'
 
 export const plugin = createPlugin({
   id: 'welcome',
