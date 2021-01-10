@@ -1523,14 +1523,14 @@ var doc = `{
                 }
             }
         },
-        "/giveaway": {
+        "/giveaways": {
             "get": {
-                "description": "list discount entities",
+                "description": "list giveaway entities",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "List discount entities",
-                "operationId": "list-discount",
+                "summary": "List giveaway entities",
+                "operationId": "list-giveaway",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1570,19 +1570,19 @@ var doc = `{
                 }
             },
             "post": {
-                "description": "Create discount",
+                "description": "Create giveaway",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Create discount",
-                "operationId": "create-discount",
+                "summary": "Create giveaway",
+                "operationId": "create-giveaway",
                 "parameters": [
                     {
                         "description": "Giveaway entity",
-                        "name": "discount",
+                        "name": "giveaway",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -1612,14 +1612,14 @@ var doc = `{
                 }
             }
         },
-        "/giveaway/{id}": {
+        "/giveaways/{id}": {
             "get": {
-                "description": "get discount by ID",
+                "description": "get giveaway by ID",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Get a discount entity by ID",
-                "operationId": "get-discount",
+                "summary": "Get a giveaway entity by ID",
+                "operationId": "get-giveaway",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1657,15 +1657,15 @@ var doc = `{
                 }
             },
             "put": {
-                "description": "update discount by ID",
+                "description": "update giveaway by ID",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Update a discount entity by ID",
-                "operationId": "update-discount",
+                "summary": "Update a giveaway entity by ID",
+                "operationId": "update-giveaway",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1676,7 +1676,7 @@ var doc = `{
                     },
                     {
                         "description": "Giveaway entity",
-                        "name": "discount",
+                        "name": "giveaway",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -1706,12 +1706,12 @@ var doc = `{
                 }
             },
             "delete": {
-                "description": "get discount by ID",
+                "description": "get giveaway by ID",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Delete a discount entity by ID",
-                "operationId": "delete-discount",
+                "summary": "Delete a giveaway entity by ID",
+                "operationId": "delete-giveaway",
                 "parameters": [
                     {
                         "type": "integer",

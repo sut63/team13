@@ -1700,10 +1700,10 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a employeeworkinghours entity by ID
-  /giveaway:
+  /giveaways:
     get:
-      description: list discount entities
-      operationId: list-discount
+      description: list giveaway entities
+      operationId: list-giveaway
       parameters:
       - description: Limit
         in: query
@@ -1730,16 +1730,16 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: List discount entities
+      summary: List giveaway entities
     post:
       consumes:
       - application/json
-      description: Create discount
-      operationId: create-discount
+      description: Create giveaway
+      operationId: create-giveaway
       parameters:
       - description: Giveaway entity
         in: body
-        name: discount
+        name: giveaway
         required: true
         schema:
           $ref: '#/definitions/ent.Giveaway'
@@ -1758,11 +1758,11 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Create discount
-  /giveaway/{id}:
+      summary: Create giveaway
+  /giveaways/{id}:
     delete:
-      description: get discount by ID
-      operationId: delete-discount
+      description: get giveaway by ID
+      operationId: delete-giveaway
       parameters:
       - description: Giveaway ID
         in: path
@@ -1788,10 +1788,10 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Delete a discount entity by ID
+      summary: Delete a giveaway entity by ID
     get:
-      description: get discount by ID
-      operationId: get-discount
+      description: get giveaway by ID
+      operationId: get-giveaway
       parameters:
       - description: Giveaway ID
         in: path
@@ -1817,12 +1817,12 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Get a discount entity by ID
+      summary: Get a giveaway entity by ID
     put:
       consumes:
       - application/json
-      description: update discount by ID
-      operationId: update-discount
+      description: update giveaway by ID
+      operationId: update-giveaway
       parameters:
       - description: Giveaway ID
         in: path
@@ -1831,7 +1831,7 @@ paths:
         type: integer
       - description: Giveaway entity
         in: body
-        name: discount
+        name: giveaway
         required: true
         schema:
           $ref: '#/definitions/ent.Giveaway'
@@ -1850,7 +1850,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Update a discount entity by ID
+      summary: Update a giveaway entity by ID
   /managers:
     get:
       description: list manager entities
