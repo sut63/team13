@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Content,
@@ -43,12 +43,11 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function Orderonline() {
+const OrderOnline: FC<{}> = () => {
   const classes = useStyles();
-  const profile = { givenName: 'to PositionAssingment' };
+  const profile = { givenName: 'to Order Online' };
   const api = new DefaultApi();
 
-  //const [Positionassingment, setPositionassingment] = React.useState(initialUserState);
   const [status, setStatus] = useState(false);
   const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -141,11 +140,15 @@ export default function Orderonline() {
     setCustomer(event.target.value as number);
   };
 
+  const Stock_id_handleChange = (event: any) => {
+    setScotk(event.target.value);
+   };
+
   return (
     <Page theme={pageTheme.home}>
       <Header
-        title={`Welcome ${profile.givenName || 'to PositionAssingment'}`}
-        subtitle="Select the Position you want to be in."
+        title={`Welcome ${profile.givenName || 'to Orderonline'}`}
+        subtitle="Select Product you want to be in."
       >
 
         <Avatar>D</Avatar>
@@ -157,7 +160,7 @@ export default function Orderonline() {
       </Header>
       <Content>
 
-        <ContentHeader title="PositionAssingment">          
+        <ContentHeader title="Orderonline">          
           {status ? (
             <div>
               {alert ? (
@@ -190,7 +193,7 @@ export default function Orderonline() {
                   id="DayStart"
                   label="DayStart"
                   type="date"
-                  value={daystart}
+                  value={addedtime}
                   onChange={handletimeChange}
                   //defaultValue="2020-05-24"
                   className={classes.textField}
@@ -208,17 +211,17 @@ export default function Orderonline() {
                 style={{ marginLeft: 560, width: 600 }}
                 
               >
-                <InputLabel id="physician_id-label">Physician</InputLabel>
+                <InputLabel id="product_id-label">Product</InputLabel>
                 <Select
-                  labelId="physician_id-label"
-                  label="Physician"
-                  id="physician_id"
-                  value={userid}
-                  onChange={physician_id_handleChange}
+                  labelId="product_id-label"
+                  label="Product"
+                  id="product_id"
+                  value={product}
+                  onChange={product_id_handleChange}
                   style={{ width: 300 }}
                 >
-                  {physicians.map((item: EntPhysician) =>
-                    <MenuItem value={item.id}>{item.eMAIL}</MenuItem>)}
+                  {products.map((item: EntProduct) =>
+                    <MenuItem value={item.id}>{item.nameProduct}</MenuItem>)}
                 </Select>
               </FormControl>
 
@@ -228,17 +231,17 @@ export default function Orderonline() {
                 variant="outlined"
                 style={{ marginLeft: 560, width: 600 }}
               >
-                <InputLabel id="department_id-label">Department</InputLabel>
+                <InputLabel id="typeproduct_id-label">Typeproduct</InputLabel>
                 <Select
-                  labelId="department_id-label"
-                  label="Department"
-                  id="department_id"
-                  value={department}
-                  onChange={department_id_handleChange}
+                  labelId="typeproduct_id-label"
+                  label="Typeproduct"
+                  id="typeproduct_id"
+                  value={typeduct}
+                  onChange={typeproduct_id_handleChange}
                   style={{ width: 300 }}
                 >
-                  {departments.map((item: EntDepartment) =>
-                    <MenuItem value={item.id}>{item.departmentname}</MenuItem>)}
+                  {typeproducts.map((item: EntTypeproduct) =>
+                    <MenuItem value={item.id}>{item.typeproduct}</MenuItem>)}
                 </Select>
               </FormControl>
 
@@ -248,25 +251,60 @@ export default function Orderonline() {
                 variant="outlined"
                 style={{ marginLeft: 560, width: 600 }}
               >
-                <InputLabel id="position_id-label">Position</InputLabel>
+                <InputLabel id="paymentchannel_id-label">Paymentchannel</InputLabel>
                 <Select
-                  labelId="position_id-label"
-                  label="Position"
-                  id="position_id"
-                  value={position}
-                  onChange={position_id_handleChange}
+                  labelId="paymentchannel_id-label"
+                  label="Paymentchannel"
+                  id="paymentchannel_id"
+                  value={paymentchannel}
+                  onChange={paymentchannel_id_handleChange}
                   style={{ width: 300 }}
                 >
-                  {positions.map((item: EntPosition) =>
-                    <MenuItem value={item.id}>{item.nameposition}</MenuItem>)}
+                  {paymentchannels.map((item: EntPaymentchannel) =>
+                    <MenuItem value={item.id}>{item.bank}</MenuItem>)}
                 </Select>
               </FormControl>
+
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+                style={{ marginLeft: 560, width: 600 }}
+              >
+                <InputLabel id="customer_id-label">Customer</InputLabel>
+                <Select
+                  labelId="customer_id-label"
+                  label="Customer"
+                  id="customer_id"
+                  value={customer}
+                  onChange={customer_id_handleChange}
+                  style={{ width: 300 }}
+                >
+                  {customers.map((item: EntCustomer) =>
+                    <MenuItem value={item.id}>{item.name}</MenuItem>)}
+                </Select>
+              </FormControl>
+
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+                style={{ marginLeft: 560, width: 302 }}
+              >
+                <TextField id="outlined-number" type='number'  InputLabelProps={{
+                  shrink: true,}}label="กรุณาใส่จำนวน" variant="outlined"
+                  onChange = {Stock_id_handleChange}
+                  />
+              </FormControl>
+
+
             </TableCell>
+
             <div className={classes.margin}>
               <TableCell align="right">
                 <Button
                   onClick={() => {
-                    createOrderonline();
+                    CreateOrderonline();
                   }}
                   variant="contained"
                   color="primary"
@@ -275,20 +313,24 @@ export default function Orderonline() {
                   SAVE DATA
              </Button>
               </TableCell>
+
               <TableCell align="right">
                 <Button
                   style={{ marginLeft: 1 }}
                   component={RouterLink}
-                  to="/main"
+                  to="/WelcomePage"
                   variant="contained"
                 >
                   Back
              </Button>
               </TableCell>
+              
             </div>
           </form>
         </div>
       </Content>
     </Page>
   );
-}
+};
+
+export default OrderOnline;
