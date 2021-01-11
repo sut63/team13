@@ -27,7 +27,7 @@ type Stock struct {
 	ZoneID        int
 	EmployeeID    int
 	TypeproductID int
-	Priceproduct  string
+	Priceproduct  float64
 	Amount        int
 	Time          string
 }
