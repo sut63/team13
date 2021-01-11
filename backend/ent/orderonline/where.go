@@ -259,25 +259,25 @@ func StockLTE(v int) predicate.Orderonline {
 	})
 }
 
-// HasProducton applies the HasEdge predicate on the "producton" edge.
-func HasProducton() predicate.Orderonline {
+// HasProduct applies the HasEdge predicate on the "product" edge.
+func HasProduct() predicate.Orderonline {
 	return predicate.Orderonline(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(ProductonTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, ProductonTable, ProductonColumn),
+			sqlgraph.To(ProductTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, ProductTable, ProductColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasProductonWith applies the HasEdge predicate on the "producton" edge with a given conditions (other predicates).
-func HasProductonWith(preds ...predicate.Product) predicate.Orderonline {
+// HasProductWith applies the HasEdge predicate on the "product" edge with a given conditions (other predicates).
+func HasProductWith(preds ...predicate.Product) predicate.Orderonline {
 	return predicate.Orderonline(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(ProductonInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, ProductonTable, ProductonColumn),
+			sqlgraph.To(ProductInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, ProductTable, ProductColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

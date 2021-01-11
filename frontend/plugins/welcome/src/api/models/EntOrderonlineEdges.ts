@@ -55,7 +55,7 @@ export interface EntOrderonlineEdges {
      * @type {EntProduct}
      * @memberof EntOrderonlineEdges
      */
-    producton?: EntProduct;
+    product?: EntProduct;
     /**
      * 
      * @type {EntTypeproduct}
@@ -76,7 +76,7 @@ export function EntOrderonlineEdgesFromJSONTyped(json: any, ignoreDiscriminator:
         
         'customer': !exists(json, 'customer') ? undefined : EntCustomerFromJSON(json['customer']),
         'paymentchannel': !exists(json, 'paymentchannel') ? undefined : EntPaymentchannelFromJSON(json['paymentchannel']),
-        'producton': !exists(json, 'producton') ? undefined : EntProductFromJSON(json['producton']),
+        'product': !exists(json, 'product') ? undefined : EntProductFromJSON(json['product']),
         'typeproduct': !exists(json, 'typeproduct') ? undefined : EntTypeproductFromJSON(json['typeproduct']),
     };
 }
@@ -92,7 +92,7 @@ export function EntOrderonlineEdgesToJSON(value?: EntOrderonlineEdges | null): a
         
         'customer': EntCustomerToJSON(value.customer),
         'paymentchannel': EntPaymentchannelToJSON(value.paymentchannel),
-        'producton': EntProductToJSON(value.producton),
+        'product': EntProductToJSON(value.product),
         'typeproduct': EntTypeproductToJSON(value.typeproduct),
     };
 }

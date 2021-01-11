@@ -4874,8 +4874,8 @@ var doc = `{
                     "type": "object",
                     "$ref": "#/definitions/ent.Paymentchannel"
                 },
-                "producton": {
-                    "description": "Producton holds the value of the producton edge.",
+                "product": {
+                    "description": "Product holds the value of the product edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Product"
                 },

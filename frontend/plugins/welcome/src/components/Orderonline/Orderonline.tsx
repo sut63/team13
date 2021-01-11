@@ -18,11 +18,14 @@ import Typography from '@material-ui/core/Typography';
 import TableCell from '@material-ui/core/TableCell';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
+import Swal from 'sweetalert2'; // alert
 
 import { EntProduct } from '../../api/models/EntProduct';
 import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntPaymentchannel } from '../../api/models/EntPaymentchannel';
 import { EntCustomer } from '../../api/models/EntCustomer';
+
+import SaveIcon from '@material-ui/icons/Save'; // icon save
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,15 +46,26 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+interface orderonline {
+  productid: number;
+  typeductid: number;
+  paymentchannelid: number;
+  customerid: number;
+  stock: number;
+  addedtime: Date;
+  // create_by: number;
+}
+
 const OrderOnline: FC<{}> = () => {
   const classes = useStyles();
   const profile = { givenName: 'to Order Online' };
-  const api = new DefaultApi();
+  const http = new DefaultApi();
 
   const [status, setStatus] = useState(false);
   const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
 
+  const [orderonlines, setOrderonlines] = React.useState<Partial<orderonline>>({});
   const [products, setProducts] = React.useState<EntProduct[]>([]);
   const [typeproducts, setTypeproducts] = React.useState<EntTypeproduct[]>([]);
   const [paymentchannels, setPaymentchannels] = React.useState<EntPaymentchannel[]>([]);
@@ -67,32 +81,32 @@ const OrderOnline: FC<{}> = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const p = await api.listProduct({ limit: 10, offset: 0 });
+      const p = await http.listProduct({ limit: 10, offset: 0 });
       setLoading(false);
       setProducts(p);
     };
     getProducts();
 
     const getTypeproducts = async () => {
-      const d = await api.listTypeproduct({ limit: 10, offset: 0 });
+      const d = await http.listTypeproduct({ limit: 10, offset: 0 });
       setLoading(false);
       setTypeproducts(d);
     };
     getTypeproducts();
 
     const getPaymentchannels = async () => {
-      const pay = await api.listPaymentchannel({ limit: 10, offset: 0 });
+      const pay = await http.listPaymentchannel({ limit: 10, offset: 0 });
       setLoading(false);
       setPaymentchannels(pay);
     };
     getPaymentchannels();
 
     const getCustomers = async () => {
-        const c = await api.listCustomer({ limit: 10, offset: 0 });
-        setLoading(false);
-        setCustomers(c);
-      };
-      getCustomers();
+      const c = await http.listCustomer({ limit: 10, offset: 0 });
+      setLoading(false);
+      setCustomers(c);
+    };
+    getCustomers();
 
   }, [loading]);
 
@@ -111,7 +125,7 @@ const OrderOnline: FC<{}> = () => {
       addedtime: addedtime + "00:00+07:00"
     }
 
-    const res: any = await api.createOrderonline({ orderonline: orderonline });
+    const res: any = await http.createOrderonline({ orderonline: orderonline });
     setStatus(true);
     if (res.id != '') {
       setAlert(true);
@@ -142,7 +156,53 @@ const OrderOnline: FC<{}> = () => {
 
   const Stock_id_handleChange = (event: any) => {
     setScotk(event.target.value);
-   };
+  };
+
+  // alert setting
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: toast => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
+
+  function clear() {
+    setOrderonlines({});
+  }
+
+  function save() {
+    const apiUrl = 'http://localhost:8080/api/v1/orderonlines';
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderonlines),
+    };
+
+    console.log(orderonlines); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+
+    fetch(apiUrl, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.status === true) {
+          clear();
+          Toast.fire({
+            icon: 'success',
+            title: 'บันทึกข้อมูลสำเร็จ',
+          });
+        } else {
+          Toast.fire({
+            icon: 'error',
+            title: 'บันทึกข้อมูลไม่สำเร็จ',
+          });
+        }
+      });
+  }
 
   return (
     <Page theme={pageTheme.home}>
@@ -160,7 +220,7 @@ const OrderOnline: FC<{}> = () => {
       </Header>
       <Content>
 
-        <ContentHeader title="Orderonline">          
+        <ContentHeader title="Orderonline">
           {status ? (
             <div>
               {alert ? (
@@ -193,7 +253,7 @@ const OrderOnline: FC<{}> = () => {
                   id="DayStart"
                   label="DayStart"
                   type="date"
-                  value={addedtime}
+                  value={orderonlines.addedtime}
                   onChange={handletimeChange}
                   //defaultValue="2020-05-24"
                   className={classes.textField}
@@ -209,14 +269,14 @@ const OrderOnline: FC<{}> = () => {
                 className={classes.margin}
                 variant="outlined"
                 style={{ marginLeft: 560, width: 600 }}
-                
+
               >
                 <InputLabel id="product_id-label">Product</InputLabel>
                 <Select
                   labelId="product_id-label"
                   label="Product"
                   id="product_id"
-                  value={product}
+                  value={orderonlines.productid}
                   onChange={product_id_handleChange}
                   style={{ width: 300 }}
                 >
@@ -236,7 +296,7 @@ const OrderOnline: FC<{}> = () => {
                   labelId="typeproduct_id-label"
                   label="Typeproduct"
                   id="typeproduct_id"
-                  value={typeduct}
+                  value={orderonlines.typeductid}
                   onChange={typeproduct_id_handleChange}
                   style={{ width: 300 }}
                 >
@@ -256,7 +316,7 @@ const OrderOnline: FC<{}> = () => {
                   labelId="paymentchannel_id-label"
                   label="Paymentchannel"
                   id="paymentchannel_id"
-                  value={paymentchannel}
+                  value={orderonlines.paymentchannelid}
                   onChange={paymentchannel_id_handleChange}
                   style={{ width: 300 }}
                 >
@@ -276,7 +336,7 @@ const OrderOnline: FC<{}> = () => {
                   labelId="customer_id-label"
                   label="Customer"
                   id="customer_id"
-                  value={customer}
+                  value={orderonlines.customerid}
                   onChange={customer_id_handleChange}
                   style={{ width: 300 }}
                 >
@@ -291,10 +351,11 @@ const OrderOnline: FC<{}> = () => {
                 variant="outlined"
                 style={{ marginLeft: 560, width: 302 }}
               >
-                <TextField id="outlined-number" type='number'  InputLabelProps={{
-                  shrink: true,}}label="กรุณาใส่จำนวน" variant="outlined"
-                  onChange = {Stock_id_handleChange}
-                  />
+                <TextField value={orderonlines.stock} id="outlined-number" type='number' InputLabelProps={{
+                  shrink: true,
+                }} label="กรุณาใส่จำนวน" variant="outlined"
+                  onChange={Stock_id_handleChange}
+                />
               </FormControl>
 
 
@@ -318,13 +379,25 @@ const OrderOnline: FC<{}> = () => {
                 <Button
                   style={{ marginLeft: 1 }}
                   component={RouterLink}
-                  to="/WelcomePage"
+                  to="/"
                   variant="contained"
                 >
                   Back
              </Button>
               </TableCell>
-              
+
+              <TableCell align="right">
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                startIcon={<SaveIcon />}
+                onClick={save}
+              >
+                บันทึกการดู
+              </Button>
+              </TableCell>
+
             </div>
           </form>
         </div>

@@ -36,23 +36,23 @@ func (oc *OrderonlineCreate) SetStock(i int) *OrderonlineCreate {
 	return oc
 }
 
-// SetProductonID sets the producton edge to Product by id.
-func (oc *OrderonlineCreate) SetProductonID(id int) *OrderonlineCreate {
-	oc.mutation.SetProductonID(id)
+// SetProductID sets the product edge to Product by id.
+func (oc *OrderonlineCreate) SetProductID(id int) *OrderonlineCreate {
+	oc.mutation.SetProductID(id)
 	return oc
 }
 
-// SetNillableProductonID sets the producton edge to Product by id if the given value is not nil.
-func (oc *OrderonlineCreate) SetNillableProductonID(id *int) *OrderonlineCreate {
+// SetNillableProductID sets the product edge to Product by id if the given value is not nil.
+func (oc *OrderonlineCreate) SetNillableProductID(id *int) *OrderonlineCreate {
 	if id != nil {
-		oc = oc.SetProductonID(*id)
+		oc = oc.SetProductID(*id)
 	}
 	return oc
 }
 
-// SetProducton sets the producton edge to Product.
-func (oc *OrderonlineCreate) SetProducton(p *Product) *OrderonlineCreate {
-	return oc.SetProductonID(p.ID)
+// SetProduct sets the product edge to Product.
+func (oc *OrderonlineCreate) SetProduct(p *Product) *OrderonlineCreate {
+	return oc.SetProductID(p.ID)
 }
 
 // SetPaymentchannelID sets the paymentchannel edge to Paymentchannel by id.
@@ -201,12 +201,12 @@ func (oc *OrderonlineCreate) createSpec() (*Orderonline, *sqlgraph.CreateSpec) {
 		})
 		o.Stock = value
 	}
-	if nodes := oc.mutation.ProductonIDs(); len(nodes) > 0 {
+	if nodes := oc.mutation.ProductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   orderonline.ProductonTable,
-			Columns: []string{orderonline.ProductonColumn},
+			Table:   orderonline.ProductTable,
+			Columns: []string{orderonline.ProductColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

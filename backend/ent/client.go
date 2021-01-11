@@ -1306,15 +1306,15 @@ func (c *OrderonlineClient) GetX(ctx context.Context, id int) *Orderonline {
 	return o
 }
 
-// QueryProducton queries the producton edge of a Orderonline.
-func (c *OrderonlineClient) QueryProducton(o *Orderonline) *ProductQuery {
+// QueryProduct queries the product edge of a Orderonline.
+func (c *OrderonlineClient) QueryProduct(o *Orderonline) *ProductQuery {
 	query := &ProductQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := o.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(orderonline.Table, orderonline.FieldID, id),
 			sqlgraph.To(product.Table, product.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, orderonline.ProductonTable, orderonline.ProductonColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, orderonline.ProductTable, orderonline.ProductColumn),
 		)
 		fromV = sqlgraph.Neighbors(o.driver.Dialect(), step)
 		return fromV, nil

@@ -4168,8 +4168,8 @@ type OrderonlineMutation struct {
 	stock                 *int
 	addstock              *int
 	clearedFields         map[string]struct{}
-	producton             *int
-	clearedproducton      bool
+	product               *int
+	clearedproduct        bool
 	paymentchannel        *int
 	clearedpaymentchannel bool
 	_Typeproduct          *int
@@ -4353,43 +4353,43 @@ func (m *OrderonlineMutation) ResetStock() {
 	m.addstock = nil
 }
 
-// SetProductonID sets the producton edge to Product by id.
-func (m *OrderonlineMutation) SetProductonID(id int) {
-	m.producton = &id
+// SetProductID sets the product edge to Product by id.
+func (m *OrderonlineMutation) SetProductID(id int) {
+	m.product = &id
 }
 
-// ClearProducton clears the producton edge to Product.
-func (m *OrderonlineMutation) ClearProducton() {
-	m.clearedproducton = true
+// ClearProduct clears the product edge to Product.
+func (m *OrderonlineMutation) ClearProduct() {
+	m.clearedproduct = true
 }
 
-// ProductonCleared returns if the edge producton was cleared.
-func (m *OrderonlineMutation) ProductonCleared() bool {
-	return m.clearedproducton
+// ProductCleared returns if the edge product was cleared.
+func (m *OrderonlineMutation) ProductCleared() bool {
+	return m.clearedproduct
 }
 
-// ProductonID returns the producton id in the mutation.
-func (m *OrderonlineMutation) ProductonID() (id int, exists bool) {
-	if m.producton != nil {
-		return *m.producton, true
+// ProductID returns the product id in the mutation.
+func (m *OrderonlineMutation) ProductID() (id int, exists bool) {
+	if m.product != nil {
+		return *m.product, true
 	}
 	return
 }
 
-// ProductonIDs returns the producton ids in the mutation.
+// ProductIDs returns the product ids in the mutation.
 // Note that ids always returns len(ids) <= 1 for unique edges, and you should use
-// ProductonID instead. It exists only for internal usage by the builders.
-func (m *OrderonlineMutation) ProductonIDs() (ids []int) {
-	if id := m.producton; id != nil {
+// ProductID instead. It exists only for internal usage by the builders.
+func (m *OrderonlineMutation) ProductIDs() (ids []int) {
+	if id := m.product; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetProducton reset all changes of the "producton" edge.
-func (m *OrderonlineMutation) ResetProducton() {
-	m.producton = nil
-	m.clearedproducton = false
+// ResetProduct reset all changes of the "product" edge.
+func (m *OrderonlineMutation) ResetProduct() {
+	m.product = nil
+	m.clearedproduct = false
 }
 
 // SetPaymentchannelID sets the paymentchannel edge to Paymentchannel by id.
@@ -4657,8 +4657,8 @@ func (m *OrderonlineMutation) ResetField(name string) error {
 // mutation.
 func (m *OrderonlineMutation) AddedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.producton != nil {
-		edges = append(edges, orderonline.EdgeProducton)
+	if m.product != nil {
+		edges = append(edges, orderonline.EdgeProduct)
 	}
 	if m.paymentchannel != nil {
 		edges = append(edges, orderonline.EdgePaymentchannel)
@@ -4676,8 +4676,8 @@ func (m *OrderonlineMutation) AddedEdges() []string {
 // the given edge name.
 func (m *OrderonlineMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case orderonline.EdgeProducton:
-		if id := m.producton; id != nil {
+	case orderonline.EdgeProduct:
+		if id := m.product; id != nil {
 			return []ent.Value{*id}
 		}
 	case orderonline.EdgePaymentchannel:
@@ -4715,8 +4715,8 @@ func (m *OrderonlineMutation) RemovedIDs(name string) []ent.Value {
 // mutation.
 func (m *OrderonlineMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.clearedproducton {
-		edges = append(edges, orderonline.EdgeProducton)
+	if m.clearedproduct {
+		edges = append(edges, orderonline.EdgeProduct)
 	}
 	if m.clearedpaymentchannel {
 		edges = append(edges, orderonline.EdgePaymentchannel)
@@ -4734,8 +4734,8 @@ func (m *OrderonlineMutation) ClearedEdges() []string {
 // cleared in this mutation.
 func (m *OrderonlineMutation) EdgeCleared(name string) bool {
 	switch name {
-	case orderonline.EdgeProducton:
-		return m.clearedproducton
+	case orderonline.EdgeProduct:
+		return m.clearedproduct
 	case orderonline.EdgePaymentchannel:
 		return m.clearedpaymentchannel
 	case orderonline.EdgeTypeproduct:
@@ -4750,8 +4750,8 @@ func (m *OrderonlineMutation) EdgeCleared(name string) bool {
 // error if the edge name is not defined in the schema.
 func (m *OrderonlineMutation) ClearEdge(name string) error {
 	switch name {
-	case orderonline.EdgeProducton:
-		m.ClearProducton()
+	case orderonline.EdgeProduct:
+		m.ClearProduct()
 		return nil
 	case orderonline.EdgePaymentchannel:
 		m.ClearPaymentchannel()
@@ -4771,8 +4771,8 @@ func (m *OrderonlineMutation) ClearEdge(name string) error {
 // defined in the schema.
 func (m *OrderonlineMutation) ResetEdge(name string) error {
 	switch name {
-	case orderonline.EdgeProducton:
-		m.ResetProducton()
+	case orderonline.EdgeProduct:
+		m.ResetProduct()
 		return nil
 	case orderonline.EdgePaymentchannel:
 		m.ResetPaymentchannel()

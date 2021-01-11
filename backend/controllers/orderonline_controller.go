@@ -101,7 +101,8 @@ func (ctl *OrderonlineController) CreateOrderonline(c *gin.Context) {
 	ol, err := ctl.client.Orderonline.
 		Create().
 		SetCustomer(u).
-		SetPaymentchannel(pay).SetProducton(p).
+		SetPaymentchannel(pay).
+		SetProduct(p).
 		SetTypeproduct(tp).
 		SetStock(obj.Stock).
         SetAddedtime(times).
@@ -176,7 +177,7 @@ func (ctl *OrderonlineController) ListOrderonline(c *gin.Context) {
 		WithCustomer().
 		WithPaymentchannel().
 		WithTypeproduct().
-		WithProducton().
+		WithProduct().
 		Limit(limit).
 		Offset(offset).
 		All(context.Background())

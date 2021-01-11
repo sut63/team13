@@ -22,7 +22,7 @@ func (Orderonline) Fields() []ent.Field {
 // Edges of the Orderonline.
 func (Orderonline) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("producton", Product.Type).
+		edge.From("product", Product.Type).
 		Ref("formproductonline").
 		Unique(),
 		edge.From("paymentchannel", Paymentchannel.Type).
