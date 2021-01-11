@@ -1,17 +1,16 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Content,
   Header,
   Page,
   pageTheme,
-  ContentHeader,
 } from '@backstage/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import { Alert } from '@material-ui/lab';
+
 import { DefaultApi } from '../../api/apis';
 import { InputLabel, MenuItem, Select } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
     },
     margin: {
-      margin: theme.spacing(2),
+      margin: theme.spacing(1),
     },
     withoutLabel: {
       marginTop: theme.spacing(2),
@@ -61,102 +60,55 @@ const OrderOnline: FC<{}> = () => {
   const profile = { givenName: 'to Order Online' };
   const http = new DefaultApi();
 
-  const [status, setStatus] = useState(false);
-  const [alert, setAlert] = useState(true);
-  const [loading, setLoading] = useState(true);
-
   const [orderonlines, setOrderonlines] = React.useState<Partial<orderonline>>({});
+
   const [products, setProducts] = React.useState<EntProduct[]>([]);
   const [typeproducts, setTypeproducts] = React.useState<EntTypeproduct[]>([]);
   const [paymentchannels, setPaymentchannels] = React.useState<EntPaymentchannel[]>([]);
   const [customers, setCustomers] = React.useState<EntCustomer[]>([]);
 
-  const [product, setProduct] = useState(Number);
-  const [typeduct, setTypeproduct] = useState(Number);
-  const [paymentchannel, setPaymentchannel] = useState(Number);
-  const [customer, setCustomer] = useState(Number);
-  const [stock, setScotk] = useState(Number);
-  const [addedtime, Setaddedtime] = useState(String);
-
-
-  useEffect(() => {
-    const getProducts = async () => {
-      const p = await http.listProduct({ limit: 10, offset: 0 });
-      setLoading(false);
-      setProducts(p);
-    };
-    getProducts();
-
-    const getTypeproducts = async () => {
-      const d = await http.listTypeproduct({ limit: 10, offset: 0 });
-      setLoading(false);
-      setTypeproducts(d);
-    };
-    getTypeproducts();
-
-    const getPaymentchannels = async () => {
-      const pay = await http.listPaymentchannel({ limit: 10, offset: 0 });
-      setLoading(false);
-      setPaymentchannels(pay);
-    };
-    getPaymentchannels();
-
-    const getCustomers = async () => {
-      const c = await http.listCustomer({ limit: 10, offset: 0 });
-      setLoading(false);
-      setCustomers(c);
-    };
-    getCustomers();
-
-  }, [loading]);
-
-
-  const handletimeChange = (event: any) => {
-    Setaddedtime(event.target.value as string);
-  };
-
-  const CreateOrderonline = async () => {
-    const orderonline = {
-      productid: product,
-      typeductid: typeduct,
-      paymentchannelid: paymentchannel,
-      customerid: customer,
-      stock: stock,
-      addedtime: addedtime + "00:00+07:00"
-    }
-
-    const res: any = await http.createOrderonline({ orderonline: orderonline });
-    setStatus(true);
-    if (res.id != '') {
-      setAlert(true);
-    } else {
-      setAlert(false);
-    }
-    const timer = setTimeout(() => {
-      setStatus(false);
-    }, 1000);
+  const getProducts = async () => {
+    const p = await http.listProduct({ limit: 10, offset: 0 });
+    setProducts(p);
   };
 
 
-  const product_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setProduct(event.target.value as number);
+  const getTypeproducts = async () => {
+    const d = await http.listTypeproduct({ limit: 10, offset: 0 });
+    setTypeproducts(d);
   };
 
-  const typeproduct_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setTypeproduct(event.target.value as number);
+
+  const getPaymentchannels = async () => {
+    const pay = await http.listPaymentchannel({ limit: 10, offset: 0 });
+    setPaymentchannels(pay);
   };
 
-  const paymentchannel_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setPaymentchannel(event.target.value as number);
+
+  const getCustomers = async () => {
+    const c = await http.listCustomer({ limit: 10, offset: 0 });
+    setCustomers(c);
   };
 
-  const customer_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setCustomer(event.target.value as number);
+// Lifecycle Hooks
+useEffect(() => {
+  getProducts();
+  getTypeproducts();
+  getPaymentchannels();
+  getCustomers();
+}, []);
+
+
+  // set data to object orderonline
+  const handleChange = (
+    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+  ) => {
+    const name = event.target.name as keyof typeof OrderOnline;
+    const { value } = event.target;
+    setOrderonlines({ ...orderonlines, [name]: value });
+    console.log(orderonlines);
   };
 
-  const Stock_id_handleChange = (event: any) => {
-    setScotk(event.target.value);
-  };
 
   // alert setting
   const Toast = Swal.mixin({
@@ -220,22 +172,6 @@ const OrderOnline: FC<{}> = () => {
       </Header>
       <Content>
 
-        <ContentHeader title="Orderonline">
-          {status ? (
-            <div>
-              {alert ? (
-                <Alert severity="success">
-                  This is a success alert — check it out!
-                </Alert>
-              ) : (
-                  <Alert severity="warning" style={{ marginTop: 20 }}>
-                    This is a warning alert — check it out!
-                  </Alert>
-                )}
-            </div>
-          ) : null}
-        </ContentHeader>
-
         <div className={classes.root}>
           <form noValidate autoComplete="off">
 
@@ -254,7 +190,7 @@ const OrderOnline: FC<{}> = () => {
                   label="DayStart"
                   type="date"
                   value={orderonlines.addedtime}
-                  onChange={handletimeChange}
+                  onChange={handleChange}
                   //defaultValue="2020-05-24"
                   className={classes.textField}
                   InputLabelProps={{
@@ -277,7 +213,7 @@ const OrderOnline: FC<{}> = () => {
                   label="Product"
                   id="product_id"
                   value={orderonlines.productid}
-                  onChange={product_id_handleChange}
+                  onChange={handleChange}
                   style={{ width: 300 }}
                 >
                   {products.map((item: EntProduct) =>
@@ -297,7 +233,7 @@ const OrderOnline: FC<{}> = () => {
                   label="Typeproduct"
                   id="typeproduct_id"
                   value={orderonlines.typeductid}
-                  onChange={typeproduct_id_handleChange}
+                  onChange={handleChange}
                   style={{ width: 300 }}
                 >
                   {typeproducts.map((item: EntTypeproduct) =>
@@ -317,7 +253,7 @@ const OrderOnline: FC<{}> = () => {
                   label="Paymentchannel"
                   id="paymentchannel_id"
                   value={orderonlines.paymentchannelid}
-                  onChange={paymentchannel_id_handleChange}
+                  onChange={handleChange}
                   style={{ width: 300 }}
                 >
                   {paymentchannels.map((item: EntPaymentchannel) =>
@@ -337,7 +273,7 @@ const OrderOnline: FC<{}> = () => {
                   label="Customer"
                   id="customer_id"
                   value={orderonlines.customerid}
-                  onChange={customer_id_handleChange}
+                  onChange={handleChange}
                   style={{ width: 300 }}
                 >
                   {customers.map((item: EntCustomer) =>
@@ -354,7 +290,7 @@ const OrderOnline: FC<{}> = () => {
                 <TextField value={orderonlines.stock} id="outlined-number" type='number' InputLabelProps={{
                   shrink: true,
                 }} label="กรุณาใส่จำนวน" variant="outlined"
-                  onChange={Stock_id_handleChange}
+                  onChange={handleChange}
                 />
               </FormControl>
 
@@ -364,15 +300,15 @@ const OrderOnline: FC<{}> = () => {
             <div className={classes.margin}>
               <TableCell align="right">
                 <Button
-                  onClick={() => {
-                    CreateOrderonline();
-                  }}
                   variant="contained"
                   color="primary"
+                  size="large"
+                  startIcon={<SaveIcon />}
+                  onClick={save}
                   style={{ marginLeft: 545, width: 200 }}
                 >
-                  SAVE DATA
-             </Button>
+                  บันทึกการดู
+              </Button>
               </TableCell>
 
               <TableCell align="right">
@@ -384,18 +320,6 @@ const OrderOnline: FC<{}> = () => {
                 >
                   Back
              </Button>
-              </TableCell>
-
-              <TableCell align="right">
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                startIcon={<SaveIcon />}
-                onClick={save}
-              >
-                บันทึกการดู
-              </Button>
               </TableCell>
 
             </div>
