@@ -25,8 +25,8 @@ type StockCreate struct {
 }
 
 // SetPriceproduct sets the Priceproduct field.
-func (sc *StockCreate) SetPriceproduct(s string) *StockCreate {
-	sc.mutation.SetPriceproduct(s)
+func (sc *StockCreate) SetPriceproduct(f float64) *StockCreate {
+	sc.mutation.SetPriceproduct(f)
 	return sc
 }
 
@@ -191,7 +191,7 @@ func (sc *StockCreate) createSpec() (*Stock, *sqlgraph.CreateSpec) {
 	)
 	if value, ok := sc.mutation.Priceproduct(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: stock.FieldPriceproduct,
 		})

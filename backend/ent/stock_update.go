@@ -34,8 +34,15 @@ func (su *StockUpdate) Where(ps ...predicate.Stock) *StockUpdate {
 }
 
 // SetPriceproduct sets the Priceproduct field.
-func (su *StockUpdate) SetPriceproduct(s string) *StockUpdate {
-	su.mutation.SetPriceproduct(s)
+func (su *StockUpdate) SetPriceproduct(f float64) *StockUpdate {
+	su.mutation.ResetPriceproduct()
+	su.mutation.SetPriceproduct(f)
+	return su
+}
+
+// AddPriceproduct adds f to Priceproduct.
+func (su *StockUpdate) AddPriceproduct(f float64) *StockUpdate {
+	su.mutation.AddPriceproduct(f)
 	return su
 }
 
@@ -231,7 +238,14 @@ func (su *StockUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := su.mutation.Priceproduct(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: stock.FieldPriceproduct,
+		})
+	}
+	if value, ok := su.mutation.AddedPriceproduct(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: stock.FieldPriceproduct,
 		})
@@ -416,8 +430,15 @@ type StockUpdateOne struct {
 }
 
 // SetPriceproduct sets the Priceproduct field.
-func (suo *StockUpdateOne) SetPriceproduct(s string) *StockUpdateOne {
-	suo.mutation.SetPriceproduct(s)
+func (suo *StockUpdateOne) SetPriceproduct(f float64) *StockUpdateOne {
+	suo.mutation.ResetPriceproduct()
+	suo.mutation.SetPriceproduct(f)
+	return suo
+}
+
+// AddPriceproduct adds f to Priceproduct.
+func (suo *StockUpdateOne) AddPriceproduct(f float64) *StockUpdateOne {
+	suo.mutation.AddPriceproduct(f)
 	return suo
 }
 
@@ -611,7 +632,14 @@ func (suo *StockUpdateOne) sqlSave(ctx context.Context) (s *Stock, err error) {
 	_spec.Node.ID.Value = id
 	if value, ok := suo.mutation.Priceproduct(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: stock.FieldPriceproduct,
+		})
+	}
+	if value, ok := suo.mutation.AddedPriceproduct(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
 			Value:  value,
 			Column: stock.FieldPriceproduct,
 		})
