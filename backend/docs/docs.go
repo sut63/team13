@@ -3815,6 +3815,48 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create stock",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create stock",
+                "operationId": "create-stock",
+                "parameters": [
+                    {
+                        "description": "Stock entity",
+                        "name": "stock",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.Stock"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Stock"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
             }
         },
         "/stocks/{id}": {
@@ -3849,55 +3891,6 @@ var doc = `{
                     },
                     "404": {
                         "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "update stock by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Update a stock entity by ID",
-                "operationId": "update-stock",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Stock ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Stock entity",
-                        "name": "stock",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.Stock"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.Stock"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/gin.H"
                         }
@@ -4494,6 +4487,32 @@ var doc = `{
                 },
                 "salarys": {
                     "type": "number"
+                }
+            }
+        },
+        "controllers.Stock": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "employeeID": {
+                    "type": "integer"
+                },
+                "priceproduct": {
+                    "type": "string"
+                },
+                "productID": {
+                    "type": "integer"
+                },
+                "time": {
+                    "type": "string"
+                },
+                "typeproductID": {
+                    "type": "integer"
+                },
+                "zoneID": {
+                    "type": "integer"
                 }
             }
         },

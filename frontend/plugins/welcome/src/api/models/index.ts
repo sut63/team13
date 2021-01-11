@@ -2,6 +2,7 @@ export * from './ControllersOrderonline';
 export * from './ControllersOrderproduct';
 export * from './ControllersPromotion';
 export * from './ControllersSalary';
+export * from './ControllersStock';
 export * from './EntAssessment';
 export * from './EntAssessmentEdges';
 export * from './EntCompany';

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-
 	"github.com/gin-gonic/gin"
 	"github.com/team13/app/ent"
 	"github.com/team13/app/ent/employee"
@@ -13,6 +12,7 @@ import (
 	"github.com/team13/app/ent/typeproduct"
 	"github.com/team13/app/ent/zoneproduct"
 	"github.com/team13/app/ent/stock"
+	
 )
 
 // StockController defines the struct for the stock controller
@@ -27,9 +27,10 @@ type Stock struct {
 	ZoneID        int
 	EmployeeID    int
 	TypeproductID int
-	Priceproduct  string
+	Priceproduct  float64
 	Amount        int
 	Time          string
+
 }
 
 // CreateStock handles POST requests for adding stock entities
@@ -38,15 +39,13 @@ type Stock struct {
 // @ID create-stock
 // @Accept   json
 // @Produce  json
-// @Param stock body ent.Stock true "Stock entity"
+// @Param stock body Stock true "Stock entity"
 // @Success 200 {object} ent.Stock
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /stocks [post]
-
-
-	func (ctl *StockController) CreateStock(c *gin.Context) {
-		obj := Stock{}
+func (ctl *StockController) CreateStock(c *gin.Context) {
+	obj := Stock{}
 		if err := c.ShouldBind(&obj); err != nil {
 			c.JSON(400, gin.H{
 				"error": "stock binding failed",
@@ -145,8 +144,7 @@ func (ctl *StockController) GetStock(c *gin.Context) {
 		})
 		return
 	}
-
-	u, err := ctl.client.Stock.
+	pa, err := ctl.client.Stock.
 		Query().
 		Where(stock.IDEQ(int(id))).
 		Only(context.Background())
@@ -156,10 +154,8 @@ func (ctl *StockController) GetStock(c *gin.Context) {
 		})
 		return
 	}
-
-	c.JSON(200, u)
-}
-
+	c.JSON(200, pa)
+ }
 // ListStock handles request to get a list of stock entities
 // @Summary List stock entities
 // @Description list stock entities
@@ -240,57 +236,17 @@ func (ctl *StockController) DeleteStock(c *gin.Context) {
 	c.JSON(200, gin.H{"result": fmt.Sprintf("ok deleted %v", id)})
 }
 
-// UpdateStock handles PUT requests to update a stock entity
-// @Summary Update a stock entity by ID
-// @Description update stock by ID
-// @ID update-stock
-// @Accept   json
-// @Produce  json
-// @Param id path int true "Stock ID"
-// @Param stock body ent.Stock true "Stock entity"
-// @Success 200 {object} ent.Stock
-// @Failure 400 {object} gin.H
-// @Failure 500 {object} gin.H
-// @Router /stocks/{id} [put]
-func (ctl *StockController) UpdateStock(c *gin.Context) {
-	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	obj := ent.Stock{}
-	if err := c.ShouldBind(&obj); err != nil {
-		c.JSON(400, gin.H{
-			"error": "stock binding failed",
-		})
-		return
-	}
-	obj.ID = int(id)
-	u, err := ctl.client.Stock.
-		UpdateOne(&obj).
-		Save(context.Background())
-	if err != nil {
-		c.JSON(400, gin.H{"error": "update failed"})
-		return
-	}
-
-	c.JSON(200, u)
-}
-
 // NewStockController creates and registers handles for the stock controller
 func NewStockController(router gin.IRouter, client *ent.Client) *StockController {
-	uc := &StockController{
+	drc := &StockController{
 		client: client,
 		router: router,
 	}
-	uc.register()
-	return uc
+	drc.register()
+	return drc
 }
 
-// InitStockController registers routes to the main engine
+// InitUserController registers routes to the main engine
 func (ctl *StockController) register() {
 	stocks := ctl.router.Group("/stocks")
 
@@ -298,7 +254,5 @@ func (ctl *StockController) register() {
 
 	// CRUD
 	stocks.POST("", ctl.CreateStock)
-	stocks.GET(":id", ctl.GetStock)
-	stocks.PUT(":id", ctl.UpdateStock)
 	stocks.DELETE(":id", ctl.DeleteStock)
 }

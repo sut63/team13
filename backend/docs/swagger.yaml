@@ -58,6 +58,23 @@ definitions:
       salarys:
         type: number
     type: object
+  controllers.Stock:
+    properties:
+      amount:
+        type: integer
+      employeeID:
+        type: integer
+      priceproduct:
+        type: string
+      productID:
+        type: integer
+      time:
+        type: string
+      typeproductID:
+        type: integer
+      zoneID:
+        type: integer
+    type: object
   ent.Assessment:
     properties:
       assessment:
@@ -3231,6 +3248,34 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: List stock entities
+    post:
+      consumes:
+      - application/json
+      description: Create stock
+      operationId: create-stock
+      parameters:
+      - description: Stock entity
+        in: body
+        name: stock
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Stock'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Stock'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create stock
   /stocks/{id}:
     delete:
       description: get stock by ID
@@ -3290,39 +3335,6 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Get a stock entity by ID
-    put:
-      consumes:
-      - application/json
-      description: update stock by ID
-      operationId: update-stock
-      parameters:
-      - description: Stock ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Stock entity
-        in: body
-        name: stock
-        required: true
-        schema:
-          $ref: '#/definitions/ent.Stock'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.Stock'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Update a stock entity by ID
   /typeproducts:
     get:
       description: list typeproduct entities
