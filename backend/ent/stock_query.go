@@ -363,7 +363,7 @@ func (sq *StockQuery) WithTypeproduct(opts ...func(*TypeproductQuery)) *StockQue
 // Example:
 //
 //	var v []struct {
-//		Priceproduct string `json:"Priceproduct,omitempty"`
+//		Priceproduct float64 `json:"Priceproduct,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
@@ -389,7 +389,7 @@ func (sq *StockQuery) GroupBy(field string, fields ...string) *StockGroupBy {
 // Example:
 //
 //	var v []struct {
-//		Priceproduct string `json:"Priceproduct,omitempty"`
+//		Priceproduct float64 `json:"Priceproduct,omitempty"`
 //	}
 //
 //	client.Stock.Query().

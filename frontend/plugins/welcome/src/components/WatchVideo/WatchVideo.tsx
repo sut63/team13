@@ -62,9 +62,7 @@ const WatchVideo: FC<{}> = () => {
   const classes = useStyles();
   const http = new DefaultApi();
 
-  const [playlist_video, setPlaylistVideo] = React.useState<
-    Partial<watchVideo>
-  >({});
+  const [playlist_video, setPlaylistVideo] = React.useState<Partial<watchVideo>>({});
 
   const [users, setUsers] = React.useState<EntUser[]>([]);
   const [videos, setVideos] = React.useState<EntVideo[]>([]);
