@@ -5194,7 +5194,7 @@ var doc = `{
                 },
                 "Priceproduct": {
                     "description": "Priceproduct holds the value of the \"Priceproduct\" field.",
-                    "type": "string"
+                    "type": "number"
                 },
                 "Time": {
                     "description": "Time holds the value of the \"Time\" field.",
