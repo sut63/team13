@@ -34,10 +34,10 @@ export interface EntStock {
     amount?: number;
     /**
      * Priceproduct holds the value of the "Priceproduct" field.
-     * @type {string}
+     * @type {number}
      * @memberof EntStock
      */
-    priceproduct?: string;
+    priceproduct?: number;
     /**
      * Time holds the value of the "Time" field.
      * @type {string}

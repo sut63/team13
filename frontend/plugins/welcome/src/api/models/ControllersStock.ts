@@ -33,10 +33,10 @@ export interface ControllersStock {
     employeeID?: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof ControllersStock
      */
-    priceproduct?: string;
+    priceproduct?: number;
     /**
      * 
      * @type {number}
