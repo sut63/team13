@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import * as plugins from './plugins';
 import { createApp, SidebarPage } from '@backstage/core';
-import { AppSidebar } from './sidebar';
+//import { AppSidebar } from './sidebar';
 import SignIn from './components/SignIn';
 
 const app = createApp({
@@ -17,7 +17,7 @@ const App: FC<{}> = () => (
     <AppRouter>
       {/* <SignIn></SignIn> */}
       <SidebarPage>
-        <AppSidebar />
+        
         <AppRoutes />
       </SidebarPage>
     </AppRouter>
