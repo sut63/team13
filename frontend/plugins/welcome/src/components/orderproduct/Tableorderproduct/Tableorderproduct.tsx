@@ -60,10 +60,10 @@ export default function ComponentsTable() {
           : orderproducts.map((item :any)=> (
            <TableRow key={item.id}>
              <TableCell align="center">{item.id}</TableCell>
-             <TableCell align="center">{item.edges?.manage?.name}</TableCell>
-             <TableCell align="center">{item.edges?.product?.NameProduct}</TableCell>
-             <TableCell align="center">{item.edges?.typeproduct?.Typeproduct}</TableCell>
-             <TableCell align="center">{item.edges?.company?.Name}</TableCell>
+             <TableCell align="center">{item.edges?.managers.name}</TableCell>
+             <TableCell align="center">{item.edges?.product.nameProduct}</TableCell>
+             <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
+             <TableCell align="center">{item.edges?.company?.name}</TableCell>
              <TableCell align="center">{item.stock}</TableCell>
              <TableCell align="center">{moment(item.addedtime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
             
