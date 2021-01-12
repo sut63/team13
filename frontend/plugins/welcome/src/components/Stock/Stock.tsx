@@ -452,7 +452,7 @@ const Stock: FC<{}> = () => {
             <Button
               style={{ marginLeft: 20 ,width : 100 }}
               component={RouterLink}
-              to="/login"
+              to="/Tablestock"
               variant="contained"
             >
               Show
@@ -478,3 +478,4 @@ export default Stock;
 
 
 
+ 

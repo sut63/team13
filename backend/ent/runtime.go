@@ -7,6 +7,7 @@ import (
 	"github.com/team13/app/ent/customer"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/manager"
+	"github.com/team13/app/ent/orderproduct"
 	"github.com/team13/app/ent/paymentchannel"
 	"github.com/team13/app/ent/position"
 	"github.com/team13/app/ent/product"
@@ -77,6 +78,12 @@ func init() {
 	managerDescPassword := managerFields[2].Descriptor()
 	// manager.PasswordValidator is a validator for the "password" field. It is called by the builders before save.
 	manager.PasswordValidator = managerDescPassword.Validators[0].(func(string) error)
+	orderproductFields := schema.Orderproduct{}.Fields()
+	_ = orderproductFields
+	// orderproductDescStock is the schema descriptor for stock field.
+	orderproductDescStock := orderproductFields[1].Descriptor()
+	// orderproduct.StockValidator is a validator for the "stock" field. It is called by the builders before save.
+	orderproduct.StockValidator = orderproductDescStock.Validators[0].(func(int) error)
 	paymentchannelFields := schema.Paymentchannel{}.Fields()
 	_ = paymentchannelFields
 	// paymentchannelDescBank is the schema descriptor for Bank field.

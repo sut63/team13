@@ -175,7 +175,7 @@ function save() {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      if (data.status === true) {
+      if (data.id != null) {
         //clear();
         Toast.fire({
           icon: 'success',

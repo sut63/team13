@@ -15,7 +15,7 @@ type Orderproduct struct {
 func (Orderproduct) Fields() []ent.Field {
 	return []ent.Field{
 		field.Time("addedtime"),
-		field.Int("stock"),
+		field.Int("stock").Positive(),
 	}
 }
 
