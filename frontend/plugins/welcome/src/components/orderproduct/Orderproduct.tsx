@@ -365,7 +365,15 @@ const timer = setTimeout(() => {
                <MenuItem key={item.id} value={item.id}>{item.typeproduct}</MenuItem>)}
              </Select>
 
-             <Grid item xs={2}></Grid>
+             
+
+            </Grid>
+
+            
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
+
+            <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
@@ -388,9 +396,6 @@ const timer = setTimeout(() => {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 
-            </Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}> </Grid>
 
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
