@@ -287,10 +287,11 @@ useEffect(() => {
                 variant="outlined"
                 style={{ marginLeft: 560, width: 302 }}
               >
-                <TextField value={orderonlines.stock} id="outlined-number" type='number' InputLabelProps={{
+                <TextField  id="outlined-number" type='number' InputLabelProps={{
                   shrink: true,
                 }} label="กรุณาใส่จำนวน" variant="outlined"
                   onChange={handleChange}
+                  value={orderonlines.stock}
                 />
               </FormControl>
 
