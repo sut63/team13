@@ -6,13 +6,9 @@ import Orderonline from './components/Orderonline'
 import Orderonlinetable from './components/Orderonline/Tableorderonline'
 import Orderproduct from './components/orderproduct'
 import Stock from './components/Stock'
-<<<<<<< HEAD
 import Salary from './components/Salary'
 import SalaryTable from './components/SalaryTable'
-=======
 import Tablestock from './components/Tablestock'
->>>>>>> b3dcd4b1d84beaea8651076d1a20c21d08602871
-
 export const plugin = createPlugin({
   id: 'welcome',
   register({ router }) {
@@ -23,11 +19,9 @@ export const plugin = createPlugin({
     router.registerRoute('/Orderonlinetable', Orderonlinetable);
     router.registerRoute('/Orderproduct', Orderproduct);
     router.registerRoute('/Stock', Stock);
-<<<<<<< HEAD
     router.registerRoute('/Salary', Salary);
     router.registerRoute('/SalaryTable', SalaryTable);
-=======
     router.registerRoute('/Tablestock', Tablestock);
->>>>>>> b3dcd4b1d84beaea8651076d1a20c21d08602871
+
   },
 });
