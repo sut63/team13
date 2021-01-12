@@ -78,7 +78,17 @@ const WelcomePage: FC<{}> = () => {
                 >
                   Back
              </Button>
+             <Button
+                  style={{ marginLeft: 1 }}
+                  component={RouterLink}
+                  to="/Salary"
+                  variant="contained"
+                >
+                  Back To Salary
+             </Button>
+             
         </Grid>
+        
       </Content>
     </Page>
   );
