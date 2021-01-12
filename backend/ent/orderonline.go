@@ -35,8 +35,8 @@ type Orderonline struct {
 
 // OrderonlineEdges holds the relations/edges for other nodes in the graph.
 type OrderonlineEdges struct {
-	// Producton holds the value of the producton edge.
-	Producton *Product
+	// Product holds the value of the product edge.
+	Product *Product
 	// Paymentchannel holds the value of the paymentchannel edge.
 	Paymentchannel *Paymentchannel
 	// Typeproduct holds the value of the Typeproduct edge.
@@ -48,18 +48,18 @@ type OrderonlineEdges struct {
 	loadedTypes [4]bool
 }
 
-// ProductonOrErr returns the Producton value or an error if the edge
+// ProductOrErr returns the Product value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e OrderonlineEdges) ProductonOrErr() (*Product, error) {
+func (e OrderonlineEdges) ProductOrErr() (*Product, error) {
 	if e.loadedTypes[0] {
-		if e.Producton == nil {
-			// The edge producton was loaded in eager-loading,
+		if e.Product == nil {
+			// The edge product was loaded in eager-loading,
 			// but was not found.
 			return nil, &NotFoundError{label: product.Label}
 		}
-		return e.Producton, nil
+		return e.Product, nil
 	}
-	return nil, &NotLoadedError{edge: "producton"}
+	return nil, &NotLoadedError{edge: "product"}
 }
 
 // PaymentchannelOrErr returns the Paymentchannel value or an error if the edge
@@ -175,9 +175,9 @@ func (o *Orderonline) assignValues(values ...interface{}) error {
 	return nil
 }
 
-// QueryProducton queries the producton edge of the Orderonline.
-func (o *Orderonline) QueryProducton() *ProductQuery {
-	return (&OrderonlineClient{config: o.config}).QueryProducton(o)
+// QueryProduct queries the product edge of the Orderonline.
+func (o *Orderonline) QueryProduct() *ProductQuery {
+	return (&OrderonlineClient{config: o.config}).QueryProduct(o)
 }
 
 // QueryPaymentchannel queries the paymentchannel edge of the Orderonline.
