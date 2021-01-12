@@ -25,6 +25,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 //import { ContentHeader } from '@backstage/core';
 import { Alert } from '@material-ui/lab';
+import ComponanceTable from './Tableorderproduct';  
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -488,6 +489,8 @@ const timer = setTimeout(() => {
           </Grid>
         </Toolbar>
       </AppBar>
+      <ComponanceTable></ComponanceTable>
+    
     </div>
   );
  }
