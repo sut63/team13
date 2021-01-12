@@ -11,7 +11,7 @@ var (
 	// AssessmentsColumns holds the columns for the "assessments" table.
 	AssessmentsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "assessment", Type: field.TypeString},
+		{Name: "assessment", Type: field.TypeString, Unique: true},
 	}
 	// AssessmentsTable holds the schema information for the "assessments" table.
 	AssessmentsTable = &schema.Table{
@@ -263,7 +263,7 @@ var (
 	// PositionsColumns holds the columns for the "positions" table.
 	PositionsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "position", Type: field.TypeString},
+		{Name: "position", Type: field.TypeString, Unique: true},
 	}
 	// PositionsTable holds the schema information for the "positions" table.
 	PositionsTable = &schema.Table{
