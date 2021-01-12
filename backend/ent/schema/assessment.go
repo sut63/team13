@@ -14,7 +14,7 @@ type Assessment struct {
 // Fields of the Assessment.
 func (Assessment) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("assessment").NotEmpty(),
+		field.String("assessment").NotEmpty().Unique(),
 	}
 }
 
