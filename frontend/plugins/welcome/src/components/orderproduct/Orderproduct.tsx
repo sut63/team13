@@ -1,4 +1,4 @@
-import React, { useState,Component, useEffect } from 'react';
+import React, { useState, Component, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -70,12 +70,12 @@ function Copyright() {
 }
 
 export default function MenuAppBar() {
-  
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles();
   const profile = { givenName: 'to Software Analysis 63' };
   const api = new DefaultApi();
-  
+
   const [products, setProducts] = useState<EntProduct[]>([]);
   const [companys, setCompanys] = useState<EntCompany[]>([]);
   const [typeproducts, setTypeproducts] = useState<EntTypeproduct[]>([]);
@@ -92,98 +92,98 @@ export default function MenuAppBar() {
   const [orderstockid, setOrderstockid] = useState(Number);
   const [datetime, setDatetime] = useState(String);
 
- let stock = Number(orderstockid) 
- let managerID  = Number(managerid)
- let typeproductID =Number(typeproductid)
- let productID  = Number(productid)
- let companyID  = Number(companyid)
+  let stock = Number(orderstockid)
+  let managerID = Number(managerid)
+  let typeproductID = Number(typeproductid)
+  let productID = Number(productid)
+  let companyID = Number(companyid)
 
- console.log(managerID)
- useEffect(() => {
+  console.log(managerID)
+  useEffect(() => {
 
-  const getmanagers = async () => {
+    const getmanagers = async () => {
 
-    const mn = await api.listManager({ limit: 10, offset: 0 });
-    setLoading(false);
-    setManagers(mn);
-  };
-  getmanagers();
+      const mn = await api.listManager({ limit: 10, offset: 0 });
+      setLoading(false);
+      setManagers(mn);
+    };
+    getmanagers();
 
-  const getTypeproducts = async () => {
+    const getTypeproducts = async () => {
 
-  const tp = await api.listTypeproduct({ limit: 10, offset: 0 });
-    setLoading(false);
-    setTypeproducts(tp);
-  };
-  getTypeproducts();
+      const tp = await api.listTypeproduct({ limit: 10, offset: 0 });
+      setLoading(false);
+      setTypeproducts(tp);
+    };
+    getTypeproducts();
 
-  const getproducts = async () => {
+    const getproducts = async () => {
 
-   const pr = await api.listProduct({ limit: 10, offset: 0 });
-     setLoading(false);
-     setProducts(pr);
-   };
-   getproducts();
+      const pr = await api.listProduct({ limit: 10, offset: 0 });
+      setLoading(false);
+      setProducts(pr);
+    };
+    getproducts();
 
-   const getcompanys = async () => {
+    const getcompanys = async () => {
 
-    const cp = await api.listCompany({ limit: 10, offset: 0 });
-    setLoading(false);
-    setCompanys(cp);
-  };
-  getcompanys();
-   
-}, [loading]);
-  
-const orderproduct = {
-                 
-  managerID  , 
-  typeproductID ,   
-  productID , 
-  companyID ,
-  stock ,
-  Addedtime :datetime   + ":00+07:00"
-}
-console.log(orderproduct)
-const createOrderproduct = async () => {
+      const cp = await api.listCompany({ limit: 10, offset: 0 });
+      setLoading(false);
+      setCompanys(cp);
+    };
+    getcompanys();
+
+  }, [loading]);
+
+  const orderproduct = {
+    managerID,
+    typeproductID,
+    productID,
+    companyID,
+    stock,
+    Addedtime: datetime + ":00+07:00"
+  }
+  console.log(orderproduct)
  
-//console.log()
-const res:any = await api.createOrderproduct({ orderproduct : orderproduct});
-setStatus(true);
-if (res.id != ''){
- setAlert(true);
-} else {
- setAlert(false);
-}
+  const createOrderproduct = async () => {
 
-const timer = setTimeout(() => {
- setStatus(false);
-}, 1000);
-};
-  
-  const manager_id_handleChange = (event: any)=> {
-  setManagerid(event.target.value);
-   }; 
+    //console.log()
+    const res: any = await api.createOrderproduct({ orderproduct: orderproduct });
+    setStatus(true);
+    if (res.id != '') {
+      setAlert(true);
+    } else {
+      setAlert(false);
+    }
 
-  const Typeproduct_id_handleChange = (event:any) => {
+    const timer = setTimeout(() => {
+      setStatus(false);
+    }, 1000);
+  };
+
+  const manager_id_handleChange = (event: any) => {
+    setManagerid(event.target.value);
+  };
+
+  const Typeproduct_id_handleChange = (event: any) => {
     setTypeproductid(event.target.value);
-   };
+  };
 
   const Product_id_handleChange = (event: any) => {
     setProductid(event.target.value);
   }
   const Company_id_handleChange = (event: any) => {
     setCompanyid(event.target.value);
-   };
-   const Orderstock_id_handleChange = (event: any) => {
+  };
+  const Orderstock_id_handleChange = (event: any) => {
     setOrderstockid(event.target.value);
-   };
+  };
   const handleDatetimeChange = (event: any) => {
     setDatetime(event.target.value as string);
-  }; 
-  
+  };
 
- function HomeIcon(props:any) {
+
+  function HomeIcon(props: any) {
     return (
       <SvgIcon {...props}>
         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
@@ -197,33 +197,33 @@ const timer = setTimeout(() => {
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
             <Hidden smUp>
-            <Grid item>
-                
+              <Grid item>
+
               </Grid>
             </Hidden>
             <Grid item xs />
             <Grid item>
-            
+
             </Grid>
-            
+
             <Grid item>
-                <IconButton 
+              <IconButton
                 style={{ marginLeft: 20 }}
                 component={RouterLink}
                 to="/afterlogin"
-                >    
+              >
                 <HomeIcon color="inherit" />
-                </IconButton>
-                </Grid>
-                <Grid item>
-            <Button className={classes.button} variant="outlined" color="inherit" 
-            size="small" component={RouterLink}
-            to="/">
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <Button className={classes.button} variant="outlined" color="inherit"
+                size="small" component={RouterLink}
+                to="/">
                 logout
               </Button>
-                </Grid>  
+            </Grid>
             <Grid item>
-            
+
             </Grid>
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
@@ -233,7 +233,7 @@ const timer = setTimeout(() => {
           </Grid>
         </Toolbar>
       </AppBar>
-      
+
       <AppBar
         component="div"
         color="primary"
@@ -248,13 +248,13 @@ const timer = setTimeout(() => {
               </Typography>
             </Grid>
             <Grid item>
-            
-                </Grid>  
-            
-            <Grid item>
-            
+
             </Grid>
-            
+
+            <Grid item>
+
+            </Grid>
+
           </Grid>
         </Toolbar>
       </AppBar>
@@ -266,25 +266,25 @@ const timer = setTimeout(() => {
         elevation={0}
       >
         <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="ADD Data" />     
+          <Tab textColor="inherit" label="ADD Data" />
         </Tabs>
-        
+
       </AppBar>
-            
-          {status ? (
-            <div>
-              {alert ? (
-                <Alert severity="success">
-                  This is a success alert — check it out!
-                </Alert>
-              ) : (
-                  <Alert severity="warning" style={{ marginTop: 20 }}>
-                    This is a warning alert — check it out!
-                  </Alert>
-                )}
-            </div>
-          ) : null}
-       
+
+      {status ? (
+        <div>
+          {alert ? (
+            <Alert severity="success">
+              This is a success alert — check it out!
+            </Alert>
+          ) : (
+              <Alert severity="warning" style={{ marginTop: 20 }}>
+                This is a warning alert — check it out!
+              </Alert>
+            )}
+        </div>
+      ) : null}
+
       <AppBar
         component="div"
         className={classes.secondaryBar}
@@ -296,9 +296,9 @@ const timer = setTimeout(() => {
           <Grid container alignItems="center" spacing={4}>
             <Grid item xs={12}></Grid>
             <Grid item xs={12}></Grid>
-        
-            
-            
+
+
+
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
@@ -307,17 +307,17 @@ const timer = setTimeout(() => {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-              
-            <Select
-               labelId="manager_id-label"
-               label="manager"
-               id="manager_id"
-               onChange={manager_id_handleChange}
-               style = {{width: 200}}
-               >
-               {managers.map((item:EntManager)=>
-               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-             </Select>
+
+              <Select
+                labelId="manager_id-label"
+                label="manager"
+                id="manager_id"
+                onChange={manager_id_handleChange}
+                style={{ width: 200 }}
+              >
+                {managers.map((item: EntManager) =>
+                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+              </Select>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -330,17 +330,17 @@ const timer = setTimeout(() => {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-              
-            <Select
-               labelId="Equipment_id-label"
-               label="Equipment"
-               id="Equipment_id"
-               onChange={Product_id_handleChange}
-               style = {{width: 200}}
-               >
-               {products.map((item:EntProduct)=>
-               <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
-             </Select>
+
+              <Select
+                labelId="Equipment_id-label"
+                label="Equipment"
+                id="Equipment_id"
+                onChange={Product_id_handleChange}
+                style={{ width: 200 }}
+              >
+                {products.map((item: EntProduct) =>
+                  <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
+              </Select>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -353,23 +353,23 @@ const timer = setTimeout(() => {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-            
-            <Select
-               labelId="medicalType_id-label"
-               label="medicalType"
-               id="medicalType_id"
-               onChange={Typeproduct_id_handleChange}
-               style = {{width: 200}}
-               >
-               {typeproducts.map((item:EntTypeproduct)=>
-               <MenuItem key={item.id} value={item.id}>{item.typeproduct}</MenuItem>)}
-             </Select>
 
-             
+              <Select
+                labelId="medicalType_id-label"
+                label="medicalType"
+                id="medicalType_id"
+                onChange={Typeproduct_id_handleChange}
+                style={{ width: 200 }}
+              >
+                {typeproducts.map((item: EntTypeproduct) =>
+                  <MenuItem key={item.id} value={item.id}>{item.typeproduct}</MenuItem>)}
+              </Select>
+
+
 
             </Grid>
 
-            
+
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 
@@ -381,17 +381,17 @@ const timer = setTimeout(() => {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-              
-            <Select
-               labelId="Equipment_id-label"
-               label="Equipment"
-               id="Equipment_id"
-               onChange={Company_id_handleChange}
-               style = {{width: 200}}
-               >
-               {companys.map((item:EntCompany)=>
-               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-             </Select>
+
+              <Select
+                labelId="Equipment_id-label"
+                label="Equipment"
+                id="Equipment_id"
+                onChange={Company_id_handleChange}
+                style={{ width: 200 }}
+              >
+                {companys.map((item: EntCompany) =>
+                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+              </Select>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -405,13 +405,14 @@ const timer = setTimeout(() => {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-            <Paper >
-                <TextField id="outlined-number" type='number'  InputLabelProps={{
-                  shrink: true,}}label="กรุณาใส่จำนวน" variant="outlined"
-                  onChange = {Orderstock_id_handleChange}
-                  />
-                  </Paper>
-                  
+              <Paper >
+                <TextField id="outlined-number" type='number' InputLabelProps={{
+                  shrink: true,
+                }} label="กรุณาใส่จำนวน" variant="outlined"
+                  onChange={Orderstock_id_handleChange}
+                />
+              </Paper>
+
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -424,22 +425,22 @@ const timer = setTimeout(() => {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-               <form  noValidate>
-               <TextField
-                      id="date"
-                      label="DateTime"
-                      type="datetime-local"
-                      value={datetime}
-                      onChange={handleDatetimeChange}
-                      //defaultValue="2017-05-24"
-                      className={classes.textField}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
+              <form noValidate>
+                <TextField
+                  id="date"
+                  label="DateTime"
+                  type="datetime-local"
+                  value={datetime}
+                  onChange={handleDatetimeChange}
+                  //defaultValue="2017-05-24"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
               </form>
-              
-                  
+
+
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -449,7 +450,7 @@ const timer = setTimeout(() => {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Button
-              
+
                 variant="contained"
                 color="primary"
                 size="large"
@@ -457,8 +458,8 @@ const timer = setTimeout(() => {
                 onClick={() => {
                   createOrderproduct();
                 }}
-                
-                startIcon={<SaveIcon 
+
+                startIcon={<SaveIcon
                 />}
               >
                 Save
@@ -468,8 +469,8 @@ const timer = setTimeout(() => {
             <Grid item xs={2}> </Grid>
             <Grid item xs={12}></Grid>
             <Grid item xs={12}></Grid>
-            
-        </Grid>
+
+          </Grid>
         </Toolbar>
       </AppBar>
       <AppBar
@@ -481,13 +482,13 @@ const timer = setTimeout(() => {
       >
         <Toolbar>
           <Grid container alignItems="center" spacing={1}>
-            <Grid item xs>  
-            <Copyright />
-              
+            <Grid item xs>
+              <Copyright />
+
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
     </div>
   );
- }
+}

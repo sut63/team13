@@ -4,14 +4,14 @@ import (
    "fmt"
    "strconv"
    "time"
-   
+   "github.com/gin-gonic/gin"
    "github.com/team13/app/ent"
    "github.com/team13/app/ent/orderonline"
    "github.com/team13/app/ent/paymentchannel"
    "github.com/team13/app/ent/customer"
    "github.com/team13/app/ent/product"
    "github.com/team13/app/ent/typeproduct"
-   "github.com/gin-gonic/gin"
+
 ) 
 // OrderonlineController defines the struct for the orderonline controller
 type OrderonlineController struct {
@@ -20,12 +20,12 @@ type OrderonlineController struct {
 }
 
 type Orderonline struct{
-	Customerid    int
+	Customerid    	   int
 	Paymentchannelid   int
-	Productid     int
-	Typeproductid     int
+	Productid          int
+	Typeproductid      int
+	Stock			   int
 	Addedtime       string
-	Stock	int
 }
 
 // CreateOrderonline handles POST requests for adding orderonline entities
