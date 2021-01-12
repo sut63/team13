@@ -161,7 +161,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "addedtime", Type: field.TypeTime},
 		{Name: "stock", Type: field.TypeInt},
-		{Name: "customer_formcustomer", Type: field.TypeInt, Nullable: true},
+		{Name: "customer_id", Type: field.TypeInt, Nullable: true},
 		{Name: "paymentchannel_formpaymentchannel", Type: field.TypeInt, Nullable: true},
 		{Name: "product_formproductonline", Type: field.TypeInt, Nullable: true},
 		{Name: "typeproduct_from_typeproductonline", Type: field.TypeInt, Nullable: true},
@@ -208,7 +208,7 @@ var (
 		{Name: "addedtime", Type: field.TypeTime},
 		{Name: "stock", Type: field.TypeInt},
 		{Name: "company_companys", Type: field.TypeInt, Nullable: true},
-		{Name: "manager_managers", Type: field.TypeInt, Nullable: true},
+		{Name: "manager_id", Type: field.TypeInt, Nullable: true},
 		{Name: "product_products", Type: field.TypeInt, Nullable: true},
 		{Name: "typeproduct_typeproducts", Type: field.TypeInt, Nullable: true},
 	}

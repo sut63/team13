@@ -27,7 +27,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "orderonline" package.
 	FormcustomerInverseTable = "orderonlines"
 	// FormcustomerColumn is the table column denoting the formcustomer relation/edge.
-	FormcustomerColumn = "customer_formcustomer"
+	FormcustomerColumn = "customer_id"
 )
 
 // Columns holds all SQL columns for customer fields.

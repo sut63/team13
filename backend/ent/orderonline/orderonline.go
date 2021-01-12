@@ -50,7 +50,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "customer" package.
 	CustomerInverseTable = "customers"
 	// CustomerColumn is the table column denoting the customer relation/edge.
-	CustomerColumn = "customer_formcustomer"
+	CustomerColumn = "customer_id"
 )
 
 // Columns holds all SQL columns for orderonline fields.
@@ -62,7 +62,7 @@ var Columns = []string{
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Orderonline type.
 var ForeignKeys = []string{
-	"customer_formcustomer",
+	"customer_id",
 	"paymentchannel_formpaymentchannel",
 	"product_formproductonline",
 	"typeproduct_from_typeproductonline",

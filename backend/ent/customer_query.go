@@ -371,13 +371,13 @@ func (cq *CustomerQuery) sqlAll(ctx context.Context) ([]*Customer, error) {
 			return nil, err
 		}
 		for _, n := range neighbors {
-			fk := n.customer_formcustomer
+			fk := n.customer_id
 			if fk == nil {
-				return nil, fmt.Errorf(`foreign-key "customer_formcustomer" is nil for node %v`, n.ID)
+				return nil, fmt.Errorf(`foreign-key "customer_id" is nil for node %v`, n.ID)
 			}
 			node, ok := nodeids[*fk]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "customer_formcustomer" returned %v for node %v`, *fk, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "customer_id" returned %v for node %v`, *fk, n.ID)
 			}
 			node.Edges.Formcustomer = append(node.Edges.Formcustomer, n)
 		}

@@ -74,10 +74,10 @@ export function EntStockEdgesFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'employee': !exists(json, 'Employee') ? undefined : EntEmployeeFromJSON(json['Employee']),
-        'product': !exists(json, 'Product') ? undefined : EntProductFromJSON(json['Product']),
-        'typeproduct': !exists(json, 'Typeproduct') ? undefined : EntTypeproductFromJSON(json['Typeproduct']),
-        'zoneproduct': !exists(json, 'Zoneproduct') ? undefined : EntZoneproductFromJSON(json['Zoneproduct']),
+        'employee': !exists(json, 'employee') ? undefined : EntEmployeeFromJSON(json['employee']),
+        'product': !exists(json, 'product') ? undefined : EntProductFromJSON(json['product']),
+        'typeproduct': !exists(json, 'typeproduct') ? undefined : EntTypeproductFromJSON(json['typeproduct']),
+        'zoneproduct': !exists(json, 'zoneproduct') ? undefined : EntZoneproductFromJSON(json['zoneproduct']),
     };
 }
 
