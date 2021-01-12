@@ -205,6 +205,7 @@ func main() {
 	controllers.NewCustomerController(v1, client)
 	controllers.NewOrderonlineController(v1, client)
 	controllers.NewPaymentchannelController(v1, client)
+	
 	controllers.NewProductController(v1, client)
 	controllers.NewTypeproductController(v1, client)
 
