@@ -67,3 +67,8 @@ var ForeignKeys = []string{
 	"product_products",
 	"typeproduct_typeproducts",
 }
+
+var (
+	// StockValidator is a validator for the "stock" field. It is called by the builders before save.
+	StockValidator func(int) error
+)
