@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Content,
@@ -18,7 +18,6 @@ import Typography from '@material-ui/core/Typography';
 import TableCell from '@material-ui/core/TableCell';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
-import Swal from 'sweetalert2'; // alert
 import { Alert } from '@material-ui/lab';
 
 

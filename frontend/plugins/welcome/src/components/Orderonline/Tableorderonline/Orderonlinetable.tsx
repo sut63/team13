@@ -9,8 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Link as RouterLink } from 'react-router-dom';
 import {
-  Content,
-  ContentHeader,
   Header,
   Page,
   pageTheme,
