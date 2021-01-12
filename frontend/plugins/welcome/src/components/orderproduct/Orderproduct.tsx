@@ -17,9 +17,10 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import SaveIcon from '@material-ui/icons/Save';
 import { DefaultApi } from '../../api/apis';
 import Select from '@material-ui/core/Select';
-//import { EntPhysician } from '../../api/models/EntPhysician';
-//import { EntMedicalType } from '../../api/models/EntMedicalType';
-//import { EntMedicalEquipment } from '../../api/models/EntMedicalEquipment';
+import { EntProduct } from '../../api/models/EntProduct';
+import { EntCompany } from '../../api/models/EntCompany';
+import { EntTypeproduct } from '../../api/models/EntTypeproduct';
+import { EntManager } from '../../api/models/EntManager';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 //import { ContentHeader } from '@backstage/core';
@@ -75,68 +76,79 @@ export default function MenuAppBar() {
   const profile = { givenName: 'to Software Analysis 63' };
   const api = new DefaultApi();
   
-  //const [physicians, setPhysicians] = useState<EntPhysician[]>([]);
-  //const [medicalEquipments, setMedicalEquipments] = useState<EntMedicalEquipment[]>([]);
-  //const [medicalTypes, setMedicalTypes] = useState<EntMedicalType[]>([]);
+  const [products, setProducts] = useState<EntProduct[]>([]);
+  const [companys, setCompanys] = useState<EntCompany[]>([]);
+  const [typeproducts, setTypeproducts] = useState<EntTypeproduct[]>([]);
+  const [managers, setManagers] = useState<EntManager[]>([]);
   const [status, setStatus] = useState(false);
   const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
 
 
-  const [physicianid, setPhysicianid] = useState(Number);
-  const [medicalEquipmentid, setMedicalEquipmentid] = useState(Number);
-  const [medicalTypeid, setMedicalTypeid] = useState(Number);
-  const [medicalEquipmentstockid, setMedicalEquipmentstockid] = useState(Number);
+  const [managerid, setManagerid] = useState(Number);
+  const [typeproductid, setTypeproductid] = useState(Number);
+  const [productid, setProductid] = useState(Number);
+  const [companyid, setCompanyid] = useState(Number);
+  const [orderstockid, setOrderstockid] = useState(Number);
   const [datetime, setDatetime] = useState(String);
 
- let stock = Number(medicalEquipmentstockid)
- let nameEquipmentID = Number(medicalEquipmentid)
- let typeEquipmentID =Number(medicalTypeid)
- let physicianID = Number(physicianid)
+ let stock = Number(orderstockid) 
+ let managerID  = Number(managerid)
+ let typeproductID =Number(typeproductid)
+ let productID  = Number(productid)
+ let companyID  = Number(companyid)
 
- console.log(physicianID)
-  useEffect(() => {
+ console.log(managerID)
+ useEffect(() => {
 
-    const getmedicalEquipments = async () => {
- 
-     // const pa = await api.listMedicalequipment({ limit: 10, offset: 0 });
-      setLoading(false);
-     // setMedicalEquipments(pa);
-    };
-    getmedicalEquipments();
- 
-    const getPhysicians = async () => {
- 
-   // const us = await api.listPhysician({ limit: 10, offset: 0 });
-      setLoading(false);
-     // setPhysicians(us);
-    };
-    getPhysicians();
- 
-    const getmedicalTypes = async () => {
- 
-     //const sp = await api.listMedicaltype({ limit: 10, offset: 0 });
-       setLoading(false);
-     //  setMedicalTypes(sp);
-     };
-     getmedicalTypes();
+  const getmanagers = async () => {
 
-     
-  }, [loading]);
+    const mn = await api.listManager({ limit: 10, offset: 0 });
+    setLoading(false);
+    setManagers(mn);
+  };
+  getmanagers();
+
+  const getTypeproducts = async () => {
+
+  const tp = await api.listTypeproduct({ limit: 10, offset: 0 });
+    setLoading(false);
+    setTypeproducts(tp);
+  };
+  getTypeproducts();
+
+  const getproducts = async () => {
+
+   const pr = await api.listProduct({ limit: 10, offset: 0 });
+     setLoading(false);
+     setProducts(pr);
+   };
+   getproducts();
+
+   const getcompanys = async () => {
+
+    const cp = await api.listCompany({ limit: 10, offset: 0 });
+    setLoading(false);
+    setCompanys(cp);
+  };
+  getcompanys();
+   
+}, [loading]);
   
-const systemequipment = {
+const orderproduct = {
                  
-  physicianID  , 
-  nameEquipmentID ,   
-  stock , 
-  typeEquipmentID ,
-  addedtime :datetime   + ":00+07:00"
+  managerID  , 
+  typeproductID ,   
+  productID , 
+  companyID ,
+  stock ,
+  Addedtime :datetime   + ":00+07:00"
 }
-console.log(systemequipment)
-const createSystemequipment = async () => {
+console.log(orderproduct)
+const createOrderproduct = async () => {
  
- console.log(medicalEquipmentid)
-//const res:any = await api.createSystemequipment({ systemequipment : systemequipment});
+//console.log()
+const res:any = await api.createOrderproduct({ orderproduct : orderproduct});
 setStatus(true);
 if (res.id != ''){
  setAlert(true);
@@ -149,19 +161,22 @@ const timer = setTimeout(() => {
 }, 1000);
 };
   
-const physician_id_handleChange = (event: any)=> {
-  setPhysicianid(event.target.value);
+  const manager_id_handleChange = (event: any)=> {
+  setManagerid(event.target.value);
    }; 
 
-  const Equipment_id_handleChange = (event:any) => {
-    setMedicalEquipmentid(event.target.value);
+  const Typeproduct_id_handleChange = (event:any) => {
+    setTypeproductid(event.target.value);
    };
 
-  const Type_id_handleChange = (event: any) => {
-    setMedicalTypeid(event.target.value);
+  const Product_id_handleChange = (event: any) => {
+    setProductid(event.target.value);
   }
-  const Stock_id_handleChange = (event: any) => {
-    setMedicalEquipmentstockid(event.target.value);
+  const Company_id_handleChange = (event: any) => {
+    setCompanyid(event.target.value);
+   };
+   const Orderstock_id_handleChange = (event: any) => {
+    setOrderstockid(event.target.value);
    };
   const handleDatetimeChange = (event: any) => {
     setDatetime(event.target.value as string);
@@ -188,9 +203,7 @@ const physician_id_handleChange = (event: any)=> {
             </Hidden>
             <Grid item xs />
             <Grid item>
-            <Typography color="inherit"  component="h1">
-                ระบบสั่งสินค้าเข้ามาในคลัง
-              </Typography>
+            
             </Grid>
             
             <Grid item>
@@ -221,7 +234,30 @@ const physician_id_handleChange = (event: any)=> {
         </Toolbar>
       </AppBar>
       
-      
+      <AppBar
+        component="div"
+        color="primary"
+        position="static"
+        elevation={0}
+      >
+        <Toolbar>
+          <Grid container alignItems="center" spacing={1}>
+            <Grid item xs>
+              <Typography color="inherit" variant="h2" component="h2">
+                ระบบสั่งซื้อสินค้าเข้ามาในคลัง
+              </Typography>
+            </Grid>
+            <Grid item>
+            
+                </Grid>  
+            
+            <Grid item>
+            
+            </Grid>
+            
+          </Grid>
+        </Toolbar>
+      </AppBar>
       <AppBar
         component="div"
         className={classes.secondaryBar}
@@ -267,25 +303,21 @@ const physician_id_handleChange = (event: any)=> {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
-                ชื่อแพทย์
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-            
-            </Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}> </Grid>
-
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
-                ชื่อเครื่องมือแพทย์
+                ชื่อผู้จัดการ
               </Typography>
             </Grid>
             <Grid item xs={2}>
               
-            
+            <Select
+               labelId="manager_id-label"
+               label="manager"
+               id="manager_id"
+               onChange={manager_id_handleChange}
+               style = {{width: 200}}
+               >
+               {managers.map((item:EntManager)=>
+               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+             </Select>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -294,14 +326,67 @@ const physician_id_handleChange = (event: any)=> {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
-                ประเภทของอุปกรณ์
+                ชื่อสินค้า
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              
+            <Select
+               labelId="Equipment_id-label"
+               label="Equipment"
+               id="Equipment_id"
+               onChange={Product_id_handleChange}
+               style = {{width: 200}}
+               >
+               {products.map((item:EntProduct)=>
+               <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
+             </Select>
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
+
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="primary" variant="h6" component="h1">
+                ประเภทของสินค้า
               </Typography>
             </Grid>
             <Grid item xs={2}>
             
-            
+            <Select
+               labelId="medicalType_id-label"
+               label="medicalType"
+               id="medicalType_id"
+               onChange={Typeproduct_id_handleChange}
+               style = {{width: 200}}
+               >
+               {typeproducts.map((item:EntTypeproduct)=>
+               <MenuItem key={item.id} value={item.id}>{item.typeproduct}</MenuItem>)}
+             </Select>
 
-
+             <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="primary" variant="h6" component="h1">
+                บริษัท
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              
+            <Select
+               labelId="Equipment_id-label"
+               label="Equipment"
+               id="Equipment_id"
+               onChange={Company_id_handleChange}
+               style = {{width: 200}}
+               >
+               {companys.map((item:EntCompany)=>
+               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+             </Select>
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
 
             </Grid>
             <Grid item xs={2}></Grid>
@@ -318,7 +403,7 @@ const physician_id_handleChange = (event: any)=> {
             <Paper >
                 <TextField id="outlined-number" type='number'  InputLabelProps={{
                   shrink: true,}}label="กรุณาใส่จำนวน" variant="outlined"
-                  onChange = {Stock_id_handleChange}
+                  onChange = {Orderstock_id_handleChange}
                   />
                   </Paper>
                   
@@ -365,7 +450,7 @@ const physician_id_handleChange = (event: any)=> {
                 size="large"
                 className={classes.button}
                 onClick={() => {
-                  createSystemequipment();
+                  createOrderproduct();
                 }}
                 
                 startIcon={<SaveIcon 
