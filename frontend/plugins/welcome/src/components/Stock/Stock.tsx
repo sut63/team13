@@ -73,14 +73,35 @@ const Stock: FC<{}> = () => {
   const [loading, setLoading] = useState(true);
 
   const [productid, setProductid] = useState(Number);
-  const [priceproduct, setPriceproduct] = useState(Number);
-  const [amount, setAmount] = useState(Number);
+  const [priceproducts, setPriceproduct] = useState(Number);
+  const [amounts, setAmount] = useState(Number);
   const [time, setTime] = useState(String);
   const [typeproductid, setTypeproductid] = useState(Number);
   const [employeeid, setEmployeeid] = useState(Number);
   const [zoneproductid, setZoneproductid] = useState(Number);
 
+
+  let productID = Number(productid)
+  let employeeID = Number(employeeid)
+  let zoneID = Number(zoneproductid)
+  let typeproductID = Number(typeproductid)
+  let amount = Number(amounts)
+  let priceproduct = Number(priceproducts)
+
+
+
+
+  console.log(employeeID)
   useEffect(() => {
+
+    const getEmployees = async () => {
+      const em = await api.listEmployee({ limit: 10, offset: 0 });
+      setLoading(false);
+      setEmployees(em);
+    };
+    getEmployees();
+
+
     const getProducts = async () => {
       const pr = await api.listProduct({ limit: 10, offset: 0 });
       setLoading(false);
@@ -96,12 +117,7 @@ const Stock: FC<{}> = () => {
     };
     getTypeproducts();
 
-    const getEmployees = async () => {
-      const em = await api.listEmployee({ limit: 10, offset: 0 });
-      setLoading(false);
-      setEmployees(em);
-    };
-    getEmployees();
+    
 
 
     const getZoneproducts = async () => {
@@ -113,24 +129,20 @@ const Stock: FC<{}> = () => {
 
   }, [loading]);
 
-  const handletimeChange = (event: any) => {
-      setTime(event.target.value as string);
-    };
 
-  const CreateStock = async () => {
+
     const stock = {
-      product: productid,
-      typeproduct: typeproductid,
-      employee: employeeid,
-      zoneproduct: zoneproductid,
-      priceproduct : priceproduct,
-      amount : amount,
-      time: time + "00:00+07:00"
-
-
-
+                 
+      employeeID  , 
+      typeproductID ,   
+      productID , 
+      zoneID ,
+      priceproduct,
+      amount ,
+      time : time   + ":00+07:00"
     }
-    console.log(stock);
+  console.log(stock);
+  const CreateStock = async () => {
 
     const res: any = await api.createStock({ stock: stock });
     setStatus(true);
@@ -167,16 +179,19 @@ const Stock: FC<{}> = () => {
       setPriceproduct(event.target.value);
      };
 
+  const handletimeChange = (event: any) => {
+      setTime(event.target.value as string);
+    };
 
 
   return (
     <Page theme={pageTheme.home}>
       <Header
         title={`Welcome ${profile.givenName || 'to Stock Product'}`}
-        subtitle="Product in your stock."
+        subtitle="Add  Product in your stock."
       >
 
-        <Avatar>D</Avatar>
+        <Avatar>P</Avatar>
         <Typography component="div" variant="body1">
           <Box color="Pang@gmail.com">Pang@gmail.com</Box>
           <Box color="secondary.main"></Box>
@@ -185,7 +200,7 @@ const Stock: FC<{}> = () => {
       </Header>
       <Content>
 
-        <ContentHeader title="Your Stock">          
+        <ContentHeader title="Add Your Stock here">          
           {status ? (
             <div>
               {alert ? (
@@ -218,7 +233,7 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}>   <center>
-            <h2 align='right'>Employee</h2></center>
+            <h3 align='right'>ชื่อพนักงาน</h3></center>
           </Grid>
           <Grid item xs={4}>
             <FormControl
@@ -247,7 +262,7 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}> <center>
-            <h2 align='right'>Typeproduct</h2></center>
+            <h3 align='right'>ประเภทสินค้า</h3></center>
 
           </Grid>
           <Grid item xs={4}>
@@ -278,7 +293,7 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}><center>
-            <h2 align='right'>Product</h2></center>
+            <h3 align='right'>สินค้า</h3></center>
           </Grid>
           <Grid item xs={4}>
             <FormControl
@@ -306,7 +321,7 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}><center>
-            <h2 align='right'>Zoneroduct</h2></center>
+            <h3 align='right'>ตำแหน่งที่วางสินค้า</h3></center>
           </Grid>
           <Grid item xs={4}>
             <FormControl
@@ -335,7 +350,7 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}><center>
-            <h2 align='right'>Price</h2></center>
+            <h3 align='right'>ราคาสินค้า</h3></center>
           </Grid>
           <Grid item xs={4}>
             <FormControl
@@ -349,7 +364,7 @@ const Stock: FC<{}> = () => {
                 variant="outlined"
                 type="string"
                 size="medium"
-                value={priceproduct}
+                value={priceproducts}
                 onChange={priceproduct_id_handleChange }
                 style={{  marginRight :300,width: 300 }}
               />
@@ -361,7 +376,7 @@ const Stock: FC<{}> = () => {
 
           
           <Grid item xs={4}><center>
-            <h2 align='right'>Amount</h2></center>
+            <h3 align='right'>จำนวนสินค้า</h3></center>
           </Grid>
           <Grid item xs={4}>
           <FormControl
@@ -385,7 +400,7 @@ const Stock: FC<{}> = () => {
           
 
           <Grid item xs={4}><center>
-            <h2 align='right'>Date</h2></center>
+            <h3 align='right'>เวลาที่บันทึก</h3></center>
           </Grid>
           <Grid item xs={4}>
           
@@ -396,9 +411,9 @@ const Stock: FC<{}> = () => {
               style={{ marginRight: 500, width: 2000 }}
             >
               <TextField
-                id="Date"
-                label="Date"
-                type="date"
+                id="date"
+                label="Datetime"
+                type="datetime-local"
                 value={time}
                 onChange={handletimeChange}
                 //defaultValue="2020-05-24"
@@ -427,6 +442,7 @@ const Stock: FC<{}> = () => {
               onClick={() => {
                 CreateStock();
               }}
+              
               variant="contained"
               color="primary"
               style={{ marginLeft: 20 ,width : 100 }}
@@ -436,7 +452,7 @@ const Stock: FC<{}> = () => {
             <Button
               style={{ marginLeft: 20 ,width : 100 }}
               component={RouterLink}
-              to="/login"
+              to="/Tablestock"
               variant="contained"
             >
               Show
@@ -462,3 +478,4 @@ export default Stock;
 
 
 
+ 
