@@ -70,10 +70,11 @@ const WelcomePage: FC<{}> = () => {
           <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."}></CardTeam>
           <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."}></CardTeam>
           <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."}></CardTeam>
+          
           <Button
                   style={{ marginLeft: 1 }}
                   component={RouterLink}
-                  to="/Orderonline"
+                  to="/signin"
                   variant="contained"
                 >
                   Back
@@ -86,6 +87,14 @@ const WelcomePage: FC<{}> = () => {
                   variant="contained"
                 >
                   Back2
+             </Button>
+             <Button
+                  style={{ marginLeft: 1 }}
+                  component={RouterLink}
+                  to="/Salary"
+                  variant="contained"
+                >
+                  Back to Salary
              </Button>
         </Grid>
       </Content>

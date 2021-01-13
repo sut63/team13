@@ -26,7 +26,6 @@ import {
  * @interface EntProduct
  */
 export interface EntProduct {
-    [x: string]: ReactNode;
     /**
      * BarcodeProduct holds the value of the "BarcodeProduct" field.
      * @type {string}

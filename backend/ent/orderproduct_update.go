@@ -158,6 +158,11 @@ func (ou *OrderproductUpdate) ClearManagers() *OrderproductUpdate {
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (ou *OrderproductUpdate) Save(ctx context.Context) (int, error) {
+	if v, ok := ou.mutation.Stock(); ok {
+		if err := orderproduct.StockValidator(v); err != nil {
+			return 0, &ValidationError{Name: "stock", err: fmt.Errorf("ent: validator failed for field \"stock\": %w", err)}
+		}
+	}
 
 	var (
 		err      error
@@ -531,6 +536,11 @@ func (ouo *OrderproductUpdateOne) ClearManagers() *OrderproductUpdateOne {
 
 // Save executes the query and returns the updated entity.
 func (ouo *OrderproductUpdateOne) Save(ctx context.Context) (*Orderproduct, error) {
+	if v, ok := ouo.mutation.Stock(); ok {
+		if err := orderproduct.StockValidator(v); err != nil {
+			return nil, &ValidationError{Name: "stock", err: fmt.Errorf("ent: validator failed for field \"stock\": %w", err)}
+		}
+	}
 
 	var (
 		err  error

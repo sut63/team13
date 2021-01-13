@@ -14,7 +14,7 @@ type Customer struct {
 // Fields of the Customer.
 func (Customer) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("name").NotEmpty(),
+		field.String("name").NotEmpty().Unique(),
 		field.String("email").NotEmpty().Unique(),
 		field.String("password").NotEmpty(),
 		field.Int("age").Positive(),
@@ -24,6 +24,6 @@ func (Customer) Fields() []ent.Field {
 // Edges of the Customer.
 func (Customer) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("formcustomer", Orderonline.Type),
+		edge.To("formcustomer", Orderonline.Type).StorageKey(edge.Column("customer_id")),
 	}
 }

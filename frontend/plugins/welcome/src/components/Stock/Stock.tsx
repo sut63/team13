@@ -33,6 +33,8 @@ import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntEmployee} from '../../api/models/EntEmployee';
 import { EntZoneproduct} from '../../api/models/EntZoneproduct';
 import { Content, ContentHeader, Header, Page, pageTheme } from '@backstage/core';
+import Swal from 'sweetalert2';
+import { Cookies } from '../Stock/LoginEmployee/Cookie';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,14 +56,39 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Stock: FC<{}> = () => {
-  const classes = useStyles();
-  const profile = { givenName: 'Your Stock' };
+var ck = new Cookies()
+var cookieEmail = ck.GetCookie()
+var cookieID = ck.GetID()
+var cookieName = ck.GetName()
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
 
 
 
+  interface order {
+    employeeID: number;
+    typeproductID: number;
+    productID: number;
+    zoneproductID: number;
+    amount: number;
+    priceproduct : number;
+    time: Date;
+  }
 
 
+  export default function Stock() {
+    const classes = useStyles();
+    const profile = { givenName: 'Your Stock' };
 
   const api = new DefaultApi();
   const [products, setProducts] = useState<EntProduct[]>([]);
@@ -71,16 +98,37 @@ const Stock: FC<{}> = () => {
   const [status, setStatus] = useState(false);
   const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
-
+  const [order, setOreder] = React.useState<Partial<order>>({});
   const [productid, setProductid] = useState(Number);
-  const [priceproduct, setPriceproduct] = useState(Number);
-  const [amount, setAmount] = useState(Number);
+  const [priceproducts, setPriceproduct] = useState(Number);
+  const [amounts, setAmount] = useState(Number);
   const [time, setTime] = useState(String);
   const [typeproductid, setTypeproductid] = useState(Number);
   const [employeeid, setEmployeeid] = useState(Number);
   const [zoneproductid, setZoneproductid] = useState(Number);
 
+
+  let productID = Number(productid)
+  let employeeID = Number(cookieID)
+  let zoneID = Number(zoneproductid)
+  let typeproductID = Number(typeproductid)
+  let amount = Number(amounts)
+  let priceproduct = Number(priceproducts)
+
+
+
+
+  console.log(employeeID)
   useEffect(() => {
+
+    const getEmployees = async () => {
+      const em = await api.listEmployee({ limit: 10, offset: 0 });
+      setLoading(false);
+      setEmployees(em);
+    };
+    getEmployees();
+
+
     const getProducts = async () => {
       const pr = await api.listProduct({ limit: 10, offset: 0 });
       setLoading(false);
@@ -96,12 +144,7 @@ const Stock: FC<{}> = () => {
     };
     getTypeproducts();
 
-    const getEmployees = async () => {
-      const em = await api.listEmployee({ limit: 10, offset: 0 });
-      setLoading(false);
-      setEmployees(em);
-    };
-    getEmployees();
+    
 
 
     const getZoneproducts = async () => {
@@ -113,36 +156,51 @@ const Stock: FC<{}> = () => {
 
   }, [loading]);
 
-  const handletimeChange = (event: any) => {
-      setTime(event.target.value as string);
+
+
+    const stock = {
+                 
+      employeeID  , 
+      typeproductID ,   
+      productID , 
+      zoneID ,
+      priceproduct,
+      amount ,
+      time : time   + ":00+07:00"
+    }
+  console.log(stock)
+
+  function CreateStock() {
+    const apiUrl = 'http://localhost:8080/api/v1/stocks';
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(stock),
     };
 
-  const CreateStock = async () => {
-    const stock = {
-      product: productid,
-      typeproduct: typeproductid,
-      employee: employeeid,
-      zoneproduct: zoneproductid,
-      priceproduct : priceproduct,
-      amount : amount,
-      time: time + "00:00+07:00"
-
-
-
-    }
     console.log(stock);
 
-    const res: any = await api.createStock({ stock: stock });
-    setStatus(true);
-    if (res.id != '') {
-      setAlert(true);
-    } else {
-      setAlert(false);
-    }
-    const timer = setTimeout(() => {
-      setStatus(false);
-    }, 1000);
-  };
+    fetch(apiUrl, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.id != null) {
+        //clear();
+        Toast.fire({
+          icon: 'success',
+          title: 'บันทึกข้อมูลสำเร็จ',
+        });
+      } else {
+        Toast.fire({
+          icon: 'error',
+          title: 'บันทึกข้อมูลไม่สำเร็จ',
+        });
+      }
+    });
+}
+
+
+
 
   const product_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setProductid(event.target.value as number);
@@ -167,25 +225,25 @@ const Stock: FC<{}> = () => {
       setPriceproduct(event.target.value);
      };
 
+  const handletimeChange = (event: any) => {
+      setTime(event.target.value as string);
+    };
 
 
   return (
     <Page theme={pageTheme.home}>
       <Header
         title={`Welcome ${profile.givenName || 'to Stock Product'}`}
-        subtitle="Product in your stock."
+        subtitle="Add  Product in your stock."
       >
 
-        <Avatar>D</Avatar>
-        <Typography component="div" variant="body1">
-          <Box color="Pang@gmail.com">Pang@gmail.com</Box>
-          <Box color="secondary.main"></Box>
-        </Typography>
+       
+
 
       </Header>
       <Content>
 
-        <ContentHeader title="Your Stock">          
+        <ContentHeader title="Add Your Stock here">          
           {status ? (
             <div>
               {alert ? (
@@ -218,15 +276,16 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}>   <center>
-            <h2 align='right'>Employee</h2></center>
+            <h3 align='right'>ชื่อพนักงาน</h3></center>
           </Grid>
           <Grid item xs={4}>
             <FormControl
               fullWidth
               className={classes.margin}
               variant="outlined"
-            ><InputLabel>Employee</InputLabel>
-              <Select
+            ><InputLabel></InputLabel>
+
+             {/*} <Select
                 labelId="employee_id-label"
                 label="employee"
                 id="eployee_id"
@@ -236,7 +295,9 @@ const Stock: FC<{}> = () => {
               >
                 {employees.map((item: EntEmployee) =>
                   <MenuItem value={item.id}>{item.name}</MenuItem>)}
-              </Select>
+                </Select>*/}
+            <div style={{  marginRight:300 }}>{cookieName}</div>
+
             </FormControl>
           </Grid>
           <Grid item xs={4}>   
@@ -247,7 +308,7 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}> <center>
-            <h2 align='right'>Typeproduct</h2></center>
+            <h3 align='right'>ประเภทสินค้า</h3></center>
 
           </Grid>
           <Grid item xs={4}>
@@ -278,7 +339,7 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}><center>
-            <h2 align='right'>Product</h2></center>
+            <h3 align='right'>สินค้า</h3></center>
           </Grid>
           <Grid item xs={4}>
             <FormControl
@@ -306,7 +367,7 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}><center>
-            <h2 align='right'>Zoneroduct</h2></center>
+            <h3 align='right'>ตำแหน่งที่วางสินค้า</h3></center>
           </Grid>
           <Grid item xs={4}>
             <FormControl
@@ -335,7 +396,7 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}><center>
-            <h2 align='right'>Price</h2></center>
+            <h3 align='right'>ราคาสินค้า</h3></center>
           </Grid>
           <Grid item xs={4}>
             <FormControl
@@ -349,7 +410,7 @@ const Stock: FC<{}> = () => {
                 variant="outlined"
                 type="string"
                 size="medium"
-                value={priceproduct}
+                value={priceproducts}
                 onChange={priceproduct_id_handleChange }
                 style={{  marginRight :300,width: 300 }}
               />
@@ -361,7 +422,7 @@ const Stock: FC<{}> = () => {
 
           
           <Grid item xs={4}><center>
-            <h2 align='right'>Amount</h2></center>
+            <h3 align='right'>จำนวนสินค้า</h3></center>
           </Grid>
           <Grid item xs={4}>
           <FormControl
@@ -385,7 +446,7 @@ const Stock: FC<{}> = () => {
           
 
           <Grid item xs={4}><center>
-            <h2 align='right'>Date</h2></center>
+            <h3 align='right'>เวลาที่บันทึก</h3></center>
           </Grid>
           <Grid item xs={4}>
           
@@ -396,9 +457,9 @@ const Stock: FC<{}> = () => {
               style={{ marginRight: 500, width: 2000 }}
             >
               <TextField
-                id="Date"
-                label="Date"
-                type="date"
+                id="date"
+                label="Datetime"
+                type="datetime-local"
                 value={time}
                 onChange={handletimeChange}
                 //defaultValue="2020-05-24"
@@ -420,6 +481,10 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}>
+        
+            
+               
+
           </Grid>
           <Grid item xs={4}>   
 
@@ -427,6 +492,7 @@ const Stock: FC<{}> = () => {
               onClick={() => {
                 CreateStock();
               }}
+              
               variant="contained"
               color="primary"
               style={{ marginLeft: 20 ,width : 100 }}
@@ -436,12 +502,19 @@ const Stock: FC<{}> = () => {
             <Button
               style={{ marginLeft: 20 ,width : 100 }}
               component={RouterLink}
-              to="/login"
+              to="/Tablestock"
               variant="contained"
             >
               Show
              </Button>
-               
+             <Button
+              style={{ marginLeft: 20 ,width : 100 }}
+              component={RouterLink}
+              to="/WelcomePage"
+              variant="contained"
+            >
+              Back
+             </Button>
         
 
           </Grid>
@@ -458,7 +531,8 @@ const Stock: FC<{}> = () => {
     </Page>
   );
 }
-export default Stock;
 
 
 
+
+ 

@@ -21,11 +21,13 @@ import { EntProduct } from '../../api/models/EntProduct';
 import { EntCompany } from '../../api/models/EntCompany';
 import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntManager } from '../../api/models/EntManager';
-import Paper from '@material-ui/core/Paper';
+//import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import ComponanceTable from '../Tableorderproduct';  
 //import { ContentHeader } from '@backstage/core';
-import { Alert } from '@material-ui/lab';
+import ComponanceTable from './Tableorderproduct';  
+import Swal from 'sweetalert2';
+import { Cookies } from './SignInOrderproduct/Cookie'
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -55,6 +57,19 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  width: '400px',
+  padding: '100px',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
 
 
 function Copyright() {
@@ -70,9 +85,14 @@ function Copyright() {
   );
 }
 
+
 export default function MenuAppBar() {
   
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  var ck = new Cookies()
+  var cookieEmail = ck.GetCookie()
+  var cookieID = ck.GetID()
+  var cookieName = ck.GetName()
+
   const classes = useStyles();
   const profile = { givenName: 'to Software Analysis 63' };
   const api = new DefaultApi();
@@ -91,17 +111,17 @@ export default function MenuAppBar() {
   const [productid, setProductid] = useState(Number);
   const [companyid, setCompanyid] = useState(Number);
   const [orderstockid, setOrderstockid] = useState(Number);
-  const [datetime, setDatetime] = useState(String);
+  //const [datetime, setDatetime] = useState(String);
 
  let stock = Number(orderstockid) 
- let managerID  = Number(managerid)
+ let managerID  = Number(cookieID)
  let typeproductID =Number(typeproductid)
  let productID  = Number(productid)
  let companyID  = Number(companyid)
 
  console.log(managerID)
  useEffect(() => {
-
+  
   const getmanagers = async () => {
 
     const mn = await api.listManager({ limit: 10, offset: 0 });
@@ -143,25 +163,37 @@ const orderproduct = {
   productID , 
   companyID ,
   stock ,
-  Addedtime :datetime   + ":00+07:00"
+  //Addedtime :datetime   + ":00+07:00"
 }
 console.log(orderproduct)
-const createOrderproduct = async () => {
- 
-//console.log()
-const res:any = await api.createOrderproduct({ orderproduct : orderproduct});
-setStatus(true);
-if (res.id != ''){
- setAlert(true);
-} else {
- setAlert(false);
-}
+function save() {
+  const apiUrl = 'http://localhost:8080/api/v1/orderproducts';
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(orderproduct),
+  };
 
-const timer = setTimeout(() => {
- setStatus(false);
-}, 1000);
-};
-  
+  console.log(orderproduct); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+
+  fetch(apiUrl, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.id != null) {
+        //clear();
+        Toast.fire({
+          icon: 'success',
+          title: 'บันทึกข้อมูลสำเร็จ',
+        });
+      } else {
+        Toast.fire({
+          icon: 'error',
+          title: '<h2>บันทึกข้อมูลไม่สำเร็จ</h2>',
+        });
+      }
+    });
+}
   const manager_id_handleChange = (event: any)=> {
   setManagerid(event.target.value);
    }; 
@@ -179,9 +211,9 @@ const timer = setTimeout(() => {
    const Orderstock_id_handleChange = (event: any) => {
     setOrderstockid(event.target.value);
    };
-  const handleDatetimeChange = (event: any) => {
+  /*const handleDatetimeChange = (event: any) => {
     setDatetime(event.target.value as string);
-  }; 
+  }; */
   
 
  function HomeIcon(props:any) {
@@ -211,7 +243,7 @@ const timer = setTimeout(() => {
                 <IconButton 
                 style={{ marginLeft: 20 }}
                 component={RouterLink}
-                to="/afterlogin"
+                to="/"
                 >    
                 <HomeIcon color="inherit" />
                 </IconButton>
@@ -219,7 +251,7 @@ const timer = setTimeout(() => {
                 <Grid item>
             <Button className={classes.button} variant="outlined" color="inherit" 
             size="small" component={RouterLink}
-            to="/">
+            to="/signinorderproduct">
                 logout
               </Button>
                 </Grid>  
@@ -228,7 +260,7 @@ const timer = setTimeout(() => {
             </Grid>
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src="o" alt="P" />
+                <Avatar src='o' alt = {cookieEmail} />
               </IconButton>
             </Grid>
           </Grid>
@@ -272,19 +304,6 @@ const timer = setTimeout(() => {
         
       </AppBar>
             
-          {status ? (
-            <div>
-              {alert ? (
-                <Alert severity="success">
-                  This is a success alert — check it out!
-                </Alert>
-              ) : (
-                  <Alert severity="warning" style={{ marginTop: 20 }}>
-                    This is a warning alert — check it out!
-                  </Alert>
-                )}
-            </div>
-          ) : null}
        
       <AppBar
         component="div"
@@ -309,16 +328,17 @@ const timer = setTimeout(() => {
             </Grid>
             <Grid item xs={2}>
               
-            <Select
+            {/*<Select
                labelId="manager_id-label"
                label="manager"
                id="manager_id"
                onChange={manager_id_handleChange}
                style = {{width: 200}}
-               >
+               >{cookieID}
                {managers.map((item:EntManager)=>
                <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-             </Select>
+               </Select>*/}
+               <div style={{ marginLeft: 10, marginRight:20 }}>{cookieName}</div>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -402,18 +422,18 @@ const timer = setTimeout(() => {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-            <Paper >
+            
                 <TextField id="outlined-number" type='number'  InputLabelProps={{
                   shrink: true,}}label="กรุณาใส่จำนวน" variant="outlined"
                   onChange = {Orderstock_id_handleChange}
                   />
-                  </Paper>
+                  
                   
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 
-            <Grid item xs={2}></Grid>
+           {/* <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
@@ -439,7 +459,7 @@ const timer = setTimeout(() => {
                   
             </Grid>
             <Grid item xs={2}></Grid>
-            <Grid item xs={2}> </Grid>
+                    <Grid item xs={2}> </Grid>*/}
 
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -452,7 +472,7 @@ const timer = setTimeout(() => {
                 size="large"
                 className={classes.button}
                 onClick={() => {
-                  createOrderproduct();
+                  save();
                 }}
                 
                 startIcon={<SaveIcon 
@@ -486,6 +506,10 @@ const timer = setTimeout(() => {
         </Toolbar>
       </AppBar>
       <ComponanceTable></ComponanceTable>
+<<<<<<< HEAD
+=======
+    
+>>>>>>> main
     </div>
   );
  }
