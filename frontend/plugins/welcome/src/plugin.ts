@@ -14,6 +14,7 @@ import SalaryTable from './components/SalaryTable'
 import Tablestock from './components/Tablestock'
 import Tableorderproduct from './components/orderproduct/Tableorderproduct'
 import LoginEmployee from './components/Stock/LoginEmployee'
+import Promotion from './components/Promotion';
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -32,6 +33,7 @@ export const plugin = createPlugin({
     router.registerRoute('/SalaryTable', SalaryTable);
     router.registerRoute('/Tablestock', Tablestock);
     router.registerRoute('/Tableorderproduct', Tableorderproduct);
+    router.registerRoute('/Promotion', Promotion);
     router.registerRoute('/LoginEmployee', LoginEmployee);
   },
 });

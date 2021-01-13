@@ -228,6 +228,7 @@ func main() {
 
 	controllers.NewDiscountController(v1, client)
 	controllers.NewGiveawayController(v1, client)
+	controllers.NewPromotionController(v1, client)
 
 	customers := Customers{
 		Customer: []Customer{
