@@ -5,6 +5,7 @@ import SignIn from './components/SignIn'
 import Orderonline from './components/Orderonline'
 import Orderproduct from './components/orderproduct'
 import Stock from './components/Stock'
+import SplitsystemManager from './components/SplitsystemManager'
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -15,5 +16,6 @@ export const plugin = createPlugin({
     router.registerRoute('/Orderonline', Orderonline);
     router.registerRoute('/Orderproduct', Orderproduct);
     router.registerRoute('/Stock', Stock);
+    router.registerRoute('/SplitsystemManager', SplitsystemManager);
   },
 });
