@@ -26,8 +26,7 @@ import TextField from '@material-ui/core/TextField';
 
 //import { ContentHeader } from '@backstage/core';
 import ComponanceTable from './Tableorderproduct';  
-
-import ComponanceTable from '../Tableorderproduct';  
+ 
 //import { ContentHeader } from '@backstage/core'; 
 
 import Swal from 'sweetalert2';
