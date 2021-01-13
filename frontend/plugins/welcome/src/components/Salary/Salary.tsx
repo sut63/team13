@@ -21,17 +21,11 @@ import { EntAssessment } from '../../api/models/EntAssessment';
 import { EntEmployee } from '../../api/models/EntEmployee';
 import { EntPosition } from '../../api/models/EntPosition';
 import { EntSalary } from '../../api/models/EntSalary';
-import Paper from '@material-ui/core/Paper';
+//import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 //import { ContentHeader } from '@backstage/core';
-import { Alert } from '@material-ui/lab';
-import {
-    FormControl,
-    InputLabel,
-    Box,
-  } from '@material-ui/core';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Menu from '@material-ui/core/Menu';
+ 
+import Swal from 'sweetalert2';
 
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
@@ -59,13 +53,22 @@ const useStyles = makeStyles((theme: Theme) =>
     textField: {
       width: 200,
     },
-    margin: {
-        marginRight: theme.spacing(2),
-      },
-    
   }),
 );
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  width: '400px',
+  padding: '100px',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
 
 
 function Copyright() {
@@ -81,9 +84,10 @@ function Copyright() {
   );
 }
 
+
 export default function MenuAppBar() {
   
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
   const classes = useStyles();
   const profile = { givenName: 'to Software Analysis 63' };
   const api = new DefaultApi();
@@ -102,44 +106,43 @@ export default function MenuAppBar() {
   const [salaryNumber, setSalaryNumber] = useState(Number);
   const [bonusNumber, setBonus] = useState(Number);
   const [datetime, setDatetime] = useState(String);
+  //const [datetime, setDatetime] = useState(String);
 
- let assessmentID = Number(assessmentid) 
- let employeeID  = Number(employeeid)
- let positionID =Number(positionid)
- let salarys  = Number(salaryNumber)
- let bonus  = Number(bonusNumber)
+  let assessmentID = Number(assessmentid) 
+  let employeeID  = Number(employeeid)
+  let positionID =Number(positionid)
+  let salarys  = Number(salaryNumber)
+  let bonus  = Number(bonusNumber)
 
- console.log(employeeID)
  useEffect(() => {
+  
+    const getEmployees = async () => {
 
-  const getEmployees = async () => {
-
-    const em = await api.listEmployee({ limit: 10, offset: 0 });
-    setLoading(false);
-    setEmployees(em);
-  };
-  getEmployees();
-
-  const getAssessments = async () => {
-
-  const tp = await api.listAssessment({ limit: 10, offset: 0 });
-    setLoading(false);
-    setAssessments(tp);
-  };
-  getAssessments();
-
-  const getPositions = async () => {
-
-   const pr = await api.listPosition({ limit: 10, offset: 0 });
-     setLoading(false);
-     setPositions(pr);
-   };
-   getPositions();
-
+        const em = await api.listEmployee({ limit: 10, offset: 0 });
+        setLoading(false);
+        setEmployees(em);
+      };
+      getEmployees();
+    
+      const getAssessments = async () => {
+    
+      const tp = await api.listAssessment({ limit: 10, offset: 0 });
+        setLoading(false);
+        setAssessments(tp);
+      };
+      getAssessments();
+    
+      const getPositions = async () => {
+    
+       const pr = await api.listPosition({ limit: 10, offset: 0 });
+         setLoading(false);
+         setPositions(pr);
+       };
+       getPositions();
    
 }, [loading]);
   
-const Salary = {
+const salary = {
                  
     assessmentID , 
     bonus ,   
@@ -148,26 +151,38 @@ const Salary = {
     salarys ,
     salaryDate :datetime   + ":00+07:00"
 }
-console.log(Salary)
-const createSalary = async () => {
- 
-//console.log()
-const res:any = await api.createSalary({ salary : Salary });
-setStatus(true);
-if (res.id != ''){
-    setAlert(true);
-    window.location.reload(false);
-} else {
-    setAlert(false);
-    setStatus(true);
-}
+console.log(salary)
+function save() {
+  const apiUrl = 'http://localhost:8080/api/v1/salarys';
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(salary),
+  };
 
-const timer = setTimeout(() => {
- setStatus(false);
-}, 1000);
-};
-  
-const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  console.log(salary); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+
+  fetch(apiUrl, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.id != null) {
+        //clear();
+        Toast.fire({
+          icon: 'success',
+          title: 'บันทึกข้อมูลสำเร็จ',
+        });
+        window.setTimeout(function(){location.reload()},1500);
+      } else {
+        Toast.fire({
+          icon: 'error',
+          title: '<h2>บันทึกข้อมูลไม่สำเร็จ</h2>',
+        });
+        
+      }
+    });
+}
+  const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setEmployeeid(event.target.value as number);
   };
 
@@ -189,6 +204,9 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
   const handleDatetimeChange = (event: any) => {
     setDatetime(event.target.value as string);
   }; 
+  /*const handleDatetimeChange = (event: any) => {
+    setDatetime(event.target.value as string);
+  }; */
   
 
  function HomeIcon(props:any) {
@@ -218,7 +236,7 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
                 <IconButton 
                 style={{ marginLeft: 20 }}
                 component={RouterLink}
-                to="/afterlogin"
+                to="/"
                 >    
                 <HomeIcon color="inherit" />
                 </IconButton>
@@ -226,7 +244,7 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
                 <Grid item>
             <Button className={classes.button} variant="outlined" color="inherit" 
             size="small" component={RouterLink}
-            to="/">
+            to="/signinmanager">
                 logout
               </Button>
                 </Grid>  
@@ -235,7 +253,7 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
             </Grid>
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src="o" alt="P" />
+                
               </IconButton>
             </Grid>
           </Grid>
@@ -252,7 +270,7 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h2" component="h2">
-                ระบบบันทึกเงินเดือนพนักงงาน
+                ระบบบันทึกเงินเดือนพนักงาน
               </Typography>
             </Grid>
             <Grid item>
@@ -279,19 +297,6 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
         
       </AppBar>
             
-          {status ? (
-            <div>
-              {alert ? (
-                <Alert severity="success">
-                  This is a success alert — check it out!
-                </Alert>
-              ) : (
-                  <Alert severity="warning" style={{ marginTop: 20 }}>
-                    This is a warning alert — check it out!
-                  </Alert>
-                )}
-            </div>
-          ) : null}
        
       <AppBar
         component="div"
@@ -325,7 +330,8 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
                >
                {employees.map((item:EntEmployee)=>
                <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-             </Select>
+               </Select>
+               <div style={{ marginLeft: 10, marginRight:20 }}></div>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -390,12 +396,7 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
             </Grid>
             <Grid item xs={2}>
               
-            <FormControl
-              fullWidth
-              className={classes.margin}
-              variant="outlined"
-
-            ><TextField
+            <TextField
                 id="salary"
                 label="salary"
                 variant="outlined"
@@ -405,7 +406,6 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
                 onChange={handleSalaryChange }
                 style={{  marginRight :300,width: 300 }}
               />
-              </FormControl>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -419,22 +419,12 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
               </Typography>
             </Grid>
             <Grid item xs={2}>
-            <FormControl
-              fullWidth
-              className={classes.margin}
-              variant="outlined"
-
-            ><TextField
-                id="price"
-                label="Price"
-                variant="outlined"
-                type="string"
-                size="medium"
-                value={bonusNumber}
-                onChange={handleBonusChange }
-                style={{  marginRight :300,width: 300 }}
-              />
-            </FormControl>
+            
+                <TextField id="bonus-number" type='number'  InputLabelProps={{
+                  shrink: true,}}label="โบนัส" variant="outlined"
+                  onChange = {handleBonusChange}
+                  />
+                  
                   
             </Grid>
             <Grid item xs={2}></Grid>
@@ -444,7 +434,7 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
-                วันที่/เวลาที่บันทึก
+                เวลาที่เงินเดือนออก
               </Typography>
             </Grid>
             <Grid item xs={2}>
@@ -466,7 +456,7 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
                   
             </Grid>
             <Grid item xs={2}></Grid>
-            <Grid item xs={2}> </Grid>
+                    <Grid item xs={2}> </Grid>
 
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -479,7 +469,7 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
                 size="large"
                 className={classes.button}
                 onClick={() => {
-                  createSalary();
+                  save();
                 }}
                 
                 startIcon={<SaveIcon 
@@ -487,16 +477,15 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
               >
                 Save
               </Button>
+
+              
             </Grid>
-            
-            <Grid item xs={2}>
             <Link component={RouterLink} to="/SalaryTable">
                 <Button variant="contained" color="secondary" style={{ marginLeft : 40}}>
                 หน้าหลัก
             </Button>
             </Link>
-
-            </Grid>
+            <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
             <Grid item xs={12}></Grid>
             <Grid item xs={12}></Grid>
@@ -520,6 +509,7 @@ const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) 
           </Grid>
         </Toolbar>
       </AppBar>
+    
     
     </div>
   );
