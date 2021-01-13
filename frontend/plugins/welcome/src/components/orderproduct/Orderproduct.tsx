@@ -23,7 +23,6 @@ import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntManager } from '../../api/models/EntManager';
 //import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import ComponanceTable from '../Tableorderproduct';  
 //import { ContentHeader } from '@backstage/core';
 import ComponanceTable from './Tableorderproduct';  
 import Swal from 'sweetalert2';
@@ -385,8 +384,12 @@ function save() {
                {typeproducts.map((item:EntTypeproduct)=>
                <MenuItem key={item.id} value={item.id}>{item.typeproduct}</MenuItem>)}
              </Select>
+
+             
+
             </Grid>
 
+            
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 
@@ -506,10 +509,7 @@ function save() {
         </Toolbar>
       </AppBar>
       <ComponanceTable></ComponanceTable>
-<<<<<<< HEAD
-=======
     
->>>>>>> main
     </div>
   );
  }
