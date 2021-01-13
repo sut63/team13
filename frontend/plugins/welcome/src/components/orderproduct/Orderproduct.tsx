@@ -26,6 +26,7 @@ import TextField from '@material-ui/core/TextField';
 //import { ContentHeader } from '@backstage/core';
 import ComponanceTable from './Tableorderproduct';  
 import Swal from 'sweetalert2';
+import { Cookies } from './SignInOrderproduct/Cookie'
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -86,8 +87,11 @@ function Copyright() {
 
 export default function MenuAppBar() {
   
+  var ck = new Cookies()
+  var cookieEmail = ck.GetCookie()
+  var cookieID = ck.GetID()
+  var cookieName = ck.GetName()
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles();
   const profile = { givenName: 'to Software Analysis 63' };
   const api = new DefaultApi();
@@ -109,14 +113,14 @@ export default function MenuAppBar() {
   //const [datetime, setDatetime] = useState(String);
 
  let stock = Number(orderstockid) 
- let managerID  = Number(managerid)
+ let managerID  = Number(cookieID)
  let typeproductID =Number(typeproductid)
  let productID  = Number(productid)
  let companyID  = Number(companyid)
 
  console.log(managerID)
  useEffect(() => {
-
+  
   const getmanagers = async () => {
 
     const mn = await api.listManager({ limit: 10, offset: 0 });
@@ -238,7 +242,7 @@ function save() {
                 <IconButton 
                 style={{ marginLeft: 20 }}
                 component={RouterLink}
-                to="/afterlogin"
+                to="/"
                 >    
                 <HomeIcon color="inherit" />
                 </IconButton>
@@ -246,7 +250,7 @@ function save() {
                 <Grid item>
             <Button className={classes.button} variant="outlined" color="inherit" 
             size="small" component={RouterLink}
-            to="/">
+            to="/signinmanager">
                 logout
               </Button>
                 </Grid>  
@@ -255,7 +259,7 @@ function save() {
             </Grid>
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src="o" alt="P" />
+                <Avatar src='o' alt = {cookieEmail} />
               </IconButton>
             </Grid>
           </Grid>
@@ -323,16 +327,17 @@ function save() {
             </Grid>
             <Grid item xs={2}>
               
-            <Select
+            {/*<Select
                labelId="manager_id-label"
                label="manager"
                id="manager_id"
                onChange={manager_id_handleChange}
                style = {{width: 200}}
-               >
+               >{cookieID}
                {managers.map((item:EntManager)=>
                <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-             </Select>
+               </Select>*/}
+               <div style={{ marginLeft: 10, marginRight:20 }}>{cookieName}</div>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>

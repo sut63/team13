@@ -120,6 +120,7 @@ const SignIn: FC<{}> = () => {
           localStorage.setItem('manager-name', JSON.stringify(item.name));
           localStorage.setItem('positiondata', JSON.stringify('manager'));
           history.pushState('', '', '/Stock');
+          
           window.location.reload(false);
         }
       });
