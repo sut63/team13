@@ -25,6 +25,8 @@ import {
   TableCell,
   Avatar,
   Box,
+  IconButton,
+  SvgIcon,
 } from '@material-ui/core';
 
 import { EntProduct } from '../../api/models/EntProduct';
@@ -34,6 +36,9 @@ import { EntCustomer } from '../../api/models/EntCustomer';
 import Swal from 'sweetalert2';
 import SaveIcon from '@material-ui/icons/Save'; // icon save
 import { DefaultApi } from '../../api/apis';
+import { Cookiesonline } from './SignInOrderonline/Cookie';
+
+const lightColor = 'rgba(255, 255, 255, 0.7)';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,6 +55,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     textField: {
       width: '25ch',
+    },
+    button: {
+      borderColor: lightColor,
+    },
+    iconButtonAvatar: {
+      padding: 4,
     },
   }),
 );
@@ -76,12 +87,18 @@ interface order {
 }
 
 export default function Orderonline() {
+
+  var ck = new Cookiesonline()
+  var cookieEmail = ck.GetCookie()
+  var cookieID = ck.GetID()
+  var cookieName = ck.GetName()
+
   const classes = useStyles();
   const profile = { givenName: 'to Order Online' };
   const api = new DefaultApi();
   const [loading, setLoading] = useState(true);
 
-  const [order, setOreder] = React.useState<Partial<order>>({});
+  //const [order, setOreder] = React.useState<Partial<order>>({});
 
   const [products, setProducts] = React.useState<EntProduct[]>([]);
   const [typeproducts, setTypeproducts] = React.useState<EntTypeproduct[]>([]);
@@ -96,12 +113,12 @@ export default function Orderonline() {
   const [datetime, setDatetime] = useState(String);
 
   let stock = Number(orderstockid)
-  let customerid = Number(customerID)
+  let customerid = Number(cookieID)
   let typeproductid = Number(typeproductID)
   let productid = Number(productID)
   let paymentchannelid = Number(paymentchannelID)
 
-  console.log(customerID)
+  console.log(customerid)
   useEffect(() => {
 
     const getcustomers = async () => {
@@ -158,7 +175,8 @@ export default function Orderonline() {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderonline),    };
+      body: JSON.stringify(orderonline),
+    };
 
     console.log(orderonline); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 
@@ -202,6 +220,13 @@ export default function Orderonline() {
     setDatetime(event.target.value as string);
   };
 
+  function HomeIcon(props:any) {
+    return (
+      <SvgIcon {...props}>
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </SvgIcon>
+    );
+  }
 
   return (
     <Page theme={pageTheme.home}>
@@ -210,10 +235,24 @@ export default function Orderonline() {
         subtitle="Select Product you want to be in."
       >
 
-        <Avatar>C</Avatar>
+        <IconButton
+          style={{ marginLeft: 20 }}
+          component={RouterLink}
+          to="/"
+        >
+          <HomeIcon color="inherit" />
+        </IconButton>
+
+        <Button className={classes.button} variant="outlined" color="inherit" 
+            size="small" component={RouterLink}
+            to="/SignInOrderonline">
+                logout
+              </Button>
+
         <Typography component="div" variant="body1">
-          <Box color="Dang@gmail.com">Dang@gmail.com</Box>
-          <Box color="secondary.main"></Box>
+          <IconButton color="inherit" className={classes.iconButtonAvatar}>
+                <Avatar src='o' alt = {cookieEmail} />
+              </IconButton>
         </Typography>
 
       </Header>
@@ -224,6 +263,27 @@ export default function Orderonline() {
 
 
             <TableCell align="left">
+
+            <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+                style={{ marginLeft: 560, width: 600 }}
+              >
+                {/*<InputLabel id="customer_id-label">Customer</InputLabel>*/}
+                {/*<Select
+                  labelId="customer_id-label"
+                  label="Customer"
+                  id="customer_id"
+                  value={customerID || ''}
+                  onChange={Customer_id_handleChange || ''}
+                  style={{ width: 300 }}
+                >
+                  {customers.map((item: EntCustomer) =>
+                    <MenuItem value={item.id}>{item.name}</MenuItem>)}
+                </Select>*/}
+                <div style={{ marginLeft: 10, marginRight:20 }}>{cookieName}</div>
+              </FormControl>
 
               <FormControl
                 fullWidth
@@ -304,26 +364,6 @@ export default function Orderonline() {
                 >
                   {paymentchannels.map((item: EntPaymentchannel) =>
                     <MenuItem value={item.id}>{item.bank}</MenuItem>)}
-                </Select>
-              </FormControl>
-
-              <FormControl
-                fullWidth
-                className={classes.margin}
-                variant="outlined"
-                style={{ marginLeft: 560, width: 600 }}
-              >
-                <InputLabel id="customer_id-label">Customer</InputLabel>
-                <Select
-                  labelId="customer_id-label"
-                  label="Customer"
-                  id="customer_id"
-                  value={customerID || ''}
-                  onChange={Customer_id_handleChange || ''}
-                  style={{ width: 300 }}
-                >
-                  {customers.map((item: EntCustomer) =>
-                    <MenuItem value={item.id}>{item.name}</MenuItem>)}
                 </Select>
               </FormControl>
 
