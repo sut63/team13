@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import { Link as RouterLink } from 'react-router-dom';
 import { DefaultApi } from '../../api/apis';
 import { EntStock } from '../../api/models/EntStock';
 import { AppBar, IconButton, Menu, Toolbar, Typography } from '@material-ui/core';
@@ -60,6 +61,14 @@ export default function ComponentsTable() {
            <TableCell align="center">Priceproduct</TableCell>
            <TableCell align="center">Amount</TableCell>
            <TableCell align="center">Time</TableCell>
+           <Button
+              style={{ marginLeft: 20 ,width : 100 }}
+              component={RouterLink}
+              to="/Stock"
+              variant="contained"
+            >
+              Back
+             </Button>
          </TableRow>
        </TableHead>
        <TableBody>
