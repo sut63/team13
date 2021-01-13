@@ -33,6 +33,8 @@ import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntEmployee} from '../../api/models/EntEmployee';
 import { EntZoneproduct} from '../../api/models/EntZoneproduct';
 import { Content, ContentHeader, Header, Page, pageTheme } from '@backstage/core';
+import Swal from 'sweetalert2';
+import { Cookies } from '../Stock/LoginEmployee/Cookie';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,14 +56,39 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Stock: FC<{}> = () => {
-  const classes = useStyles();
-  const profile = { givenName: 'Your Stock' };
+var ck = new Cookies()
+var cookieEmail = ck.GetCookie()
+var cookieID = ck.GetID()
+var cookieName = ck.GetName()
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
 
 
 
+  interface order {
+    employeeID: number;
+    typeproductID: number;
+    productID: number;
+    zoneproductID: number;
+    amount: number;
+    priceproduct : number;
+    time: Date;
+  }
 
 
+  export default function Stock() {
+    const classes = useStyles();
+    const profile = { givenName: 'Your Stock' };
 
   const api = new DefaultApi();
   const [products, setProducts] = useState<EntProduct[]>([]);
@@ -71,7 +98,7 @@ const Stock: FC<{}> = () => {
   const [status, setStatus] = useState(false);
   const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
-
+  const [order, setOreder] = React.useState<Partial<order>>({});
   const [productid, setProductid] = useState(Number);
   const [priceproducts, setPriceproduct] = useState(Number);
   const [amounts, setAmount] = useState(Number);
@@ -82,7 +109,7 @@ const Stock: FC<{}> = () => {
 
 
   let productID = Number(productid)
-  let employeeID = Number(employeeid)
+  let employeeID = Number(cookieID)
   let zoneID = Number(zoneproductid)
   let typeproductID = Number(typeproductid)
   let amount = Number(amounts)
@@ -141,20 +168,39 @@ const Stock: FC<{}> = () => {
       amount ,
       time : time   + ":00+07:00"
     }
-  console.log(stock);
-  const CreateStock = async () => {
+  console.log(stock)
 
-    const res: any = await api.createStock({ stock: stock });
-    setStatus(true);
-    if (res.id != '') {
-      setAlert(true);
-    } else {
-      setAlert(false);
-    }
-    const timer = setTimeout(() => {
-      setStatus(false);
-    }, 1000);
-  };
+  function CreateStock() {
+    const apiUrl = 'http://localhost:8080/api/v1/stocks';
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(stock),
+    };
+
+    console.log(stock);
+
+    fetch(apiUrl, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.id != null) {
+        //clear();
+        Toast.fire({
+          icon: 'success',
+          title: 'บันทึกข้อมูลสำเร็จ',
+        });
+      } else {
+        Toast.fire({
+          icon: 'error',
+          title: 'บันทึกข้อมูลไม่สำเร็จ',
+        });
+      }
+    });
+}
+
+
+
 
   const product_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setProductid(event.target.value as number);
@@ -191,11 +237,8 @@ const Stock: FC<{}> = () => {
         subtitle="Add  Product in your stock."
       >
 
-        <Avatar>P</Avatar>
-        <Typography component="div" variant="body1">
-          <Box color="Pang@gmail.com">Pang@gmail.com</Box>
-          <Box color="secondary.main"></Box>
-        </Typography>
+       
+
 
       </Header>
       <Content>
@@ -240,8 +283,9 @@ const Stock: FC<{}> = () => {
               fullWidth
               className={classes.margin}
               variant="outlined"
-            ><InputLabel>Employee</InputLabel>
-              <Select
+            ><InputLabel></InputLabel>
+
+             {/*} <Select
                 labelId="employee_id-label"
                 label="employee"
                 id="eployee_id"
@@ -251,7 +295,9 @@ const Stock: FC<{}> = () => {
               >
                 {employees.map((item: EntEmployee) =>
                   <MenuItem value={item.id}>{item.name}</MenuItem>)}
-              </Select>
+                </Select>*/}
+            <div style={{  marginRight:300 }}>{cookieName}</div>
+
             </FormControl>
           </Grid>
           <Grid item xs={4}>   
@@ -435,6 +481,10 @@ const Stock: FC<{}> = () => {
 
 
           <Grid item xs={4}>
+        
+            
+               
+
           </Grid>
           <Grid item xs={4}>   
 
@@ -457,7 +507,14 @@ const Stock: FC<{}> = () => {
             >
               Show
              </Button>
-               
+             <Button
+              style={{ marginLeft: 20 ,width : 100 }}
+              component={RouterLink}
+              to="/WelcomePage"
+              variant="contained"
+            >
+              Back
+             </Button>
         
 
           </Grid>
@@ -474,7 +531,7 @@ const Stock: FC<{}> = () => {
     </Page>
   );
 }
-export default Stock;
+
 
 
 
