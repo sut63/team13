@@ -23,6 +23,6 @@ func (Manager) Fields() []ent.Field {
 // Edges of the Manager.
 func (Manager) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("managers", Orderproduct.Type),
+		edge.To("managers", Orderproduct.Type).StorageKey(edge.Column("manager_id")),
 	}
 }

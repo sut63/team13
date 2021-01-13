@@ -50,7 +50,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "manager" package.
 	ManagersInverseTable = "managers"
 	// ManagersColumn is the table column denoting the managers relation/edge.
-	ManagersColumn = "manager_managers"
+	ManagersColumn = "manager_id"
 )
 
 // Columns holds all SQL columns for orderproduct fields.
@@ -63,7 +63,7 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the Orderproduct type.
 var ForeignKeys = []string{
 	"company_companys",
-	"manager_managers",
+	"manager_id",
 	"product_products",
 	"typeproduct_typeproducts",
 }

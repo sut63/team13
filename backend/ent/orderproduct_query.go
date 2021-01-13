@@ -540,7 +540,7 @@ func (oq *OrderproductQuery) sqlAll(ctx context.Context) ([]*Orderproduct, error
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*Orderproduct)
 		for i := range nodes {
-			if fk := nodes[i].manager_managers; fk != nil {
+			if fk := nodes[i].manager_id; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
@@ -553,7 +553,7 @@ func (oq *OrderproductQuery) sqlAll(ctx context.Context) ([]*Orderproduct, error
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "manager_managers" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "manager_id" returned %v`, n.ID)
 			}
 			for i := range nodes {
 				nodes[i].Edges.Managers = n

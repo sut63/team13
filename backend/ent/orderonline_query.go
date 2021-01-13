@@ -540,7 +540,7 @@ func (oq *OrderonlineQuery) sqlAll(ctx context.Context) ([]*Orderonline, error) 
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*Orderonline)
 		for i := range nodes {
-			if fk := nodes[i].customer_formcustomer; fk != nil {
+			if fk := nodes[i].customer_id; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
@@ -553,7 +553,7 @@ func (oq *OrderonlineQuery) sqlAll(ctx context.Context) ([]*Orderonline, error) 
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "customer_formcustomer" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "customer_id" returned %v`, n.ID)
 			}
 			for i := range nodes {
 				nodes[i].Edges.Customer = n

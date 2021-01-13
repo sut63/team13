@@ -25,7 +25,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "orderproduct" package.
 	ManagersInverseTable = "orderproducts"
 	// ManagersColumn is the table column denoting the managers relation/edge.
-	ManagersColumn = "manager_managers"
+	ManagersColumn = "manager_id"
 )
 
 // Columns holds all SQL columns for manager fields.
