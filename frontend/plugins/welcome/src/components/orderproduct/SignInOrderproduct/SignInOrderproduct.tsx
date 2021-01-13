@@ -12,9 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Cookies } from '../../Cookie';
-import { DefaultApi } from '../../api/apis'; 
-import { EntManager, EntCustomer } from '../../api';
+import { Cookies } from './Cookie';
+import { DefaultApi } from '../../../api/apis'; 
+import { EntManager, EntCustomer } from '../../../api';
 import { ApiProvider } from '@backstage/core';
 import { Link as RouterLink } from 'react-router-dom';
 

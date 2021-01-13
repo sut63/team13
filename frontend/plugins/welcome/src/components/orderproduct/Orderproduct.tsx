@@ -26,7 +26,7 @@ import TextField from '@material-ui/core/TextField';
 //import { ContentHeader } from '@backstage/core';
 import ComponanceTable from './Tableorderproduct';  
 import Swal from 'sweetalert2';
-import { Cookies } from '../../Cookie'
+import { Cookies } from './SignInOrderproduct/Cookie'
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -242,7 +242,7 @@ function save() {
                 <IconButton 
                 style={{ marginLeft: 20 }}
                 component={RouterLink}
-                to="/afterlogin"
+                to="/"
                 >    
                 <HomeIcon color="inherit" />
                 </IconButton>
@@ -259,7 +259,7 @@ function save() {
             </Grid>
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src='o' alt= 'cdfws' />
+                <Avatar src='o' alt= {cookieEmail} />
               </IconButton>
             </Grid>
           </Grid>

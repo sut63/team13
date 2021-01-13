@@ -2,7 +2,7 @@ import { createPlugin } from '@backstage/core';
 import WelcomePage from './components/WelcomePage';
 import WatchVideo from './components/WatchVideo'
 import SignIn from './components/SignIn'
-import SignInManager from './components/SignInManager'
+import SignInManager from './components/orderproduct/SignInOrderproduct'
 import Orderonline from './components/Orderonline'
 import Orderonlinetable from './components/Orderonline/Tableorderonline'
 import Orderproduct from './components/orderproduct'
