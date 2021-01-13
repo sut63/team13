@@ -5,13 +5,14 @@ import SignIn from './components/SignIn'
 import SignInOrderproduct from './components/orderproduct/SignInOrderproduct'
 import Orderonline from './components/Orderonline'
 import Orderonlinetable from './components/Orderonline/Tableorderonline'
+import SignInOrderonline from './components/Orderonline/SignInOrderonline'
 import Orderproduct from './components/orderproduct'
 import Stock from './components/Stock'
 import SplitsystemManager from './components/SplitsystemManager'
 import Salary from './components/Salary'
 import SalaryTable from './components/SalaryTable'
 import Tablestock from './components/Tablestock'
-import Tableorderproduct from './components/Orderproduct/Tableorderproduct'
+import Tableorderproduct from './components/orderproduct/Tableorderproduct'
 import LoginEmployee from './components/Stock/LoginEmployee'
 
 export const plugin = createPlugin({
@@ -23,6 +24,7 @@ export const plugin = createPlugin({
     router.registerRoute('/SignInOrderproduct', SignInOrderproduct);
     router.registerRoute('/Orderonline', Orderonline);
     router.registerRoute('/Orderonlinetable', Orderonlinetable);
+    router.registerRoute('/SignInOrderonline', SignInOrderonline);
     router.registerRoute('/Orderproduct', Orderproduct);
     router.registerRoute('/Stock', Stock);
     router.registerRoute('/SplitsystemManager', SplitsystemManager);
