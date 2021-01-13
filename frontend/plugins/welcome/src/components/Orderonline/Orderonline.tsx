@@ -25,7 +25,7 @@ import { EntProduct } from '../../api/models/EntProduct';
 import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntPaymentchannel } from '../../api/models/EntPaymentchannel';
 import { EntCustomer } from '../../api/models/EntCustomer';
-
+import Swal from 'sweetalert2';
 import SaveIcon from '@material-ui/icons/Save'; // icon save
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -47,6 +47,26 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
+
+interface order {
+  customerid: number;
+  typeproductid: number;
+  productid: number;
+  paymentchannelid: number;
+  stock: number;
+  addedtime: Date;
+}
 
 export default function Orderonline() {
   const classes = useStyles();
@@ -55,6 +75,8 @@ export default function Orderonline() {
   const [status, setStatus] = useState(false);
   const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
+
+  const [order, setOreder] = React.useState<Partial<order>>({});
 
   const [products, setProducts] = React.useState<EntProduct[]>([]);
   const [typeproducts, setTypeproducts] = React.useState<EntTypeproduct[]>([]);
@@ -73,7 +95,7 @@ export default function Orderonline() {
   let typeproductid = Number(typeproductID)
   let productid = Number(productID)
   let paymentchannelid = Number(paymentchannelID)
-  
+
   console.log(customerID)
   useEffect(() => {
 
@@ -121,21 +143,35 @@ export default function Orderonline() {
   }
   console.log(orderonline)
 
-  const createOrderonline = async () => {
 
-    //console.log()
-    const res: any = await api.createOrderonline({ orderonline: orderonline });
-    setStatus(true);
-    if (res.id != '') {
-      setAlert(true);
-    } else {
-      setAlert(false);
-    }
+  function save() {
+    const apiUrl = 'http://localhost:8080/api/v1/orderonlines';
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderonline),
+    };
 
-    const timer = setTimeout(() => {
-      setStatus(false);
-    }, 1000);
-  };
+    console.log(orderonline); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+
+    fetch(apiUrl, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.id != null) {
+          //clear();
+          Toast.fire({
+            icon: 'success',
+            title: 'บันทึกข้อมูลสำเร็จ',
+          });
+        } else {
+          Toast.fire({
+            icon: 'error',
+            title: 'บันทึกข้อมูลไม่สำเร็จ',
+          });
+        }
+      });
+  }
 
   const Customer_id_handleChange = (event: any) => {
     setCustomerid(event.target.value);
@@ -158,7 +194,7 @@ export default function Orderonline() {
     setDatetime(event.target.value as string);
   };
 
- 
+
   return (
     <Page theme={pageTheme.home}>
       <Header
@@ -174,7 +210,7 @@ export default function Orderonline() {
 
       </Header>
       <Content>
-      <ContentHeader title="PositionAssingment">          
+        <ContentHeader title="PositionAssingment">
           {status ? (
             <div>
               {alert ? (
@@ -194,7 +230,6 @@ export default function Orderonline() {
           <form noValidate autoComplete="off">
 
 
-
             <TableCell align="left">
 
               <FormControl
@@ -207,7 +242,7 @@ export default function Orderonline() {
                   id="date"
                   label="Date"
                   type="datetime-local"
-                  value={datetime}
+                  value={datetime || ''}
                   onChange={handleDatetimeChange}
                   //defaultValue="2020-05-24"
                   className={classes.textField}
@@ -230,7 +265,7 @@ export default function Orderonline() {
                   labelId="product_id-label"
                   label="Product"
                   id="product_id"
-                  value={productID}
+                  value={productID || ''}
                   onChange={Product_id_handleChange}
                   style={{ width: 300 }}
                 >
@@ -250,7 +285,7 @@ export default function Orderonline() {
                   labelId="typeproduct_id-label"
                   label="Typeproduct"
                   id="typeproduct_id"
-                  value={typeproductID}
+                  value={typeproductID || ''}
                   onChange={Typeproduct_id_handleChange}
                   style={{ width: 300 }}
                 >
@@ -270,7 +305,7 @@ export default function Orderonline() {
                   labelId="paymentchannel_id-label"
                   label="Paymentchannel"
                   id="paymentchannel_id"
-                  value={paymentchannelID}
+                  value={paymentchannelID || ''}
                   onChange={Paymentchannel_id_handleChange}
                   style={{ width: 300 }}
                 >
@@ -290,8 +325,8 @@ export default function Orderonline() {
                   labelId="customer_id-label"
                   label="Customer"
                   id="customer_id"
-                  value={customerID}
-                  onChange={Customer_id_handleChange}
+                  value={customerID || ''}
+                  onChange={Customer_id_handleChange || ''}
                   style={{ width: 300 }}
                 >
                   {customers.map((item: EntCustomer) =>
@@ -309,7 +344,7 @@ export default function Orderonline() {
                   shrink: true,
                 }} label="กรุณาใส่จำนวน" variant="outlined"
                   onChange={Orderstock_id_handleChange}
-                  value={orderstockid}
+                  value={orderstockid || ''}
                 />
               </FormControl>
 
@@ -317,15 +352,17 @@ export default function Orderonline() {
             </TableCell>
 
             <div className={classes.margin}>
-            <TableCell align="right">
+              <TableCell align="right">
                 <Button
+                  component={RouterLink}
+                  to="/Orderonline"
                   variant="contained"
                   color="primary"
                   size="large"
                   style={{ marginLeft: 545, width: 200 }}
                   className={classes.margin}
                   onClick={() => {
-                    createOrderonline();
+                    save();
                   }}
                   startIcon={<SaveIcon
                   />}
@@ -355,8 +392,6 @@ export default function Orderonline() {
                   Show
              </Button>
               </TableCell>
-
-             
 
             </div>
           </form>
