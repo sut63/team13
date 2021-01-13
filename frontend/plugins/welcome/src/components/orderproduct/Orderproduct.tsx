@@ -259,7 +259,7 @@ function save() {
             </Grid>
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src='o' alt= {cookieEmail} />
+                <Avatar src='o' alt = {cookieEmail} />
               </IconButton>
             </Grid>
           </Grid>
