@@ -23,8 +23,13 @@ import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntManager } from '../../api/models/EntManager';
 //import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+
 //import { ContentHeader } from '@backstage/core';
 import ComponanceTable from './Tableorderproduct';  
+
+import ComponanceTable from '../Tableorderproduct';  
+//import { ContentHeader } from '@backstage/core'; 
+
 import Swal from 'sweetalert2';
 import { Cookies } from './SignInOrderproduct/Cookie'
 
@@ -183,7 +188,8 @@ function save() {
         //clear();
         Toast.fire({
           icon: 'success',
-          title: 'บันทึกข้อมูลสำเร็จ',    
+          title: 'บันทึกข้อมูลสำเร็จ',
+
         });window.setTimeout(function(){location.reload()},3000);
       } else {
         Toast.fire({
