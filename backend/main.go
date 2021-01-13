@@ -191,7 +191,7 @@ func main() {
 	router := gin.Default()
 	router.Use(cors.Default())
 
-	client, err := ent.Open("sqlite3", "file:ent.db?&cache=shared&_fk=1")
+	client, err := ent.Open("sqlite3", "file:Database.db?&cache=shared&_fk=1")
 	if err != nil {
 		log.Fatalf("fail to open sqlite3: %v", err)
 	}
@@ -205,6 +205,7 @@ func main() {
 	controllers.NewCustomerController(v1, client)
 	controllers.NewOrderonlineController(v1, client)
 	controllers.NewPaymentchannelController(v1, client)
+	
 	controllers.NewProductController(v1, client)
 	controllers.NewTypeproductController(v1, client)
 
@@ -227,6 +228,7 @@ func main() {
 
 	controllers.NewDiscountController(v1, client)
 	controllers.NewGiveawayController(v1, client)
+	controllers.NewPromotionController(v1, client)
 
 	customers := Customers{
 		Customer: []Customer{

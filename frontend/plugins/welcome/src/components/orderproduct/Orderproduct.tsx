@@ -23,8 +23,15 @@ import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntManager } from '../../api/models/EntManager';
 //import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import ComponanceTable from '../Tableorderproduct';  
+
 //import { ContentHeader } from '@backstage/core';
+<<<<<<< HEAD
+=======
+import ComponanceTable from './Tableorderproduct';  
+ 
+//import { ContentHeader } from '@backstage/core'; 
+
+>>>>>>> 8f45709b2cda52649f23a4b50b57103e054c12ae
 import Swal from 'sweetalert2';
 import { Cookies } from './SignInOrderproduct/Cookie'
 
@@ -83,7 +90,7 @@ function Copyright() {
     </Typography>
   );
 }
-
+//testupgithub
 
 export default function MenuAppBar() {
   
@@ -184,7 +191,8 @@ function save() {
         Toast.fire({
           icon: 'success',
           title: 'บันทึกข้อมูลสำเร็จ',
-        });window.setTimeout(function(){location.reload()},3000);
+
+        });//window.setTimeout(function(){location.reload()},8000);
       } else {
         Toast.fire({
           icon: 'error',
@@ -384,8 +392,12 @@ function save() {
                {typeproducts.map((item:EntTypeproduct)=>
                <MenuItem key={item.id} value={item.id}>{item.typeproduct}</MenuItem>)}
              </Select>
+
+             
+
             </Grid>
 
+            
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 
@@ -505,6 +517,10 @@ function save() {
         </Toolbar>
       </AppBar>
       <ComponanceTable></ComponanceTable>
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 8f45709b2cda52649f23a4b50b57103e054c12ae
     </div>
   );
  }
