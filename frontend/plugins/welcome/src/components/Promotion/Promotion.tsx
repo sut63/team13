@@ -105,15 +105,15 @@ export default function MenuAppBar() {
     setProductid(event.target.value);
   };
 
-  const discount_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setDiscountid(event.target.value as number);
+  const discount_id_handleChange = (event: any) => {
+    setDiscountid(event.target.value);
   };
 
-  const giveaway_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setGiveawayid(event.target.value as number);
+  const giveaway_id_handleChange = (event: any) => {
+    setGiveawayid(event.target.value);
   };
 
-  const price_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const price_id_handleChange = (event: any) => {
     setPrice(event.target.value as number);
   };
 

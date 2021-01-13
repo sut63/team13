@@ -181,6 +181,71 @@ func (ctl *PromotionController) ListPromotion(c *gin.Context) {
 	c.JSON(200, promotions)
 }
 
+// UpdatePromotion handles PUT requests to update a promotion entity
+// @Summary Update a promotion entity by ID
+// @Description update promotion by ID
+// @ID update-promotion
+// @Accept   json
+// @Produce  json
+// @Param id path int true "Promotion ID"
+// @Param promotion body ent.Promotion true "Promotion entity"
+// @Success 200 {object} ent.Promotion
+// @Failure 400 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /promotions/{id} [put]
+
+func (ctl *PromotionController) UpdatePromotion(c *gin.Context) {
+
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+ 
+	if err != nil {
+ 
+		c.JSON(400, gin.H{
+ 
+			"error": err.Error(),
+ 
+		})
+ 
+		return
+ 
+	}
+ 
+ 
+	obj := ent.Promotion{}
+ 
+	if err := c.ShouldBind(&obj); err != nil {
+ 
+		c.JSON(400, gin.H{
+ 
+			"error": "promotion binding failed",
+ 
+		})
+ 
+		return
+ 
+	}
+ 
+	obj.ID = int(id)
+ 
+	u, err := ctl.client.Promotion.
+ 
+		UpdateOne(&obj).
+ 
+		Save(context.Background())
+ 
+	if err != nil {
+ 
+		c.JSON(400, gin.H{"error": "update failed",})
+ 
+		return
+ 
+	}
+ 
+ 
+	c.JSON(200, u)
+ 
+ }
+
 // DeletePromotion handles DELETE requests to delete a promotion entity
 // @Summary Delete a promotion entity by ID
 // @Description get promotion by ID
@@ -229,8 +294,9 @@ func (ctl *PromotionController) register() {
 	promotions := ctl.router.Group("/promotions")
 
 	promotions.GET("", ctl.ListPromotion)
-
 	// CRUD
 	promotions.POST("", ctl.CreatePromotion)
+	promotions.GET(":id", ctl.GetPromotion)
+	promotions.PUT(":id", ctl.UpdatePromotion)
 	promotions.DELETE(":id", ctl.DeletePromotion)
 }
