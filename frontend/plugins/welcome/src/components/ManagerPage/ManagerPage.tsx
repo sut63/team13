@@ -40,7 +40,7 @@ export function CardTeam({ name, id, system }: ProfileProps) {
             component="img"
             alt="นาย สมชาย ใจดี"
             height="140"
-            image="../../image/account.jpg"
+            image="E:\SE\Project\Picture\1.png"
             title="นาย สมชาย ใจดี"
           />
           <CardContent>
@@ -60,43 +60,15 @@ export function CardTeam({ name, id, system }: ProfileProps) {
 const WelcomePage: FC<{}> = () => {
   return (
     <Page theme={pageTheme.home}>
-      <Header style={HeaderCustom} title={`ระบบ...`}></Header>
+      <Header style={HeaderCustom} title={`ระบบ Farm Mart`}></Header>
       <Content>
         <ContentHeader title="สมาชิกในกลุ่ม"></ContentHeader>
         <Grid container>
-          <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."}></CardTeam>
-          <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."}></CardTeam>
-          <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."}></CardTeam>
-          <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."}></CardTeam>
-          <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."}></CardTeam>
-          <CardTeam name={"นาย สมชาย ใจดี"} id={"B5012345"} system={"ระบบย่อย..."}></CardTeam>
-          
-          
-          <Button
-                  style={{ marginLeft: 1 }}
-                  component={RouterLink}
-                  to="/SignInOrderonline"
-                  variant="contained"
-                >
-                  Back
-             </Button>
-
-             <Button
-                  style={{ marginLeft: 1 }}
-                  component={RouterLink}
-                  to="/Stock"
-                  variant="contained"
-                >
-                  Back2
-             </Button>
-             <Button
-                  style={{ marginLeft: 1 }}
-                  component={RouterLink}
-                  to="/Salary"
-                  variant="contained"
-                >
-                  Back to Salary
-             </Button>
+          <CardTeam name={"นาย นนทกร พาอยู่สุข"} id={"B6111052"} system={"ระบบย่อย: ระบบบันทึกเงินเดือนพนักงาน"}></CardTeam>
+          <CardTeam name={"นาย ธนบดี เพชรรี่"} id={"B6118631"} system={"ระบบย่อย: ระบบตารางเวลาทำงานพนักงาน"}></CardTeam>
+          <CardTeam name={"นาย พิชัย โสมาสา "} id={"B6116637"} system={"ระบบย่อย: ระบบPromotion "}></CardTeam>
+          <CardTeam name={"นาย ภูมิมินทร์ พินพิมาย"} id={"B6111090"} system={"ระบบย่อย: ระบบสั่งซื้อสินค้าเข้ามาในคลัง"}></CardTeam>
+        
         </Grid>
       </Content>
     </Page>

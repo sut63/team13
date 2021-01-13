@@ -25,7 +25,6 @@ import { EntManager } from '../../api/models/EntManager';
 import TextField from '@material-ui/core/TextField';
 import ComponanceTable from '../Tableorderproduct';  
 //import { ContentHeader } from '@backstage/core';
-import ComponanceTable from './Tableorderproduct';  
 import Swal from 'sweetalert2';
 import { Cookies } from './SignInOrderproduct/Cookie'
 
@@ -506,10 +505,6 @@ function save() {
         </Toolbar>
       </AppBar>
       <ComponanceTable></ComponanceTable>
-<<<<<<< HEAD
-=======
-    
->>>>>>> main
     </div>
   );
  }

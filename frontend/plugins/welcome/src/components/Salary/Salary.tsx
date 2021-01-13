@@ -172,7 +172,7 @@ function save() {
           icon: 'success',
           title: 'บันทึกข้อมูลสำเร็จ',
         });
-        window.setTimeout(function(){location.reload()},1500);
+       // window.setTimeout(function(){location.reload()},1500);
       } else {
         Toast.fire({
           icon: 'error',
@@ -483,6 +483,11 @@ function save() {
             <Link component={RouterLink} to="/SalaryTable">
                 <Button variant="contained" color="secondary" style={{ marginLeft : 40}}>
                 หน้าหลัก
+            </Button>
+            </Link>
+            <Link component={RouterLink} to="/SplitsystemManager">
+                <Button variant="contained" color="secondary" style={{ marginLeft : 40}}>
+                Login
             </Button>
             </Link>
             <Grid item xs={2}></Grid>

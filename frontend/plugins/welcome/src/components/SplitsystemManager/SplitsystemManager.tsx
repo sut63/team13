@@ -14,6 +14,7 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
+import { Link as RouterLink } from 'react-router-dom';
 
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -78,36 +79,49 @@ const useStyles = makeStyles((theme) => ({
 
 const tiers = [
   {
-    title: 'Free',
-    price: '0',
-    description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support'],
-    buttonText: 'Sign up for free',
-    buttonVariant: 'outlined',
-  },
-  {
-    title: 'Pro',
-    subheader: 'Most popular',
-    price: '15',
-    description: [
-      '20 users included',
-      '10 GB of storage',
-      'Help center access',
-      'Priority email support',
-    ],
-    buttonText: 'Get started',
+    title: 'ระบบบันทึกเงินเดือนพนักงาน',
+    description: [/*'ระบบย่อย', 'บันทึกเงินเดือนพนักงาน', 'ตารางเวลาทำงานพนักงาน'*/],
+    buttonText: 'Click',
+    buttinLink: "/Salary",
     buttonVariant: 'contained',
   },
   {
-    title: 'Enterprise',
-    price: '30',
+    title: 'ระบบตารางเวลาทำงานพนักงาน',
     description: [
-      '50 users included',
+      /*'20 users included',
+      '10 GB of storage',
+      'Help center access',
+      'Priority email support',*/
+    ],
+    buttonText: 'Click',
+    buttinLink: "/Salary",
+    buttonVariant: 'contained',
+  },
+  {
+    title: 'ระบบPromotion',
+
+    description: [
+     /* '50 users included',
       '30 GB of storage',
       'Help center access',
-      'Phone & email support',
+      'Phone & email support',*/
     ],
-    buttonText: 'Contact us',
-    buttonVariant: 'outlined',
+    buttonText: 'Click',
+    buttinLink: "/Promotion",
+    buttonVariant: 'contained',
+  },
+  {
+    title: 'ระบบสั่งซื้อสินค้าเข้ามาในคลัง',
+    
+    description: [
+     /* '50 users included',
+      '30 GB of storage',
+      'Help center access',
+      'Phone & email support',*/
+    ],
+    buttonText: 'Click',
+    buttinLink: "/orderproduct",
+    buttonVariant: 'contained',
   },
 ];
 const footers = [
@@ -137,8 +151,8 @@ export default function Pricing() {
       <CssBaseline />
       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-            Company name
+          <Typography variant="h2" color="inherit" noWrap className={classes.toolbarTitle}>
+            Farm Mart
           </Typography>
           <nav>
             <Link variant="button" color="textPrimary" href="#" className={classes.link}>
@@ -159,12 +173,12 @@ export default function Pricing() {
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-          Pricing
+          Farm mart
         </Typography>
-        <Typography variant="h5" align="center" color="textSecondary" component="p">
+        {/*<Typography variant="h5" align="center" color="textSecondary" component="p">
           Quickly build an effective pricing table for your potential customers with this layout.
           It&apos;s built with default Material-UI components with little customization.
-        </Typography>
+  </Typography>*/}
       </Container>
       {/* End hero unit */}
       <Container maxWidth="md" component="main">
@@ -181,26 +195,20 @@ export default function Pricing() {
                   action={tier.title === 'Pro' ? <StarIcon /> : null}
                   className={classes.cardHeader}
                 />
-                <CardContent>
-                  <div className={classes.cardPricing}>
-                    <Typography component="h2" variant="h3" color="textPrimary">
-                      ${tier.price}
-                    </Typography>
-                    <Typography variant="h6" color="textSecondary">
-                      /mo
-                    </Typography>
-                  </div>
+                <CardContent>       
                   <ul>
                     {tier.description.map((line) => (
                       <Typography component="li" variant="subtitle1" align="center" key={line}>
-                        {line}
+                     
                       </Typography>
                     ))}
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant} color="primary">
+                  <Button fullWidth variant={tier.buttonVariant} color="primary" to={tier.buttinLink} component={RouterLink}>
+
                     {tier.buttonText}
+                      
                   </Button>
                 </CardActions>
               </Card>
