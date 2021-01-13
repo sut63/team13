@@ -21,7 +21,7 @@ import { EntProduct } from '../../api/models/EntProduct';
 import { EntCompany } from '../../api/models/EntCompany';
 import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntManager } from '../../api/models/EntManager';
-import Paper from '@material-ui/core/Paper';
+//import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 //import { ContentHeader } from '@backstage/core';
 import ComponanceTable from './Tableorderproduct';  
@@ -420,12 +420,12 @@ function save() {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-            <Paper >
+            
                 <TextField id="outlined-number" type='number'  InputLabelProps={{
                   shrink: true,}}label="กรุณาใส่จำนวน" variant="outlined"
                   onChange = {Orderstock_id_handleChange}
                   />
-                  </Paper>
+                  
                   
             </Grid>
             <Grid item xs={2}></Grid>
