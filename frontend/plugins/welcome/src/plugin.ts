@@ -2,6 +2,7 @@ import { createPlugin } from '@backstage/core';
 import WelcomePage from './components/WelcomePage';
 import WatchVideo from './components/WatchVideo'
 import SignIn from './components/SignIn'
+import SignInManager from './components/SignInManager'
 import Orderonline from './components/Orderonline'
 import Orderonlinetable from './components/Orderonline/Tableorderonline'
 import Orderproduct from './components/orderproduct'
@@ -18,6 +19,7 @@ export const plugin = createPlugin({
     router.registerRoute('/', WelcomePage);
     router.registerRoute('/watch_video', WatchVideo);
     router.registerRoute('/signin', SignIn);
+    router.registerRoute('/signinmanager', SignInManager);
     router.registerRoute('/Orderonline', Orderonline);
     router.registerRoute('/Orderonlinetable', Orderonlinetable);
     router.registerRoute('/Orderproduct', Orderproduct);
