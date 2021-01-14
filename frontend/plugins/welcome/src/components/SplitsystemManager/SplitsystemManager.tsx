@@ -170,7 +170,7 @@ export default function Pricing() {
             Farm Mart
           </Typography>
           <nav>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+            <Link variant="button" color="textPrimary" href="https://www.google.com/webhp?hl=th&sa=X&ved=0ahUKEwiW6LPK8ZruAhWszjgGHe8uCjsQPAgI" className={classes.link}>
               Features
             </Link>
             <Link variant="button" color="textPrimary" href="#" className={classes.link}>

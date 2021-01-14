@@ -59,8 +59,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
-  width: '400px',
-  padding: '100px',
   showConfirmButton: false,
   timer: 3000,
   timerProgressBar: true,
@@ -176,7 +174,7 @@ function save() {
       } else {
         Toast.fire({
           icon: 'error',
-          title: '<h2>บันทึกข้อมูลไม่สำเร็จ</h2>',
+          title: 'บันทึกข้อมูลไม่สำเร็จ',
         });
         
       }
@@ -219,19 +217,20 @@ function save() {
 
   return (
     <div className={classes.root}>
-      <AppBar color="primary" position="sticky" elevation={0}>
+      
+      <AppBar
+        component="div"
+        color="primary"
+        position="static"
+        elevation={0}
+      >
         <Toolbar>
-          <Grid container spacing={1} alignItems="center">
-            <Hidden smUp>
-            <Grid item>
-                
-              </Grid>
-            </Hidden>
-            <Grid item xs />
-            <Grid item>
-            
+          <Grid container alignItems="center" spacing={1}>
+            <Grid item xs>
+              <Typography color="inherit" variant="h3" component="h2">
+                ระบบบันทึกเงินเดือนพนักงาน
+              </Typography>
             </Grid>
-            
             <Grid item>
                 <IconButton 
                 style={{ marginLeft: 20 }}
@@ -242,6 +241,7 @@ function save() {
                 </IconButton>
                 </Grid>
                 <Grid item>
+                  
             <Button className={classes.button} variant="outlined" color="inherit" 
             size="small" component={RouterLink}
             to="/signinmanager">
@@ -256,26 +256,6 @@ function save() {
                 
               </IconButton>
             </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      
-      <AppBar
-        component="div"
-        color="primary"
-        position="static"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container alignItems="center" spacing={1}>
-            <Grid item xs>
-              <Typography color="inherit" variant="h2" component="h2">
-                ระบบบันทึกเงินเดือนพนักงาน
-              </Typography>
-            </Grid>
-            <Grid item>
-            
-                </Grid>  
             
             <Grid item>
             
@@ -482,7 +462,7 @@ function save() {
             </Grid>
             <Link component={RouterLink} to="/SalaryTable">
                 <Button variant="contained" color="secondary" style={{ marginLeft : 40}}>
-                หน้าหลัก
+                SHOW
             </Button>
             </Link>
             <Link component={RouterLink} to="/SplitsystemManager">
