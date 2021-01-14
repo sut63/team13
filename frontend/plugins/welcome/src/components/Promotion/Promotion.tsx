@@ -14,6 +14,7 @@ import { Alert } from '@material-ui/lab';
 import { DefaultApi } from '../../api/apis';
 import { Paper, Select, TextField } from '@material-ui/core';
 import { ContentHeader } from '@backstage/core';
+import Swal from 'sweetalert2';
 
 import { EntProduct } from '../../api/models/EntProduct';
 import { EntDiscount } from '../../api/models/EntDiscount';
@@ -34,6 +35,17 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
 
 export default function MenuAppBar() {
   const classes = useStyles();
@@ -43,7 +55,6 @@ export default function MenuAppBar() {
   const api = new DefaultApi();
 
   const [status, setStatus] = useState(false);
-  const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
 
   const [products, setProducts] = React.useState<EntProduct[]>([]);
@@ -83,19 +94,47 @@ export default function MenuAppBar() {
 
   }, [loading]);
 
-
-
-  const CreatePromotions = async () => {
+  let pc = Number(price)
+  
     const Promotions = {
       discount: discountID,
       product: productID,
       giveaway: giveawayID,
       promotionName: promotionname,
-      price: price,
+      price: pc,
     }
-    const res: any = await api.createPromotion({ promotion : Promotions });
 
+console.log(Promotions)
+function save() {
+  const apiUrl = 'http://localhost:8080/api/v1/promotions';
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(Promotions),
+  };
 
+  console.log(Promotions); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+
+  fetch(apiUrl, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.id != null) {
+        //clear();
+        Toast.fire({
+          icon: 'success',
+          title: 'บันทึกข้อมูลสำเร็จ',
+
+        });//window.setTimeout(function(){location.reload()},8000);
+      } else {
+        Toast.fire({
+          icon: 'error',
+          title: 'บันทึกข้อมูลไม่สำเร็จ',
+        });
+      }
+    });
+
+    
     const timer = setTimeout(() => {
       setStatus(false);
     }, 1000);
@@ -169,22 +208,6 @@ export default function MenuAppBar() {
         </Toolbar>
       </AppBar>
 
-      <ContentHeader title="">
-        {status ? (
-          <div>
-            {alert ? (
-              <Alert severity="success">
-                บันทึกข้อมูลสำเร็จ!
-              </Alert>
-            ) : (
-                <Alert severity="warning" style={{ marginTop: 20 }}>
-                  บันทึกข้อมูลล้มเหลว!
-                </Alert>
-              )}
-          </div>
-        ) : null}
-      </ContentHeader>
-
       <AppBar position="static" color='inherit' background-color="inherit">
         <Grid container alignItems="center" spacing={2} >
           <Grid item xs={12}></Grid>
@@ -199,6 +222,7 @@ export default function MenuAppBar() {
                 }} label="" variant="outlined"
                   onChange={Promotionname_id_handleChange}
                   value={promotionname}
+                  
           />
           </Grid>
           <Grid item xs={2}><p></p></Grid>
@@ -217,7 +241,7 @@ export default function MenuAppBar() {
               style={{ width: 200 }}
             >
               {products.map((item: EntProduct) =>
-                <MenuItem value={item.id}>{item.nameProduct}</MenuItem>)}
+                <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
             </Select>
           </Grid>
           <Grid item xs={2}><p></p></Grid>
@@ -236,7 +260,7 @@ export default function MenuAppBar() {
               style={{ width: 200 }}
             >
               {giveaway.map((item: EntGiveaway) =>
-                <MenuItem value={item.id}>{item.giveawayName}</MenuItem>)}
+                <MenuItem key={item.id} value={item.id}>{item.giveawayName}</MenuItem>)}
             </Select>
 
           </Grid>
@@ -256,7 +280,7 @@ export default function MenuAppBar() {
               style={{ width: 200 }}
             >
               {discount.map((item: EntDiscount) =>
-                <MenuItem value={item.id}>{item.sale}</MenuItem>)}
+                <MenuItem key={item.id} value={item.id}>{item.sale}</MenuItem>)}
             </Select>
           </Grid>
           <Grid item xs={2}><p>%</p></Grid>
@@ -297,7 +321,7 @@ export default function MenuAppBar() {
           <Button
               style={{ marginLeft: 30 }}
               component={RouterLink}
-              to="/login"
+              to="/Promotiontable"
               variant="contained"
             >
               show Promotion
@@ -308,7 +332,7 @@ export default function MenuAppBar() {
           <Grid item xs={1}>
             <Button
               onClick={() => {
-                CreatePromotions();
+                save();
               }}
 
               color="inherit"

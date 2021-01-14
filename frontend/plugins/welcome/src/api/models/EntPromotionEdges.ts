@@ -64,9 +64,9 @@ export function EntPromotionEdgesFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'give': !exists(json, 'give') ? undefined : EntGiveawayFromJSON(json['give']),
-        'product': !exists(json, 'product') ? undefined : EntProductFromJSON(json['product']),
-        'sale': !exists(json, 'sale') ? undefined : EntDiscountFromJSON(json['sale']),
+        'give': !exists(json, 'Give') ? undefined : EntGiveawayFromJSON(json['Give']),
+        'product': !exists(json, 'Product') ? undefined : EntProductFromJSON(json['Product']),
+        'sale': !exists(json, 'Sale') ? undefined : EntDiscountFromJSON(json['Sale']),
     };
 }
 
@@ -79,9 +79,9 @@ export function EntPromotionEdgesToJSON(value?: EntPromotionEdges | null): any {
     }
     return {
         
-        'give': EntGiveawayToJSON(value.give),
-        'product': EntProductToJSON(value.product),
-        'sale': EntDiscountToJSON(value.sale),
+        'Give': EntGiveawayToJSON(value.give),
+        'Product': EntProductToJSON(value.product),
+        'Sale': EntDiscountToJSON(value.sale),
     };
 }
 
