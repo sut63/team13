@@ -16,13 +16,9 @@ import Tableorderproduct from './components/orderproduct/Tableorderproduct'
 import LoginEmployee from './components/Stock/LoginEmployee'
 import ManagerPage from './components/ManagerPage'
 import Promotion from './components/Promotion';
-<<<<<<< HEAD
 import Promotiontable from './components/Promotion/Promotiontable'
-
-=======
 import EmployeeWorkingHours from './components/EmployeeWorkingHours';
 import TableEmployeeWorkingHours from './components/TableEmployeeWorkingHours';
->>>>>>> 44ced9423e54831737646f9fcd335334a6b40db3
 
 export const plugin = createPlugin({
   id: 'welcome',
