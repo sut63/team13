@@ -16,6 +16,8 @@ import Tableorderproduct from './components/orderproduct/Tableorderproduct'
 import LoginEmployee from './components/Stock/LoginEmployee'
 import ManagerPage from './components/ManagerPage'
 import Promotion from './components/Promotion';
+import EmployeeWorkingHours from './components/EmployeeWorkingHours';
+import TableEmployeeWorkingHours from './components/TableEmployeeWorkingHours';
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -37,5 +39,8 @@ export const plugin = createPlugin({
     router.registerRoute('/Promotion', Promotion);
     router.registerRoute('/LoginEmployee', LoginEmployee);
     router.registerRoute('/ManagerPage', ManagerPage);
+    router.registerRoute('/EmployeeWorkingHours', EmployeeWorkingHours);
+    router.registerRoute('/TableEmployeeWorkingHours', TableEmployeeWorkingHours);
+
   },
 });
