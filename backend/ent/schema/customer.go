@@ -24,6 +24,6 @@ func (Customer) Fields() []ent.Field {
 // Edges of the Customer.
 func (Customer) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("formcustomer", Orderonline.Type),
+		edge.To("formcustomer", Orderonline.Type).StorageKey(edge.Column("customer_id")),
 	}
 }

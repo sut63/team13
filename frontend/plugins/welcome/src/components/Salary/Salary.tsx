@@ -15,23 +15,18 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import SaveIcon from '@material-ui/icons/Save';
-import { DefaultApi } from '../../api/apis';
 import Select from '@material-ui/core/Select';
-import { EntProduct } from '../../api/models/EntProduct';
-import { EntCompany } from '../../api/models/EntCompany';
-import { EntTypeproduct } from '../../api/models/EntTypeproduct';
-import { EntManager } from '../../api/models/EntManager';
+import { DefaultApi } from '../../api/apis'; // Api Gennerate From Command
+import { EntAssessment } from '../../api/models/EntAssessment';
+import { EntEmployee } from '../../api/models/EntEmployee';
+import { EntPosition } from '../../api/models/EntPosition';
+import { EntSalary } from '../../api/models/EntSalary';
 //import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-
 //import { ContentHeader } from '@backstage/core';
-import ComponanceTable from './Tableorderproduct';  
  
-//import { ContentHeader } from '@backstage/core'; 
-
 import Swal from 'sweetalert2';
-//cookie
-import { Cookies } from './SignInOrderproduct/Cookie'
+
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -81,104 +76,91 @@ function Copyright() {
     <Typography variant="body2" color="inherit" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Poommin Website
+        Nontakorn Website
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
 }
-//testupgithub
+
 
 export default function MenuAppBar() {
   
-  var ck = new Cookies()
-  var cookieEmail = ck.GetCookie()
-  var cookieID = ck.GetID()
-  var cookieName = ck.GetName()
 
   const classes = useStyles();
   const profile = { givenName: 'to Software Analysis 63' };
   const api = new DefaultApi();
   
-  const [products, setProducts] = useState<EntProduct[]>([]);
-  const [companys, setCompanys] = useState<EntCompany[]>([]);
-  const [typeproducts, setTypeproducts] = useState<EntTypeproduct[]>([]);
-  const [managers, setManagers] = useState<EntManager[]>([]);
+  const [assessments, setAssessments] = useState<EntAssessment[]>([]);
+  const [employees, setEmployees] = useState<EntEmployee[]>([]);
+  const [positions, setPositions] = useState<EntPosition[]>([]);
   const [status, setStatus] = useState(false);
   const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
 
 
-  const [managerid, setManagerid] = useState(Number);
-  const [typeproductid, setTypeproductid] = useState(Number);
-  const [productid, setProductid] = useState(Number);
-  const [companyid, setCompanyid] = useState(Number);
-  const [orderstockid, setOrderstockid] = useState(Number);
+  const [assessmentid, setAssessmentid] = useState(Number);
+  const [employeeid, setEmployeeid] = useState(Number);
+  const [positionid, setPositionid] = useState(Number);
+  const [salaryNumber, setSalaryNumber] = useState(Number);
+  const [bonusNumber, setBonus] = useState(Number);
+  const [datetime, setDatetime] = useState(String);
   //const [datetime, setDatetime] = useState(String);
 
- let stock = Number(orderstockid) 
- let managerID  = Number(cookieID)
- let typeproductID =Number(typeproductid)
- let productID  = Number(productid)
- let companyID  = Number(companyid)
+  let assessmentID = Number(assessmentid) 
+  let employeeID  = Number(employeeid)
+  let positionID =Number(positionid)
+  let salarys  = Number(salaryNumber)
+  let bonus  = Number(bonusNumber)
 
- console.log(managerID)
  useEffect(() => {
   
-  const getmanagers = async () => {
+    const getEmployees = async () => {
 
-    const mn = await api.listManager({ limit: 10, offset: 0 });
-    setLoading(false);
-    setManagers(mn);
-  };
-  getmanagers();
-
-  const getTypeproducts = async () => {
-
-  const tp = await api.listTypeproduct({ limit: 10, offset: 0 });
-    setLoading(false);
-    setTypeproducts(tp);
-  };
-  getTypeproducts();
-
-  const getproducts = async () => {
-
-   const pr = await api.listProduct({ limit: 10, offset: 0 });
-     setLoading(false);
-     setProducts(pr);
-   };
-   getproducts();
-
-   const getcompanys = async () => {
-
-    const cp = await api.listCompany({ limit: 10, offset: 0 });
-    setLoading(false);
-    setCompanys(cp);
-  };
-  getcompanys();
+        const em = await api.listEmployee({ limit: 10, offset: 0 });
+        setLoading(false);
+        setEmployees(em);
+      };
+      getEmployees();
+    
+      const getAssessments = async () => {
+    
+      const tp = await api.listAssessment({ limit: 10, offset: 0 });
+        setLoading(false);
+        setAssessments(tp);
+      };
+      getAssessments();
+    
+      const getPositions = async () => {
+    
+       const pr = await api.listPosition({ limit: 10, offset: 0 });
+         setLoading(false);
+         setPositions(pr);
+       };
+       getPositions();
    
 }, [loading]);
   
-const orderproduct = {
+const salary = {
                  
-  managerID  , 
-  typeproductID ,   
-  productID , 
-  companyID ,
-  stock ,
-  //Addedtime :datetime   + ":00+07:00"
+    assessmentID , 
+    bonus ,   
+    employeeID , 
+    positionID ,
+    salarys ,
+    salaryDate :datetime   + ":00+07:00"
 }
-console.log(orderproduct)
+console.log(salary)
 function save() {
-  const apiUrl = 'http://localhost:8080/api/v1/orderproducts';
+  const apiUrl = 'http://localhost:8080/api/v1/salarys';
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(orderproduct),
+    body: JSON.stringify(salary),
   };
 
-  console.log(orderproduct); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+  console.log(salary); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 
   fetch(apiUrl, requestOptions)
     .then(response => response.json())
@@ -189,33 +171,39 @@ function save() {
         Toast.fire({
           icon: 'success',
           title: 'บันทึกข้อมูลสำเร็จ',
-
-        });//window.setTimeout(function(){location.reload()},8000);
+        });
+       // window.setTimeout(function(){location.reload()},1500);
       } else {
         Toast.fire({
           icon: 'error',
           title: '<h2>บันทึกข้อมูลไม่สำเร็จ</h2>',
         });
+        
       }
     });
 }
-  const manager_id_handleChange = (event: any)=> {
-  setManagerid(event.target.value);
-   }; 
+  const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setEmployeeid(event.target.value as number);
+  };
 
-  const Typeproduct_id_handleChange = (event:any) => {
-    setTypeproductid(event.target.value);
-   };
+  const assessment_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setAssessmentid(event.target.value as number);
+  };
 
-  const Product_id_handleChange = (event: any) => {
-    setProductid(event.target.value);
-  }
-  const Company_id_handleChange = (event: any) => {
-    setCompanyid(event.target.value);
-   };
-   const Orderstock_id_handleChange = (event: any) => {
-    setOrderstockid(event.target.value);
-   };
+  const position_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setPositionid(event.target.value as number);
+  };
+  const handleSalaryChange = (event: any) => {
+    setSalaryNumber(event.target.value as number);
+  };
+
+  const handleBonusChange = (event: any) => {
+    setBonus(event.target.value as number);
+  };
+
+  const handleDatetimeChange = (event: any) => {
+    setDatetime(event.target.value as string);
+  }; 
   /*const handleDatetimeChange = (event: any) => {
     setDatetime(event.target.value as string);
   }; */
@@ -256,7 +244,7 @@ function save() {
                 <Grid item>
             <Button className={classes.button} variant="outlined" color="inherit" 
             size="small" component={RouterLink}
-            to="/signinorderproduct">
+            to="/signinmanager">
                 logout
               </Button>
                 </Grid>  
@@ -265,7 +253,7 @@ function save() {
             </Grid>
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src='o' alt = {cookieEmail} />
+                
               </IconButton>
             </Grid>
           </Grid>
@@ -282,7 +270,7 @@ function save() {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h2" component="h2">
-                ระบบสั่งซื้อสินค้าเข้ามาในคลัง
+                ระบบบันทึกเงินเดือนพนักงาน
               </Typography>
             </Grid>
             <Grid item>
@@ -328,22 +316,22 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
-                ชื่อผู้จัดการ
+                ชื่อพนักงาน
               </Typography>
             </Grid>
             <Grid item xs={2}>
               
-            {/*<Select
-               labelId="manager_id-label"
-               label="manager"
-               id="manager_id"
-               onChange={manager_id_handleChange}
+            <Select
+               labelId="employee_id-label"
+               label="employee"
+               id="employee_id"
+               onChange={employee_id_handleChange}
                style = {{width: 200}}
-               >{cookieID}
-               {managers.map((item:EntManager)=>
+               >
+               {employees.map((item:EntEmployee)=>
                <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-               </Select>*/}
-               <div style={{ marginLeft: 10, marginRight:20 }}>{cookieName}</div>
+               </Select>
+               <div style={{ marginLeft: 10, marginRight:20 }}></div>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -352,20 +340,20 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
-                ชื่อสินค้า
+                ตำแหน่ง
               </Typography>
             </Grid>
             <Grid item xs={2}>
               
             <Select
-               labelId="Equipment_id-label"
-               label="Equipment"
-               id="Equipment_id"
-               onChange={Product_id_handleChange}
+               labelId="position_id-label"
+               label="position"
+               id="position_id"
+               onChange={position_id_handleChange}
                style = {{width: 200}}
                >
-               {products.map((item:EntProduct)=>
-               <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
+               {positions.map((item:EntPosition)=>
+               <MenuItem key={item.id} value={item.id}>{item.position}</MenuItem>)}
              </Select>
             </Grid>
             <Grid item xs={2}></Grid>
@@ -375,20 +363,20 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
-                ประเภทของสินค้า
+                ผลการประเมิน
               </Typography>
             </Grid>
             <Grid item xs={2}>
             
             <Select
-               labelId="medicalType_id-label"
-               label="medicalType"
-               id="medicalType_id"
-               onChange={Typeproduct_id_handleChange}
+               labelId="assessment_id-label"
+               label="assessment"
+               id="assessment_id"
+               onChange={assessment_id_handleChange}
                style = {{width: 200}}
                >
-               {typeproducts.map((item:EntTypeproduct)=>
-               <MenuItem key={item.id} value={item.id}>{item.typeproduct}</MenuItem>)}
+               {assessments.map((item:EntAssessment)=>
+               <MenuItem key={item.id} value={item.id}>{item.assessment}</MenuItem>)}
              </Select>
 
              
@@ -403,21 +391,21 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
-                บริษัท
+                เงินเดือน
               </Typography>
             </Grid>
             <Grid item xs={2}>
               
-            <Select
-               labelId="Equipment_id-label"
-               label="Equipment"
-               id="Equipment_id"
-               onChange={Company_id_handleChange}
-               style = {{width: 200}}
-               >
-               {companys.map((item:EntCompany)=>
-               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-             </Select>
+            <TextField
+                id="salary"
+                label="salary"
+                variant="outlined"
+                type="string"
+                size="medium"
+                value={salaryNumber}
+                onChange={handleSalaryChange }
+                style={{  marginRight :300,width: 300 }}
+              />
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -427,14 +415,14 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
-                จำนวน/ชิ้น
+                โบนัส
               </Typography>
             </Grid>
             <Grid item xs={2}>
             
-                <TextField id="outlined-number" type='number'  InputLabelProps={{
-                  shrink: true,}}label="กรุณาใส่จำนวน" variant="outlined"
-                  onChange = {Orderstock_id_handleChange}
+                <TextField id="bonus-number" type='number'  InputLabelProps={{
+                  shrink: true,}}label="โบนัส" variant="outlined"
+                  onChange = {handleBonusChange}
                   />
                   
                   
@@ -442,11 +430,11 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 
-           {/* <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
-                วันที่/เวลาที่บันทึก
+                เวลาที่เงินเดือนออก
               </Typography>
             </Grid>
             <Grid item xs={2}>
@@ -468,7 +456,7 @@ function save() {
                   
             </Grid>
             <Grid item xs={2}></Grid>
-                    <Grid item xs={2}> </Grid>*/}
+                    <Grid item xs={2}> </Grid>
 
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -489,7 +477,19 @@ function save() {
               >
                 Save
               </Button>
+
+              
             </Grid>
+            <Link component={RouterLink} to="/SalaryTable">
+                <Button variant="contained" color="secondary" style={{ marginLeft : 40}}>
+                หน้าหลัก
+            </Button>
+            </Link>
+            <Link component={RouterLink} to="/SplitsystemManager">
+                <Button variant="contained" color="secondary" style={{ marginLeft : 40}}>
+                Login
+            </Button>
+            </Link>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
             <Grid item xs={12}></Grid>
@@ -514,7 +514,7 @@ function save() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <ComponanceTable></ComponanceTable>
+    
     
     </div>
   );

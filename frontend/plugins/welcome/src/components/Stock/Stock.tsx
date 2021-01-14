@@ -2,7 +2,7 @@
 import {
   Grid,
   MenuItem,
-  
+
   TextField,
   Button,
   FormControl,
@@ -11,7 +11,7 @@ import {
   Box,
   Avatar,
 } from '@material-ui/core';
-import React, { FC,useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -30,9 +30,11 @@ import { Alert } from '@material-ui/lab';
 
 import { EntProduct } from '../../api/models/EntProduct';
 import { EntTypeproduct } from '../../api/models/EntTypeproduct';
-import { EntEmployee} from '../../api/models/EntEmployee';
-import { EntZoneproduct} from '../../api/models/EntZoneproduct';
+import { EntEmployee } from '../../api/models/EntEmployee';
+import { EntZoneproduct } from '../../api/models/EntZoneproduct';
 import { Content, ContentHeader, Header, Page, pageTheme } from '@backstage/core';
+import Swal from 'sweetalert2';
+import { Cookies } from '../Stock/LoginEmployee/Cookie';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,14 +56,39 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Stock: FC<{}> = () => {
+var ck = new Cookies()
+var cookieEmail = ck.GetCookie()
+var cookieID = ck.GetID()
+var cookieName = ck.GetName()
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
+
+
+
+interface order {
+  employeeID: number;
+  typeproductID: number;
+  productID: number;
+  zoneproductID: number;
+  amount: number;
+  priceproduct: number;
+  time: Date;
+}
+
+
+export default function Stock() {
   const classes = useStyles();
   const profile = { givenName: 'Your Stock' };
-
-
-
-
-
 
   const api = new DefaultApi();
   const [products, setProducts] = useState<EntProduct[]>([]);
@@ -71,7 +98,7 @@ const Stock: FC<{}> = () => {
   const [status, setStatus] = useState(false);
   const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
-
+  const [order, setOreder] = React.useState<Partial<order>>({});
   const [productid, setProductid] = useState(Number);
   const [priceproducts, setPriceproduct] = useState(Number);
   const [amounts, setAmount] = useState(Number);
@@ -82,7 +109,7 @@ const Stock: FC<{}> = () => {
 
 
   let productID = Number(productid)
-  let employeeID = Number(employeeid)
+  let employeeID = Number(cookieID)
   let zoneID = Number(zoneproductid)
   let typeproductID = Number(typeproductid)
   let amount = Number(amounts)
@@ -117,7 +144,7 @@ const Stock: FC<{}> = () => {
     };
     getTypeproducts();
 
-    
+
 
 
     const getZoneproducts = async () => {
@@ -131,30 +158,49 @@ const Stock: FC<{}> = () => {
 
 
 
-    const stock = {
-                 
-      employeeID  , 
-      typeproductID ,   
-      productID , 
-      zoneID ,
-      priceproduct,
-      amount ,
-      time : time   + ":00+07:00"
-    }
-  console.log(stock);
-  const CreateStock = async () => {
+  const stock = {
 
-    const res: any = await api.createStock({ stock: stock });
-    setStatus(true);
-    if (res.id != '') {
-      setAlert(true);
-    } else {
-      setAlert(false);
-    }
-    const timer = setTimeout(() => {
-      setStatus(false);
-    }, 1000);
-  };
+    employeeID,
+    typeproductID,
+    productID,
+    zoneID,
+    priceproduct,
+    amount,
+    time: time + ":00+07:00"
+  }
+  console.log(stock)
+
+  function CreateStock() {
+    const apiUrl = 'http://localhost:8080/api/v1/stocks';
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(stock),
+    };
+
+    console.log(stock);
+
+    fetch(apiUrl, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.id != null) {
+          //clear();
+          Toast.fire({
+            icon: 'success',
+            title: 'บันทึกข้อมูลสำเร็จ',
+          });
+        } else {
+          Toast.fire({
+            icon: 'error',
+            title: 'บันทึกข้อมูลไม่สำเร็จ',
+          });
+        }
+      });
+  }
+
+
+
 
   const product_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setProductid(event.target.value as number);
@@ -168,20 +214,20 @@ const Stock: FC<{}> = () => {
   };
 
   const zoneproduct_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-      setZoneproductid(event.target.value as number);
-    };
+    setZoneproductid(event.target.value as number);
+  };
 
   const amount_id_handleChange = (event: any) => {
-      setAmount(event.target.value);
-     };
+    setAmount(event.target.value);
+  };
 
   const priceproduct_id_handleChange = (event: any) => {
-      setPriceproduct(event.target.value);
-     };
+    setPriceproduct(event.target.value);
+  };
 
   const handletimeChange = (event: any) => {
-      setTime(event.target.value as string);
-    };
+    setTime(event.target.value as string);
+  };
 
 
   return (
@@ -191,16 +237,13 @@ const Stock: FC<{}> = () => {
         subtitle="Add  Product in your stock."
       >
 
-        <Avatar>P</Avatar>
-        <Typography component="div" variant="body1">
-          <Box color="Pang@gmail.com">Pang@gmail.com</Box>
-          <Box color="secondary.main"></Box>
-        </Typography>
+
+
 
       </Header>
       <Content>
 
-        <ContentHeader title="Add Your Stock here">          
+        <ContentHeader title="Add Your Stock here">
           {status ? (
             <div>
               {alert ? (
@@ -221,27 +264,28 @@ const Stock: FC<{}> = () => {
 
 
 
-    
-      
-
-      
-        <Grid container alignItems="center" spacing={4}>
-          <Grid item xs={12}></Grid>
-          <Grid item xs={12}></Grid>
 
 
 
 
-          <Grid item xs={4}>   <center>
-            <h3 align='right'>ชื่อพนักงาน</h3></center>
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl
-              fullWidth
-              className={classes.margin}
-              variant="outlined"
-            ><InputLabel>Employee</InputLabel>
-              <Select
+          <Grid container alignItems="center" spacing={4}>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid>
+
+
+
+
+            <Grid item xs={4}>   <center>
+              <h3 align='right'>ชื่อพนักงาน</h3></center>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+              ><InputLabel></InputLabel>
+
+                {/*} <Select
                 labelId="employee_id-label"
                 label="employee"
                 id="eployee_id"
@@ -251,182 +295,185 @@ const Stock: FC<{}> = () => {
               >
                 {employees.map((item: EntEmployee) =>
                   <MenuItem value={item.id}>{item.name}</MenuItem>)}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>   
-          </Grid>
+                </Select>*/}
+                <div style={{ marginRight: 300 }}>{cookieName}</div>
 
-
-
-
-
-          <Grid item xs={4}> <center>
-            <h3 align='right'>ประเภทสินค้า</h3></center>
-
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl
-              fullWidth
-              className={classes.margin}
-              variant="outlined"
-            ><InputLabel>Typeproduct</InputLabel>
-              <Select
-                labelId="typeproduct_id-label"
-                label="typeproduct"
-                id="typeproduct_id"
-                value={typeproductid}
-                onChange={typeproduct_id_handleChange}
-                style={{marginRight:300 , width: 300 }}
-              >
-                {typeproducts.map((item: EntTypeproduct) =>
-                  <MenuItem value={item.id}>{item.typeproduct}</MenuItem>)}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>   
-          </Grid>
-
-
-
-
-
-
-          <Grid item xs={4}><center>
-            <h3 align='right'>สินค้า</h3></center>
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl
-              fullWidth
-              className={classes.margin}
-              variant="outlined"
-            ><InputLabel>Product</InputLabel>
-              <Select
-                labelId="product_id-label"
-                label="product"
-                id="product_id"
-                value={productid}
-                onChange={product_id_handleChange}
-                style={{ marginRight:300, width: 300 }}
-              >
-                {products.map((item: EntProduct) =>
-                  <MenuItem value={item.id}>{item.nameProduct}</MenuItem>)}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>   
-          </Grid>
-
-
-
-
-          <Grid item xs={4}><center>
-            <h3 align='right'>ตำแหน่งที่วางสินค้า</h3></center>
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl
-              fullWidth
-              className={classes.margin}
-              variant="outlined"
-            ><InputLabel>Zoneproduct</InputLabel>
-              <Select
-                labelId="zoneproduct_id-label"
-                label="zoneproduct"
-                id="zoneproduct_id"
-                value={zoneproductid}
-                onChange={zoneproduct_id_handleChange}
-                style={{marginRight:300, width: 300 }}
-              >
-                {zoneproducts.map((item: EntZoneproduct) =>
-                  <MenuItem value={item.id}>{item.zone}</MenuItem>)}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>   
-          </Grid>
-
-
-
-
-
-          <Grid item xs={4}><center>
-            <h3 align='right'>ราคาสินค้า</h3></center>
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl
-              fullWidth
-              className={classes.margin}
-              variant="outlined"
-
-            ><TextField
-                id="price"
-                label="Price"
-                variant="outlined"
-                type="string"
-                size="medium"
-                value={priceproducts}
-                onChange={priceproduct_id_handleChange }
-                style={{  marginRight :300,width: 300 }}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>   
-          </Grid>
-
-
-          
-          <Grid item xs={4}><center>
-            <h3 align='right'>จำนวนสินค้า</h3></center>
-          </Grid>
-          <Grid item xs={4}>
-          <FormControl
-              fullWidth
-              className={classes.margin}
-              variant="outlined"
-              style={{ marginRight :300 ,width: 300 }}
-            >
-              <TextField id="outlined-number" type='number'  InputLabelProps={{
-                shrink: true,}}label="Amount" variant="outlined"
-                onChange = {amount_id_handleChange}
-                />
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>   
-          </Grid>
-
-
-
-
-          
-
-          <Grid item xs={4}><center>
-            <h3 align='right'>เวลาที่บันทึก</h3></center>
-          </Grid>
-          <Grid item xs={4}>
-          
-        <FormControl
-              fullWidth
-              className={classes.margin}
-              variant="outlined"
-              style={{ marginRight: 500, width: 2000 }}
-            >
-              <TextField
-                id="date"
-                label="Datetime"
-                type="datetime-local"
-                value={time}
-                onChange={handletimeChange}
-                //defaultValue="2020-05-24"
-                className={classes.textField}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </FormControl>
-            
+              </FormControl>
             </Grid>
-          <Grid item xs={4}>   
-          </Grid>
+            <Grid item xs={4}>
+            </Grid>
+
+
+
+
+
+            <Grid item xs={4}> <center>
+              <h3 align='right'>ประเภทสินค้า</h3></center>
+
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+              ><InputLabel>Typeproduct</InputLabel>
+                <Select
+                  labelId="typeproduct_id-label"
+                  label="typeproduct"
+                  id="typeproduct_id"
+                  value={typeproductid}
+                  onChange={typeproduct_id_handleChange}
+                  style={{ marginRight: 300, width: 300 }}
+                >
+                  {typeproducts.map((item: EntTypeproduct) =>
+                    <MenuItem value={item.id}>{item.typeproduct}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+            </Grid>
+
+
+
+
+
+
+            <Grid item xs={4}><center>
+              <h3 align='right'>สินค้า</h3></center>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+              ><InputLabel>Product</InputLabel>
+                <Select
+                  labelId="product_id-label"
+                  label="product"
+                  id="product_id"
+                  value={productid}
+                  onChange={product_id_handleChange}
+                  style={{ marginRight: 300, width: 300 }}
+                >
+                  {products.map((item: EntProduct) =>
+                    <MenuItem value={item.id}>{item.nameProduct}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+            </Grid>
+
+
+
+
+            <Grid item xs={4}><center>
+              <h3 align='right'>ตำแหน่งที่วางสินค้า</h3></center>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+              ><InputLabel>Zoneproduct</InputLabel>
+                <Select
+                  labelId="zoneproduct_id-label"
+                  label="zoneproduct"
+                  id="zoneproduct_id"
+                  value={zoneproductid}
+                  onChange={zoneproduct_id_handleChange}
+                  style={{ marginRight: 300, width: 300 }}
+                >
+                  {zoneproducts.map((item: EntZoneproduct) =>
+                    <MenuItem value={item.id}>{item.zone}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+            </Grid>
+
+
+
+
+
+            <Grid item xs={4}><center>
+              <h3 align='right'>ราคาสินค้า</h3></center>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+
+              ><TextField
+                  id="price"
+                  label="Price"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
+                  value={priceproducts}
+                  onChange={priceproduct_id_handleChange}
+                  style={{ marginRight: 300, width: 300 }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+            </Grid>
+
+
+
+            <Grid item xs={4}><center>
+              <h3 align='right'>จำนวนสินค้า</h3></center>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+                style={{ marginRight: 300, width: 300 }}
+              >
+                <TextField id="outlined-number" type='number' InputLabelProps={{
+                  shrink: true,
+                }} label="Amount" variant="outlined"
+                  onChange={amount_id_handleChange}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+            </Grid>
+
+
+
+
+
+
+            <Grid item xs={4}><center>
+              <h3 align='right'>เวลาที่บันทึก</h3></center>
+            </Grid>
+            <Grid item xs={4}>
+
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+                style={{ marginRight: 500, width: 2000 }}
+              >
+                <TextField
+                  id="date"
+                  label="Datetime"
+                  type="datetime-local"
+                  value={time}
+                  onChange={handletimeChange}
+                  //defaultValue="2020-05-24"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </FormControl>
+
+            </Grid>
+            <Grid item xs={4}>
+            </Grid>
 
 
 
@@ -434,47 +481,58 @@ const Stock: FC<{}> = () => {
 
 
 
-          <Grid item xs={4}>
-          </Grid>
-          <Grid item xs={4}>   
+            <Grid item xs={4}>
 
-            <Button
-              onClick={() => {
-                CreateStock();
-              }}
-              
-              variant="contained"
-              color="primary"
-              style={{ marginLeft: 20 ,width : 100 }}
-            >
-              Save
+
+
+
+            </Grid>
+            <Grid item xs={4}>
+
+              <Button
+                onClick={() => {
+                  CreateStock();
+                }}
+
+                variant="contained"
+                color="primary"
+                style={{ marginLeft: 20, width: 100 }}
+              >
+                Save
              </Button>
-            <Button
-              style={{ marginLeft: 20 ,width : 100 }}
-              component={RouterLink}
-              to="/login"
-              variant="contained"
-            >
-              Show
+              <Button
+                style={{ marginLeft: 20, width: 100 }}
+                component={RouterLink}
+                to="/Tablestock"
+                variant="contained"
+              >
+                Show
              </Button>
-               
-        
+              <Button
+                style={{ marginLeft: 20, width: 100 }}
+                component={RouterLink}
+                to="/WelcomePage"
+                variant="contained"
+              >
+                Back
+             </Button>
 
+
+            </Grid>
+
+            <Grid item xs={4}></Grid>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid>
           </Grid>
-          
-          <Grid item xs={4}></Grid>
-          <Grid item xs={12}></Grid>
-          <Grid item xs={12}></Grid>
-        </Grid>
-     
+
         </div>
-        
-        
+
+
       </Content>
     </Page>
   );
 }
-export default Stock;
+
 
 
 

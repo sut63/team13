@@ -27,7 +27,7 @@ type Orderonline struct {
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the OrderonlineQuery when eager-loading is set.
 	Edges                              OrderonlineEdges `json:"edges"`
-	customer_formcustomer              *int
+	customer_id                        *int
 	paymentchannel_formpaymentchannel  *int
 	product_formproductonline          *int
 	typeproduct_from_typeproductonline *int
@@ -116,7 +116,7 @@ func (*Orderonline) scanValues() []interface{} {
 // fkValues returns the types for scanning foreign-keys values from sql.Rows.
 func (*Orderonline) fkValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{}, // customer_formcustomer
+		&sql.NullInt64{}, // customer_id
 		&sql.NullInt64{}, // paymentchannel_formpaymentchannel
 		&sql.NullInt64{}, // product_formproductonline
 		&sql.NullInt64{}, // typeproduct_from_typeproductonline
@@ -148,10 +148,10 @@ func (o *Orderonline) assignValues(values ...interface{}) error {
 	values = values[2:]
 	if len(values) == len(orderonline.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
-			return fmt.Errorf("unexpected type %T for edge-field customer_formcustomer", value)
+			return fmt.Errorf("unexpected type %T for edge-field customer_id", value)
 		} else if value.Valid {
-			o.customer_formcustomer = new(int)
-			*o.customer_formcustomer = int(value.Int64)
+			o.customer_id = new(int)
+			*o.customer_id = int(value.Int64)
 		}
 		if value, ok := values[1].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field paymentchannel_formpaymentchannel", value)
