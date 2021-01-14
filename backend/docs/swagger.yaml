@@ -258,10 +258,9 @@ definitions:
         $ref: '#/definitions/ent.Day'
         description: Day holds the value of the day edge.
         type: object
-      employeeWorkingHours:
+      employee:
         $ref: '#/definitions/ent.Employee'
-        description: EmployeeWorkingHours holds the value of the EmployeeWorkingHours
-          edge.
+        description: Employee holds the value of the employee edge.
         type: object
       role:
         $ref: '#/definitions/ent.Role'
@@ -486,9 +485,10 @@ definitions:
           $ref: '#/definitions/ent.Orderproduct'
         type: array
       stockproduct:
-        $ref: '#/definitions/ent.Stock'
         description: Stockproduct holds the value of the stockproduct edge.
-        type: object
+        items:
+          $ref: '#/definitions/ent.Stock'
+        type: array
     type: object
   ent.Promotion:
     properties:
@@ -584,6 +584,9 @@ definitions:
     type: object
   ent.Shift:
     properties:
+      Name:
+        description: Name holds the value of the "Name" field.
+        type: string
       TimeEnd:
         description: TimeEnd holds the value of the "TimeEnd" field.
         type: string

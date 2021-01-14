@@ -161,15 +161,6 @@ export default function Orderonline() {
   }
   console.log(orderonline)
 
-  function clear() {
-    Customer_id_handleChange([]);
-    Typeproduct_id_handleChange([]);
-    Product_id_handleChange([]);
-    Paymentchannel_id_handleChange([]);
-    Orderstock_id_handleChange([]);
-    handleDatetimeChange([]);
-  }
-
   function save() {
     const apiUrl = 'http://localhost:8080/api/v1/orderonlines';
     const requestOptions = {
@@ -257,7 +248,7 @@ export default function Orderonline() {
 
       </Header>
       <Content>
-        <ContentHeader title="PositionAssingment"></ContentHeader>
+        <ContentHeader title="Onder online"></ContentHeader>
         <div className={classes.root}>
           <form noValidate autoComplete="off">
 

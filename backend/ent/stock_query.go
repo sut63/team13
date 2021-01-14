@@ -72,7 +72,7 @@ func (sq *StockQuery) QueryProduct() *ProductQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(stock.Table, stock.FieldID, sq.sqlQuery()),
 			sqlgraph.To(product.Table, product.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, true, stock.ProductTable, stock.ProductColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, stock.ProductTable, stock.ProductColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(sq.driver.Dialect(), step)
 		return fromU, nil

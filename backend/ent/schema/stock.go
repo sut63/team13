@@ -24,8 +24,7 @@ func (Stock) Edges() []ent.Edge {
 	return []ent.Edge{
         edge.From("product", Product.Type).
 			Ref("stockproduct").
-			Unique().
-			Required(),
+			Unique(),
 		edge.From("zoneproduct", Zoneproduct.Type).
             Ref("zonestock").
 			Unique(),

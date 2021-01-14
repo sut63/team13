@@ -18,6 +18,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
+import { Cookies } from '../orderproduct/SignInOrderproduct/Cookie'
 
 
 function Copyright() {
@@ -90,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
 
 const tiers = [
   {
-    image: "https://cutt.ly/jjvZWom",
+    image: "https://cutt.ly/cjQK0LR",
     title: 'ระบบบันทึกเงินเดือนพนักงาน',
     description: [/*'ระบบย่อย', 'บันทึกเงินเดือนพนักงาน', 'ตารางเวลาทำงานพนักงาน'*/],
     buttonText: 'Contineus',
@@ -98,7 +99,20 @@ const tiers = [
     buttonVariant: 'contained',
   },
   {
-    image: "https://cutt.ly/cjQK0LR",
+    image: "https://cutt.ly/jjvZWom",
+    title: 'ระบบสั่งซื้อสินค้าเข้ามาในคลัง',
+    description: [
+     /* '50 users included',
+      '30 GB of storage',
+      'Help center access',
+      'Phone & email support',*/
+    ],
+    buttonText: 'Contineus',
+    buttinLink: "/orderproduct",
+    buttonVariant: 'contained',
+  },
+  {
+    image: "https://cutt.ly/sjQV5Lt",
     title: 'ระบบตารางเวลาทำงานพนักงาน',
     description: [
       /*'20 users included',
@@ -107,11 +121,11 @@ const tiers = [
       'Priority email support',*/
     ],
     buttonText: 'Contineus',
-    buttinLink: "/Salary",
+    buttinLink: "/EmployeeWorkingHours",
     buttonVariant: 'contained',
   },
   {
-    image: "https://cutt.ly/jjvZWom",
+    image: "https://cutt.ly/jjQV9IZ",
     title: 'ระบบPromotion',
 
     description: [
@@ -124,19 +138,7 @@ const tiers = [
     buttinLink: "/Promotion",
     buttonVariant: 'contained',
   },
-  {
-    image: "https://cutt.ly/cjQK0LR",
-    title: 'ระบบสั่งซื้อสินค้าเข้ามาในคลัง',
-    description: [
-     /* '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',*/
-    ],
-    buttonText: 'Contineus',
-    buttinLink: "/orderproduct",
-    buttonVariant: 'contained',
-  },
+  
 ];
 const footers = [
   {
@@ -160,16 +162,21 @@ const footers = [
 
 export default function Pricing() {
   const classes = useStyles();
+  var ck = new Cookies()
+  //var cookieEmail = ck.GetCookie()
+  //var cookieID = ck.GetID()
+  var cookieName = ck.GetName()
 
   return (
     <React.Fragment>
       <CssBaseline />
       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <Typography variant="h2" color="inherit" noWrap className={classes.toolbarTitle}>
-            Farm Mart
+          <Typography variant="h3" color="inherit" noWrap className={classes.toolbarTitle}>
+            ยินดีต้อนรับเข้าสู่ระบบผู้จัดการ
           </Typography>
           <nav>
+<<<<<<< HEAD
             <Link variant="button" color="textPrimary" href="https://www.google.com/webhp?hl=th&sa=X&ved=0ahUKEwiW6LPK8ZruAhWszjgGHe8uCjsQPAgI" className={classes.link}>
               Features
             </Link>
@@ -178,17 +185,24 @@ export default function Pricing() {
             </Link>
             <Link variant="button" color="textPrimary" href="#" className={classes.link}>
               Support
+=======
+            <Link variant="button" color="textPrimary" href="https://github.com/sut63/team13" className={classes.link}>
+            source code
+>>>>>>> 928ae6df3f5a9e92739294b50eccfbde8ca886c9
             </Link>
+            
           </nav>
-          <Button href="#" color="primary" variant="outlined" className={classes.link}>
-            Login
+          <Button href="#" color="primary" variant="outlined" className={classes.link}
+          component={RouterLink}
+          to="/signinorderproduct">
+            Logout
           </Button>
         </Toolbar>
       </AppBar>
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-          Farm mart
+          คุณ {cookieName}
         </Typography>
         {/*<Typography variant="h5" align="center" color="textSecondary" component="p">
           Quickly build an effective pricing table for your potential customers with this layout.

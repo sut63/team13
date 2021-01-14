@@ -37,6 +37,7 @@ func (ctl *ShiftController) CreateShift(c *gin.Context) {
   
 	u, err := ctl.client.Shift.
 		Create().
+		SetName(obj.Name).
 		SetTimeStart(obj.TimeStart).
 		SetTimeEnd(obj.TimeEnd).
 		Save(context.Background())

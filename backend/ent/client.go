@@ -961,15 +961,15 @@ func (c *EmployeeWorkingHoursClient) GetX(ctx context.Context, id int) *Employee
 	return ewh
 }
 
-// QueryEmployeeWorkingHours queries the EmployeeWorkingHours edge of a EmployeeWorkingHours.
-func (c *EmployeeWorkingHoursClient) QueryEmployeeWorkingHours(ewh *EmployeeWorkingHours) *EmployeeQuery {
+// QueryEmployee queries the employee edge of a EmployeeWorkingHours.
+func (c *EmployeeWorkingHoursClient) QueryEmployee(ewh *EmployeeWorkingHours) *EmployeeQuery {
 	query := &EmployeeQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := ewh.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(employeeworkinghours.Table, employeeworkinghours.FieldID, id),
 			sqlgraph.To(employee.Table, employee.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.EmployeeWorkingHoursTable, employeeworkinghours.EmployeeWorkingHoursColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.EmployeeTable, employeeworkinghours.EmployeeColumn),
 		)
 		fromV = sqlgraph.Neighbors(ewh.driver.Dialect(), step)
 		return fromV, nil
@@ -1798,22 +1798,6 @@ func (c *ProductClient) GetX(ctx context.Context, id int) *Product {
 	return pr
 }
 
-// QueryStockproduct queries the stockproduct edge of a Product.
-func (c *ProductClient) QueryStockproduct(pr *Product) *StockQuery {
-	query := &StockQuery{config: c.config}
-	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
-		id := pr.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(product.Table, product.FieldID, id),
-			sqlgraph.To(stock.Table, stock.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, product.StockproductTable, product.StockproductColumn),
-		)
-		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
 // QueryProducts queries the products edge of a Product.
 func (c *ProductClient) QueryProducts(pr *Product) *OrderproductQuery {
 	query := &OrderproductQuery{config: c.config}
@@ -1823,6 +1807,22 @@ func (c *ProductClient) QueryProducts(pr *Product) *OrderproductQuery {
 			sqlgraph.From(product.Table, product.FieldID, id),
 			sqlgraph.To(orderproduct.Table, orderproduct.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, product.ProductsTable, product.ProductsColumn),
+		)
+		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryStockproduct queries the stockproduct edge of a Product.
+func (c *ProductClient) QueryStockproduct(pr *Product) *StockQuery {
+	query := &StockQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := pr.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(product.Table, product.FieldID, id),
+			sqlgraph.To(stock.Table, stock.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, product.StockproductTable, product.StockproductColumn),
 		)
 		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
 		return fromV, nil
@@ -2413,7 +2413,7 @@ func (c *StockClient) QueryProduct(s *Stock) *ProductQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(stock.Table, stock.FieldID, id),
 			sqlgraph.To(product.Table, product.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, true, stock.ProductTable, stock.ProductColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, stock.ProductTable, stock.ProductColumn),
 		)
 		fromV = sqlgraph.Neighbors(s.driver.Dialect(), step)
 		return fromV, nil

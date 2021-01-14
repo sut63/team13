@@ -348,7 +348,7 @@ func HasProduct() predicate.Stock {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.To(ProductTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, true, ProductTable, ProductColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, ProductTable, ProductColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
@@ -360,7 +360,7 @@ func HasProductWith(preds ...predicate.Product) predicate.Stock {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.To(ProductInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, true, ProductTable, ProductColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, ProductTable, ProductColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

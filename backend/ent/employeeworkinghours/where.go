@@ -91,25 +91,25 @@ func IDLTE(id int) predicate.EmployeeWorkingHours {
 	})
 }
 
-// HasEmployeeWorkingHours applies the HasEdge predicate on the "EmployeeWorkingHours" edge.
-func HasEmployeeWorkingHours() predicate.EmployeeWorkingHours {
+// HasEmployee applies the HasEdge predicate on the "employee" edge.
+func HasEmployee() predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(EmployeeWorkingHoursTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, EmployeeWorkingHoursTable, EmployeeWorkingHoursColumn),
+			sqlgraph.To(EmployeeTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, EmployeeTable, EmployeeColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasEmployeeWorkingHoursWith applies the HasEdge predicate on the "EmployeeWorkingHours" edge with a given conditions (other predicates).
-func HasEmployeeWorkingHoursWith(preds ...predicate.Employee) predicate.EmployeeWorkingHours {
+// HasEmployeeWith applies the HasEdge predicate on the "employee" edge with a given conditions (other predicates).
+func HasEmployeeWith(preds ...predicate.Employee) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(EmployeeWorkingHoursInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, EmployeeWorkingHoursTable, EmployeeWorkingHoursColumn),
+			sqlgraph.To(EmployeeInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, EmployeeTable, EmployeeColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
