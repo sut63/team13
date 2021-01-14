@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Link as RouterLink } from 'react-router-dom';
 import { DefaultApi } from '../../api/apis';
 import { EntStock } from '../../api/models/EntStock';
@@ -89,16 +89,22 @@ export default function ComponentsTable() {
              
 
              <TableCell align="center">
-               <Button
-                 onClick={() => {
-                   deleteStocks(item.id);
-                 }}
-                 style={{ marginLeft: 10 }}
-                 variant="contained"
-                 color="secondary"
-               >
-                 Delete
-               </Button>
+
+             <Button
+              onClick={() => {
+                deleteStocks(item.id);
+              }}
+        variant="contained"
+        color="secondary"
+        className={classes.button}
+        startIcon={<DeleteIcon />}
+      >
+        Delete
+      </Button>
+
+
+
+
 
              </TableCell>
              

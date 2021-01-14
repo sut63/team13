@@ -111,6 +111,7 @@ type Shifts struct {
 }
 
 type Shift struct {
+	Name      string
 	TimeStart time.Time
 	TimeEnd   time.Time
 }
@@ -406,15 +407,16 @@ func main() {
 
 	Shifts := Shifts{
 		Shift: []Shift{
-			{time.Date(0, 0, 0, 6, 30, 0, 0, time.Local), time.Date(0, 0, 0, 14, 0, 0, 0, time.Local)},
-			{time.Date(0, 0, 0, 13, 0, 0, 0, time.Local), time.Date(0, 0, 0, 22, 0, 0, 0, time.Local)},
-			{time.Date(0, 0, 0, 22, 0, 0, 0, time.Local), time.Date(0, 0, 0, 7, 0, 0, 0, time.Local)},
+			{"เวลา 06:30 – 14:00",time.Date(0, 0, 0, 6, 30, 0, 0, time.Local), time.Date(0, 0, 0, 14, 0, 0, 0, time.Local)},
+			{"เวลา 13:30 – 22:00",time.Date(0, 0, 0, 13, 0, 0, 0, time.Local), time.Date(0, 0, 0, 22, 0, 0, 0, time.Local)},
+			{"เวลา 22:00 – 07:00",time.Date(0, 0, 0, 22, 0, 0, 0, time.Local), time.Date(0, 0, 0, 7, 0, 0, 0, time.Local)},
 		},
 	}
 
 	for _, sh := range Shifts.Shift {
 		client.Shift.
 			Create().
+			SetName(sh.Name).
 			SetTimeStart(sh.TimeStart).
 			SetTimeEnd(sh.TimeEnd).
 			Save(context.Background())

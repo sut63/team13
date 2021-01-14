@@ -379,6 +379,7 @@ var (
 	// ShiftsColumns holds the columns for the "shifts" table.
 	ShiftsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "name", Type: field.TypeString},
 		{Name: "time_start", Type: field.TypeTime},
 		{Name: "time_end", Type: field.TypeTime},
 	}
@@ -396,7 +397,7 @@ var (
 		{Name: "amount", Type: field.TypeInt},
 		{Name: "time", Type: field.TypeTime},
 		{Name: "employee_employeestock", Type: field.TypeInt, Nullable: true},
-		{Name: "product_stockproduct", Type: field.TypeInt, Unique: true, Nullable: true},
+		{Name: "product_stockproduct", Type: field.TypeInt, Nullable: true},
 		{Name: "typeproduct_typestock", Type: field.TypeInt, Nullable: true},
 		{Name: "zoneproduct_zonestock", Type: field.TypeInt, Nullable: true},
 	}

@@ -563,34 +563,6 @@ func EXPContainsFold(v string) predicate.Product {
 	})
 }
 
-// HasStockproduct applies the HasEdge predicate on the "stockproduct" edge.
-func HasStockproduct() predicate.Product {
-	return predicate.Product(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(StockproductTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, StockproductTable, StockproductColumn),
-		)
-		sqlgraph.HasNeighbors(s, step)
-	})
-}
-
-// HasStockproductWith applies the HasEdge predicate on the "stockproduct" edge with a given conditions (other predicates).
-func HasStockproductWith(preds ...predicate.Stock) predicate.Product {
-	return predicate.Product(func(s *sql.Selector) {
-		step := sqlgraph.NewStep(
-			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(StockproductInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, StockproductTable, StockproductColumn),
-		)
-		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
-			for _, p := range preds {
-				p(s)
-			}
-		})
-	})
-}
-
 // HasProducts applies the HasEdge predicate on the "products" edge.
 func HasProducts() predicate.Product {
 	return predicate.Product(func(s *sql.Selector) {
@@ -610,6 +582,34 @@ func HasProductsWith(preds ...predicate.Orderproduct) predicate.Product {
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.To(ProductsInverseTable, FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, ProductsTable, ProductsColumn),
+		)
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasStockproduct applies the HasEdge predicate on the "stockproduct" edge.
+func HasStockproduct() predicate.Product {
+	return predicate.Product(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(StockproductTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, StockproductTable, StockproductColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasStockproductWith applies the HasEdge predicate on the "stockproduct" edge with a given conditions (other predicates).
+func HasStockproductWith(preds ...predicate.Stock) predicate.Product {
+	return predicate.Product(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(StockproductInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, StockproductTable, StockproductColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

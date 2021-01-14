@@ -14,6 +14,7 @@ type Shift struct {
 // Fields of the Shift.
 func (Shift) Fields() []ent.Field {
 	return []ent.Field{
+		field.String("Name"),
 		field.Time("TimeStart"),
 		field.Time("TimeEnd"),
 	}

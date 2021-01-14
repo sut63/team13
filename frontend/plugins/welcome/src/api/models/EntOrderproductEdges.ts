@@ -74,10 +74,10 @@ export function EntOrderproductEdgesFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'company': !exists(json, 'company') ? undefined : EntCompanyFromJSON(json['company']),
-        'managers': !exists(json, 'managers') ? undefined : EntManagerFromJSON(json['managers']),
-        'product': !exists(json, 'product') ? undefined : EntProductFromJSON(json['product']),
-        'typeproduct': !exists(json, 'typeproduct') ? undefined : EntTypeproductFromJSON(json['typeproduct']),
+        'company': !exists(json, 'Company') ? undefined : EntCompanyFromJSON(json['Company']),
+        'managers': !exists(json, 'Managers') ? undefined : EntManagerFromJSON(json['Managers']),
+        'product': !exists(json, 'Product') ? undefined : EntProductFromJSON(json['Product']),
+        'typeproduct': !exists(json, 'Typeproduct') ? undefined : EntTypeproductFromJSON(json['Typeproduct']),
     };
 }
 

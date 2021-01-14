@@ -9,7 +9,6 @@ import (
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/team13/app/ent/product"
 	"github.com/team13/app/ent/promotion"
-	"github.com/team13/app/ent/stock"
 )
 
 // Product is the model entity for the Product schema.
@@ -32,10 +31,10 @@ type Product struct {
 
 // ProductEdges holds the relations/edges for other nodes in the graph.
 type ProductEdges struct {
-	// Stockproduct holds the value of the stockproduct edge.
-	Stockproduct *Stock
 	// Products holds the value of the products edge.
 	Products []*Orderproduct
+	// Stockproduct holds the value of the stockproduct edge.
+	Stockproduct []*Stock
 	// Forproduct holds the value of the forproduct edge.
 	Forproduct *Promotion
 	// Formproductonline holds the value of the formproductonline edge.
@@ -45,27 +44,22 @@ type ProductEdges struct {
 	loadedTypes [4]bool
 }
 
-// StockproductOrErr returns the Stockproduct value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e ProductEdges) StockproductOrErr() (*Stock, error) {
-	if e.loadedTypes[0] {
-		if e.Stockproduct == nil {
-			// The edge stockproduct was loaded in eager-loading,
-			// but was not found.
-			return nil, &NotFoundError{label: stock.Label}
-		}
-		return e.Stockproduct, nil
-	}
-	return nil, &NotLoadedError{edge: "stockproduct"}
-}
-
 // ProductsOrErr returns the Products value or an error if the edge
 // was not loaded in eager-loading.
 func (e ProductEdges) ProductsOrErr() ([]*Orderproduct, error) {
-	if e.loadedTypes[1] {
+	if e.loadedTypes[0] {
 		return e.Products, nil
 	}
 	return nil, &NotLoadedError{edge: "products"}
+}
+
+// StockproductOrErr returns the Stockproduct value or an error if the edge
+// was not loaded in eager-loading.
+func (e ProductEdges) StockproductOrErr() ([]*Stock, error) {
+	if e.loadedTypes[1] {
+		return e.Stockproduct, nil
+	}
+	return nil, &NotLoadedError{edge: "stockproduct"}
 }
 
 // ForproductOrErr returns the Forproduct value or an error if the edge
@@ -137,14 +131,14 @@ func (pr *Product) assignValues(values ...interface{}) error {
 	return nil
 }
 
-// QueryStockproduct queries the stockproduct edge of the Product.
-func (pr *Product) QueryStockproduct() *StockQuery {
-	return (&ProductClient{config: pr.config}).QueryStockproduct(pr)
-}
-
 // QueryProducts queries the products edge of the Product.
 func (pr *Product) QueryProducts() *OrderproductQuery {
 	return (&ProductClient{config: pr.config}).QueryProducts(pr)
+}
+
+// QueryStockproduct queries the stockproduct edge of the Product.
+func (pr *Product) QueryStockproduct() *StockQuery {
+	return (&ProductClient{config: pr.config}).QueryStockproduct(pr)
 }
 
 // QueryForproduct queries the forproduct edge of the Product.

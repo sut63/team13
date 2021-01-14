@@ -270,12 +270,12 @@ func (sq *ShiftQuery) WithWhen(opts ...func(*EmployeeWorkingHoursQuery)) *ShiftQ
 // Example:
 //
 //	var v []struct {
-//		TimeStart time.Time `json:"TimeStart,omitempty"`
+//		Name string `json:"Name,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Shift.Query().
-//		GroupBy(shift.FieldTimeStart).
+//		GroupBy(shift.FieldName).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -296,11 +296,11 @@ func (sq *ShiftQuery) GroupBy(field string, fields ...string) *ShiftGroupBy {
 // Example:
 //
 //	var v []struct {
-//		TimeStart time.Time `json:"TimeStart,omitempty"`
+//		Name string `json:"Name,omitempty"`
 //	}
 //
 //	client.Shift.Query().
-//		Select(shift.FieldTimeStart).
+//		Select(shift.FieldName).
 //		Scan(ctx, &v)
 //
 func (sq *ShiftQuery) Select(field string, fields ...string) *ShiftSelect {

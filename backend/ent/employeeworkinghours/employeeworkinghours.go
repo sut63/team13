@@ -8,8 +8,8 @@ const (
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
 
-	// EdgeEmployeeWorkingHours holds the string denoting the employeeworkinghours edge name in mutations.
-	EdgeEmployeeWorkingHours = "EmployeeWorkingHours"
+	// EdgeEmployee holds the string denoting the employee edge name in mutations.
+	EdgeEmployee = "employee"
 	// EdgeDay holds the string denoting the day edge name in mutations.
 	EdgeDay = "day"
 	// EdgeShift holds the string denoting the shift edge name in mutations.
@@ -19,13 +19,13 @@ const (
 
 	// Table holds the table name of the employeeworkinghours in the database.
 	Table = "employee_working_hours"
-	// EmployeeWorkingHoursTable is the table the holds the EmployeeWorkingHours relation/edge.
-	EmployeeWorkingHoursTable = "employee_working_hours"
-	// EmployeeWorkingHoursInverseTable is the table name for the Employee entity.
+	// EmployeeTable is the table the holds the employee relation/edge.
+	EmployeeTable = "employee_working_hours"
+	// EmployeeInverseTable is the table name for the Employee entity.
 	// It exists in this package in order to avoid circular dependency with the "employee" package.
-	EmployeeWorkingHoursInverseTable = "employees"
-	// EmployeeWorkingHoursColumn is the table column denoting the EmployeeWorkingHours relation/edge.
-	EmployeeWorkingHoursColumn = "employee_whose"
+	EmployeeInverseTable = "employees"
+	// EmployeeColumn is the table column denoting the employee relation/edge.
+	EmployeeColumn = "employee_whose"
 	// DayTable is the table the holds the day relation/edge.
 	DayTable = "employee_working_hours"
 	// DayInverseTable is the table name for the Day entity.

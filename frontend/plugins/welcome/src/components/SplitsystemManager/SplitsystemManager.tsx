@@ -121,7 +121,7 @@ const tiers = [
       'Priority email support',*/
     ],
     buttonText: 'Contineus',
-    buttinLink: "/Salary",
+    buttinLink: "/EmployeeWorkingHours",
     buttonVariant: 'contained',
   },
   {

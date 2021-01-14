@@ -88,7 +88,7 @@ const SignInManager: FC<{}> = () => {
     check = ck.CheckLogin(counter,email,password)
     console.log("check => "+check)
     if(check === true){
-      history.pushState('', '', '/SplitsystemManager');
+      history.pushState('', '', '/orderproduct');
       ck.SetCookie("email",email,30)
       ck.SetCookie("id",ck.SetID(counter,email,password),30)
       ck.SetCookie("name",ck.SetName(counter,email,password),30)

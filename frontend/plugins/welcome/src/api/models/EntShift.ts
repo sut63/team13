@@ -27,6 +27,12 @@ import {
  */
 export interface EntShift {
     /**
+     * Name holds the value of the "Name" field.
+     * @type {string}
+     * @memberof EntShift
+     */
+    name?: string;
+    /**
      * TimeEnd holds the value of the "TimeEnd" field.
      * @type {string}
      * @memberof EntShift
@@ -62,6 +68,7 @@ export function EntShiftFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
+        'name': !exists(json, 'Name') ? undefined : json['Name'],
         'timeEnd': !exists(json, 'TimeEnd') ? undefined : json['TimeEnd'],
         'timeStart': !exists(json, 'TimeStart') ? undefined : json['TimeStart'],
         'edges': !exists(json, 'edges') ? undefined : EntShiftEdgesFromJSON(json['edges']),
@@ -78,6 +85,7 @@ export function EntShiftToJSON(value?: EntShift | null): any {
     }
     return {
         
+        'Name': value.name,
         'TimeEnd': value.timeEnd,
         'TimeStart': value.timeStart,
         'edges': EntShiftEdgesToJSON(value.edges),
