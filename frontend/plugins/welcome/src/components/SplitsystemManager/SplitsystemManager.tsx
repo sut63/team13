@@ -15,9 +15,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import { Link as RouterLink } from 'react-router-dom';
-
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import CameraIcon from '@material-ui/icons/PhotoCamera';
+
 
 function Copyright() {
   return (
@@ -59,6 +60,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[700],
   },
+
+  card: {
+    height: '200%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardMedia: {
+    paddingTop: '100%', // 16:9
+  },
+
   cardPricing: {
     display: 'flex',
     justifyContent: 'center',
@@ -79,13 +90,15 @@ const useStyles = makeStyles((theme) => ({
 
 const tiers = [
   {
+    image: "https://cutt.ly/jjvZWom",
     title: 'ระบบบันทึกเงินเดือนพนักงาน',
     description: [/*'ระบบย่อย', 'บันทึกเงินเดือนพนักงาน', 'ตารางเวลาทำงานพนักงาน'*/],
-    buttonText: 'Click',
+    buttonText: 'Contineus',
     buttinLink: "/Salary",
     buttonVariant: 'contained',
   },
   {
+    image: "https://cutt.ly/cjQK0LR",
     title: 'ระบบตารางเวลาทำงานพนักงาน',
     description: [
       /*'20 users included',
@@ -93,11 +106,12 @@ const tiers = [
       'Help center access',
       'Priority email support',*/
     ],
-    buttonText: 'Click',
+    buttonText: 'Contineus',
     buttinLink: "/Salary",
     buttonVariant: 'contained',
   },
   {
+    image: "https://cutt.ly/jjvZWom",
     title: 'ระบบPromotion',
 
     description: [
@@ -106,20 +120,20 @@ const tiers = [
       'Help center access',
       'Phone & email support',*/
     ],
-    buttonText: 'Click',
+    buttonText: 'Contineus',
     buttinLink: "/Promotion",
     buttonVariant: 'contained',
   },
   {
+    image: "https://cutt.ly/cjQK0LR",
     title: 'ระบบสั่งซื้อสินค้าเข้ามาในคลัง',
-    
     description: [
      /* '50 users included',
       '30 GB of storage',
       'Help center access',
       'Phone & email support',*/
     ],
-    buttonText: 'Click',
+    buttonText: 'Contineus',
     buttinLink: "/orderproduct",
     buttonVariant: 'contained',
   },
@@ -142,6 +156,7 @@ const footers = [
     description: ['Privacy policy', 'Terms of use'],
   },
 ];
+
 
 export default function Pricing() {
   const classes = useStyles();
@@ -183,37 +198,37 @@ export default function Pricing() {
       {/* End hero unit */}
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
-          {tiers.map((tier) => (
-            // Enterprise card is full width at sm breakpoint
-            <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>
-              <Card>
-                <CardHeader
-                  title={tier.title}
-                  subheader={tier.subheader}
-                  titleTypographyProps={{ align: 'center' }}
-                  subheaderTypographyProps={{ align: 'center' }}
-                  action={tier.title === 'Pro' ? <StarIcon /> : null}
-                  className={classes.cardHeader}
-                />
-                <CardContent>       
+            {tiers.map((tier) =>  (
+              <Grid item key={tier} xs={12} sm={6} md={3}>
+                <Card className={classes.card}>
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={tier.image}
+                    title="Image title"
+                  />
+                  <CardContent className={classes.card}>
                   <ul>
                     {tier.description.map((line) => (
                       <Typography component="li" variant="subtitle1" align="center" key={line}>
-                     
+                          {tier.title}
                       </Typography>
                     ))}
                   </ul>
-                </CardContent>
-                <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant} color="primary" to={tier.buttinLink} component={RouterLink}>
+                    <Typography>
+                    {tier.title}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" color="primary" to={tier.buttinLink} component={RouterLink}>
+                      {tier.buttonText}
+                    </Button>
 
-                    {tier.buttonText}
-                      
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
+                  </CardActions>
+                </Card>
+
+              </Grid>
+
+            ))}
         </Grid>
       </Container>
       

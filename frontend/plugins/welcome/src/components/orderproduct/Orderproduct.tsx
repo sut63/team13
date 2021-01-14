@@ -25,13 +25,6 @@ import { EntManager } from '../../api/models/EntManager';
 import TextField from '@material-ui/core/TextField';
 
 //import { ContentHeader } from '@backstage/core';
-<<<<<<< HEAD
-=======
-import ComponanceTable from './Tableorderproduct';  
- 
-//import { ContentHeader } from '@backstage/core'; 
-
->>>>>>> 8f45709b2cda52649f23a4b50b57103e054c12ae
 import Swal from 'sweetalert2';
 import { Cookies } from './SignInOrderproduct/Cookie'
 
@@ -517,10 +510,6 @@ function save() {
         </Toolbar>
       </AppBar>
       <ComponanceTable></ComponanceTable>
-<<<<<<< HEAD
-=======
-    
->>>>>>> 8f45709b2cda52649f23a4b50b57103e054c12ae
     </div>
   );
  }
