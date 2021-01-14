@@ -6165,10 +6165,10 @@ type ProductMutation struct {
 	_MFG                     *string
 	_EXP                     *string
 	clearedFields            map[string]struct{}
-	stockproduct             *int
-	clearedstockproduct      bool
 	products                 map[int]struct{}
 	removedproducts          map[int]struct{}
+	stockproduct             map[int]struct{}
+	removedstockproduct      map[int]struct{}
 	forproduct               *int
 	clearedforproduct        bool
 	formproductonline        map[int]struct{}
@@ -6404,45 +6404,6 @@ func (m *ProductMutation) ResetEXP() {
 	m._EXP = nil
 }
 
-// SetStockproductID sets the stockproduct edge to Stock by id.
-func (m *ProductMutation) SetStockproductID(id int) {
-	m.stockproduct = &id
-}
-
-// ClearStockproduct clears the stockproduct edge to Stock.
-func (m *ProductMutation) ClearStockproduct() {
-	m.clearedstockproduct = true
-}
-
-// StockproductCleared returns if the edge stockproduct was cleared.
-func (m *ProductMutation) StockproductCleared() bool {
-	return m.clearedstockproduct
-}
-
-// StockproductID returns the stockproduct id in the mutation.
-func (m *ProductMutation) StockproductID() (id int, exists bool) {
-	if m.stockproduct != nil {
-		return *m.stockproduct, true
-	}
-	return
-}
-
-// StockproductIDs returns the stockproduct ids in the mutation.
-// Note that ids always returns len(ids) <= 1 for unique edges, and you should use
-// StockproductID instead. It exists only for internal usage by the builders.
-func (m *ProductMutation) StockproductIDs() (ids []int) {
-	if id := m.stockproduct; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetStockproduct reset all changes of the "stockproduct" edge.
-func (m *ProductMutation) ResetStockproduct() {
-	m.stockproduct = nil
-	m.clearedstockproduct = false
-}
-
 // AddProductIDs adds the products edge to Orderproduct by ids.
 func (m *ProductMutation) AddProductIDs(ids ...int) {
 	if m.products == nil {
@@ -6483,6 +6444,48 @@ func (m *ProductMutation) ProductsIDs() (ids []int) {
 func (m *ProductMutation) ResetProducts() {
 	m.products = nil
 	m.removedproducts = nil
+}
+
+// AddStockproductIDs adds the stockproduct edge to Stock by ids.
+func (m *ProductMutation) AddStockproductIDs(ids ...int) {
+	if m.stockproduct == nil {
+		m.stockproduct = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.stockproduct[ids[i]] = struct{}{}
+	}
+}
+
+// RemoveStockproductIDs removes the stockproduct edge to Stock by ids.
+func (m *ProductMutation) RemoveStockproductIDs(ids ...int) {
+	if m.removedstockproduct == nil {
+		m.removedstockproduct = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removedstockproduct[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedStockproduct returns the removed ids of stockproduct.
+func (m *ProductMutation) RemovedStockproductIDs() (ids []int) {
+	for id := range m.removedstockproduct {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// StockproductIDs returns the stockproduct ids in the mutation.
+func (m *ProductMutation) StockproductIDs() (ids []int) {
+	for id := range m.stockproduct {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetStockproduct reset all changes of the "stockproduct" edge.
+func (m *ProductMutation) ResetStockproduct() {
+	m.stockproduct = nil
+	m.removedstockproduct = nil
 }
 
 // SetForproductID sets the forproduct edge to Promotion by id.
@@ -6733,11 +6736,11 @@ func (m *ProductMutation) ResetField(name string) error {
 // mutation.
 func (m *ProductMutation) AddedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.stockproduct != nil {
-		edges = append(edges, product.EdgeStockproduct)
-	}
 	if m.products != nil {
 		edges = append(edges, product.EdgeProducts)
+	}
+	if m.stockproduct != nil {
+		edges = append(edges, product.EdgeStockproduct)
 	}
 	if m.forproduct != nil {
 		edges = append(edges, product.EdgeForproduct)
@@ -6752,13 +6755,15 @@ func (m *ProductMutation) AddedEdges() []string {
 // the given edge name.
 func (m *ProductMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case product.EdgeStockproduct:
-		if id := m.stockproduct; id != nil {
-			return []ent.Value{*id}
-		}
 	case product.EdgeProducts:
 		ids := make([]ent.Value, 0, len(m.products))
 		for id := range m.products {
+			ids = append(ids, id)
+		}
+		return ids
+	case product.EdgeStockproduct:
+		ids := make([]ent.Value, 0, len(m.stockproduct))
+		for id := range m.stockproduct {
 			ids = append(ids, id)
 		}
 		return ids
@@ -6783,6 +6788,9 @@ func (m *ProductMutation) RemovedEdges() []string {
 	if m.removedproducts != nil {
 		edges = append(edges, product.EdgeProducts)
 	}
+	if m.removedstockproduct != nil {
+		edges = append(edges, product.EdgeStockproduct)
+	}
 	if m.removedformproductonline != nil {
 		edges = append(edges, product.EdgeFormproductonline)
 	}
@@ -6796,6 +6804,12 @@ func (m *ProductMutation) RemovedIDs(name string) []ent.Value {
 	case product.EdgeProducts:
 		ids := make([]ent.Value, 0, len(m.removedproducts))
 		for id := range m.removedproducts {
+			ids = append(ids, id)
+		}
+		return ids
+	case product.EdgeStockproduct:
+		ids := make([]ent.Value, 0, len(m.removedstockproduct))
+		for id := range m.removedstockproduct {
 			ids = append(ids, id)
 		}
 		return ids
@@ -6813,9 +6827,6 @@ func (m *ProductMutation) RemovedIDs(name string) []ent.Value {
 // mutation.
 func (m *ProductMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.clearedstockproduct {
-		edges = append(edges, product.EdgeStockproduct)
-	}
 	if m.clearedforproduct {
 		edges = append(edges, product.EdgeForproduct)
 	}
@@ -6826,8 +6837,6 @@ func (m *ProductMutation) ClearedEdges() []string {
 // cleared in this mutation.
 func (m *ProductMutation) EdgeCleared(name string) bool {
 	switch name {
-	case product.EdgeStockproduct:
-		return m.clearedstockproduct
 	case product.EdgeForproduct:
 		return m.clearedforproduct
 	}
@@ -6838,9 +6847,6 @@ func (m *ProductMutation) EdgeCleared(name string) bool {
 // error if the edge name is not defined in the schema.
 func (m *ProductMutation) ClearEdge(name string) error {
 	switch name {
-	case product.EdgeStockproduct:
-		m.ClearStockproduct()
-		return nil
 	case product.EdgeForproduct:
 		m.ClearForproduct()
 		return nil
@@ -6853,11 +6859,11 @@ func (m *ProductMutation) ClearEdge(name string) error {
 // defined in the schema.
 func (m *ProductMutation) ResetEdge(name string) error {
 	switch name {
-	case product.EdgeStockproduct:
-		m.ResetStockproduct()
-		return nil
 	case product.EdgeProducts:
 		m.ResetProducts()
+		return nil
+	case product.EdgeStockproduct:
+		m.ResetStockproduct()
 		return nil
 	case product.EdgeForproduct:
 		m.ResetForproduct()

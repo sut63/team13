@@ -485,9 +485,10 @@ definitions:
           $ref: '#/definitions/ent.Orderproduct'
         type: array
       stockproduct:
-        $ref: '#/definitions/ent.Stock'
         description: Stockproduct holds the value of the stockproduct edge.
-        type: object
+        items:
+          $ref: '#/definitions/ent.Stock'
+        type: array
     type: object
   ent.Promotion:
     properties:
