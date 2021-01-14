@@ -30,6 +30,7 @@ import ComponanceTable from './Tableorderproduct';
 //import { ContentHeader } from '@backstage/core'; 
 
 import Swal from 'sweetalert2';
+//cookie
 import { Cookies } from './SignInOrderproduct/Cookie'
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
