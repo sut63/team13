@@ -347,7 +347,7 @@ function save() {
             <Button
               style={{ marginLeft: 20 }}
               component={RouterLink}
-              to="/"
+              to="/SplitsystemManager"
               variant="contained"
             >
               Back
