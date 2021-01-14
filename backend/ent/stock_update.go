@@ -4,7 +4,6 @@ package ent
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
@@ -68,6 +67,14 @@ func (su *StockUpdate) SetTime(t time.Time) *StockUpdate {
 // SetProductID sets the product edge to Product by id.
 func (su *StockUpdate) SetProductID(id int) *StockUpdate {
 	su.mutation.SetProductID(id)
+	return su
+}
+
+// SetNillableProductID sets the product edge to Product by id if the given value is not nil.
+func (su *StockUpdate) SetNillableProductID(id *int) *StockUpdate {
+	if id != nil {
+		su = su.SetProductID(*id)
+	}
 	return su
 }
 
@@ -164,10 +171,6 @@ func (su *StockUpdate) ClearTypeproduct() *StockUpdate {
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (su *StockUpdate) Save(ctx context.Context) (int, error) {
-
-	if _, ok := su.mutation.ProductID(); su.mutation.ProductCleared() && !ok {
-		return 0, errors.New("ent: clearing a unique edge \"product\"")
-	}
 
 	var (
 		err      error
@@ -273,7 +276,7 @@ func (su *StockUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if su.mutation.ProductCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.M2O,
 			Inverse: true,
 			Table:   stock.ProductTable,
 			Columns: []string{stock.ProductColumn},
@@ -289,7 +292,7 @@ func (su *StockUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if nodes := su.mutation.ProductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.M2O,
 			Inverse: true,
 			Table:   stock.ProductTable,
 			Columns: []string{stock.ProductColumn},
@@ -467,6 +470,14 @@ func (suo *StockUpdateOne) SetProductID(id int) *StockUpdateOne {
 	return suo
 }
 
+// SetNillableProductID sets the product edge to Product by id if the given value is not nil.
+func (suo *StockUpdateOne) SetNillableProductID(id *int) *StockUpdateOne {
+	if id != nil {
+		suo = suo.SetProductID(*id)
+	}
+	return suo
+}
+
 // SetProduct sets the product edge to Product.
 func (suo *StockUpdateOne) SetProduct(p *Product) *StockUpdateOne {
 	return suo.SetProductID(p.ID)
@@ -560,10 +571,6 @@ func (suo *StockUpdateOne) ClearTypeproduct() *StockUpdateOne {
 
 // Save executes the query and returns the updated entity.
 func (suo *StockUpdateOne) Save(ctx context.Context) (*Stock, error) {
-
-	if _, ok := suo.mutation.ProductID(); suo.mutation.ProductCleared() && !ok {
-		return nil, errors.New("ent: clearing a unique edge \"product\"")
-	}
 
 	var (
 		err  error
@@ -667,7 +674,7 @@ func (suo *StockUpdateOne) sqlSave(ctx context.Context) (s *Stock, err error) {
 	}
 	if suo.mutation.ProductCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.M2O,
 			Inverse: true,
 			Table:   stock.ProductTable,
 			Columns: []string{stock.ProductColumn},
@@ -683,7 +690,7 @@ func (suo *StockUpdateOne) sqlSave(ctx context.Context) (s *Stock, err error) {
 	}
 	if nodes := suo.mutation.ProductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.M2O,
 			Inverse: true,
 			Table:   stock.ProductTable,
 			Columns: []string{stock.ProductColumn},

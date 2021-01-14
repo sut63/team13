@@ -5047,8 +5047,10 @@ var doc = `{
                 },
                 "stockproduct": {
                     "description": "Stockproduct holds the value of the stockproduct edge.",
-                    "type": "object",
-                    "$ref": "#/definitions/ent.Stock"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.Stock"
+                    }
                 }
             }
         },

@@ -20,7 +20,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import { DefaultApi } from '../../api/apis';
-
+import SaveIcon from '@material-ui/icons/Save';
 
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -201,6 +201,17 @@ export default function Stock() {
 
 
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const product_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setProductid(event.target.value as number);
@@ -234,16 +245,46 @@ export default function Stock() {
     <Page theme={pageTheme.home}>
       <Header
         title={`Welcome ${profile.givenName || 'to Stock Product'}`}
-        subtitle="Add  Product in your stock."
+        subtitle="Add Product in your stock."
+
+        
       >
-
-
+        <div style={{ marginLeft: 300 }}>{cookieName}</div>
+   <IconButton
+                aria-label="account of current patientofphysician"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <Button className={classes.button} variant="outlined" color="inherit"
+                  size="small" component={RouterLink}
+                  to="/LoginEmployee">
+                  logout
+              </Button>
+              </Menu>
 
 
       </Header>
       <Content>
 
-        <ContentHeader title="Add Your Stock here">
+        <ContentHeader title="Add Your Product here">
           {status ? (
             <div>
               {alert ? (
@@ -489,33 +530,27 @@ export default function Stock() {
             </Grid>
             <Grid item xs={4}>
 
-              <Button
-                onClick={() => {
-                  CreateStock();
-                }}
+              
 
-                variant="contained"
-                color="primary"
-                style={{ marginLeft: 20, width: 100 }}
-              >
-                Save
-             </Button>
-              <Button
-                style={{ marginLeft: 20, width: 100 }}
-                component={RouterLink}
-                to="/Tablestock"
-                variant="contained"
-              >
-                Show
-             </Button>
-              <Button
-                style={{ marginLeft: 20, width: 100 }}
-                component={RouterLink}
-                to="/WelcomePage"
-                variant="contained"
-              >
-                Back
-             </Button>
+             <Button
+              onClick={() => {
+                CreateStock();
+              }}
+        variant="contained"
+        color="primary"
+        size="large"
+        className={classes.button}
+        startIcon={<SaveIcon />}
+      >
+        Save
+      </Button>
+              
+             <Button variant="contained" size="large" color="primary" className={classes.margin}
+             component={RouterLink}
+             to="/Tablestock">
+          Showstock
+        </Button>
+             
 
 
             </Grid>

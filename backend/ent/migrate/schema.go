@@ -397,7 +397,7 @@ var (
 		{Name: "amount", Type: field.TypeInt},
 		{Name: "time", Type: field.TypeTime},
 		{Name: "employee_employeestock", Type: field.TypeInt, Nullable: true},
-		{Name: "product_stockproduct", Type: field.TypeInt, Unique: true, Nullable: true},
+		{Name: "product_stockproduct", Type: field.TypeInt, Nullable: true},
 		{Name: "typeproduct_typestock", Type: field.TypeInt, Nullable: true},
 		{Name: "zoneproduct_zonestock", Type: field.TypeInt, Nullable: true},
 	}

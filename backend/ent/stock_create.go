@@ -48,6 +48,14 @@ func (sc *StockCreate) SetProductID(id int) *StockCreate {
 	return sc
 }
 
+// SetNillableProductID sets the product edge to Product by id if the given value is not nil.
+func (sc *StockCreate) SetNillableProductID(id *int) *StockCreate {
+	if id != nil {
+		sc = sc.SetProductID(*id)
+	}
+	return sc
+}
+
 // SetProduct sets the product edge to Product.
 func (sc *StockCreate) SetProduct(p *Product) *StockCreate {
 	return sc.SetProductID(p.ID)
@@ -125,9 +133,6 @@ func (sc *StockCreate) Save(ctx context.Context) (*Stock, error) {
 	}
 	if _, ok := sc.mutation.Time(); !ok {
 		return nil, &ValidationError{Name: "Time", err: errors.New("ent: missing required field \"Time\"")}
-	}
-	if _, ok := sc.mutation.ProductID(); !ok {
-		return nil, &ValidationError{Name: "product", err: errors.New("ent: missing required edge \"product\"")}
 	}
 	var (
 		err  error
@@ -215,7 +220,7 @@ func (sc *StockCreate) createSpec() (*Stock, *sqlgraph.CreateSpec) {
 	}
 	if nodes := sc.mutation.ProductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.M2O,
 			Inverse: true,
 			Table:   stock.ProductTable,
 			Columns: []string{stock.ProductColumn},
