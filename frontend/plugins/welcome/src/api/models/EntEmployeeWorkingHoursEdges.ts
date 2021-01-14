@@ -49,7 +49,7 @@ export interface EntEmployeeWorkingHoursEdges {
      * @type {EntEmployee}
      * @memberof EntEmployeeWorkingHoursEdges
      */
-    employeeWorkingHours?: EntEmployee;
+    employee?: EntEmployee;
     /**
      * 
      * @type {EntRole}
@@ -75,7 +75,7 @@ export function EntEmployeeWorkingHoursEdgesFromJSONTyped(json: any, ignoreDiscr
     return {
         
         'day': !exists(json, 'day') ? undefined : EntDayFromJSON(json['day']),
-        'employeeWorkingHours': !exists(json, 'employeeWorkingHours') ? undefined : EntEmployeeFromJSON(json['employeeWorkingHours']),
+        'employee': !exists(json, 'employee') ? undefined : EntEmployeeFromJSON(json['employee']),
         'role': !exists(json, 'role') ? undefined : EntRoleFromJSON(json['role']),
         'shift': !exists(json, 'shift') ? undefined : EntShiftFromJSON(json['shift']),
     };
@@ -91,7 +91,7 @@ export function EntEmployeeWorkingHoursEdgesToJSON(value?: EntEmployeeWorkingHou
     return {
         
         'day': EntDayToJSON(value.day),
-        'employeeWorkingHours': EntEmployeeToJSON(value.employeeWorkingHours),
+        'employee': EntEmployeeToJSON(value.employee),
         'role': EntRoleToJSON(value.role),
         'shift': EntShiftToJSON(value.shift),
     };

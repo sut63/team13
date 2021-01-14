@@ -21,6 +21,12 @@ type ShiftCreate struct {
 	hooks    []Hook
 }
 
+// SetName sets the Name field.
+func (sc *ShiftCreate) SetName(s string) *ShiftCreate {
+	sc.mutation.SetName(s)
+	return sc
+}
+
 // SetTimeStart sets the TimeStart field.
 func (sc *ShiftCreate) SetTimeStart(t time.Time) *ShiftCreate {
 	sc.mutation.SetTimeStart(t)
@@ -55,6 +61,9 @@ func (sc *ShiftCreate) Mutation() *ShiftMutation {
 
 // Save creates the Shift in the database.
 func (sc *ShiftCreate) Save(ctx context.Context) (*Shift, error) {
+	if _, ok := sc.mutation.Name(); !ok {
+		return nil, &ValidationError{Name: "Name", err: errors.New("ent: missing required field \"Name\"")}
+	}
 	if _, ok := sc.mutation.TimeStart(); !ok {
 		return nil, &ValidationError{Name: "TimeStart", err: errors.New("ent: missing required field \"TimeStart\"")}
 	}
@@ -121,6 +130,14 @@ func (sc *ShiftCreate) createSpec() (*Shift, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
+	if value, ok := sc.mutation.Name(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: shift.FieldName,
+		})
+		s.Name = value
+	}
 	if value, ok := sc.mutation.TimeStart(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,

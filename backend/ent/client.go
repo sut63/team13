@@ -961,15 +961,15 @@ func (c *EmployeeWorkingHoursClient) GetX(ctx context.Context, id int) *Employee
 	return ewh
 }
 
-// QueryEmployeeWorkingHours queries the EmployeeWorkingHours edge of a EmployeeWorkingHours.
-func (c *EmployeeWorkingHoursClient) QueryEmployeeWorkingHours(ewh *EmployeeWorkingHours) *EmployeeQuery {
+// QueryEmployee queries the employee edge of a EmployeeWorkingHours.
+func (c *EmployeeWorkingHoursClient) QueryEmployee(ewh *EmployeeWorkingHours) *EmployeeQuery {
 	query := &EmployeeQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := ewh.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(employeeworkinghours.Table, employeeworkinghours.FieldID, id),
 			sqlgraph.To(employee.Table, employee.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.EmployeeWorkingHoursTable, employeeworkinghours.EmployeeWorkingHoursColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.EmployeeTable, employeeworkinghours.EmployeeColumn),
 		)
 		fromV = sqlgraph.Neighbors(ewh.driver.Dialect(), step)
 		return fromV, nil

@@ -30,8 +30,8 @@ type EmployeeWorkingHours struct {
 
 // EmployeeWorkingHoursEdges holds the relations/edges for other nodes in the graph.
 type EmployeeWorkingHoursEdges struct {
-	// EmployeeWorkingHours holds the value of the EmployeeWorkingHours edge.
-	EmployeeWorkingHours *Employee
+	// Employee holds the value of the employee edge.
+	Employee *Employee
 	// Day holds the value of the day edge.
 	Day *Day
 	// Shift holds the value of the shift edge.
@@ -43,18 +43,18 @@ type EmployeeWorkingHoursEdges struct {
 	loadedTypes [4]bool
 }
 
-// EmployeeWorkingHoursOrErr returns the EmployeeWorkingHours value or an error if the edge
+// EmployeeOrErr returns the Employee value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e EmployeeWorkingHoursEdges) EmployeeWorkingHoursOrErr() (*Employee, error) {
+func (e EmployeeWorkingHoursEdges) EmployeeOrErr() (*Employee, error) {
 	if e.loadedTypes[0] {
-		if e.EmployeeWorkingHours == nil {
-			// The edge EmployeeWorkingHours was loaded in eager-loading,
+		if e.Employee == nil {
+			// The edge employee was loaded in eager-loading,
 			// but was not found.
 			return nil, &NotFoundError{label: employee.Label}
 		}
-		return e.EmployeeWorkingHours, nil
+		return e.Employee, nil
 	}
-	return nil, &NotLoadedError{edge: "EmployeeWorkingHours"}
+	return nil, &NotLoadedError{edge: "employee"}
 }
 
 // DayOrErr returns the Day value or an error if the edge
@@ -158,9 +158,9 @@ func (ewh *EmployeeWorkingHours) assignValues(values ...interface{}) error {
 	return nil
 }
 
-// QueryEmployeeWorkingHours queries the EmployeeWorkingHours edge of the EmployeeWorkingHours.
-func (ewh *EmployeeWorkingHours) QueryEmployeeWorkingHours() *EmployeeQuery {
-	return (&EmployeeWorkingHoursClient{config: ewh.config}).QueryEmployeeWorkingHours(ewh)
+// QueryEmployee queries the employee edge of the EmployeeWorkingHours.
+func (ewh *EmployeeWorkingHours) QueryEmployee() *EmployeeQuery {
+	return (&EmployeeWorkingHoursClient{config: ewh.config}).QueryEmployee(ewh)
 }
 
 // QueryDay queries the day edge of the EmployeeWorkingHours.

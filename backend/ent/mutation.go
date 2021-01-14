@@ -2839,20 +2839,20 @@ func (m *EmployeeMutation) ResetEdge(name string) error {
 // nodes in the graph.
 type EmployeeWorkingHoursMutation struct {
 	config
-	op                           Op
-	typ                          string
-	id                           *int
-	clearedFields                map[string]struct{}
-	_EmployeeWorkingHours        *int
-	cleared_EmployeeWorkingHours bool
-	day                          *int
-	clearedday                   bool
-	shift                        *int
-	clearedshift                 bool
-	role                         *int
-	clearedrole                  bool
-	done                         bool
-	oldValue                     func(context.Context) (*EmployeeWorkingHours, error)
+	op              Op
+	typ             string
+	id              *int
+	clearedFields   map[string]struct{}
+	employee        *int
+	clearedemployee bool
+	day             *int
+	clearedday      bool
+	shift           *int
+	clearedshift    bool
+	role            *int
+	clearedrole     bool
+	done            bool
+	oldValue        func(context.Context) (*EmployeeWorkingHours, error)
 }
 
 var _ ent.Mutation = (*EmployeeWorkingHoursMutation)(nil)
@@ -2934,43 +2934,43 @@ func (m *EmployeeWorkingHoursMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
-// SetEmployeeWorkingHoursID sets the EmployeeWorkingHours edge to Employee by id.
-func (m *EmployeeWorkingHoursMutation) SetEmployeeWorkingHoursID(id int) {
-	m._EmployeeWorkingHours = &id
+// SetEmployeeID sets the employee edge to Employee by id.
+func (m *EmployeeWorkingHoursMutation) SetEmployeeID(id int) {
+	m.employee = &id
 }
 
-// ClearEmployeeWorkingHours clears the EmployeeWorkingHours edge to Employee.
-func (m *EmployeeWorkingHoursMutation) ClearEmployeeWorkingHours() {
-	m.cleared_EmployeeWorkingHours = true
+// ClearEmployee clears the employee edge to Employee.
+func (m *EmployeeWorkingHoursMutation) ClearEmployee() {
+	m.clearedemployee = true
 }
 
-// EmployeeWorkingHoursCleared returns if the edge EmployeeWorkingHours was cleared.
-func (m *EmployeeWorkingHoursMutation) EmployeeWorkingHoursCleared() bool {
-	return m.cleared_EmployeeWorkingHours
+// EmployeeCleared returns if the edge employee was cleared.
+func (m *EmployeeWorkingHoursMutation) EmployeeCleared() bool {
+	return m.clearedemployee
 }
 
-// EmployeeWorkingHoursID returns the EmployeeWorkingHours id in the mutation.
-func (m *EmployeeWorkingHoursMutation) EmployeeWorkingHoursID() (id int, exists bool) {
-	if m._EmployeeWorkingHours != nil {
-		return *m._EmployeeWorkingHours, true
+// EmployeeID returns the employee id in the mutation.
+func (m *EmployeeWorkingHoursMutation) EmployeeID() (id int, exists bool) {
+	if m.employee != nil {
+		return *m.employee, true
 	}
 	return
 }
 
-// EmployeeWorkingHoursIDs returns the EmployeeWorkingHours ids in the mutation.
+// EmployeeIDs returns the employee ids in the mutation.
 // Note that ids always returns len(ids) <= 1 for unique edges, and you should use
-// EmployeeWorkingHoursID instead. It exists only for internal usage by the builders.
-func (m *EmployeeWorkingHoursMutation) EmployeeWorkingHoursIDs() (ids []int) {
-	if id := m._EmployeeWorkingHours; id != nil {
+// EmployeeID instead. It exists only for internal usage by the builders.
+func (m *EmployeeWorkingHoursMutation) EmployeeIDs() (ids []int) {
+	if id := m.employee; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetEmployeeWorkingHours reset all changes of the "EmployeeWorkingHours" edge.
-func (m *EmployeeWorkingHoursMutation) ResetEmployeeWorkingHours() {
-	m._EmployeeWorkingHours = nil
-	m.cleared_EmployeeWorkingHours = false
+// ResetEmployee reset all changes of the "employee" edge.
+func (m *EmployeeWorkingHoursMutation) ResetEmployee() {
+	m.employee = nil
+	m.clearedemployee = false
 }
 
 // SetDayID sets the day edge to Day by id.
@@ -3181,8 +3181,8 @@ func (m *EmployeeWorkingHoursMutation) ResetField(name string) error {
 // mutation.
 func (m *EmployeeWorkingHoursMutation) AddedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m._EmployeeWorkingHours != nil {
-		edges = append(edges, employeeworkinghours.EdgeEmployeeWorkingHours)
+	if m.employee != nil {
+		edges = append(edges, employeeworkinghours.EdgeEmployee)
 	}
 	if m.day != nil {
 		edges = append(edges, employeeworkinghours.EdgeDay)
@@ -3200,8 +3200,8 @@ func (m *EmployeeWorkingHoursMutation) AddedEdges() []string {
 // the given edge name.
 func (m *EmployeeWorkingHoursMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case employeeworkinghours.EdgeEmployeeWorkingHours:
-		if id := m._EmployeeWorkingHours; id != nil {
+	case employeeworkinghours.EdgeEmployee:
+		if id := m.employee; id != nil {
 			return []ent.Value{*id}
 		}
 	case employeeworkinghours.EdgeDay:
@@ -3239,8 +3239,8 @@ func (m *EmployeeWorkingHoursMutation) RemovedIDs(name string) []ent.Value {
 // mutation.
 func (m *EmployeeWorkingHoursMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.cleared_EmployeeWorkingHours {
-		edges = append(edges, employeeworkinghours.EdgeEmployeeWorkingHours)
+	if m.clearedemployee {
+		edges = append(edges, employeeworkinghours.EdgeEmployee)
 	}
 	if m.clearedday {
 		edges = append(edges, employeeworkinghours.EdgeDay)
@@ -3258,8 +3258,8 @@ func (m *EmployeeWorkingHoursMutation) ClearedEdges() []string {
 // cleared in this mutation.
 func (m *EmployeeWorkingHoursMutation) EdgeCleared(name string) bool {
 	switch name {
-	case employeeworkinghours.EdgeEmployeeWorkingHours:
-		return m.cleared_EmployeeWorkingHours
+	case employeeworkinghours.EdgeEmployee:
+		return m.clearedemployee
 	case employeeworkinghours.EdgeDay:
 		return m.clearedday
 	case employeeworkinghours.EdgeShift:
@@ -3274,8 +3274,8 @@ func (m *EmployeeWorkingHoursMutation) EdgeCleared(name string) bool {
 // error if the edge name is not defined in the schema.
 func (m *EmployeeWorkingHoursMutation) ClearEdge(name string) error {
 	switch name {
-	case employeeworkinghours.EdgeEmployeeWorkingHours:
-		m.ClearEmployeeWorkingHours()
+	case employeeworkinghours.EdgeEmployee:
+		m.ClearEmployee()
 		return nil
 	case employeeworkinghours.EdgeDay:
 		m.ClearDay()
@@ -3295,8 +3295,8 @@ func (m *EmployeeWorkingHoursMutation) ClearEdge(name string) error {
 // defined in the schema.
 func (m *EmployeeWorkingHoursMutation) ResetEdge(name string) error {
 	switch name {
-	case employeeworkinghours.EdgeEmployeeWorkingHours:
-		m.ResetEmployeeWorkingHours()
+	case employeeworkinghours.EdgeEmployee:
+		m.ResetEmployee()
 		return nil
 	case employeeworkinghours.EdgeDay:
 		m.ResetDay()
@@ -8474,6 +8474,7 @@ type ShiftMutation struct {
 	op            Op
 	typ           string
 	id            *int
+	_Name         *string
 	_TimeStart    *time.Time
 	_TimeEnd      *time.Time
 	clearedFields map[string]struct{}
@@ -8560,6 +8561,43 @@ func (m *ShiftMutation) ID() (id int, exists bool) {
 		return
 	}
 	return *m.id, true
+}
+
+// SetName sets the Name field.
+func (m *ShiftMutation) SetName(s string) {
+	m._Name = &s
+}
+
+// Name returns the Name value in the mutation.
+func (m *ShiftMutation) Name() (r string, exists bool) {
+	v := m._Name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old Name value of the Shift.
+// If the Shift object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *ShiftMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldName is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName reset all changes of the "Name" field.
+func (m *ShiftMutation) ResetName() {
+	m._Name = nil
 }
 
 // SetTimeStart sets the TimeStart field.
@@ -8692,7 +8730,10 @@ func (m *ShiftMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *ShiftMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 3)
+	if m._Name != nil {
+		fields = append(fields, shift.FieldName)
+	}
 	if m._TimeStart != nil {
 		fields = append(fields, shift.FieldTimeStart)
 	}
@@ -8707,6 +8748,8 @@ func (m *ShiftMutation) Fields() []string {
 // not set, or was not define in the schema.
 func (m *ShiftMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case shift.FieldName:
+		return m.Name()
 	case shift.FieldTimeStart:
 		return m.TimeStart()
 	case shift.FieldTimeEnd:
@@ -8720,6 +8763,8 @@ func (m *ShiftMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *ShiftMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case shift.FieldName:
+		return m.OldName(ctx)
 	case shift.FieldTimeStart:
 		return m.OldTimeStart(ctx)
 	case shift.FieldTimeEnd:
@@ -8733,6 +8778,13 @@ func (m *ShiftMutation) OldField(ctx context.Context, name string) (ent.Value, e
 // type mismatch the field type.
 func (m *ShiftMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case shift.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
 	case shift.FieldTimeStart:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -8797,6 +8849,9 @@ func (m *ShiftMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *ShiftMutation) ResetField(name string) error {
 	switch name {
+	case shift.FieldName:
+		m.ResetName()
+		return nil
 	case shift.FieldTimeStart:
 		m.ResetTimeStart()
 		return nil

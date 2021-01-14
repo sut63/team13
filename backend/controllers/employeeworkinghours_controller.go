@@ -96,9 +96,9 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 		return
 	}
 
-	u, err := ctl.client.EmployeeWorkingHours.
+	e, err := ctl.client.EmployeeWorkingHours.
 		Create().
-		SetEmployeeWorkingHours(em).
+		SetEmployee(em).
 		SetDay(d).
 		SetRole(r).
 		SetShift(sh).
@@ -109,8 +109,10 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 		})
 		return
 	}
-  
-	c.JSON(200, u)
+	c.JSON(200, gin.H{
+		"status": true,
+		"data"  :   e,
+	})
  }
  
  // GetEmployeeWorkingHours handles GET requests to retrieve a employeeworkinghours entity
@@ -178,7 +180,7 @@ func (ctl *EmployeeWorkingHoursController) ListEmployeeWorkingHours(c *gin.Conte
 		Limit(limit).
 		Offset(offset).
 		WithDay().
-		WithEmployeeWorkingHours().
+		WithEmployee().
 		WithRole().
 		WithShift().
 		All(context.Background())

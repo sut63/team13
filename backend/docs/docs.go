@@ -4754,8 +4754,8 @@ var doc = `{
                     "type": "object",
                     "$ref": "#/definitions/ent.Day"
                 },
-                "employeeWorkingHours": {
-                    "description": "EmployeeWorkingHours holds the value of the EmployeeWorkingHours edge.",
+                "employee": {
+                    "description": "Employee holds the value of the employee edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Employee"
                 },
@@ -5173,6 +5173,10 @@ var doc = `{
         "ent.Shift": {
             "type": "object",
             "properties": {
+                "Name": {
+                    "description": "Name holds the value of the \"Name\" field.",
+                    "type": "string"
+                },
                 "TimeEnd": {
                     "description": "TimeEnd holds the value of the \"TimeEnd\" field.",
                     "type": "string"

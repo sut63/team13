@@ -379,6 +379,7 @@ var (
 	// ShiftsColumns holds the columns for the "shifts" table.
 	ShiftsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "name", Type: field.TypeString},
 		{Name: "time_start", Type: field.TypeTime},
 		{Name: "time_end", Type: field.TypeTime},
 	}
