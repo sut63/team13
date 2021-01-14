@@ -108,7 +108,7 @@ const tiers = [
       'Phone & email support',*/
     ],
     buttonText: 'Contineus',
-    buttinLink: "/orderproduct",
+    buttinLink: "/LoginEmployee",
     buttonVariant: 'contained',
   },
   {
@@ -121,7 +121,7 @@ const tiers = [
       'Priority email support',*/
     ],
     buttonText: 'Contineus',
-    buttinLink: "/Salary",
+    buttinLink: "/SignInOrderonline",
     buttonVariant: 'contained',
   },
   
