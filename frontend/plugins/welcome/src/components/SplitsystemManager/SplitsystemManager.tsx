@@ -176,19 +176,8 @@ export default function Pricing() {
             ยินดีต้อนรับเข้าสู่ระบบผู้จัดการ
           </Typography>
           <nav>
-<<<<<<< HEAD
-            <Link variant="button" color="textPrimary" href="https://www.google.com/webhp?hl=th&sa=X&ved=0ahUKEwiW6LPK8ZruAhWszjgGHe8uCjsQPAgI" className={classes.link}>
-              Features
-            </Link>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-              Enterprise
-            </Link>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-              Support
-=======
             <Link variant="button" color="textPrimary" href="https://github.com/sut63/team13" className={classes.link}>
             source code
->>>>>>> 928ae6df3f5a9e92739294b50eccfbde8ca886c9
             </Link>
             
           </nav>
