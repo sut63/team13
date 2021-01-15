@@ -324,19 +324,10 @@ func main() {
 			Manager{"AEK Dang", "AEK@gmail.com", "4567"},
 			Manager{"PANG Dang", "PANG@gmail.com", "4568"},
 			Manager{"NW Dang", "NW@gmail.com", "4569"},
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
+
 			Manager{"Poommin Phinphimai", "poommin2543@gmail.com", "1234"},
 			Manager{"Nontakorn Payusuk", "frashrock@gmail.com", "0862234089"},
-<<<<<<< HEAD
-			Manager{"Poommin Phinphimai", "poommin2543@gmail.com", "1234"},
-=======
->>>>>>> Stashed changes
-=======
-			Manager{"Poommin Phinphimai", "poommin2543@gmail.com", "1234"},
->>>>>>> 490d90a2587a52db5c892f294a4bbe8d1a77a887
->>>>>>> 9530783f1fbd20a2ae95e722893c6bbf42c12be6
+
 		},
 	}
 
