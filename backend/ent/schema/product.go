@@ -26,7 +26,7 @@ func (Product) Edges() []ent.Edge {
 	return []ent.Edge{
     	edge.To("products", Orderproduct.Type),
 		edge.To("stockproduct", Stock.Type),
-		edge.To("forproduct", Promotion.Type).Unique(),
+		edge.To("forproduct", Promotion.Type),
 		edge.To("formproductonline", Orderonline.Type),
 	}
 }

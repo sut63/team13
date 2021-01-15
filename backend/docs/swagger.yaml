@@ -476,9 +476,10 @@ definitions:
           $ref: '#/definitions/ent.Orderonline'
         type: array
       forproduct:
-        $ref: '#/definitions/ent.Promotion'
         description: Forproduct holds the value of the forproduct edge.
-        type: object
+        items:
+          $ref: '#/definitions/ent.Promotion'
+        type: array
       products:
         description: Products holds the value of the products edge.
         items:

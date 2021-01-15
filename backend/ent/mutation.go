@@ -6169,8 +6169,8 @@ type ProductMutation struct {
 	removedproducts          map[int]struct{}
 	stockproduct             map[int]struct{}
 	removedstockproduct      map[int]struct{}
-	forproduct               *int
-	clearedforproduct        bool
+	forproduct               map[int]struct{}
+	removedforproduct        map[int]struct{}
 	formproductonline        map[int]struct{}
 	removedformproductonline map[int]struct{}
 	done                     bool
@@ -6488,35 +6488,38 @@ func (m *ProductMutation) ResetStockproduct() {
 	m.removedstockproduct = nil
 }
 
-// SetForproductID sets the forproduct edge to Promotion by id.
-func (m *ProductMutation) SetForproductID(id int) {
-	m.forproduct = &id
+// AddForproductIDs adds the forproduct edge to Promotion by ids.
+func (m *ProductMutation) AddForproductIDs(ids ...int) {
+	if m.forproduct == nil {
+		m.forproduct = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.forproduct[ids[i]] = struct{}{}
+	}
 }
 
-// ClearForproduct clears the forproduct edge to Promotion.
-func (m *ProductMutation) ClearForproduct() {
-	m.clearedforproduct = true
+// RemoveForproductIDs removes the forproduct edge to Promotion by ids.
+func (m *ProductMutation) RemoveForproductIDs(ids ...int) {
+	if m.removedforproduct == nil {
+		m.removedforproduct = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removedforproduct[ids[i]] = struct{}{}
+	}
 }
 
-// ForproductCleared returns if the edge forproduct was cleared.
-func (m *ProductMutation) ForproductCleared() bool {
-	return m.clearedforproduct
-}
-
-// ForproductID returns the forproduct id in the mutation.
-func (m *ProductMutation) ForproductID() (id int, exists bool) {
-	if m.forproduct != nil {
-		return *m.forproduct, true
+// RemovedForproduct returns the removed ids of forproduct.
+func (m *ProductMutation) RemovedForproductIDs() (ids []int) {
+	for id := range m.removedforproduct {
+		ids = append(ids, id)
 	}
 	return
 }
 
 // ForproductIDs returns the forproduct ids in the mutation.
-// Note that ids always returns len(ids) <= 1 for unique edges, and you should use
-// ForproductID instead. It exists only for internal usage by the builders.
 func (m *ProductMutation) ForproductIDs() (ids []int) {
-	if id := m.forproduct; id != nil {
-		ids = append(ids, *id)
+	for id := range m.forproduct {
+		ids = append(ids, id)
 	}
 	return
 }
@@ -6524,7 +6527,7 @@ func (m *ProductMutation) ForproductIDs() (ids []int) {
 // ResetForproduct reset all changes of the "forproduct" edge.
 func (m *ProductMutation) ResetForproduct() {
 	m.forproduct = nil
-	m.clearedforproduct = false
+	m.removedforproduct = nil
 }
 
 // AddFormproductonlineIDs adds the formproductonline edge to Orderonline by ids.
@@ -6768,9 +6771,11 @@ func (m *ProductMutation) AddedIDs(name string) []ent.Value {
 		}
 		return ids
 	case product.EdgeForproduct:
-		if id := m.forproduct; id != nil {
-			return []ent.Value{*id}
+		ids := make([]ent.Value, 0, len(m.forproduct))
+		for id := range m.forproduct {
+			ids = append(ids, id)
 		}
+		return ids
 	case product.EdgeFormproductonline:
 		ids := make([]ent.Value, 0, len(m.formproductonline))
 		for id := range m.formproductonline {
@@ -6790,6 +6795,9 @@ func (m *ProductMutation) RemovedEdges() []string {
 	}
 	if m.removedstockproduct != nil {
 		edges = append(edges, product.EdgeStockproduct)
+	}
+	if m.removedforproduct != nil {
+		edges = append(edges, product.EdgeForproduct)
 	}
 	if m.removedformproductonline != nil {
 		edges = append(edges, product.EdgeFormproductonline)
@@ -6813,6 +6821,12 @@ func (m *ProductMutation) RemovedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
+	case product.EdgeForproduct:
+		ids := make([]ent.Value, 0, len(m.removedforproduct))
+		for id := range m.removedforproduct {
+			ids = append(ids, id)
+		}
+		return ids
 	case product.EdgeFormproductonline:
 		ids := make([]ent.Value, 0, len(m.removedformproductonline))
 		for id := range m.removedformproductonline {
@@ -6827,9 +6841,6 @@ func (m *ProductMutation) RemovedIDs(name string) []ent.Value {
 // mutation.
 func (m *ProductMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.clearedforproduct {
-		edges = append(edges, product.EdgeForproduct)
-	}
 	return edges
 }
 
@@ -6837,8 +6848,6 @@ func (m *ProductMutation) ClearedEdges() []string {
 // cleared in this mutation.
 func (m *ProductMutation) EdgeCleared(name string) bool {
 	switch name {
-	case product.EdgeForproduct:
-		return m.clearedforproduct
 	}
 	return false
 }
@@ -6847,9 +6856,6 @@ func (m *ProductMutation) EdgeCleared(name string) bool {
 // error if the edge name is not defined in the schema.
 func (m *ProductMutation) ClearEdge(name string) error {
 	switch name {
-	case product.EdgeForproduct:
-		m.ClearForproduct()
-		return nil
 	}
 	return fmt.Errorf("unknown Product unique edge %s", name)
 }

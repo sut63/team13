@@ -8,7 +8,6 @@ import (
 
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/team13/app/ent/product"
-	"github.com/team13/app/ent/promotion"
 )
 
 // Product is the model entity for the Product schema.
@@ -36,7 +35,7 @@ type ProductEdges struct {
 	// Stockproduct holds the value of the stockproduct edge.
 	Stockproduct []*Stock
 	// Forproduct holds the value of the forproduct edge.
-	Forproduct *Promotion
+	Forproduct []*Promotion
 	// Formproductonline holds the value of the formproductonline edge.
 	Formproductonline []*Orderonline
 	// loadedTypes holds the information for reporting if a
@@ -63,14 +62,9 @@ func (e ProductEdges) StockproductOrErr() ([]*Stock, error) {
 }
 
 // ForproductOrErr returns the Forproduct value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e ProductEdges) ForproductOrErr() (*Promotion, error) {
+// was not loaded in eager-loading.
+func (e ProductEdges) ForproductOrErr() ([]*Promotion, error) {
 	if e.loadedTypes[2] {
-		if e.Forproduct == nil {
-			// The edge forproduct was loaded in eager-loading,
-			// but was not found.
-			return nil, &NotFoundError{label: promotion.Label}
-		}
 		return e.Forproduct, nil
 	}
 	return nil, &NotLoadedError{edge: "forproduct"}
