@@ -1,145 +1,206 @@
-import React, { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import {
-  Content,
-  Header,
-  Page,
-  pageTheme,
-  ContentHeader,
-  Link,
-} from '@backstage/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import { Alert } from '@material-ui/lab';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
+import React, { useState,Component, useEffect } from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
+import Hidden from '@material-ui/core/Hidden';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+import Avatar from '@material-ui/core/Avatar';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import SvgIcon from '@material-ui/core/SvgIcon';
+import SaveIcon from '@material-ui/icons/Save';
+import Select from '@material-ui/core/Select';
 import { DefaultApi } from '../../api/apis'; // Api Gennerate From Command
 import { EntAssessment } from '../../api/models/EntAssessment';
 import { EntEmployee } from '../../api/models/EntEmployee';
 import { EntPosition } from '../../api/models/EntPosition';
 import { EntSalary } from '../../api/models/EntSalary';
-import { Grid } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+//import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+//import { ContentHeader } from '@backstage/core';
+import { createMuiTheme } from '@material-ui/core/styles';
+import purple from '@material-ui/core/colors/purple';
+import Swal from 'sweetalert2';
+
+
+const lightColor = 'rgba(255, 255, 255, 0.7)';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
+      flexGrow: 1,
     },
-    margin: {
-      margin: theme.spacing(3),
+    menuButton: {
+      marginRight: theme.spacing(2),
     },
-    withoutLabel: {
-      marginTop: theme.spacing(3),
+    iconButtonAvatar: {
+      padding: 4,
+    },
+    secondaryBar: {
+      zIndex: 0,
+    },
+    button: {
+      borderColor: lightColor,
+    },
+    title: {
+      flexGrow: 1,
     },
     textField: {
-      width: '25ch',
+      width: 200,
+    },
+
+    primary: {
+      light: '#757ce8',
+      main: '#3f50b5',
+      dark: '#002884',
+      contrastText: '#fff',
     },
   }),
 );
 
-/*const initialUserState = {
- name: 'System Analysis and Design',
- age: 20,
-};
-*/
-interface salarys {
-  Employee: string;
-  Position: string;
-  Assessment: string;
-  Salarys: number;
-  Bonus: number;
-  SalaryTime: Date;
-};
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: purple[500],
+    },
+    secondary: {
+      main: '#f44336',
+    },
+  },
+});
 
-export default function Create() {
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
+
+
+/*function Copyright() {
+  return (
+    <Typography variant="body2" color="inherit" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Nontakorn Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}*/
+
+
+export default function MenuAppBar() {
+  
+
   const classes = useStyles();
-  const profile = { givenName: 'ระบบกรมธรรม์' };
+  const profile = { givenName: 'to Software Analysis 63' };
   const api = new DefaultApi();
-  //const [user, setUser] = useState(initialUserState);
-  const [salarys, setSalary] = React.useState<Partial<EntSalary>>({});
-  const [assessment, setAssessments] = React.useState<EntAssessment[]>([]);
-  const [position, setPositions] = React.useState<EntPosition[]>([]);
-  const [employee, setEmployees] = React.useState<EntEmployee[]>([]);
+  
+  const [assessments, setAssessments] = useState<EntAssessment[]>([]);
+  const [employees, setEmployees] = useState<EntEmployee[]>([]);
+  const [positions, setPositions] = useState<EntPosition[]>([]);
   const [status, setStatus] = useState(false);
   const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
 
-  const [Assessment, setAssessmentid] = useState(Number);
-  const [Position, setPositionid] = useState(Number);
-  const [Emplayee, setEmplayeeid] = useState(Number);
-  const [SalaryNumber, setSalarynumber] = useState(Number);
-  const [Bonus, setBonus] = useState(Number);
-  const [AddDate, setDatetime] = useState(String);
 
-  useEffect(() => {
+  const [assessmentid, setAssessmentid] = useState(Number);
+  const [employeeid, setEmployeeid] = useState(Number);
+  const [positionid, setPositionid] = useState(Number);
+  const [salaryNumber, setSalaryNumber] = useState(Number);
+  const [bonusNumber, setBonus] = useState(Number);
+  const [datetime, setDatetime] = useState(String);
+  //const [datetime, setDatetime] = useState(String);
 
-    const getEmployee = async () => {
-      const res = await api.listEmployee({ limit: 10, offset: 0 });
-      setLoading(false);
-      setEmployees(res);
-    };
-    getEmployee();
+  let assessmentID = Number(assessmentid) 
+  let employeeID  = Number(employeeid)
+  let positionID =Number(positionid)
+  let salarys  = Number(salaryNumber)
+  let bonus  = Number(bonusNumber)
 
-    const getPosition = async () => {
-      const res = await api.listPosition({ limit: 10, offset: 0 });
-      setLoading(false);
-      setPositions(res);
-    };
-    getPosition();
+ useEffect(() => {
+  
+    const getEmployees = async () => {
 
-    const getAssessment = async () => {
-      const res = await api.listAssessment({ limit: 10, offset: 0 });
-      setLoading(false);
-      setAssessments(res);
-    };
-    getAssessment();
-
-  }, [loading]);
-
-  const handleSalaryChange = (event: any) => {
-    setSalarynumber(event.target.value as number);
+        const em = await api.listEmployee({ limit: 10, offset: 0 });
+        setLoading(false);
+        setEmployees(em);
+      };
+      getEmployees();
+    
+      const getAssessments = async () => {
+    
+      const tp = await api.listAssessment({ limit: 10, offset: 0 });
+        setLoading(false);
+        setAssessments(tp);
+      };
+      getAssessments();
+    
+      const getPositions = async () => {
+    
+       const pr = await api.listPosition({ limit: 10, offset: 0 });
+         setLoading(false);
+         setPositions(pr);
+       };
+       getPositions();
+   
+}, [loading]);
+  
+const salary = {
+                 
+    assessmentID , 
+    bonus ,   
+    employeeID , 
+    positionID ,
+    salarys ,
+    salaryDate :datetime   + ":00+07:00"
+}
+console.log(salary)
+function save() {
+  const apiUrl = 'http://localhost:8080/api/v1/salarys';
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(salary),
   };
 
-  const handleBonusChange = (event: any) => {
-    setBonus(event.target.value as number);
-  };
+  console.log(salary); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 
-  const handleDatetimeChange = (event: any) => {
-    setDatetime(event.target.value as string);
-  };
-
-  const CreateSalary = async () => {
-    const Salary = {
-      assessmentID: Assessment,
-      employeeID: Emplayee,
-      positionID: Position,
-      bonus: Bonus,
-      salarys: SalaryNumber,
-      salaryDate: AddDate + ":00+07:00",
-    }
-    console.log(Salary);
-    const res: any = await api.createSalary({ salary: Salary });
-    setStatus(true)
-    if (res.id != '') {
-      setAlert(true);
-    } else {
-      setAlert(false);
-    }
-
-    const timer = setTimeout(() => {
-      setStatus(false);
-    }, 1000);
-  };
-
+  fetch(apiUrl, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.id != null) {
+        //clear();
+        Toast.fire({
+          icon: 'success',
+          title: 'บันทึกข้อมูลสำเร็จ',
+        });
+       // window.setTimeout(function(){location.reload()},1500);
+      } else {
+        Toast.fire({
+          icon: 'error',
+          title: 'บันทึกข้อมูลไม่สำเร็จ',
+        });
+        
+      }
+    });
+}
   const employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setEmplayeeid(event.target.value as number);
+    setEmployeeid(event.target.value as number);
   };
 
   const assessment_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -149,159 +210,220 @@ export default function Create() {
   const position_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setPositionid(event.target.value as number);
   };
+  const handleSalaryChange = (event: any) => {
+    setSalaryNumber(event.target.value as number);
+  };
+
+  const handleBonusChange = (event: any) => {
+    setBonus(event.target.value as number);
+  };
+
+  const handleDatetimeChange = (event: any) => {
+    setDatetime(event.target.value as string);
+  }; 
+  /*const handleDatetimeChange = (event: any) => {
+    setDatetime(event.target.value as string);
+  }; */
+  
+
+ function HomeIcon(props:any) {
+    return (
+      <SvgIcon {...props}>
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </SvgIcon>
+    );
+  }
 
   return (
-    <Page theme={pageTheme.home}>
-      <Header
-        title={`${profile.givenName || 'to Backstage'}`}
-        subtitle=""
+    <div className={classes.root}>
+      
+      <AppBar
+        component="div"
+        color= 'secondary'
+        position="static"
+        elevation={0}
       >
+        <Toolbar>
+          <Grid container alignItems="center" spacing={1}>
+            <Grid item xs>
+              <Typography color="inherit" variant="h3" component="h2">
+                ระบบบันทึกเงินเดือนพนักงาน
+              </Typography>
+            </Grid>
+            <Grid item>
+                <IconButton 
+                style={{ marginLeft: 20 }}
+                component={RouterLink}
+                to="/SplitsystemManager"
+                >    
+                <HomeIcon color="inherit" />
+                </IconButton>
+                </Grid>
+                <Grid item>
+                  
+            <Button className={classes.button} variant="outlined" color="inherit" 
+            size="small" component={RouterLink}
+            to="/">
+                logout
+              </Button>
+                </Grid>  
+            
+            
+          </Grid>
+        </Toolbar>
+      </AppBar>
+      
+            
+       
+      <AppBar
+        component="div"
+        className={classes.secondaryBar}
+        color="inherit"
+        position="static"
+        elevation={1}
+      >
+        <Toolbar>
+          <Grid container alignItems="center" spacing={4}>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid>
+        
+            
+            
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="secondary" variant="h6" component="h1">
+                ชื่อพนักงาน
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              
+            <Select
+               labelId="employee_id-label"
+               label="employee"
+               id="employee_id"
+               onChange={employee_id_handleChange}
+               style = {{width: 200}}
+               >
+               {employees.map((item:EntEmployee)=>
+               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+               </Select>
+               <div style={{ marginLeft: 10, marginRight:20 }}></div>
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
 
-        <Typography variant="h2" gutterBottom style={{ color: '#fafafa', marginLeft: 20 }}>
-          <AccountCircleIcon />
-        </Typography>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="secondary" variant="h6" component="h1">
+                ตำแหน่ง
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              
+            <Select
+               labelId="position_id-label"
+               label="position"
+               id="position_id"
+               onChange={position_id_handleChange}
+               style = {{width: 200}}
+               >
+               {positions.map((item:EntPosition)=>
+               <MenuItem key={item.id} value={item.id}>{item.position}</MenuItem>)}
+             </Select>
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
 
-        <Typography variant="h4" gutterBottom style={{ color: '#fafafa', marginLeft: 40 }}>
-        นายนนทกร พาอยู่สุข
-      </Typography>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="secondary" variant="h6" component="h1">
+                ผลการประเมิน
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+            
+            <Select
+               labelId="assessment_id-label"
+               label="assessment"
+               id="assessment_id"
+               onChange={assessment_id_handleChange}
+               style = {{width: 200}}
+               >
+               {assessments.map((item:EntAssessment)=>
+               <MenuItem key={item.id} value={item.id}>{item.assessment}</MenuItem>)}
+             </Select>
 
-        <Link component={RouterLink} to="/">
+             
 
-          <Button variant="contained" color="secondary" style={{ marginLeft: 20 }}>
+            </Grid>
 
-            Logout
+            
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
 
-           </Button>
-
-        </Link>
-      </Header>
-
-
-      <Content>
-        <ContentHeader title="สมัครกรมธรรม์">
-          {status ? (
-            <div>
-              {alert ? (
-                <Alert severity="success">
-                  บันทึกกรมธรรม์สำเร็จ
-                </Alert>
-              ) : (
-                  <Alert severity="warning" style={{ marginTop: 20 }}>
-                    บันทึกกรมธรรม์ไม่สำเร็จ
-                  </Alert>
-                )}
-            </div>
-          ) : null}
-        </ContentHeader>
-        <div className={classes.root}>
-          <form noValidate autoComplete="off">
-            <table>
-              <tr><td align="right">ชื่อพนักงาน</td><td>
-                <FormControl
-                  fullWidth
-                  className={classes.margin}
-                  variant="outlined"
-                >
-                  <InputLabel id="name_id-label">เลือกพนักงาน</InputLabel>
-                  <Select
-                    labelId="employee_id-label"
-                    label="Employee"
-                    id="employee_id"
-                    value={Emplayee}
-                    onChange={employee_id_handleChange}
-                    style={{ width: 600 }}
-                  >
-                    {employee.map((item: EntEmployee) =>
-                      <MenuItem value={item.id}>{item.name}</MenuItem>)}
-                  </Select>
-                </FormControl>
-              </td></tr>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="secondary" variant="h6" component="h1">
+                เงินเดือน
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              
+            <TextField
+                id="salary-number" 
+                type='number'  
+                InputLabelProps={{shrink: true,}}
+                label="เงินเดือน" 
+                variant="outlined"
+                onChange={handleSalaryChange }
+           
+              />
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
 
 
-              <tr><td align="right">ตำแหน่ง</td><td>
-
-                <FormControl
-                  className={classes.margin}
-                  variant="outlined"
-                >
-                  <InputLabel id="position_id-label">เลือกตำแหน่ง</InputLabel>
-                  <Select
-                    labelId="position_id-label"
-                    label="position"
-                    id="position_id"
-                    value={Position}
-                    onChange={position_id_handleChange}
-                    style={{ width: 600 }}
-                  >
-                    {position.map((item: EntPosition) =>
-                      <MenuItem value={item.id}>{item.position}</MenuItem>)}
-                  </Select>
-                </FormControl>
-              </td></tr>
-
-              <tr><td align="right">ผลการประเมิน</td><td>
-                <div>
-                  <FormControl
-                    className={classes.margin}
-                    variant="outlined"
-                  >
-
-                    <InputLabel id="assessments_id-label">เลือกผลการประเมิน</InputLabel>
-                    <Select
-                      labelId="assessment_id-label"
-                      label="assessment"
-                      id="assessment_id"
-                      value={Assessment}
-                      onChange={assessment_id_handleChange}
-                      style={{ width: 600 }}
-                    >
-                      {assessment.map((item: EntAssessment) =>
-                        <MenuItem value={item.id}>{item.assessment}</MenuItem>)}
-                    </Select>
-                  </FormControl>
-                </div>
-              </td></tr>
-
-              <tr><td align="right">เงินเดือน</td><td>
-                <div>
-                  <FormControl
-                    className={classes.margin}
-                    variant="outlined"
-                  >
-
-                    <TextField id="outlined-number" type='number'  InputLabelProps={{
-                  shrink: true,}}label="จำนวน" variant="outlined"
-                  onChange = {handleSalaryChange}
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="secondary" variant="h6" component="h1">
+                โบนัส
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+            
+                <TextField 
+                id="bonus-number" 
+                type='number'  
+                InputLabelProps={{shrink: true,}}
+                label="โบนัส" 
+                variant="outlined"
+                onChange = {handleBonusChange}
                   />
-                  </FormControl>
-                </div>
-              </td></tr>
+                  
+                  
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
 
-
-              <tr><td align="right">โบนัส</td><td>
-                <div>
-                  <FormControl
-                    className={classes.margin}
-                    variant="outlined"
-                  >
-
-                    <TextField id="outlined-number" type='number'  InputLabelProps={{
-                  shrink: true,}}label="F[oyl" variant="outlined"
-                  onChange = {handleBonusChange}
-                  />
-                  </FormControl>
-
-                </div>
-              </td></tr>
-
-              <tr><td align="right">วันที่เงินเดือนออก</td><td>
-                <div>
-                  <FormControl className={classes.margin} >
-                    <TextField
-                      id="AddDate"
-                      label="AddDate"
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="secondary" variant="h6" component="h1">
+                เวลาที่เงินเดือนออก
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+               <form  noValidate>
+               <TextField
+                      id="date"
+                      label="DateTime"
                       type="datetime-local"
-                      value={AddDate}
+                      value={datetime}
                       onChange={handleDatetimeChange}
                       //defaultValue="2017-05-24"
                       className={classes.textField}
@@ -309,44 +431,50 @@ export default function Create() {
                         shrink: true,
                       }}
                     />
-                  </FormControl>
+              </form>
+              
+                  
+            </Grid>
+            <Grid item xs={2}></Grid>
+                    <Grid item xs={2}> </Grid>
 
-                </div>
-              </td></tr>
-            </table>
-
-            <div className={classes.margin}>
-
+           
+            <Grid item xs={2}> </Grid>
+            <Grid item xs={4}></Grid>
+            <Grid item xs={1}>
               <Button
-                onClick={() => {
-                  CreateSalary();
-
-                }}
-                /* component={RouterLink}
-                 to="/main"*/
+              
                 variant="contained"
-
                 color="primary"
-                style={{ marginLeft : 270}}
+                size="large"
+                className={classes.button}
+                onClick={() => {
+                  save();
+                }}
+                
+                startIcon={<SaveIcon 
+                />}
               >
-                บันทึกเงินเดือน
-                                </Button>
-              <Link component={RouterLink} to="/WelcomePage">
+                Save
+              </Button>
 
+            </Grid>
+            <Link component={RouterLink} to="/STable">
                 <Button variant="contained" color="secondary" style={{ marginLeft : 40}}>
-
-                  หน้าหลัก
-
-           </Button>
-
-              </Link>
-
-            </div>
-
-          </form>
-        </div>
-      </Content>
-    </Page>
-
+                SHOW
+            </Button>
+            </Link>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid>
+            
+        </Grid>
+        </Toolbar>
+      </AppBar>
+      
+    
+    
+    </div>
   );
-}
+ }

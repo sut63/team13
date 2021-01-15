@@ -321,6 +321,11 @@ func main() {
 			Manager{"AEK Dang", "AEK@gmail.com", "4567"},
 			Manager{"PANG Dang", "PANG@gmail.com", "4568"},
 			Manager{"NW Dang", "NW@gmail.com", "4569"},
+<<<<<<< Updated upstream
+=======
+			Manager{"Poommin Phinphimai", "poommin2543@gmail.com", "1234"},
+			Manager{"Nontakorn Payusuk", "frashrock@gmail.com", "0862234089"},
+>>>>>>> Stashed changes
 		},
 	}
 

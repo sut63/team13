@@ -5,6 +5,16 @@ import SignIn from './components/SignIn'
 import Orderonline from './components/Orderonline'
 import Orderproduct from './components/orderproduct'
 import Salary from './components/Salary'
+import SalaryTable from './components/SalaryTable'
+import Tablestock from './components/Tablestock'
+import Tableorderproduct from './components/orderproduct/Tableorderproduct'
+import LoginEmployee from './components/Stock/LoginEmployee'
+import ManagerPage from './components/ManagerPage'
+import Promotion from './components/Promotion';
+import Promotiontable from './components/Promotion/Promotiontable'
+import EmployeeWorkingHours from './components/EmployeeWorkingHours';
+import TableEmployeeWorkingHours from './components/TableEmployeeWorkingHours';
+import STable from './components/STable';
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -15,5 +25,16 @@ export const plugin = createPlugin({
     router.registerRoute('/Orderonline', Orderonline);
     router.registerRoute('/Orderproduct', Orderproduct);
     router.registerRoute('/Salary', Salary);
+    router.registerRoute('/SalaryTable', SalaryTable);
+    router.registerRoute('/Tablestock', Tablestock);
+    router.registerRoute('/Tableorderproduct', Tableorderproduct);
+    router.registerRoute('/Promotion', Promotion);
+    router.registerRoute('/Promotiontable', Promotiontable);
+    router.registerRoute('/LoginEmployee', LoginEmployee);
+    router.registerRoute('/ManagerPage', ManagerPage);
+    router.registerRoute('/EmployeeWorkingHours', EmployeeWorkingHours);
+    router.registerRoute('/TableEmployeeWorkingHours', TableEmployeeWorkingHours);
+    router.registerRoute('/STable', STable);
+
   },
 });
