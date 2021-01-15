@@ -10,79 +10,79 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { DefaultApi } from '../../../api/apis';
 import { EntOrderproduct } from '../../../api/models/EntOrderproduct';
- 
+
 import moment from 'moment';
 const useStyles = makeStyles({
- table: {
-   minWidth: 650,
- },
+  table: {
+    minWidth: 650,
+  },
 });
- 
-export default function ComponentsTable() {
- const classes = useStyles();
- const api = new DefaultApi();
 
- const [orderproducts, setOrderproducts] = useState<EntOrderproduct[]>();
- const [loading, setLoading] = useState(true);
- 
- useEffect(() => {
-   const getOrderproducts = async () => {
-     const res = await api.listOrderproduct({ limit: 10, offset: 0 });
-     setLoading(false);
-     setOrderproducts(res);
-   };
-   getOrderproducts();
- }, [loading]);
- 
- const deleteSystemequipments = async (id: number) => {
-   const res = await api.deleteOrderproduct({ id: id });
-   setLoading(true);
- };
- console.log(orderproducts)
- return (
-   <TableContainer component={Paper}>
-     <Table className={classes.table} aria-label="simple table">
-       <TableHead>
-         <TableRow>
-         <TableCell align="center">No.</TableCell>
-         <TableCell align="center">Manager</TableCell>
-         <TableCell align="center">Product</TableCell>
-         <TableCell align="center">Typeproduct</TableCell>
-         <TableCell align="center">Company</TableCell>
-         <TableCell align="center">Stock</TableCell>
-         <TableCell align="center">Date</TableCell>
-         <TableCell align="center">Manage</TableCell>
-         </TableRow>
-       </TableHead>
-       <TableBody>
-         {orderproducts === undefined 
-          ? null
-          : orderproducts.map((item :any)=> (
-           <TableRow key={item.id}>
-             <TableCell align="center">{item.id}</TableCell>
-             <TableCell align="center">{item.edges?.managers.name}</TableCell>
-             <TableCell align="center">{item.edges?.product.nameProduct}</TableCell>
-             <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
-             <TableCell align="center">{item.edges?.company?.name}</TableCell>
-             <TableCell align="center">{item.stock}</TableCell>
-             <TableCell align="center">{moment(item.addedtime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
-            
-             <TableCell align="center">
-               <Button
-                 onClick={() => {
-                   deleteSystemequipments(item.id);
-                 }}
-                 style={{ marginLeft: 10 }}
-                 variant="contained"
-                 color="secondary"
-               >
-                 Delete
+export default function ComponentsTable() {
+  const classes = useStyles();
+  const api = new DefaultApi();
+
+  const [orderproducts, setOrderproducts] = useState<EntOrderproduct[]>();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getOrderproducts = async () => {
+      const res = await api.listOrderproduct({ limit: 10, offset: 0 });
+      setLoading(false);
+      setOrderproducts(res);
+    };
+    getOrderproducts();
+  }, [loading]);
+
+  const deleteSystemequipments = async (id: number) => {
+    const res = await api.deleteOrderproduct({ id: id });
+    setLoading(true);
+  };
+  console.log(orderproducts)
+  return (
+    <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">No.</TableCell>
+            <TableCell align="center">Manager</TableCell>
+            <TableCell align="center">Product</TableCell>
+            <TableCell align="center">Typeproduct</TableCell>
+            <TableCell align="center">Company</TableCell>
+            <TableCell align="center">Stock</TableCell>
+            <TableCell align="center">Date</TableCell>
+            <TableCell align="center">Manage</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {orderproducts === undefined
+            ? null
+            : orderproducts.map((item: any) => (
+              <TableRow key={item.id}>
+                <TableCell align="center">{item.id}</TableCell>
+                <TableCell align="center">{item.edges?.managers.name}</TableCell>
+                <TableCell align="center">{item.edges?.product.nameProduct}</TableCell>
+                <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
+                <TableCell align="center">{item.edges?.company?.name}</TableCell>
+                <TableCell align="center">{item.stock}</TableCell>
+                <TableCell align="center">{moment(item.addedtime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
+
+                <TableCell align="center">
+                  <Button
+                    onClick={() => {
+                      deleteSystemequipments(item.id);
+                    }}
+                    style={{ marginLeft: 10 }}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    Delete
                </Button>
-             </TableCell>
-           </TableRow>
-         ))}
-       </TableBody>
-     </Table>
-   </TableContainer>
- );
+                </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }
