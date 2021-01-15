@@ -137,12 +137,12 @@ const footers = [
     link2:"https://www.facebook.com/poommin2543/"
   },
   {
-    title: 'Poommin Phinphimai',
+    title: 'Konrawit Kongsri B6118310',
     description: 'SOURCE CODE',
-    description2: 'Orderproduct System',
+    description2: 'Orderonline System',
     description3: 'Contact us',
-    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
-    link2:"https://www.facebook.com/poommin2543/"
+    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/Orderonline",
+    link2:"https://www.facebook.com/peerat.kongsree"
   },
   {
     title: 'Poommin Phinphimai',
