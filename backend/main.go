@@ -325,6 +325,8 @@ func main() {
 			Manager{"PANG Dang", "PANG@gmail.com", "4568"},
 			Manager{"NW Dang", "NW@gmail.com", "4569"},
 			Manager{"Poommin Phinphimai", "poommin2543@gmail.com", "1234"},
+			Manager{"Nontakorn Payusuk", "frashrock@gmail.com", "0862234089"},
+			Manager{"Poommin Phinphimai", "poommin2543@gmail.com", "1234"},
 		},
 	}
 
