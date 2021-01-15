@@ -4,10 +4,8 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import StarIcon from '@material-ui/icons/StarBorder';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
@@ -16,9 +14,6 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import { Link as RouterLink } from 'react-router-dom';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import { Cookies } from '../orderproduct/SignInOrderproduct/Cookie'
 
 
 function Copyright() {
@@ -101,12 +96,7 @@ const tiers = [
   {
     image: "https://cutt.ly/MjWi5uk",
     title: 'Employee',
-    description: [
-     /* '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',*/
-    ],
+    description: [],
     buttonText: 'Contineus',
     buttinLink: "/LoginEmployee",
     buttonVariant: 'contained',
@@ -114,18 +104,13 @@ const tiers = [
   {
     image: "https://cutt.ly/WjWoq99",
     title: 'Customer',
-    description: [
-      /*'20 users included',
-      '10 GB of storage',
-      'Help center access',
-      'Priority email support',*/
-    ],
+    description: [],
     buttonText: 'Contineus',
     buttinLink: "/SignInOrderonline",
     buttonVariant: 'contained',
   },
-  
-  
+
+
 ];
 const footers = [
   {
@@ -134,7 +119,7 @@ const footers = [
     description2: 'Orderproduct System',
     description3: 'Contact ',
     link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
-    link2:"https://www.facebook.com/poommin2543/",
+    link2: "https://www.facebook.com/poommin2543/",
     link3: "/orderproduct"
   },
   {
@@ -143,7 +128,7 @@ const footers = [
     description2: 'Orderonline System',
     description3: 'Contact ',
     link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/Orderonline",
-    link2:"https://www.facebook.com/peerat.kongsree",
+    link2: "https://www.facebook.com/peerat.kongsree",
     link3: "/Orderonline"
   },
   {
@@ -152,7 +137,7 @@ const footers = [
     description2: 'StockProduct    System',
     description3: 'Contact ',
     link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/Stock",
-    link2:"https://www.facebook.com/prakaifa.kummungkum/",
+    link2: "https://www.facebook.com/prakaifa.kummungkum/",
     link3: "/Stock"
   },
   {
@@ -161,7 +146,7 @@ const footers = [
     description2: 'Salary  System',
     description3: 'Contact ',
     link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/Salary",
-    link2:"https://www.facebook.com/profile.php?id=100002730288880",
+    link2: "https://www.facebook.com/profile.php?id=100002730288880",
     link3: "/Salary"
   },
   {
@@ -170,7 +155,7 @@ const footers = [
     description2: 'EmployeeWorkingHours',
     description3: 'Contact ',
     link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/EmployeeWorkingHours",
-    link2:"https://www.facebook.com/profile.php?id=100004791875262",
+    link2: "https://www.facebook.com/profile.php?id=100004791875262",
     link3: "/EmployeeWorkingHours"
   },
   {
@@ -179,16 +164,16 @@ const footers = [
     description2: 'Promotion System',
     description3: 'Contact ',
     link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/Promotion",
-    link2:"https://www.facebook.com/bank.kub.775/",
+    link2: "https://www.facebook.com/bank.kub.775/",
     link3: "/Promotion"
   },
-  
+
 ];
 
 
 export default function Pricing() {
   const classes = useStyles();
- 
+
 
   return (
     <React.Fragment>
@@ -196,15 +181,13 @@ export default function Pricing() {
       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h3" color="inherit" noWrap className={classes.toolbarTitle}>
-          Farmmart System
+            Farmmart System
           </Typography>
           <nav>
             <Link variant="button" color="textPrimary" href="https://github.com/sut63/team13" className={classes.link}>
-            source code
+              source code
             </Link>
-            
           </nav>
-         
         </Toolbar>
       </AppBar>
       {/* Hero unit */}
@@ -212,54 +195,45 @@ export default function Pricing() {
         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
           Welcome
         </Typography>
-        {/*<Typography variant="h5" align="center" color="textSecondary" component="p">
-          Quickly build an effective pricing table for your potential customers with this layout.
-          It&apos;s built with default Material-UI components with little customization.
-  </Typography>*/}
+
       </Container>
       {/* End hero unit */}
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
-            {tiers.map((tier) =>  (
-              <Grid item key={tier} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image={tier.image}
-                    title="Image title"
-                  />
-                  <CardContent className={classes.card}>
+          {tiers.map((tier) => (
+            <Grid item key={tier} xs={12} sm={6} md={4}>
+              <Card className={classes.card}>
+                <CardMedia
+                  className={classes.cardMedia}
+                  image={tier.image}
+                  title="Image title"
+                />
+                <CardContent className={classes.card}>
                   <ul>
                     {tier.description.map((line) => (
                       <Typography component="li" variant="subtitle1" align="center" key={line}>
-                          {tier.title}
+                        {tier.title}
                       </Typography>
                     ))}
                   </ul>
-                    <Typography>
+                  <Typography>
                     {tier.title}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary" to={tier.buttinLink} component={RouterLink}>
-                      {tier.buttonText}
-                    </Button>
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small" color="primary" to={tier.buttinLink} component={RouterLink}>
+                    {tier.buttonText}
+                  </Button>
 
-                  </CardActions>
-                </Card>
+                </CardActions>
+              </Card>
 
-              </Grid>
-
-            ))}
+            </Grid>
+          ))}
         </Grid>
       </Container>
-                       
-      
-      <Container>
-
-      </Container>
       <Container maxWidth="md" component="footer" className={classes.footer}>
-        
+
         <Grid container spacing={4} justify="space-evenly">
           {footers.map((footer) => (
             <Grid item xs={6} sm={3} key={footer.title}>
@@ -267,23 +241,23 @@ export default function Pricing() {
                 {footer.title}
               </Typography>
               <ul>
-                    
-                  <li>
-                    <Link href= {footer.link3} variant="subtitle1" color="textSecondary">
+
+                <li>
+                  <Link href={footer.link3} variant="subtitle1" color="textSecondary">
                     {footer.description2}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href= {footer.link}variant="subtitle1" color="textSecondary">
+                  </Link>
+                </li>
+                <li>
+                  <Link href={footer.link} variant="subtitle1" color="textSecondary">
                     {footer.description}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href= {footer.link2}variant="subtitle1" color="textSecondary">
+                  </Link>
+                </li>
+                <li>
+                  <Link href={footer.link2} variant="subtitle1" color="textSecondary">
                     {footer.description3}
-                    </Link>
-                  </li>
-               
+                  </Link>
+                </li>
+
               </ul>
             </Grid>
           ))}
@@ -292,7 +266,7 @@ export default function Pricing() {
           <Copyright />
         </Box>
       </Container>
-      
+
     </React.Fragment>
   );
 }
