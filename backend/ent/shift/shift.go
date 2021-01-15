@@ -7,6 +7,8 @@ const (
 	Label = "shift"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldName holds the string denoting the name field in the database.
+	FieldName = "name"
 	// FieldTimeStart holds the string denoting the timestart field in the database.
 	FieldTimeStart = "time_start"
 	// FieldTimeEnd holds the string denoting the timeend field in the database.
@@ -29,6 +31,7 @@ const (
 // Columns holds all SQL columns for shift fields.
 var Columns = []string{
 	FieldID,
+	FieldName,
 	FieldTimeStart,
 	FieldTimeEnd,
 }

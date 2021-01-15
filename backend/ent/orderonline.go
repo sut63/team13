@@ -27,7 +27,7 @@ type Orderonline struct {
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the OrderonlineQuery when eager-loading is set.
 	Edges                              OrderonlineEdges `json:"edges"`
-	customer_formcustomer              *int
+	customer_id                        *int
 	paymentchannel_formpaymentchannel  *int
 	product_formproductonline          *int
 	typeproduct_from_typeproductonline *int
@@ -35,8 +35,8 @@ type Orderonline struct {
 
 // OrderonlineEdges holds the relations/edges for other nodes in the graph.
 type OrderonlineEdges struct {
-	// Producton holds the value of the producton edge.
-	Producton *Product
+	// Product holds the value of the product edge.
+	Product *Product
 	// Paymentchannel holds the value of the paymentchannel edge.
 	Paymentchannel *Paymentchannel
 	// Typeproduct holds the value of the Typeproduct edge.
@@ -48,18 +48,18 @@ type OrderonlineEdges struct {
 	loadedTypes [4]bool
 }
 
-// ProductonOrErr returns the Producton value or an error if the edge
+// ProductOrErr returns the Product value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e OrderonlineEdges) ProductonOrErr() (*Product, error) {
+func (e OrderonlineEdges) ProductOrErr() (*Product, error) {
 	if e.loadedTypes[0] {
-		if e.Producton == nil {
-			// The edge producton was loaded in eager-loading,
+		if e.Product == nil {
+			// The edge product was loaded in eager-loading,
 			// but was not found.
 			return nil, &NotFoundError{label: product.Label}
 		}
-		return e.Producton, nil
+		return e.Product, nil
 	}
-	return nil, &NotLoadedError{edge: "producton"}
+	return nil, &NotLoadedError{edge: "product"}
 }
 
 // PaymentchannelOrErr returns the Paymentchannel value or an error if the edge
@@ -116,7 +116,7 @@ func (*Orderonline) scanValues() []interface{} {
 // fkValues returns the types for scanning foreign-keys values from sql.Rows.
 func (*Orderonline) fkValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{}, // customer_formcustomer
+		&sql.NullInt64{}, // customer_id
 		&sql.NullInt64{}, // paymentchannel_formpaymentchannel
 		&sql.NullInt64{}, // product_formproductonline
 		&sql.NullInt64{}, // typeproduct_from_typeproductonline
@@ -148,10 +148,10 @@ func (o *Orderonline) assignValues(values ...interface{}) error {
 	values = values[2:]
 	if len(values) == len(orderonline.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
-			return fmt.Errorf("unexpected type %T for edge-field customer_formcustomer", value)
+			return fmt.Errorf("unexpected type %T for edge-field customer_id", value)
 		} else if value.Valid {
-			o.customer_formcustomer = new(int)
-			*o.customer_formcustomer = int(value.Int64)
+			o.customer_id = new(int)
+			*o.customer_id = int(value.Int64)
 		}
 		if value, ok := values[1].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field paymentchannel_formpaymentchannel", value)
@@ -175,9 +175,9 @@ func (o *Orderonline) assignValues(values ...interface{}) error {
 	return nil
 }
 
-// QueryProducton queries the producton edge of the Orderonline.
-func (o *Orderonline) QueryProducton() *ProductQuery {
-	return (&OrderonlineClient{config: o.config}).QueryProducton(o)
+// QueryProduct queries the product edge of the Orderonline.
+func (o *Orderonline) QueryProduct() *ProductQuery {
+	return (&OrderonlineClient{config: o.config}).QueryProduct(o)
 }
 
 // QueryPaymentchannel queries the paymentchannel edge of the Orderonline.

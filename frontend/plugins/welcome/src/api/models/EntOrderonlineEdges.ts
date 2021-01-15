@@ -55,7 +55,7 @@ export interface EntOrderonlineEdges {
      * @type {EntProduct}
      * @memberof EntOrderonlineEdges
      */
-    producton?: EntProduct;
+    product?: EntProduct;
     /**
      * 
      * @type {EntTypeproduct}
@@ -74,10 +74,10 @@ export function EntOrderonlineEdgesFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'customer': !exists(json, 'customer') ? undefined : EntCustomerFromJSON(json['customer']),
-        'paymentchannel': !exists(json, 'paymentchannel') ? undefined : EntPaymentchannelFromJSON(json['paymentchannel']),
-        'producton': !exists(json, 'producton') ? undefined : EntProductFromJSON(json['producton']),
-        'typeproduct': !exists(json, 'typeproduct') ? undefined : EntTypeproductFromJSON(json['typeproduct']),
+        'customer': !exists(json, 'Customer') ? undefined : EntCustomerFromJSON(json['Customer']),
+        'paymentchannel': !exists(json, 'Paymentchannel') ? undefined : EntPaymentchannelFromJSON(json['Paymentchannel']),
+        'product': !exists(json, 'Product') ? undefined : EntProductFromJSON(json['Product']),
+        'typeproduct': !exists(json, 'Typeproduct') ? undefined : EntTypeproductFromJSON(json['Typeproduct']),
     };
 }
 
@@ -92,7 +92,7 @@ export function EntOrderonlineEdgesToJSON(value?: EntOrderonlineEdges | null): a
         
         'customer': EntCustomerToJSON(value.customer),
         'paymentchannel': EntPaymentchannelToJSON(value.paymentchannel),
-        'producton': EntProductToJSON(value.producton),
+        'product': EntProductToJSON(value.product),
         'typeproduct': EntTypeproductToJSON(value.typeproduct),
     };
 }

@@ -1,28 +1,44 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Content,
+  ContentHeader,
   Header,
   Page,
   pageTheme,
-  ContentHeader,
 } from '@backstage/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import { Alert } from '@material-ui/lab';
-import { DefaultApi } from '../../api/apis';
-import { InputLabel, MenuItem, Select } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import TableCell from '@material-ui/core/TableCell';
-import Avatar from '@material-ui/core/Avatar';
-import Box from '@material-ui/core/Box';
+
+import {
+  makeStyles,
+  Theme,
+  createStyles,
+} from '@material-ui/core/styles';
+
+import {
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+  TableCell,
+  Avatar,
+  Box,
+  IconButton,
+  SvgIcon,
+} from '@material-ui/core';
 
 import { EntProduct } from '../../api/models/EntProduct';
 import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntPaymentchannel } from '../../api/models/EntPaymentchannel';
 import { EntCustomer } from '../../api/models/EntCustomer';
+import Swal from 'sweetalert2';
+import SaveIcon from '@material-ui/icons/Save'; // icon save
+import { DefaultApi } from '../../api/apis';
+import { Cookiesonline } from './SignInOrderonline/Cookie';
+
+const lightColor = 'rgba(255, 255, 255, 0.7)';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
     },
     margin: {
-      margin: theme.spacing(2),
+      margin: theme.spacing(1),
     },
     withoutLabel: {
       marginTop: theme.spacing(2),
@@ -40,109 +56,168 @@ const useStyles = makeStyles((theme: Theme) =>
     textField: {
       width: '25ch',
     },
+    button: {
+      borderColor: lightColor,
+    },
+    iconButtonAvatar: {
+      padding: 4,
+    },
   }),
 );
 
-const OrderOnline: FC<{}> = () => {
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
+
+interface order {
+  customerid: number;
+  typeproductid: number;
+  productid: number;
+  paymentchannelid: number;
+  stock: number;
+  addedtime: Date;
+}
+
+export default function Orderonline() {
+
+  var ck = new Cookiesonline()
+  var cookieEmail = ck.GetCookie()
+  var cookieID = ck.GetID()
+  var cookieName = ck.GetName()
+
   const classes = useStyles();
   const profile = { givenName: 'to Order Online' };
   const api = new DefaultApi();
-
-  const [status, setStatus] = useState(false);
-  const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
+
+  //const [order, setOreder] = React.useState<Partial<order>>({});
 
   const [products, setProducts] = React.useState<EntProduct[]>([]);
   const [typeproducts, setTypeproducts] = React.useState<EntTypeproduct[]>([]);
   const [paymentchannels, setPaymentchannels] = React.useState<EntPaymentchannel[]>([]);
   const [customers, setCustomers] = React.useState<EntCustomer[]>([]);
 
-  const [product, setProduct] = useState(Number);
-  const [typeduct, setTypeproduct] = useState(Number);
-  const [paymentchannel, setPaymentchannel] = useState(Number);
-  const [customer, setCustomer] = useState(Number);
-  const [stock, setScotk] = useState(Number);
-  const [addedtime, Setaddedtime] = useState(String);
+  const [customerID, setCustomerid] = useState(Number);
+  const [typeproductID, setTypeproductid] = useState(Number);
+  const [productID, setProductid] = useState(Number);
+  const [paymentchannelID, setPaymentchannelid] = useState(Number);
+  const [orderstockid, setOrderstockid] = useState(Number);
+  const [datetime, setDatetime] = useState(String);
 
+  let stock = Number(orderstockid)
+  let customerid = Number(cookieID)
+  let typeproductid = Number(typeproductID)
+  let productid = Number(productID)
+  let paymentchannelid = Number(paymentchannelID)
 
+  console.log(customerid)
   useEffect(() => {
-    const getProducts = async () => {
-      const p = await api.listProduct({ limit: 10, offset: 0 });
+
+    const getcustomers = async () => {
+      const mn = await api.listCustomer({ limit: 10, offset: 0 });
       setLoading(false);
-      setProducts(p);
+      setCustomers(mn);
     };
-    getProducts();
+    getcustomers();
 
     const getTypeproducts = async () => {
-      const d = await api.listTypeproduct({ limit: 10, offset: 0 });
+      const tp = await api.listTypeproduct({ limit: 10, offset: 0 });
       setLoading(false);
-      setTypeproducts(d);
+      setTypeproducts(tp);
     };
     getTypeproducts();
 
-    const getPaymentchannels = async () => {
+    const getproducts = async () => {
+      const pr = await api.listProduct({ limit: 10, offset: 0 });
+      setLoading(false);
+      setProducts(pr);
+    };
+    getproducts();
+
+    const getpaymentchannels = async () => {
       const pay = await api.listPaymentchannel({ limit: 10, offset: 0 });
       setLoading(false);
       setPaymentchannels(pay);
     };
-    getPaymentchannels();
-
-    const getCustomers = async () => {
-        const c = await api.listCustomer({ limit: 10, offset: 0 });
-        setLoading(false);
-        setCustomers(c);
-      };
-      getCustomers();
+    getpaymentchannels();
 
   }, [loading]);
 
+  const orderonline = {
+    customerid,
+    typeproductid,
+    productid,
+    paymentchannelid,
+    stock,
+    addedtime: datetime + ":00+07:00"
+  }
+  console.log(orderonline)
 
-  const handletimeChange = (event: any) => {
-    Setaddedtime(event.target.value as string);
+  function save() {
+    const apiUrl = 'http://localhost:8080/api/v1/orderonlines';
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderonline),
+    };
+
+    console.log(orderonline); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+
+    fetch(apiUrl, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.id != null) {
+          //clear();
+          Toast.fire({
+            icon: 'success',
+            title: 'บันทึกข้อมูลสำเร็จ',
+          });window.setTimeout(function(){location.reload()},5000);
+        } else {
+          Toast.fire({
+            icon: 'error',
+            title: 'บันทึกข้อมูลไม่สำเร็จ',
+          });
+        }
+      });
+  }
+
+  const Customer_id_handleChange = (event: any) => {
+    setCustomerid(event.target.value);
   };
 
-  const CreateOrderonline = async () => {
-    const orderonline = {
-      productid: product,
-      typeductid: typeduct,
-      paymentchannelid: paymentchannel,
-      customerid: customer,
-      stock: stock,
-      addedtime: addedtime + "00:00+07:00"
-    }
-
-    const res: any = await api.createOrderonline({ orderonline: orderonline });
-    setStatus(true);
-    if (res.id != '') {
-      setAlert(true);
-    } else {
-      setAlert(false);
-    }
-    const timer = setTimeout(() => {
-      setStatus(false);
-    }, 1000);
+  const Typeproduct_id_handleChange = (event: any) => {
+    setTypeproductid(event.target.value);
   };
 
-
-  const product_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setProduct(event.target.value as number);
+  const Product_id_handleChange = (event: any) => {
+    setProductid(event.target.value);
+  }
+  const Paymentchannel_id_handleChange = (event: any) => {
+    setPaymentchannelid(event.target.value);
+  };
+  const Orderstock_id_handleChange = (event: any) => {
+    setOrderstockid(event.target.value);
+  };
+  const handleDatetimeChange = (event: any) => {
+    setDatetime(event.target.value as string);
   };
 
-  const typeproduct_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setTypeproduct(event.target.value as number);
-  };
-
-  const paymentchannel_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setPaymentchannel(event.target.value as number);
-  };
-
-  const customer_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setCustomer(event.target.value as number);
-  };
-
-  const Stock_id_handleChange = (event: any) => {
-    setScotk(event.target.value);
-   };
+  function HomeIcon(props:any) {
+    return (
+      <SvgIcon {...props}>
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </SvgIcon>
+    );
+  }
 
   return (
     <Page theme={pageTheme.home}>
@@ -151,37 +226,55 @@ const OrderOnline: FC<{}> = () => {
         subtitle="Select Product you want to be in."
       >
 
-        <Avatar>D</Avatar>
+        <IconButton
+          style={{ marginLeft: 20 }}
+          component={RouterLink}
+          to="/"
+        >
+          <HomeIcon color="inherit" />
+        </IconButton>
+
+        <Button className={classes.button} variant="outlined" color="inherit" 
+            size="small" component={RouterLink}
+            to="/SignInOrderonline">
+                logout
+              </Button>
+
         <Typography component="div" variant="body1">
-          <Box color="Dang@gmail.com">Dang@gmail.com</Box>
-          <Box color="secondary.main"></Box>
+          <IconButton color="inherit" className={classes.iconButtonAvatar}>
+                <Avatar src='o' alt = {cookieEmail} />
+              </IconButton>
         </Typography>
 
       </Header>
       <Content>
-
-        <ContentHeader title="Orderonline">          
-          {status ? (
-            <div>
-              {alert ? (
-                <Alert severity="success">
-                  This is a success alert — check it out!
-                </Alert>
-              ) : (
-                  <Alert severity="warning" style={{ marginTop: 20 }}>
-                    This is a warning alert — check it out!
-                  </Alert>
-                )}
-            </div>
-          ) : null}
-        </ContentHeader>
-
+        <ContentHeader title="Onder online"></ContentHeader>
         <div className={classes.root}>
           <form noValidate autoComplete="off">
 
 
-
             <TableCell align="left">
+
+            <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+                style={{ marginLeft: 560, width: 600 }}
+              >
+                {/*<InputLabel id="customer_id-label">Customer</InputLabel>*/}
+                {/*<Select
+                  labelId="customer_id-label"
+                  label="Customer"
+                  id="customer_id"
+                  value={customerID || ''}
+                  onChange={Customer_id_handleChange || ''}
+                  style={{ width: 300 }}
+                >
+                  {customers.map((item: EntCustomer) =>
+                    <MenuItem value={item.id}>{item.name}</MenuItem>)}
+                </Select>*/}
+                <div style={{ marginLeft: 10, marginRight:20 }}>{cookieName}</div>
+              </FormControl>
 
               <FormControl
                 fullWidth
@@ -190,11 +283,11 @@ const OrderOnline: FC<{}> = () => {
                 style={{ marginLeft: 560, width: 600 }}
               >
                 <TextField
-                  id="DayStart"
-                  label="DayStart"
-                  type="date"
-                  value={addedtime}
-                  onChange={handletimeChange}
+                  id="date"
+                  label="Date"
+                  type="datetime-local"
+                  value={datetime || ''}
+                  onChange={handleDatetimeChange}
                   //defaultValue="2020-05-24"
                   className={classes.textField}
                   InputLabelProps={{
@@ -209,15 +302,15 @@ const OrderOnline: FC<{}> = () => {
                 className={classes.margin}
                 variant="outlined"
                 style={{ marginLeft: 560, width: 600 }}
-                
+
               >
                 <InputLabel id="product_id-label">Product</InputLabel>
                 <Select
                   labelId="product_id-label"
                   label="Product"
                   id="product_id"
-                  value={product}
-                  onChange={product_id_handleChange}
+                  value={productID || ''}
+                  onChange={Product_id_handleChange}
                   style={{ width: 300 }}
                 >
                   {products.map((item: EntProduct) =>
@@ -236,8 +329,8 @@ const OrderOnline: FC<{}> = () => {
                   labelId="typeproduct_id-label"
                   label="Typeproduct"
                   id="typeproduct_id"
-                  value={typeduct}
-                  onChange={typeproduct_id_handleChange}
+                  value={typeproductID || ''}
+                  onChange={Typeproduct_id_handleChange}
                   style={{ width: 300 }}
                 >
                   {typeproducts.map((item: EntTypeproduct) =>
@@ -256,8 +349,8 @@ const OrderOnline: FC<{}> = () => {
                   labelId="paymentchannel_id-label"
                   label="Paymentchannel"
                   id="paymentchannel_id"
-                  value={paymentchannel}
-                  onChange={paymentchannel_id_handleChange}
+                  value={paymentchannelID || ''}
+                  onChange={Paymentchannel_id_handleChange}
                   style={{ width: 300 }}
                 >
                   {paymentchannels.map((item: EntPaymentchannel) =>
@@ -269,32 +362,14 @@ const OrderOnline: FC<{}> = () => {
                 fullWidth
                 className={classes.margin}
                 variant="outlined"
-                style={{ marginLeft: 560, width: 600 }}
-              >
-                <InputLabel id="customer_id-label">Customer</InputLabel>
-                <Select
-                  labelId="customer_id-label"
-                  label="Customer"
-                  id="customer_id"
-                  value={customer}
-                  onChange={customer_id_handleChange}
-                  style={{ width: 300 }}
-                >
-                  {customers.map((item: EntCustomer) =>
-                    <MenuItem value={item.id}>{item.name}</MenuItem>)}
-                </Select>
-              </FormControl>
-
-              <FormControl
-                fullWidth
-                className={classes.margin}
-                variant="outlined"
                 style={{ marginLeft: 560, width: 302 }}
               >
-                <TextField id="outlined-number" type='number'  InputLabelProps={{
-                  shrink: true,}}label="กรุณาใส่จำนวน" variant="outlined"
-                  onChange = {Stock_id_handleChange}
-                  />
+                <TextField id="outlined-number" type='number' InputLabelProps={{
+                  shrink: true,
+                }} label="กรุณาใส่จำนวน" variant="outlined"
+                  onChange={Orderstock_id_handleChange}
+                  value={orderstockid || ''}
+                />
               </FormControl>
 
 
@@ -303,14 +378,31 @@ const OrderOnline: FC<{}> = () => {
             <div className={classes.margin}>
               <TableCell align="right">
                 <Button
-                  onClick={() => {
-                    CreateOrderonline();
-                  }}
+                  component={RouterLink}
+                  to="/Orderonline"
                   variant="contained"
                   color="primary"
+                  size="large"
                   style={{ marginLeft: 545, width: 200 }}
+                  className={classes.margin}
+                  onClick={() => {
+                    save();
+                  }}
+                  startIcon={<SaveIcon
+                  />}
                 >
-                  SAVE DATA
+                  Save
+                </Button>
+              </TableCell>
+
+              <TableCell align="right">
+                <Button
+                  style={{ marginLeft: 1 }}
+                  component={RouterLink}
+                  to="/SignInOrderonline"
+                  variant="contained"
+                >
+                  Back
              </Button>
               </TableCell>
 
@@ -318,19 +410,17 @@ const OrderOnline: FC<{}> = () => {
                 <Button
                   style={{ marginLeft: 1 }}
                   component={RouterLink}
-                  to="/WelcomePage"
+                  to="/Orderonlinetable"
                   variant="contained"
                 >
-                  Back
+                  Show
              </Button>
               </TableCell>
-              
+
             </div>
           </form>
         </div>
       </Content>
     </Page>
   );
-};
-
-export default OrderOnline;
+}

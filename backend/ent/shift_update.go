@@ -29,6 +29,12 @@ func (su *ShiftUpdate) Where(ps ...predicate.Shift) *ShiftUpdate {
 	return su
 }
 
+// SetName sets the Name field.
+func (su *ShiftUpdate) SetName(s string) *ShiftUpdate {
+	su.mutation.SetName(s)
+	return su
+}
+
 // SetTimeStart sets the TimeStart field.
 func (su *ShiftUpdate) SetTimeStart(t time.Time) *ShiftUpdate {
 	su.mutation.SetTimeStart(t)
@@ -146,6 +152,13 @@ func (su *ShiftUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := su.mutation.Name(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: shift.FieldName,
+		})
+	}
 	if value, ok := su.mutation.TimeStart(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
@@ -214,6 +227,12 @@ type ShiftUpdateOne struct {
 	config
 	hooks    []Hook
 	mutation *ShiftMutation
+}
+
+// SetName sets the Name field.
+func (suo *ShiftUpdateOne) SetName(s string) *ShiftUpdateOne {
+	suo.mutation.SetName(s)
+	return suo
 }
 
 // SetTimeStart sets the TimeStart field.
@@ -331,6 +350,13 @@ func (suo *ShiftUpdateOne) sqlSave(ctx context.Context) (s *Shift, err error) {
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Shift.ID for update")}
 	}
 	_spec.Node.ID.Value = id
+	if value, ok := suo.mutation.Name(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: shift.FieldName,
+		})
+	}
 	if value, ok := suo.mutation.TimeStart(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,

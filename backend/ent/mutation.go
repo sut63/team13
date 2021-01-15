@@ -2839,20 +2839,20 @@ func (m *EmployeeMutation) ResetEdge(name string) error {
 // nodes in the graph.
 type EmployeeWorkingHoursMutation struct {
 	config
-	op                           Op
-	typ                          string
-	id                           *int
-	clearedFields                map[string]struct{}
-	_EmployeeWorkingHours        *int
-	cleared_EmployeeWorkingHours bool
-	day                          *int
-	clearedday                   bool
-	shift                        *int
-	clearedshift                 bool
-	role                         *int
-	clearedrole                  bool
-	done                         bool
-	oldValue                     func(context.Context) (*EmployeeWorkingHours, error)
+	op              Op
+	typ             string
+	id              *int
+	clearedFields   map[string]struct{}
+	employee        *int
+	clearedemployee bool
+	day             *int
+	clearedday      bool
+	shift           *int
+	clearedshift    bool
+	role            *int
+	clearedrole     bool
+	done            bool
+	oldValue        func(context.Context) (*EmployeeWorkingHours, error)
 }
 
 var _ ent.Mutation = (*EmployeeWorkingHoursMutation)(nil)
@@ -2934,43 +2934,43 @@ func (m *EmployeeWorkingHoursMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
-// SetEmployeeWorkingHoursID sets the EmployeeWorkingHours edge to Employee by id.
-func (m *EmployeeWorkingHoursMutation) SetEmployeeWorkingHoursID(id int) {
-	m._EmployeeWorkingHours = &id
+// SetEmployeeID sets the employee edge to Employee by id.
+func (m *EmployeeWorkingHoursMutation) SetEmployeeID(id int) {
+	m.employee = &id
 }
 
-// ClearEmployeeWorkingHours clears the EmployeeWorkingHours edge to Employee.
-func (m *EmployeeWorkingHoursMutation) ClearEmployeeWorkingHours() {
-	m.cleared_EmployeeWorkingHours = true
+// ClearEmployee clears the employee edge to Employee.
+func (m *EmployeeWorkingHoursMutation) ClearEmployee() {
+	m.clearedemployee = true
 }
 
-// EmployeeWorkingHoursCleared returns if the edge EmployeeWorkingHours was cleared.
-func (m *EmployeeWorkingHoursMutation) EmployeeWorkingHoursCleared() bool {
-	return m.cleared_EmployeeWorkingHours
+// EmployeeCleared returns if the edge employee was cleared.
+func (m *EmployeeWorkingHoursMutation) EmployeeCleared() bool {
+	return m.clearedemployee
 }
 
-// EmployeeWorkingHoursID returns the EmployeeWorkingHours id in the mutation.
-func (m *EmployeeWorkingHoursMutation) EmployeeWorkingHoursID() (id int, exists bool) {
-	if m._EmployeeWorkingHours != nil {
-		return *m._EmployeeWorkingHours, true
+// EmployeeID returns the employee id in the mutation.
+func (m *EmployeeWorkingHoursMutation) EmployeeID() (id int, exists bool) {
+	if m.employee != nil {
+		return *m.employee, true
 	}
 	return
 }
 
-// EmployeeWorkingHoursIDs returns the EmployeeWorkingHours ids in the mutation.
+// EmployeeIDs returns the employee ids in the mutation.
 // Note that ids always returns len(ids) <= 1 for unique edges, and you should use
-// EmployeeWorkingHoursID instead. It exists only for internal usage by the builders.
-func (m *EmployeeWorkingHoursMutation) EmployeeWorkingHoursIDs() (ids []int) {
-	if id := m._EmployeeWorkingHours; id != nil {
+// EmployeeID instead. It exists only for internal usage by the builders.
+func (m *EmployeeWorkingHoursMutation) EmployeeIDs() (ids []int) {
+	if id := m.employee; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetEmployeeWorkingHours reset all changes of the "EmployeeWorkingHours" edge.
-func (m *EmployeeWorkingHoursMutation) ResetEmployeeWorkingHours() {
-	m._EmployeeWorkingHours = nil
-	m.cleared_EmployeeWorkingHours = false
+// ResetEmployee reset all changes of the "employee" edge.
+func (m *EmployeeWorkingHoursMutation) ResetEmployee() {
+	m.employee = nil
+	m.clearedemployee = false
 }
 
 // SetDayID sets the day edge to Day by id.
@@ -3181,8 +3181,8 @@ func (m *EmployeeWorkingHoursMutation) ResetField(name string) error {
 // mutation.
 func (m *EmployeeWorkingHoursMutation) AddedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m._EmployeeWorkingHours != nil {
-		edges = append(edges, employeeworkinghours.EdgeEmployeeWorkingHours)
+	if m.employee != nil {
+		edges = append(edges, employeeworkinghours.EdgeEmployee)
 	}
 	if m.day != nil {
 		edges = append(edges, employeeworkinghours.EdgeDay)
@@ -3200,8 +3200,8 @@ func (m *EmployeeWorkingHoursMutation) AddedEdges() []string {
 // the given edge name.
 func (m *EmployeeWorkingHoursMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case employeeworkinghours.EdgeEmployeeWorkingHours:
-		if id := m._EmployeeWorkingHours; id != nil {
+	case employeeworkinghours.EdgeEmployee:
+		if id := m.employee; id != nil {
 			return []ent.Value{*id}
 		}
 	case employeeworkinghours.EdgeDay:
@@ -3239,8 +3239,8 @@ func (m *EmployeeWorkingHoursMutation) RemovedIDs(name string) []ent.Value {
 // mutation.
 func (m *EmployeeWorkingHoursMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.cleared_EmployeeWorkingHours {
-		edges = append(edges, employeeworkinghours.EdgeEmployeeWorkingHours)
+	if m.clearedemployee {
+		edges = append(edges, employeeworkinghours.EdgeEmployee)
 	}
 	if m.clearedday {
 		edges = append(edges, employeeworkinghours.EdgeDay)
@@ -3258,8 +3258,8 @@ func (m *EmployeeWorkingHoursMutation) ClearedEdges() []string {
 // cleared in this mutation.
 func (m *EmployeeWorkingHoursMutation) EdgeCleared(name string) bool {
 	switch name {
-	case employeeworkinghours.EdgeEmployeeWorkingHours:
-		return m.cleared_EmployeeWorkingHours
+	case employeeworkinghours.EdgeEmployee:
+		return m.clearedemployee
 	case employeeworkinghours.EdgeDay:
 		return m.clearedday
 	case employeeworkinghours.EdgeShift:
@@ -3274,8 +3274,8 @@ func (m *EmployeeWorkingHoursMutation) EdgeCleared(name string) bool {
 // error if the edge name is not defined in the schema.
 func (m *EmployeeWorkingHoursMutation) ClearEdge(name string) error {
 	switch name {
-	case employeeworkinghours.EdgeEmployeeWorkingHours:
-		m.ClearEmployeeWorkingHours()
+	case employeeworkinghours.EdgeEmployee:
+		m.ClearEmployee()
 		return nil
 	case employeeworkinghours.EdgeDay:
 		m.ClearDay()
@@ -3295,8 +3295,8 @@ func (m *EmployeeWorkingHoursMutation) ClearEdge(name string) error {
 // defined in the schema.
 func (m *EmployeeWorkingHoursMutation) ResetEdge(name string) error {
 	switch name {
-	case employeeworkinghours.EdgeEmployeeWorkingHours:
-		m.ResetEmployeeWorkingHours()
+	case employeeworkinghours.EdgeEmployee:
+		m.ResetEmployee()
 		return nil
 	case employeeworkinghours.EdgeDay:
 		m.ResetDay()
@@ -4168,8 +4168,8 @@ type OrderonlineMutation struct {
 	stock                 *int
 	addstock              *int
 	clearedFields         map[string]struct{}
-	producton             *int
-	clearedproducton      bool
+	product               *int
+	clearedproduct        bool
 	paymentchannel        *int
 	clearedpaymentchannel bool
 	_Typeproduct          *int
@@ -4353,43 +4353,43 @@ func (m *OrderonlineMutation) ResetStock() {
 	m.addstock = nil
 }
 
-// SetProductonID sets the producton edge to Product by id.
-func (m *OrderonlineMutation) SetProductonID(id int) {
-	m.producton = &id
+// SetProductID sets the product edge to Product by id.
+func (m *OrderonlineMutation) SetProductID(id int) {
+	m.product = &id
 }
 
-// ClearProducton clears the producton edge to Product.
-func (m *OrderonlineMutation) ClearProducton() {
-	m.clearedproducton = true
+// ClearProduct clears the product edge to Product.
+func (m *OrderonlineMutation) ClearProduct() {
+	m.clearedproduct = true
 }
 
-// ProductonCleared returns if the edge producton was cleared.
-func (m *OrderonlineMutation) ProductonCleared() bool {
-	return m.clearedproducton
+// ProductCleared returns if the edge product was cleared.
+func (m *OrderonlineMutation) ProductCleared() bool {
+	return m.clearedproduct
 }
 
-// ProductonID returns the producton id in the mutation.
-func (m *OrderonlineMutation) ProductonID() (id int, exists bool) {
-	if m.producton != nil {
-		return *m.producton, true
+// ProductID returns the product id in the mutation.
+func (m *OrderonlineMutation) ProductID() (id int, exists bool) {
+	if m.product != nil {
+		return *m.product, true
 	}
 	return
 }
 
-// ProductonIDs returns the producton ids in the mutation.
+// ProductIDs returns the product ids in the mutation.
 // Note that ids always returns len(ids) <= 1 for unique edges, and you should use
-// ProductonID instead. It exists only for internal usage by the builders.
-func (m *OrderonlineMutation) ProductonIDs() (ids []int) {
-	if id := m.producton; id != nil {
+// ProductID instead. It exists only for internal usage by the builders.
+func (m *OrderonlineMutation) ProductIDs() (ids []int) {
+	if id := m.product; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetProducton reset all changes of the "producton" edge.
-func (m *OrderonlineMutation) ResetProducton() {
-	m.producton = nil
-	m.clearedproducton = false
+// ResetProduct reset all changes of the "product" edge.
+func (m *OrderonlineMutation) ResetProduct() {
+	m.product = nil
+	m.clearedproduct = false
 }
 
 // SetPaymentchannelID sets the paymentchannel edge to Paymentchannel by id.
@@ -4657,8 +4657,8 @@ func (m *OrderonlineMutation) ResetField(name string) error {
 // mutation.
 func (m *OrderonlineMutation) AddedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.producton != nil {
-		edges = append(edges, orderonline.EdgeProducton)
+	if m.product != nil {
+		edges = append(edges, orderonline.EdgeProduct)
 	}
 	if m.paymentchannel != nil {
 		edges = append(edges, orderonline.EdgePaymentchannel)
@@ -4676,8 +4676,8 @@ func (m *OrderonlineMutation) AddedEdges() []string {
 // the given edge name.
 func (m *OrderonlineMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case orderonline.EdgeProducton:
-		if id := m.producton; id != nil {
+	case orderonline.EdgeProduct:
+		if id := m.product; id != nil {
 			return []ent.Value{*id}
 		}
 	case orderonline.EdgePaymentchannel:
@@ -4715,8 +4715,8 @@ func (m *OrderonlineMutation) RemovedIDs(name string) []ent.Value {
 // mutation.
 func (m *OrderonlineMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.clearedproducton {
-		edges = append(edges, orderonline.EdgeProducton)
+	if m.clearedproduct {
+		edges = append(edges, orderonline.EdgeProduct)
 	}
 	if m.clearedpaymentchannel {
 		edges = append(edges, orderonline.EdgePaymentchannel)
@@ -4734,8 +4734,8 @@ func (m *OrderonlineMutation) ClearedEdges() []string {
 // cleared in this mutation.
 func (m *OrderonlineMutation) EdgeCleared(name string) bool {
 	switch name {
-	case orderonline.EdgeProducton:
-		return m.clearedproducton
+	case orderonline.EdgeProduct:
+		return m.clearedproduct
 	case orderonline.EdgePaymentchannel:
 		return m.clearedpaymentchannel
 	case orderonline.EdgeTypeproduct:
@@ -4750,8 +4750,8 @@ func (m *OrderonlineMutation) EdgeCleared(name string) bool {
 // error if the edge name is not defined in the schema.
 func (m *OrderonlineMutation) ClearEdge(name string) error {
 	switch name {
-	case orderonline.EdgeProducton:
-		m.ClearProducton()
+	case orderonline.EdgeProduct:
+		m.ClearProduct()
 		return nil
 	case orderonline.EdgePaymentchannel:
 		m.ClearPaymentchannel()
@@ -4771,8 +4771,8 @@ func (m *OrderonlineMutation) ClearEdge(name string) error {
 // defined in the schema.
 func (m *OrderonlineMutation) ResetEdge(name string) error {
 	switch name {
-	case orderonline.EdgeProducton:
-		m.ResetProducton()
+	case orderonline.EdgeProduct:
+		m.ResetProduct()
 		return nil
 	case orderonline.EdgePaymentchannel:
 		m.ResetPaymentchannel()
@@ -6165,12 +6165,12 @@ type ProductMutation struct {
 	_MFG                     *string
 	_EXP                     *string
 	clearedFields            map[string]struct{}
-	stockproduct             *int
-	clearedstockproduct      bool
 	products                 map[int]struct{}
 	removedproducts          map[int]struct{}
-	forproduct               *int
-	clearedforproduct        bool
+	stockproduct             map[int]struct{}
+	removedstockproduct      map[int]struct{}
+	forproduct               map[int]struct{}
+	removedforproduct        map[int]struct{}
 	formproductonline        map[int]struct{}
 	removedformproductonline map[int]struct{}
 	done                     bool
@@ -6404,45 +6404,6 @@ func (m *ProductMutation) ResetEXP() {
 	m._EXP = nil
 }
 
-// SetStockproductID sets the stockproduct edge to Stock by id.
-func (m *ProductMutation) SetStockproductID(id int) {
-	m.stockproduct = &id
-}
-
-// ClearStockproduct clears the stockproduct edge to Stock.
-func (m *ProductMutation) ClearStockproduct() {
-	m.clearedstockproduct = true
-}
-
-// StockproductCleared returns if the edge stockproduct was cleared.
-func (m *ProductMutation) StockproductCleared() bool {
-	return m.clearedstockproduct
-}
-
-// StockproductID returns the stockproduct id in the mutation.
-func (m *ProductMutation) StockproductID() (id int, exists bool) {
-	if m.stockproduct != nil {
-		return *m.stockproduct, true
-	}
-	return
-}
-
-// StockproductIDs returns the stockproduct ids in the mutation.
-// Note that ids always returns len(ids) <= 1 for unique edges, and you should use
-// StockproductID instead. It exists only for internal usage by the builders.
-func (m *ProductMutation) StockproductIDs() (ids []int) {
-	if id := m.stockproduct; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetStockproduct reset all changes of the "stockproduct" edge.
-func (m *ProductMutation) ResetStockproduct() {
-	m.stockproduct = nil
-	m.clearedstockproduct = false
-}
-
 // AddProductIDs adds the products edge to Orderproduct by ids.
 func (m *ProductMutation) AddProductIDs(ids ...int) {
 	if m.products == nil {
@@ -6485,35 +6446,80 @@ func (m *ProductMutation) ResetProducts() {
 	m.removedproducts = nil
 }
 
-// SetForproductID sets the forproduct edge to Promotion by id.
-func (m *ProductMutation) SetForproductID(id int) {
-	m.forproduct = &id
+// AddStockproductIDs adds the stockproduct edge to Stock by ids.
+func (m *ProductMutation) AddStockproductIDs(ids ...int) {
+	if m.stockproduct == nil {
+		m.stockproduct = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.stockproduct[ids[i]] = struct{}{}
+	}
 }
 
-// ClearForproduct clears the forproduct edge to Promotion.
-func (m *ProductMutation) ClearForproduct() {
-	m.clearedforproduct = true
+// RemoveStockproductIDs removes the stockproduct edge to Stock by ids.
+func (m *ProductMutation) RemoveStockproductIDs(ids ...int) {
+	if m.removedstockproduct == nil {
+		m.removedstockproduct = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removedstockproduct[ids[i]] = struct{}{}
+	}
 }
 
-// ForproductCleared returns if the edge forproduct was cleared.
-func (m *ProductMutation) ForproductCleared() bool {
-	return m.clearedforproduct
+// RemovedStockproduct returns the removed ids of stockproduct.
+func (m *ProductMutation) RemovedStockproductIDs() (ids []int) {
+	for id := range m.removedstockproduct {
+		ids = append(ids, id)
+	}
+	return
 }
 
-// ForproductID returns the forproduct id in the mutation.
-func (m *ProductMutation) ForproductID() (id int, exists bool) {
-	if m.forproduct != nil {
-		return *m.forproduct, true
+// StockproductIDs returns the stockproduct ids in the mutation.
+func (m *ProductMutation) StockproductIDs() (ids []int) {
+	for id := range m.stockproduct {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetStockproduct reset all changes of the "stockproduct" edge.
+func (m *ProductMutation) ResetStockproduct() {
+	m.stockproduct = nil
+	m.removedstockproduct = nil
+}
+
+// AddForproductIDs adds the forproduct edge to Promotion by ids.
+func (m *ProductMutation) AddForproductIDs(ids ...int) {
+	if m.forproduct == nil {
+		m.forproduct = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.forproduct[ids[i]] = struct{}{}
+	}
+}
+
+// RemoveForproductIDs removes the forproduct edge to Promotion by ids.
+func (m *ProductMutation) RemoveForproductIDs(ids ...int) {
+	if m.removedforproduct == nil {
+		m.removedforproduct = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removedforproduct[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedForproduct returns the removed ids of forproduct.
+func (m *ProductMutation) RemovedForproductIDs() (ids []int) {
+	for id := range m.removedforproduct {
+		ids = append(ids, id)
 	}
 	return
 }
 
 // ForproductIDs returns the forproduct ids in the mutation.
-// Note that ids always returns len(ids) <= 1 for unique edges, and you should use
-// ForproductID instead. It exists only for internal usage by the builders.
 func (m *ProductMutation) ForproductIDs() (ids []int) {
-	if id := m.forproduct; id != nil {
-		ids = append(ids, *id)
+	for id := range m.forproduct {
+		ids = append(ids, id)
 	}
 	return
 }
@@ -6521,7 +6527,7 @@ func (m *ProductMutation) ForproductIDs() (ids []int) {
 // ResetForproduct reset all changes of the "forproduct" edge.
 func (m *ProductMutation) ResetForproduct() {
 	m.forproduct = nil
-	m.clearedforproduct = false
+	m.removedforproduct = nil
 }
 
 // AddFormproductonlineIDs adds the formproductonline edge to Orderonline by ids.
@@ -6733,11 +6739,11 @@ func (m *ProductMutation) ResetField(name string) error {
 // mutation.
 func (m *ProductMutation) AddedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.stockproduct != nil {
-		edges = append(edges, product.EdgeStockproduct)
-	}
 	if m.products != nil {
 		edges = append(edges, product.EdgeProducts)
+	}
+	if m.stockproduct != nil {
+		edges = append(edges, product.EdgeStockproduct)
 	}
 	if m.forproduct != nil {
 		edges = append(edges, product.EdgeForproduct)
@@ -6752,20 +6758,24 @@ func (m *ProductMutation) AddedEdges() []string {
 // the given edge name.
 func (m *ProductMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case product.EdgeStockproduct:
-		if id := m.stockproduct; id != nil {
-			return []ent.Value{*id}
-		}
 	case product.EdgeProducts:
 		ids := make([]ent.Value, 0, len(m.products))
 		for id := range m.products {
 			ids = append(ids, id)
 		}
 		return ids
-	case product.EdgeForproduct:
-		if id := m.forproduct; id != nil {
-			return []ent.Value{*id}
+	case product.EdgeStockproduct:
+		ids := make([]ent.Value, 0, len(m.stockproduct))
+		for id := range m.stockproduct {
+			ids = append(ids, id)
 		}
+		return ids
+	case product.EdgeForproduct:
+		ids := make([]ent.Value, 0, len(m.forproduct))
+		for id := range m.forproduct {
+			ids = append(ids, id)
+		}
+		return ids
 	case product.EdgeFormproductonline:
 		ids := make([]ent.Value, 0, len(m.formproductonline))
 		for id := range m.formproductonline {
@@ -6783,6 +6793,12 @@ func (m *ProductMutation) RemovedEdges() []string {
 	if m.removedproducts != nil {
 		edges = append(edges, product.EdgeProducts)
 	}
+	if m.removedstockproduct != nil {
+		edges = append(edges, product.EdgeStockproduct)
+	}
+	if m.removedforproduct != nil {
+		edges = append(edges, product.EdgeForproduct)
+	}
 	if m.removedformproductonline != nil {
 		edges = append(edges, product.EdgeFormproductonline)
 	}
@@ -6796,6 +6812,18 @@ func (m *ProductMutation) RemovedIDs(name string) []ent.Value {
 	case product.EdgeProducts:
 		ids := make([]ent.Value, 0, len(m.removedproducts))
 		for id := range m.removedproducts {
+			ids = append(ids, id)
+		}
+		return ids
+	case product.EdgeStockproduct:
+		ids := make([]ent.Value, 0, len(m.removedstockproduct))
+		for id := range m.removedstockproduct {
+			ids = append(ids, id)
+		}
+		return ids
+	case product.EdgeForproduct:
+		ids := make([]ent.Value, 0, len(m.removedforproduct))
+		for id := range m.removedforproduct {
 			ids = append(ids, id)
 		}
 		return ids
@@ -6813,12 +6841,6 @@ func (m *ProductMutation) RemovedIDs(name string) []ent.Value {
 // mutation.
 func (m *ProductMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 4)
-	if m.clearedstockproduct {
-		edges = append(edges, product.EdgeStockproduct)
-	}
-	if m.clearedforproduct {
-		edges = append(edges, product.EdgeForproduct)
-	}
 	return edges
 }
 
@@ -6826,10 +6848,6 @@ func (m *ProductMutation) ClearedEdges() []string {
 // cleared in this mutation.
 func (m *ProductMutation) EdgeCleared(name string) bool {
 	switch name {
-	case product.EdgeStockproduct:
-		return m.clearedstockproduct
-	case product.EdgeForproduct:
-		return m.clearedforproduct
 	}
 	return false
 }
@@ -6838,12 +6856,6 @@ func (m *ProductMutation) EdgeCleared(name string) bool {
 // error if the edge name is not defined in the schema.
 func (m *ProductMutation) ClearEdge(name string) error {
 	switch name {
-	case product.EdgeStockproduct:
-		m.ClearStockproduct()
-		return nil
-	case product.EdgeForproduct:
-		m.ClearForproduct()
-		return nil
 	}
 	return fmt.Errorf("unknown Product unique edge %s", name)
 }
@@ -6853,11 +6865,11 @@ func (m *ProductMutation) ClearEdge(name string) error {
 // defined in the schema.
 func (m *ProductMutation) ResetEdge(name string) error {
 	switch name {
-	case product.EdgeStockproduct:
-		m.ResetStockproduct()
-		return nil
 	case product.EdgeProducts:
 		m.ResetProducts()
+		return nil
+	case product.EdgeStockproduct:
+		m.ResetStockproduct()
 		return nil
 	case product.EdgeForproduct:
 		m.ResetForproduct()
@@ -8474,6 +8486,7 @@ type ShiftMutation struct {
 	op            Op
 	typ           string
 	id            *int
+	_Name         *string
 	_TimeStart    *time.Time
 	_TimeEnd      *time.Time
 	clearedFields map[string]struct{}
@@ -8560,6 +8573,43 @@ func (m *ShiftMutation) ID() (id int, exists bool) {
 		return
 	}
 	return *m.id, true
+}
+
+// SetName sets the Name field.
+func (m *ShiftMutation) SetName(s string) {
+	m._Name = &s
+}
+
+// Name returns the Name value in the mutation.
+func (m *ShiftMutation) Name() (r string, exists bool) {
+	v := m._Name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old Name value of the Shift.
+// If the Shift object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *ShiftMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldName is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName reset all changes of the "Name" field.
+func (m *ShiftMutation) ResetName() {
+	m._Name = nil
 }
 
 // SetTimeStart sets the TimeStart field.
@@ -8692,7 +8742,10 @@ func (m *ShiftMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *ShiftMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 3)
+	if m._Name != nil {
+		fields = append(fields, shift.FieldName)
+	}
 	if m._TimeStart != nil {
 		fields = append(fields, shift.FieldTimeStart)
 	}
@@ -8707,6 +8760,8 @@ func (m *ShiftMutation) Fields() []string {
 // not set, or was not define in the schema.
 func (m *ShiftMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case shift.FieldName:
+		return m.Name()
 	case shift.FieldTimeStart:
 		return m.TimeStart()
 	case shift.FieldTimeEnd:
@@ -8720,6 +8775,8 @@ func (m *ShiftMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *ShiftMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case shift.FieldName:
+		return m.OldName(ctx)
 	case shift.FieldTimeStart:
 		return m.OldTimeStart(ctx)
 	case shift.FieldTimeEnd:
@@ -8733,6 +8790,13 @@ func (m *ShiftMutation) OldField(ctx context.Context, name string) (ent.Value, e
 // type mismatch the field type.
 func (m *ShiftMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case shift.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
 	case shift.FieldTimeStart:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -8797,6 +8861,9 @@ func (m *ShiftMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *ShiftMutation) ResetField(name string) error {
 	switch name {
+	case shift.FieldName:
+		m.ResetName()
+		return nil
 	case shift.FieldTimeStart:
 		m.ResetTimeStart()
 		return nil

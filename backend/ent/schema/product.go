@@ -24,9 +24,9 @@ func (Product) Fields() []ent.Field {
 // Edges of the Product.
 func (Product) Edges() []ent.Edge {
 	return []ent.Edge{
-    edge.To("stockproduct", Stock.Type).Unique(),
-	edge.To("products", Orderproduct.Type),
-	edge.To("forproduct", Promotion.Type).Unique(),
-	edge.To("formproductonline", Orderonline.Type),
+    	edge.To("products", Orderproduct.Type),
+		edge.To("stockproduct", Stock.Type),
+		edge.To("forproduct", Promotion.Type),
+		edge.To("formproductonline", Orderonline.Type),
 	}
 }

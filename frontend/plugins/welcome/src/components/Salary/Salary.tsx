@@ -189,7 +189,7 @@ function save() {
           icon: 'success',
           title: 'บันทึกข้อมูลสำเร็จ',
         });
-       // window.setTimeout(function(){location.reload()},1500);
+        window.setTimeout(function(){location.reload()},1000);
       } else {
         Toast.fire({
           icon: 'error',

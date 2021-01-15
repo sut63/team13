@@ -12,8 +12,8 @@ const (
 	// FieldStock holds the string denoting the stock field in the database.
 	FieldStock = "stock"
 
-	// EdgeProducton holds the string denoting the producton edge name in mutations.
-	EdgeProducton = "producton"
+	// EdgeProduct holds the string denoting the product edge name in mutations.
+	EdgeProduct = "product"
 	// EdgePaymentchannel holds the string denoting the paymentchannel edge name in mutations.
 	EdgePaymentchannel = "paymentchannel"
 	// EdgeTypeproduct holds the string denoting the typeproduct edge name in mutations.
@@ -23,13 +23,13 @@ const (
 
 	// Table holds the table name of the orderonline in the database.
 	Table = "orderonlines"
-	// ProductonTable is the table the holds the producton relation/edge.
-	ProductonTable = "orderonlines"
-	// ProductonInverseTable is the table name for the Product entity.
+	// ProductTable is the table the holds the product relation/edge.
+	ProductTable = "orderonlines"
+	// ProductInverseTable is the table name for the Product entity.
 	// It exists in this package in order to avoid circular dependency with the "product" package.
-	ProductonInverseTable = "products"
-	// ProductonColumn is the table column denoting the producton relation/edge.
-	ProductonColumn = "product_formproductonline"
+	ProductInverseTable = "products"
+	// ProductColumn is the table column denoting the product relation/edge.
+	ProductColumn = "product_formproductonline"
 	// PaymentchannelTable is the table the holds the paymentchannel relation/edge.
 	PaymentchannelTable = "orderonlines"
 	// PaymentchannelInverseTable is the table name for the Paymentchannel entity.
@@ -50,7 +50,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "customer" package.
 	CustomerInverseTable = "customers"
 	// CustomerColumn is the table column denoting the customer relation/edge.
-	CustomerColumn = "customer_formcustomer"
+	CustomerColumn = "customer_id"
 )
 
 // Columns holds all SQL columns for orderonline fields.
@@ -62,7 +62,7 @@ var Columns = []string{
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Orderonline type.
 var ForeignKeys = []string{
-	"customer_formcustomer",
+	"customer_id",
 	"paymentchannel_formpaymentchannel",
 	"product_formproductonline",
 	"typeproduct_from_typeproductonline",

@@ -11,7 +11,7 @@ var (
 	// AssessmentsColumns holds the columns for the "assessments" table.
 	AssessmentsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "assessment", Type: field.TypeString},
+		{Name: "assessment", Type: field.TypeString, Unique: true},
 	}
 	// AssessmentsTable holds the schema information for the "assessments" table.
 	AssessmentsTable = &schema.Table{
@@ -35,7 +35,7 @@ var (
 	// CustomersColumns holds the columns for the "customers" table.
 	CustomersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "name", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Unique: true},
 		{Name: "email", Type: field.TypeString, Unique: true},
 		{Name: "password", Type: field.TypeString},
 		{Name: "age", Type: field.TypeInt},
@@ -161,7 +161,7 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "addedtime", Type: field.TypeTime},
 		{Name: "stock", Type: field.TypeInt},
-		{Name: "customer_formcustomer", Type: field.TypeInt, Nullable: true},
+		{Name: "customer_id", Type: field.TypeInt, Nullable: true},
 		{Name: "paymentchannel_formpaymentchannel", Type: field.TypeInt, Nullable: true},
 		{Name: "product_formproductonline", Type: field.TypeInt, Nullable: true},
 		{Name: "typeproduct_from_typeproductonline", Type: field.TypeInt, Nullable: true},
@@ -208,7 +208,7 @@ var (
 		{Name: "addedtime", Type: field.TypeTime},
 		{Name: "stock", Type: field.TypeInt},
 		{Name: "company_companys", Type: field.TypeInt, Nullable: true},
-		{Name: "manager_managers", Type: field.TypeInt, Nullable: true},
+		{Name: "manager_id", Type: field.TypeInt, Nullable: true},
 		{Name: "product_products", Type: field.TypeInt, Nullable: true},
 		{Name: "typeproduct_typeproducts", Type: field.TypeInt, Nullable: true},
 	}
@@ -263,7 +263,7 @@ var (
 	// PositionsColumns holds the columns for the "positions" table.
 	PositionsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "position", Type: field.TypeString},
+		{Name: "position", Type: field.TypeString, Unique: true},
 	}
 	// PositionsTable holds the schema information for the "positions" table.
 	PositionsTable = &schema.Table{
@@ -290,11 +290,11 @@ var (
 	// PromotionsColumns holds the columns for the "promotions" table.
 	PromotionsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "promotion_name", Type: field.TypeString, Unique: true},
+		{Name: "promotion_name", Type: field.TypeString},
 		{Name: "price", Type: field.TypeFloat64},
 		{Name: "discount_fordiscount", Type: field.TypeInt, Nullable: true},
 		{Name: "giveaway_forgiveaway", Type: field.TypeInt, Nullable: true},
-		{Name: "product_forproduct", Type: field.TypeInt, Unique: true, Nullable: true},
+		{Name: "product_forproduct", Type: field.TypeInt, Nullable: true},
 	}
 	// PromotionsTable holds the schema information for the "promotions" table.
 	PromotionsTable = &schema.Table{
@@ -379,6 +379,7 @@ var (
 	// ShiftsColumns holds the columns for the "shifts" table.
 	ShiftsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "name", Type: field.TypeString},
 		{Name: "time_start", Type: field.TypeTime},
 		{Name: "time_end", Type: field.TypeTime},
 	}
@@ -396,7 +397,7 @@ var (
 		{Name: "amount", Type: field.TypeInt},
 		{Name: "time", Type: field.TypeTime},
 		{Name: "employee_employeestock", Type: field.TypeInt, Nullable: true},
-		{Name: "product_stockproduct", Type: field.TypeInt, Unique: true, Nullable: true},
+		{Name: "product_stockproduct", Type: field.TypeInt, Nullable: true},
 		{Name: "typeproduct_typestock", Type: field.TypeInt, Nullable: true},
 		{Name: "zoneproduct_zonestock", Type: field.TypeInt, Nullable: true},
 	}

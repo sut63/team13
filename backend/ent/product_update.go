@@ -55,25 +55,6 @@ func (pu *ProductUpdate) SetEXP(s string) *ProductUpdate {
 	return pu
 }
 
-// SetStockproductID sets the stockproduct edge to Stock by id.
-func (pu *ProductUpdate) SetStockproductID(id int) *ProductUpdate {
-	pu.mutation.SetStockproductID(id)
-	return pu
-}
-
-// SetNillableStockproductID sets the stockproduct edge to Stock by id if the given value is not nil.
-func (pu *ProductUpdate) SetNillableStockproductID(id *int) *ProductUpdate {
-	if id != nil {
-		pu = pu.SetStockproductID(*id)
-	}
-	return pu
-}
-
-// SetStockproduct sets the stockproduct edge to Stock.
-func (pu *ProductUpdate) SetStockproduct(s *Stock) *ProductUpdate {
-	return pu.SetStockproductID(s.ID)
-}
-
 // AddProductIDs adds the products edge to Orderproduct by ids.
 func (pu *ProductUpdate) AddProductIDs(ids ...int) *ProductUpdate {
 	pu.mutation.AddProductIDs(ids...)
@@ -89,23 +70,34 @@ func (pu *ProductUpdate) AddProducts(o ...*Orderproduct) *ProductUpdate {
 	return pu.AddProductIDs(ids...)
 }
 
-// SetForproductID sets the forproduct edge to Promotion by id.
-func (pu *ProductUpdate) SetForproductID(id int) *ProductUpdate {
-	pu.mutation.SetForproductID(id)
+// AddStockproductIDs adds the stockproduct edge to Stock by ids.
+func (pu *ProductUpdate) AddStockproductIDs(ids ...int) *ProductUpdate {
+	pu.mutation.AddStockproductIDs(ids...)
 	return pu
 }
 
-// SetNillableForproductID sets the forproduct edge to Promotion by id if the given value is not nil.
-func (pu *ProductUpdate) SetNillableForproductID(id *int) *ProductUpdate {
-	if id != nil {
-		pu = pu.SetForproductID(*id)
+// AddStockproduct adds the stockproduct edges to Stock.
+func (pu *ProductUpdate) AddStockproduct(s ...*Stock) *ProductUpdate {
+	ids := make([]int, len(s))
+	for i := range s {
+		ids[i] = s[i].ID
 	}
+	return pu.AddStockproductIDs(ids...)
+}
+
+// AddForproductIDs adds the forproduct edge to Promotion by ids.
+func (pu *ProductUpdate) AddForproductIDs(ids ...int) *ProductUpdate {
+	pu.mutation.AddForproductIDs(ids...)
 	return pu
 }
 
-// SetForproduct sets the forproduct edge to Promotion.
-func (pu *ProductUpdate) SetForproduct(p *Promotion) *ProductUpdate {
-	return pu.SetForproductID(p.ID)
+// AddForproduct adds the forproduct edges to Promotion.
+func (pu *ProductUpdate) AddForproduct(p ...*Promotion) *ProductUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return pu.AddForproductIDs(ids...)
 }
 
 // AddFormproductonlineIDs adds the formproductonline edge to Orderonline by ids.
@@ -128,12 +120,6 @@ func (pu *ProductUpdate) Mutation() *ProductMutation {
 	return pu.mutation
 }
 
-// ClearStockproduct clears the stockproduct edge to Stock.
-func (pu *ProductUpdate) ClearStockproduct() *ProductUpdate {
-	pu.mutation.ClearStockproduct()
-	return pu
-}
-
 // RemoveProductIDs removes the products edge to Orderproduct by ids.
 func (pu *ProductUpdate) RemoveProductIDs(ids ...int) *ProductUpdate {
 	pu.mutation.RemoveProductIDs(ids...)
@@ -149,10 +135,34 @@ func (pu *ProductUpdate) RemoveProducts(o ...*Orderproduct) *ProductUpdate {
 	return pu.RemoveProductIDs(ids...)
 }
 
-// ClearForproduct clears the forproduct edge to Promotion.
-func (pu *ProductUpdate) ClearForproduct() *ProductUpdate {
-	pu.mutation.ClearForproduct()
+// RemoveStockproductIDs removes the stockproduct edge to Stock by ids.
+func (pu *ProductUpdate) RemoveStockproductIDs(ids ...int) *ProductUpdate {
+	pu.mutation.RemoveStockproductIDs(ids...)
 	return pu
+}
+
+// RemoveStockproduct removes stockproduct edges to Stock.
+func (pu *ProductUpdate) RemoveStockproduct(s ...*Stock) *ProductUpdate {
+	ids := make([]int, len(s))
+	for i := range s {
+		ids[i] = s[i].ID
+	}
+	return pu.RemoveStockproductIDs(ids...)
+}
+
+// RemoveForproductIDs removes the forproduct edge to Promotion by ids.
+func (pu *ProductUpdate) RemoveForproductIDs(ids ...int) *ProductUpdate {
+	pu.mutation.RemoveForproductIDs(ids...)
+	return pu
+}
+
+// RemoveForproduct removes forproduct edges to Promotion.
+func (pu *ProductUpdate) RemoveForproduct(p ...*Promotion) *ProductUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return pu.RemoveForproductIDs(ids...)
 }
 
 // RemoveFormproductonlineIDs removes the formproductonline edge to Orderonline by ids.
@@ -273,41 +283,6 @@ func (pu *ProductUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: product.FieldEXP,
 		})
 	}
-	if pu.mutation.StockproductCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
-			Inverse: false,
-			Table:   product.StockproductTable,
-			Columns: []string{product.StockproductColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: stock.FieldID,
-				},
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := pu.mutation.StockproductIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
-			Inverse: false,
-			Table:   product.StockproductTable,
-			Columns: []string{product.StockproductColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: stock.FieldID,
-				},
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
 	if nodes := pu.mutation.RemovedProductsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
@@ -346,9 +321,47 @@ func (pu *ProductUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if pu.mutation.ForproductCleared() {
+	if nodes := pu.mutation.RemovedStockproductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   product.StockproductTable,
+			Columns: []string{product.StockproductColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: stock.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := pu.mutation.StockproductIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   product.StockproductTable,
+			Columns: []string{product.StockproductColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: stock.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if nodes := pu.mutation.RemovedForproductIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   product.ForproductTable,
 			Columns: []string{product.ForproductColumn},
@@ -360,11 +373,14 @@ func (pu *ProductUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				},
 			},
 		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := pu.mutation.ForproductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   product.ForproductTable,
 			Columns: []string{product.ForproductColumn},
@@ -461,25 +477,6 @@ func (puo *ProductUpdateOne) SetEXP(s string) *ProductUpdateOne {
 	return puo
 }
 
-// SetStockproductID sets the stockproduct edge to Stock by id.
-func (puo *ProductUpdateOne) SetStockproductID(id int) *ProductUpdateOne {
-	puo.mutation.SetStockproductID(id)
-	return puo
-}
-
-// SetNillableStockproductID sets the stockproduct edge to Stock by id if the given value is not nil.
-func (puo *ProductUpdateOne) SetNillableStockproductID(id *int) *ProductUpdateOne {
-	if id != nil {
-		puo = puo.SetStockproductID(*id)
-	}
-	return puo
-}
-
-// SetStockproduct sets the stockproduct edge to Stock.
-func (puo *ProductUpdateOne) SetStockproduct(s *Stock) *ProductUpdateOne {
-	return puo.SetStockproductID(s.ID)
-}
-
 // AddProductIDs adds the products edge to Orderproduct by ids.
 func (puo *ProductUpdateOne) AddProductIDs(ids ...int) *ProductUpdateOne {
 	puo.mutation.AddProductIDs(ids...)
@@ -495,23 +492,34 @@ func (puo *ProductUpdateOne) AddProducts(o ...*Orderproduct) *ProductUpdateOne {
 	return puo.AddProductIDs(ids...)
 }
 
-// SetForproductID sets the forproduct edge to Promotion by id.
-func (puo *ProductUpdateOne) SetForproductID(id int) *ProductUpdateOne {
-	puo.mutation.SetForproductID(id)
+// AddStockproductIDs adds the stockproduct edge to Stock by ids.
+func (puo *ProductUpdateOne) AddStockproductIDs(ids ...int) *ProductUpdateOne {
+	puo.mutation.AddStockproductIDs(ids...)
 	return puo
 }
 
-// SetNillableForproductID sets the forproduct edge to Promotion by id if the given value is not nil.
-func (puo *ProductUpdateOne) SetNillableForproductID(id *int) *ProductUpdateOne {
-	if id != nil {
-		puo = puo.SetForproductID(*id)
+// AddStockproduct adds the stockproduct edges to Stock.
+func (puo *ProductUpdateOne) AddStockproduct(s ...*Stock) *ProductUpdateOne {
+	ids := make([]int, len(s))
+	for i := range s {
+		ids[i] = s[i].ID
 	}
+	return puo.AddStockproductIDs(ids...)
+}
+
+// AddForproductIDs adds the forproduct edge to Promotion by ids.
+func (puo *ProductUpdateOne) AddForproductIDs(ids ...int) *ProductUpdateOne {
+	puo.mutation.AddForproductIDs(ids...)
 	return puo
 }
 
-// SetForproduct sets the forproduct edge to Promotion.
-func (puo *ProductUpdateOne) SetForproduct(p *Promotion) *ProductUpdateOne {
-	return puo.SetForproductID(p.ID)
+// AddForproduct adds the forproduct edges to Promotion.
+func (puo *ProductUpdateOne) AddForproduct(p ...*Promotion) *ProductUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return puo.AddForproductIDs(ids...)
 }
 
 // AddFormproductonlineIDs adds the formproductonline edge to Orderonline by ids.
@@ -534,12 +542,6 @@ func (puo *ProductUpdateOne) Mutation() *ProductMutation {
 	return puo.mutation
 }
 
-// ClearStockproduct clears the stockproduct edge to Stock.
-func (puo *ProductUpdateOne) ClearStockproduct() *ProductUpdateOne {
-	puo.mutation.ClearStockproduct()
-	return puo
-}
-
 // RemoveProductIDs removes the products edge to Orderproduct by ids.
 func (puo *ProductUpdateOne) RemoveProductIDs(ids ...int) *ProductUpdateOne {
 	puo.mutation.RemoveProductIDs(ids...)
@@ -555,10 +557,34 @@ func (puo *ProductUpdateOne) RemoveProducts(o ...*Orderproduct) *ProductUpdateOn
 	return puo.RemoveProductIDs(ids...)
 }
 
-// ClearForproduct clears the forproduct edge to Promotion.
-func (puo *ProductUpdateOne) ClearForproduct() *ProductUpdateOne {
-	puo.mutation.ClearForproduct()
+// RemoveStockproductIDs removes the stockproduct edge to Stock by ids.
+func (puo *ProductUpdateOne) RemoveStockproductIDs(ids ...int) *ProductUpdateOne {
+	puo.mutation.RemoveStockproductIDs(ids...)
 	return puo
+}
+
+// RemoveStockproduct removes stockproduct edges to Stock.
+func (puo *ProductUpdateOne) RemoveStockproduct(s ...*Stock) *ProductUpdateOne {
+	ids := make([]int, len(s))
+	for i := range s {
+		ids[i] = s[i].ID
+	}
+	return puo.RemoveStockproductIDs(ids...)
+}
+
+// RemoveForproductIDs removes the forproduct edge to Promotion by ids.
+func (puo *ProductUpdateOne) RemoveForproductIDs(ids ...int) *ProductUpdateOne {
+	puo.mutation.RemoveForproductIDs(ids...)
+	return puo
+}
+
+// RemoveForproduct removes forproduct edges to Promotion.
+func (puo *ProductUpdateOne) RemoveForproduct(p ...*Promotion) *ProductUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return puo.RemoveForproductIDs(ids...)
 }
 
 // RemoveFormproductonlineIDs removes the formproductonline edge to Orderonline by ids.
@@ -677,41 +703,6 @@ func (puo *ProductUpdateOne) sqlSave(ctx context.Context) (pr *Product, err erro
 			Column: product.FieldEXP,
 		})
 	}
-	if puo.mutation.StockproductCleared() {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
-			Inverse: false,
-			Table:   product.StockproductTable,
-			Columns: []string{product.StockproductColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: stock.FieldID,
-				},
-			},
-		}
-		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
-	}
-	if nodes := puo.mutation.StockproductIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
-			Inverse: false,
-			Table:   product.StockproductTable,
-			Columns: []string{product.StockproductColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: stock.FieldID,
-				},
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges.Add = append(_spec.Edges.Add, edge)
-	}
 	if nodes := puo.mutation.RemovedProductsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
@@ -750,9 +741,47 @@ func (puo *ProductUpdateOne) sqlSave(ctx context.Context) (pr *Product, err erro
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if puo.mutation.ForproductCleared() {
+	if nodes := puo.mutation.RemovedStockproductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   product.StockproductTable,
+			Columns: []string{product.StockproductColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: stock.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := puo.mutation.StockproductIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   product.StockproductTable,
+			Columns: []string{product.StockproductColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: stock.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if nodes := puo.mutation.RemovedForproductIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   product.ForproductTable,
 			Columns: []string{product.ForproductColumn},
@@ -764,11 +793,14 @@ func (puo *ProductUpdateOne) sqlSave(ctx context.Context) (pr *Product, err erro
 				},
 			},
 		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := puo.mutation.ForproductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   product.ForproductTable,
 			Columns: []string{product.ForproductColumn},

@@ -125,6 +125,11 @@ func (oc *OrderproductCreate) Save(ctx context.Context) (*Orderproduct, error) {
 	if _, ok := oc.mutation.Stock(); !ok {
 		return nil, &ValidationError{Name: "stock", err: errors.New("ent: missing required field \"stock\"")}
 	}
+	if v, ok := oc.mutation.Stock(); ok {
+		if err := orderproduct.StockValidator(v); err != nil {
+			return nil, &ValidationError{Name: "stock", err: fmt.Errorf("ent: validator failed for field \"stock\": %w", err)}
+		}
+	}
 	var (
 		err  error
 		node *Orderproduct

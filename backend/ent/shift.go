@@ -16,6 +16,8 @@ type Shift struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// Name holds the value of the "Name" field.
+	Name string `json:"Name,omitempty"`
 	// TimeStart holds the value of the "TimeStart" field.
 	TimeStart time.Time `json:"TimeStart,omitempty"`
 	// TimeEnd holds the value of the "TimeEnd" field.
@@ -46,9 +48,10 @@ func (e ShiftEdges) WhenOrErr() ([]*EmployeeWorkingHours, error) {
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Shift) scanValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{}, // id
-		&sql.NullTime{},  // TimeStart
-		&sql.NullTime{},  // TimeEnd
+		&sql.NullInt64{},  // id
+		&sql.NullString{}, // Name
+		&sql.NullTime{},   // TimeStart
+		&sql.NullTime{},   // TimeEnd
 	}
 }
 
@@ -64,13 +67,18 @@ func (s *Shift) assignValues(values ...interface{}) error {
 	}
 	s.ID = int(value.Int64)
 	values = values[1:]
-	if value, ok := values[0].(*sql.NullTime); !ok {
-		return fmt.Errorf("unexpected type %T for field TimeStart", values[0])
+	if value, ok := values[0].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field Name", values[0])
+	} else if value.Valid {
+		s.Name = value.String
+	}
+	if value, ok := values[1].(*sql.NullTime); !ok {
+		return fmt.Errorf("unexpected type %T for field TimeStart", values[1])
 	} else if value.Valid {
 		s.TimeStart = value.Time
 	}
-	if value, ok := values[1].(*sql.NullTime); !ok {
-		return fmt.Errorf("unexpected type %T for field TimeEnd", values[1])
+	if value, ok := values[2].(*sql.NullTime); !ok {
+		return fmt.Errorf("unexpected type %T for field TimeEnd", values[2])
 	} else if value.Valid {
 		s.TimeEnd = value.Time
 	}
@@ -105,6 +113,8 @@ func (s *Shift) String() string {
 	var builder strings.Builder
 	builder.WriteString("Shift(")
 	builder.WriteString(fmt.Sprintf("id=%v", s.ID))
+	builder.WriteString(", Name=")
+	builder.WriteString(s.Name)
 	builder.WriteString(", TimeStart=")
 	builder.WriteString(s.TimeStart.Format(time.ANSIC))
 	builder.WriteString(", TimeEnd=")

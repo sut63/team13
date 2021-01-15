@@ -4754,8 +4754,8 @@ var doc = `{
                     "type": "object",
                     "$ref": "#/definitions/ent.Day"
                 },
-                "employeeWorkingHours": {
-                    "description": "EmployeeWorkingHours holds the value of the EmployeeWorkingHours edge.",
+                "employee": {
+                    "description": "Employee holds the value of the employee edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Employee"
                 },
@@ -4874,8 +4874,8 @@ var doc = `{
                     "type": "object",
                     "$ref": "#/definitions/ent.Paymentchannel"
                 },
-                "producton": {
-                    "description": "Producton holds the value of the producton edge.",
+                "product": {
+                    "description": "Product holds the value of the product edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Product"
                 },
@@ -5035,8 +5035,10 @@ var doc = `{
                 },
                 "forproduct": {
                     "description": "Forproduct holds the value of the forproduct edge.",
-                    "type": "object",
-                    "$ref": "#/definitions/ent.Promotion"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.Promotion"
+                    }
                 },
                 "products": {
                     "description": "Products holds the value of the products edge.",
@@ -5047,8 +5049,10 @@ var doc = `{
                 },
                 "stockproduct": {
                     "description": "Stockproduct holds the value of the stockproduct edge.",
-                    "type": "object",
-                    "$ref": "#/definitions/ent.Stock"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.Stock"
+                    }
                 }
             }
         },
@@ -5173,6 +5177,10 @@ var doc = `{
         "ent.Shift": {
             "type": "object",
             "properties": {
+                "Name": {
+                    "description": "Name holds the value of the \"Name\" field.",
+                    "type": "string"
+                },
                 "TimeEnd": {
                     "description": "TimeEnd holds the value of the \"TimeEnd\" field.",
                     "type": "string"

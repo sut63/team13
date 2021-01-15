@@ -258,10 +258,9 @@ definitions:
         $ref: '#/definitions/ent.Day'
         description: Day holds the value of the day edge.
         type: object
-      employeeWorkingHours:
+      employee:
         $ref: '#/definitions/ent.Employee'
-        description: EmployeeWorkingHours holds the value of the EmployeeWorkingHours
-          edge.
+        description: Employee holds the value of the employee edge.
         type: object
       role:
         $ref: '#/definitions/ent.Role'
@@ -352,9 +351,9 @@ definitions:
         $ref: '#/definitions/ent.Paymentchannel'
         description: Paymentchannel holds the value of the paymentchannel edge.
         type: object
-      producton:
+      product:
         $ref: '#/definitions/ent.Product'
-        description: Producton holds the value of the producton edge.
+        description: Product holds the value of the product edge.
         type: object
       typeproduct:
         $ref: '#/definitions/ent.Typeproduct'
@@ -477,18 +476,20 @@ definitions:
           $ref: '#/definitions/ent.Orderonline'
         type: array
       forproduct:
-        $ref: '#/definitions/ent.Promotion'
         description: Forproduct holds the value of the forproduct edge.
-        type: object
+        items:
+          $ref: '#/definitions/ent.Promotion'
+        type: array
       products:
         description: Products holds the value of the products edge.
         items:
           $ref: '#/definitions/ent.Orderproduct'
         type: array
       stockproduct:
-        $ref: '#/definitions/ent.Stock'
         description: Stockproduct holds the value of the stockproduct edge.
-        type: object
+        items:
+          $ref: '#/definitions/ent.Stock'
+        type: array
     type: object
   ent.Promotion:
     properties:
@@ -584,6 +585,9 @@ definitions:
     type: object
   ent.Shift:
     properties:
+      Name:
+        description: Name holds the value of the "Name" field.
+        type: string
       TimeEnd:
         description: TimeEnd holds the value of the "TimeEnd" field.
         type: string

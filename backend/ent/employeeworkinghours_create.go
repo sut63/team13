@@ -22,23 +22,23 @@ type EmployeeWorkingHoursCreate struct {
 	hooks    []Hook
 }
 
-// SetEmployeeWorkingHoursID sets the EmployeeWorkingHours edge to Employee by id.
-func (ewhc *EmployeeWorkingHoursCreate) SetEmployeeWorkingHoursID(id int) *EmployeeWorkingHoursCreate {
-	ewhc.mutation.SetEmployeeWorkingHoursID(id)
+// SetEmployeeID sets the employee edge to Employee by id.
+func (ewhc *EmployeeWorkingHoursCreate) SetEmployeeID(id int) *EmployeeWorkingHoursCreate {
+	ewhc.mutation.SetEmployeeID(id)
 	return ewhc
 }
 
-// SetNillableEmployeeWorkingHoursID sets the EmployeeWorkingHours edge to Employee by id if the given value is not nil.
-func (ewhc *EmployeeWorkingHoursCreate) SetNillableEmployeeWorkingHoursID(id *int) *EmployeeWorkingHoursCreate {
+// SetNillableEmployeeID sets the employee edge to Employee by id if the given value is not nil.
+func (ewhc *EmployeeWorkingHoursCreate) SetNillableEmployeeID(id *int) *EmployeeWorkingHoursCreate {
 	if id != nil {
-		ewhc = ewhc.SetEmployeeWorkingHoursID(*id)
+		ewhc = ewhc.SetEmployeeID(*id)
 	}
 	return ewhc
 }
 
-// SetEmployeeWorkingHours sets the EmployeeWorkingHours edge to Employee.
-func (ewhc *EmployeeWorkingHoursCreate) SetEmployeeWorkingHours(e *Employee) *EmployeeWorkingHoursCreate {
-	return ewhc.SetEmployeeWorkingHoursID(e.ID)
+// SetEmployee sets the employee edge to Employee.
+func (ewhc *EmployeeWorkingHoursCreate) SetEmployee(e *Employee) *EmployeeWorkingHoursCreate {
+	return ewhc.SetEmployeeID(e.ID)
 }
 
 // SetDayID sets the day edge to Day by id.
@@ -165,12 +165,12 @@ func (ewhc *EmployeeWorkingHoursCreate) createSpec() (*EmployeeWorkingHours, *sq
 			},
 		}
 	)
-	if nodes := ewhc.mutation.EmployeeWorkingHoursIDs(); len(nodes) > 0 {
+	if nodes := ewhc.mutation.EmployeeIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   employeeworkinghours.EmployeeWorkingHoursTable,
-			Columns: []string{employeeworkinghours.EmployeeWorkingHoursColumn},
+			Table:   employeeworkinghours.EmployeeTable,
+			Columns: []string{employeeworkinghours.EmployeeColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

@@ -51,23 +51,23 @@ func (ou *OrderonlineUpdate) AddStock(i int) *OrderonlineUpdate {
 	return ou
 }
 
-// SetProductonID sets the producton edge to Product by id.
-func (ou *OrderonlineUpdate) SetProductonID(id int) *OrderonlineUpdate {
-	ou.mutation.SetProductonID(id)
+// SetProductID sets the product edge to Product by id.
+func (ou *OrderonlineUpdate) SetProductID(id int) *OrderonlineUpdate {
+	ou.mutation.SetProductID(id)
 	return ou
 }
 
-// SetNillableProductonID sets the producton edge to Product by id if the given value is not nil.
-func (ou *OrderonlineUpdate) SetNillableProductonID(id *int) *OrderonlineUpdate {
+// SetNillableProductID sets the product edge to Product by id if the given value is not nil.
+func (ou *OrderonlineUpdate) SetNillableProductID(id *int) *OrderonlineUpdate {
 	if id != nil {
-		ou = ou.SetProductonID(*id)
+		ou = ou.SetProductID(*id)
 	}
 	return ou
 }
 
-// SetProducton sets the producton edge to Product.
-func (ou *OrderonlineUpdate) SetProducton(p *Product) *OrderonlineUpdate {
-	return ou.SetProductonID(p.ID)
+// SetProduct sets the product edge to Product.
+func (ou *OrderonlineUpdate) SetProduct(p *Product) *OrderonlineUpdate {
+	return ou.SetProductID(p.ID)
 }
 
 // SetPaymentchannelID sets the paymentchannel edge to Paymentchannel by id.
@@ -132,9 +132,9 @@ func (ou *OrderonlineUpdate) Mutation() *OrderonlineMutation {
 	return ou.mutation
 }
 
-// ClearProducton clears the producton edge to Product.
-func (ou *OrderonlineUpdate) ClearProducton() *OrderonlineUpdate {
-	ou.mutation.ClearProducton()
+// ClearProduct clears the product edge to Product.
+func (ou *OrderonlineUpdate) ClearProduct() *OrderonlineUpdate {
+	ou.mutation.ClearProduct()
 	return ou
 }
 
@@ -247,12 +247,12 @@ func (ou *OrderonlineUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: orderonline.FieldStock,
 		})
 	}
-	if ou.mutation.ProductonCleared() {
+	if ou.mutation.ProductCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   orderonline.ProductonTable,
-			Columns: []string{orderonline.ProductonColumn},
+			Table:   orderonline.ProductTable,
+			Columns: []string{orderonline.ProductColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -263,12 +263,12 @@ func (ou *OrderonlineUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ou.mutation.ProductonIDs(); len(nodes) > 0 {
+	if nodes := ou.mutation.ProductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   orderonline.ProductonTable,
-			Columns: []string{orderonline.ProductonColumn},
+			Table:   orderonline.ProductTable,
+			Columns: []string{orderonline.ProductColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -424,23 +424,23 @@ func (ouo *OrderonlineUpdateOne) AddStock(i int) *OrderonlineUpdateOne {
 	return ouo
 }
 
-// SetProductonID sets the producton edge to Product by id.
-func (ouo *OrderonlineUpdateOne) SetProductonID(id int) *OrderonlineUpdateOne {
-	ouo.mutation.SetProductonID(id)
+// SetProductID sets the product edge to Product by id.
+func (ouo *OrderonlineUpdateOne) SetProductID(id int) *OrderonlineUpdateOne {
+	ouo.mutation.SetProductID(id)
 	return ouo
 }
 
-// SetNillableProductonID sets the producton edge to Product by id if the given value is not nil.
-func (ouo *OrderonlineUpdateOne) SetNillableProductonID(id *int) *OrderonlineUpdateOne {
+// SetNillableProductID sets the product edge to Product by id if the given value is not nil.
+func (ouo *OrderonlineUpdateOne) SetNillableProductID(id *int) *OrderonlineUpdateOne {
 	if id != nil {
-		ouo = ouo.SetProductonID(*id)
+		ouo = ouo.SetProductID(*id)
 	}
 	return ouo
 }
 
-// SetProducton sets the producton edge to Product.
-func (ouo *OrderonlineUpdateOne) SetProducton(p *Product) *OrderonlineUpdateOne {
-	return ouo.SetProductonID(p.ID)
+// SetProduct sets the product edge to Product.
+func (ouo *OrderonlineUpdateOne) SetProduct(p *Product) *OrderonlineUpdateOne {
+	return ouo.SetProductID(p.ID)
 }
 
 // SetPaymentchannelID sets the paymentchannel edge to Paymentchannel by id.
@@ -505,9 +505,9 @@ func (ouo *OrderonlineUpdateOne) Mutation() *OrderonlineMutation {
 	return ouo.mutation
 }
 
-// ClearProducton clears the producton edge to Product.
-func (ouo *OrderonlineUpdateOne) ClearProducton() *OrderonlineUpdateOne {
-	ouo.mutation.ClearProducton()
+// ClearProduct clears the product edge to Product.
+func (ouo *OrderonlineUpdateOne) ClearProduct() *OrderonlineUpdateOne {
+	ouo.mutation.ClearProduct()
 	return ouo
 }
 
@@ -618,12 +618,12 @@ func (ouo *OrderonlineUpdateOne) sqlSave(ctx context.Context) (o *Orderonline, e
 			Column: orderonline.FieldStock,
 		})
 	}
-	if ouo.mutation.ProductonCleared() {
+	if ouo.mutation.ProductCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   orderonline.ProductonTable,
-			Columns: []string{orderonline.ProductonColumn},
+			Table:   orderonline.ProductTable,
+			Columns: []string{orderonline.ProductColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -634,12 +634,12 @@ func (ouo *OrderonlineUpdateOne) sqlSave(ctx context.Context) (o *Orderonline, e
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ouo.mutation.ProductonIDs(); len(nodes) > 0 {
+	if nodes := ouo.mutation.ProductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   orderonline.ProductonTable,
-			Columns: []string{orderonline.ProductonColumn},
+			Table:   orderonline.ProductTable,
+			Columns: []string{orderonline.ProductColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

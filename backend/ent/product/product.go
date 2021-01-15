@@ -16,10 +16,10 @@ const (
 	// FieldEXP holds the string denoting the exp field in the database.
 	FieldEXP = "exp"
 
-	// EdgeStockproduct holds the string denoting the stockproduct edge name in mutations.
-	EdgeStockproduct = "stockproduct"
 	// EdgeProducts holds the string denoting the products edge name in mutations.
 	EdgeProducts = "products"
+	// EdgeStockproduct holds the string denoting the stockproduct edge name in mutations.
+	EdgeStockproduct = "stockproduct"
 	// EdgeForproduct holds the string denoting the forproduct edge name in mutations.
 	EdgeForproduct = "forproduct"
 	// EdgeFormproductonline holds the string denoting the formproductonline edge name in mutations.
@@ -27,13 +27,6 @@ const (
 
 	// Table holds the table name of the product in the database.
 	Table = "products"
-	// StockproductTable is the table the holds the stockproduct relation/edge.
-	StockproductTable = "stocks"
-	// StockproductInverseTable is the table name for the Stock entity.
-	// It exists in this package in order to avoid circular dependency with the "stock" package.
-	StockproductInverseTable = "stocks"
-	// StockproductColumn is the table column denoting the stockproduct relation/edge.
-	StockproductColumn = "product_stockproduct"
 	// ProductsTable is the table the holds the products relation/edge.
 	ProductsTable = "orderproducts"
 	// ProductsInverseTable is the table name for the Orderproduct entity.
@@ -41,6 +34,13 @@ const (
 	ProductsInverseTable = "orderproducts"
 	// ProductsColumn is the table column denoting the products relation/edge.
 	ProductsColumn = "product_products"
+	// StockproductTable is the table the holds the stockproduct relation/edge.
+	StockproductTable = "stocks"
+	// StockproductInverseTable is the table name for the Stock entity.
+	// It exists in this package in order to avoid circular dependency with the "stock" package.
+	StockproductInverseTable = "stocks"
+	// StockproductColumn is the table column denoting the stockproduct relation/edge.
+	StockproductColumn = "product_stockproduct"
 	// ForproductTable is the table the holds the forproduct relation/edge.
 	ForproductTable = "promotions"
 	// ForproductInverseTable is the table name for the Promotion entity.

@@ -29,8 +29,8 @@ type ProductQuery struct {
 	unique     []string
 	predicates []predicate.Product
 	// eager-loading edges.
-	withStockproduct      *StockQuery
 	withProducts          *OrderproductQuery
+	withStockproduct      *StockQuery
 	withForproduct        *PromotionQuery
 	withFormproductonline *OrderonlineQuery
 	// intermediate query (i.e. traversal path).
@@ -62,24 +62,6 @@ func (pq *ProductQuery) Order(o ...OrderFunc) *ProductQuery {
 	return pq
 }
 
-// QueryStockproduct chains the current query on the stockproduct edge.
-func (pq *ProductQuery) QueryStockproduct() *StockQuery {
-	query := &StockQuery{config: pq.config}
-	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := pq.prepareQuery(ctx); err != nil {
-			return nil, err
-		}
-		step := sqlgraph.NewStep(
-			sqlgraph.From(product.Table, product.FieldID, pq.sqlQuery()),
-			sqlgraph.To(stock.Table, stock.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, product.StockproductTable, product.StockproductColumn),
-		)
-		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
-		return fromU, nil
-	}
-	return query
-}
-
 // QueryProducts chains the current query on the products edge.
 func (pq *ProductQuery) QueryProducts() *OrderproductQuery {
 	query := &OrderproductQuery{config: pq.config}
@@ -98,6 +80,24 @@ func (pq *ProductQuery) QueryProducts() *OrderproductQuery {
 	return query
 }
 
+// QueryStockproduct chains the current query on the stockproduct edge.
+func (pq *ProductQuery) QueryStockproduct() *StockQuery {
+	query := &StockQuery{config: pq.config}
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := pq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(product.Table, product.FieldID, pq.sqlQuery()),
+			sqlgraph.To(stock.Table, stock.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, product.StockproductTable, product.StockproductColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
 // QueryForproduct chains the current query on the forproduct edge.
 func (pq *ProductQuery) QueryForproduct() *PromotionQuery {
 	query := &PromotionQuery{config: pq.config}
@@ -108,7 +108,7 @@ func (pq *ProductQuery) QueryForproduct() *PromotionQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(product.Table, product.FieldID, pq.sqlQuery()),
 			sqlgraph.To(promotion.Table, promotion.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, product.ForproductTable, product.ForproductColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, product.ForproductTable, product.ForproductColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
 		return fromU, nil
@@ -313,17 +313,6 @@ func (pq *ProductQuery) Clone() *ProductQuery {
 	}
 }
 
-//  WithStockproduct tells the query-builder to eager-loads the nodes that are connected to
-// the "stockproduct" edge. The optional arguments used to configure the query builder of the edge.
-func (pq *ProductQuery) WithStockproduct(opts ...func(*StockQuery)) *ProductQuery {
-	query := &StockQuery{config: pq.config}
-	for _, opt := range opts {
-		opt(query)
-	}
-	pq.withStockproduct = query
-	return pq
-}
-
 //  WithProducts tells the query-builder to eager-loads the nodes that are connected to
 // the "products" edge. The optional arguments used to configure the query builder of the edge.
 func (pq *ProductQuery) WithProducts(opts ...func(*OrderproductQuery)) *ProductQuery {
@@ -332,6 +321,17 @@ func (pq *ProductQuery) WithProducts(opts ...func(*OrderproductQuery)) *ProductQ
 		opt(query)
 	}
 	pq.withProducts = query
+	return pq
+}
+
+//  WithStockproduct tells the query-builder to eager-loads the nodes that are connected to
+// the "stockproduct" edge. The optional arguments used to configure the query builder of the edge.
+func (pq *ProductQuery) WithStockproduct(opts ...func(*StockQuery)) *ProductQuery {
+	query := &StockQuery{config: pq.config}
+	for _, opt := range opts {
+		opt(query)
+	}
+	pq.withStockproduct = query
 	return pq
 }
 
@@ -424,8 +424,8 @@ func (pq *ProductQuery) sqlAll(ctx context.Context) ([]*Product, error) {
 		nodes       = []*Product{}
 		_spec       = pq.querySpec()
 		loadedTypes = [4]bool{
-			pq.withStockproduct != nil,
 			pq.withProducts != nil,
+			pq.withStockproduct != nil,
 			pq.withForproduct != nil,
 			pq.withFormproductonline != nil,
 		}
@@ -449,34 +449,6 @@ func (pq *ProductQuery) sqlAll(ctx context.Context) ([]*Product, error) {
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
-	}
-
-	if query := pq.withStockproduct; query != nil {
-		fks := make([]driver.Value, 0, len(nodes))
-		nodeids := make(map[int]*Product)
-		for i := range nodes {
-			fks = append(fks, nodes[i].ID)
-			nodeids[nodes[i].ID] = nodes[i]
-		}
-		query.withFKs = true
-		query.Where(predicate.Stock(func(s *sql.Selector) {
-			s.Where(sql.InValues(product.StockproductColumn, fks...))
-		}))
-		neighbors, err := query.All(ctx)
-		if err != nil {
-			return nil, err
-		}
-		for _, n := range neighbors {
-			fk := n.product_stockproduct
-			if fk == nil {
-				return nil, fmt.Errorf(`foreign-key "product_stockproduct" is nil for node %v`, n.ID)
-			}
-			node, ok := nodeids[*fk]
-			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "product_stockproduct" returned %v for node %v`, *fk, n.ID)
-			}
-			node.Edges.Stockproduct = n
-		}
 	}
 
 	if query := pq.withProducts; query != nil {
@@ -507,6 +479,34 @@ func (pq *ProductQuery) sqlAll(ctx context.Context) ([]*Product, error) {
 		}
 	}
 
+	if query := pq.withStockproduct; query != nil {
+		fks := make([]driver.Value, 0, len(nodes))
+		nodeids := make(map[int]*Product)
+		for i := range nodes {
+			fks = append(fks, nodes[i].ID)
+			nodeids[nodes[i].ID] = nodes[i]
+		}
+		query.withFKs = true
+		query.Where(predicate.Stock(func(s *sql.Selector) {
+			s.Where(sql.InValues(product.StockproductColumn, fks...))
+		}))
+		neighbors, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, n := range neighbors {
+			fk := n.product_stockproduct
+			if fk == nil {
+				return nil, fmt.Errorf(`foreign-key "product_stockproduct" is nil for node %v`, n.ID)
+			}
+			node, ok := nodeids[*fk]
+			if !ok {
+				return nil, fmt.Errorf(`unexpected foreign-key "product_stockproduct" returned %v for node %v`, *fk, n.ID)
+			}
+			node.Edges.Stockproduct = append(node.Edges.Stockproduct, n)
+		}
+	}
+
 	if query := pq.withForproduct; query != nil {
 		fks := make([]driver.Value, 0, len(nodes))
 		nodeids := make(map[int]*Product)
@@ -531,7 +531,7 @@ func (pq *ProductQuery) sqlAll(ctx context.Context) ([]*Product, error) {
 			if !ok {
 				return nil, fmt.Errorf(`unexpected foreign-key "product_forproduct" returned %v for node %v`, *fk, n.ID)
 			}
-			node.Edges.Forproduct = n
+			node.Edges.Forproduct = append(node.Edges.Forproduct, n)
 		}
 	}
 

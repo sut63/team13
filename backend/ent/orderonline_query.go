@@ -28,7 +28,7 @@ type OrderonlineQuery struct {
 	unique     []string
 	predicates []predicate.Orderonline
 	// eager-loading edges.
-	withProducton      *ProductQuery
+	withProduct        *ProductQuery
 	withPaymentchannel *PaymentchannelQuery
 	withTypeproduct    *TypeproductQuery
 	withCustomer       *CustomerQuery
@@ -62,8 +62,8 @@ func (oq *OrderonlineQuery) Order(o ...OrderFunc) *OrderonlineQuery {
 	return oq
 }
 
-// QueryProducton chains the current query on the producton edge.
-func (oq *OrderonlineQuery) QueryProducton() *ProductQuery {
+// QueryProduct chains the current query on the product edge.
+func (oq *OrderonlineQuery) QueryProduct() *ProductQuery {
 	query := &ProductQuery{config: oq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := oq.prepareQuery(ctx); err != nil {
@@ -72,7 +72,7 @@ func (oq *OrderonlineQuery) QueryProducton() *ProductQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(orderonline.Table, orderonline.FieldID, oq.sqlQuery()),
 			sqlgraph.To(product.Table, product.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, orderonline.ProductonTable, orderonline.ProductonColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, orderonline.ProductTable, orderonline.ProductColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(oq.driver.Dialect(), step)
 		return fromU, nil
@@ -313,14 +313,14 @@ func (oq *OrderonlineQuery) Clone() *OrderonlineQuery {
 	}
 }
 
-//  WithProducton tells the query-builder to eager-loads the nodes that are connected to
-// the "producton" edge. The optional arguments used to configure the query builder of the edge.
-func (oq *OrderonlineQuery) WithProducton(opts ...func(*ProductQuery)) *OrderonlineQuery {
+//  WithProduct tells the query-builder to eager-loads the nodes that are connected to
+// the "product" edge. The optional arguments used to configure the query builder of the edge.
+func (oq *OrderonlineQuery) WithProduct(opts ...func(*ProductQuery)) *OrderonlineQuery {
 	query := &ProductQuery{config: oq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	oq.withProducton = query
+	oq.withProduct = query
 	return oq
 }
 
@@ -425,13 +425,13 @@ func (oq *OrderonlineQuery) sqlAll(ctx context.Context) ([]*Orderonline, error) 
 		withFKs     = oq.withFKs
 		_spec       = oq.querySpec()
 		loadedTypes = [4]bool{
-			oq.withProducton != nil,
+			oq.withProduct != nil,
 			oq.withPaymentchannel != nil,
 			oq.withTypeproduct != nil,
 			oq.withCustomer != nil,
 		}
 	)
-	if oq.withProducton != nil || oq.withPaymentchannel != nil || oq.withTypeproduct != nil || oq.withCustomer != nil {
+	if oq.withProduct != nil || oq.withPaymentchannel != nil || oq.withTypeproduct != nil || oq.withCustomer != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -461,7 +461,7 @@ func (oq *OrderonlineQuery) sqlAll(ctx context.Context) ([]*Orderonline, error) 
 		return nodes, nil
 	}
 
-	if query := oq.withProducton; query != nil {
+	if query := oq.withProduct; query != nil {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*Orderonline)
 		for i := range nodes {
@@ -481,7 +481,7 @@ func (oq *OrderonlineQuery) sqlAll(ctx context.Context) ([]*Orderonline, error) 
 				return nil, fmt.Errorf(`unexpected foreign-key "product_formproductonline" returned %v`, n.ID)
 			}
 			for i := range nodes {
-				nodes[i].Edges.Producton = n
+				nodes[i].Edges.Product = n
 			}
 		}
 	}
@@ -540,7 +540,7 @@ func (oq *OrderonlineQuery) sqlAll(ctx context.Context) ([]*Orderonline, error) 
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*Orderonline)
 		for i := range nodes {
-			if fk := nodes[i].customer_formcustomer; fk != nil {
+			if fk := nodes[i].customer_id; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
@@ -553,7 +553,7 @@ func (oq *OrderonlineQuery) sqlAll(ctx context.Context) ([]*Orderonline, error) 
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "customer_formcustomer" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "customer_id" returned %v`, n.ID)
 			}
 			for i := range nodes {
 				nodes[i].Edges.Customer = n

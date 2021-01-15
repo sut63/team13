@@ -101,9 +101,9 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 	}
 
 
-	
+	settime := time.Now().Format("2006-01-02T15:04:05Z07:00")
+	time, err := time.Parse(time.RFC3339, settime)
 
-	times, err := time.Parse(time.RFC3339, obj.Addedtime)
 	
 	sa, err := ctl.client.Orderproduct.
 		Create().
@@ -112,7 +112,7 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 		SetProduct(pr).
 		SetCompany(cp).
 		SetStock(obj.Stock).
-		SetAddedtime(times).
+		SetAddedtime(time).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{

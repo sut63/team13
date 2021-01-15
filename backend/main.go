@@ -111,6 +111,7 @@ type Shifts struct {
 }
 
 type Shift struct {
+	Name      string
 	TimeStart time.Time
 	TimeEnd   time.Time
 }
@@ -191,7 +192,7 @@ func main() {
 	router := gin.Default()
 	router.Use(cors.Default())
 
-	client, err := ent.Open("sqlite3", "file:ent.db?&cache=shared&_fk=1")
+	client, err := ent.Open("sqlite3", "file:Database.db?&cache=shared&_fk=1")
 	if err != nil {
 		log.Fatalf("fail to open sqlite3: %v", err)
 	}
@@ -205,6 +206,7 @@ func main() {
 	controllers.NewCustomerController(v1, client)
 	controllers.NewOrderonlineController(v1, client)
 	controllers.NewPaymentchannelController(v1, client)
+	
 	controllers.NewProductController(v1, client)
 	controllers.NewTypeproductController(v1, client)
 
@@ -227,6 +229,7 @@ func main() {
 
 	controllers.NewDiscountController(v1, client)
 	controllers.NewGiveawayController(v1, client)
+	controllers.NewPromotionController(v1, client)
 
 	customers := Customers{
 		Customer: []Customer{
@@ -321,11 +324,15 @@ func main() {
 			Manager{"AEK Dang", "AEK@gmail.com", "4567"},
 			Manager{"PANG Dang", "PANG@gmail.com", "4568"},
 			Manager{"NW Dang", "NW@gmail.com", "4569"},
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 			Manager{"Poommin Phinphimai", "poommin2543@gmail.com", "1234"},
 			Manager{"Nontakorn Payusuk", "frashrock@gmail.com", "0862234089"},
 >>>>>>> Stashed changes
+=======
+			Manager{"Poommin Phinphimai", "poommin2543@gmail.com", "1234"},
+>>>>>>> 490d90a2587a52db5c892f294a4bbe8d1a77a887
 		},
 	}
 
@@ -409,15 +416,16 @@ func main() {
 
 	Shifts := Shifts{
 		Shift: []Shift{
-			{time.Date(0, 0, 0, 6, 30, 0, 0, time.Local), time.Date(0, 0, 0, 14, 0, 0, 0, time.Local)},
-			{time.Date(0, 0, 0, 13, 0, 0, 0, time.Local), time.Date(0, 0, 0, 22, 0, 0, 0, time.Local)},
-			{time.Date(0, 0, 0, 22, 0, 0, 0, time.Local), time.Date(0, 0, 0, 7, 0, 0, 0, time.Local)},
+			{"เวลา 06:30 – 14:00",time.Date(0, 0, 0, 6, 30, 0, 0, time.Local), time.Date(0, 0, 0, 14, 0, 0, 0, time.Local)},
+			{"เวลา 13:30 – 22:00",time.Date(0, 0, 0, 13, 0, 0, 0, time.Local), time.Date(0, 0, 0, 22, 0, 0, 0, time.Local)},
+			{"เวลา 22:00 – 07:00",time.Date(0, 0, 0, 22, 0, 0, 0, time.Local), time.Date(0, 0, 0, 7, 0, 0, 0, time.Local)},
 		},
 	}
 
 	for _, sh := range Shifts.Shift {
 		client.Shift.
 			Create().
+			SetName(sh.Name).
 			SetTimeStart(sh.TimeStart).
 			SetTimeEnd(sh.TimeEnd).
 			Save(context.Background())
