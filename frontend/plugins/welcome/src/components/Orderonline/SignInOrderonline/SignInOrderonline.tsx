@@ -1,4 +1,4 @@
-import React, { FC , useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,9 +9,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Cookiesonline } from './Cookie';
-import { DefaultApi } from '../../../api/apis'; 
+import { DefaultApi } from '../../../api/apis';
 import { EntCustomer } from '../../../api';
 import { Link as RouterLink } from 'react-router-dom';
+import { Alert } from '@material-ui/lab'; // alert
+import { Content, ContentHeader } from '@backstage/core';
 
 function Copyright() {
   return (
@@ -51,115 +53,137 @@ const SignInCustomer: FC<{}> = () => {
   const classes = useStyles();
   const api = new DefaultApi();
   var ck = new Cookiesonline();
-  var check : boolean
+  var check: boolean
   const [path, setPath] = React.useState("");
+  const [alert, setAlert] = useState(Boolean);
+  const [status, setStatus] = useState(false);
 
- 
-  const [customer,setCustomer] = React.useState<EntCustomer[]>([])
-  const listCounter = async() => {
-        const res = await api.listCustomer({})
-        setCustomer(res)
+
+  const [customer, setCustomer] = React.useState<EntCustomer[]>([])
+  const listCounter = async () => {
+    const res = await api.listCustomer({})
+    setCustomer(res)
   }
 
   // setEmail
   const [email, setEmail] = React.useState()
-  const handleEmail = (event : any) => {
-      setEmail(event.target.value)
+  const handleEmail = (event: any) => {
+    setEmail(event.target.value)
   }
 
   const [name, setName] = React.useState()
-  const handleName = (event : any) => {
-      setName(event.target.value)
+  const handleName = (event: any) => {
+    setName(event.target.value)
   }
 
   // setPassword
   const [password, setPassword] = React.useState()
-  const handlePassword = (event : any) => {
-      setPassword(event.target.value)
+  const handlePassword = (event: any) => {
+    setPassword(event.target.value)
   }
 
   // handleCookies
   function handleCookies() {
-    check = ck.CheckLogin(customer,email,password)
-    console.log("check => "+check)
-    if(check === true){
+    check = ck.CheckLogin(customer, email, password)
+    console.log("check => " + check)
+    if (check === true) {
+      setAlert(true);
       history.pushState('', '', '/Orderonline');
-      ck.SetCookie("email",email,30)
-      ck.SetCookie("id",ck.SetID(customer,email,password),30)
-      ck.SetCookie("name",ck.SetName(customer,email,password),30)
-      
-      window.location.reload(false)
-    }else if(check === false){
-      alert("The wrong password or email was entered.!!!")
-      //setPath("/")
-    }
-  }
-  // useEffect
-  useEffect(() => {
-      listCounter()
-  },[])
+      ck.SetCookie("email", email, 30)
+      ck.SetCookie("id", ck.SetID(customer, email, password), 30)
+      ck.SetCookie("name", ck.SetName(customer, email, password), 30)
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
+      window.location.reload(false)
+    } else if (check === false) {
+      setAlert(false);
+    }
+    setStatus(true);
+    const timer = setTimeout(() => {
+      setStatus(false);
+    }, 5000);
+  };
+    // useEffect
+    useEffect(() => {
+      listCounter()
+    }, [])
+
+    return (
+      <Content>
+        <ContentHeader title="Login customer">
+          {status ? (
+            <div>
+              {alert ? (
+                <Alert severity="success">เข้าสู่ระบบสำเร็จ</Alert>
+              ) : (
+                  <Alert severity="warning" style={{ marginTop: 20 }}>
+                    ไม่พบข้อมูลในระบบ
+                  </Alert>
+                )}
+            </div>
+          ) : null}
+        </ContentHeader>
+
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
         </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={handleEmail}
-          />
-         
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={handlePassword}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleCookies}
-            component={RouterLink}
-            to={path}
-          >
-            Sign In
+            <form className={classes.form} noValidate>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={handleEmail}
+              />
+
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={handlePassword}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={handleCookies}
+                component={RouterLink}
+                to={path}
+              >
+                Sign In
           </Button>
 
-          <Button
-                  style={{ marginLeft: 1 }}
-                  component={RouterLink}
-                  to="/"
-                  variant="contained"
-                >
-                  Back
+              <Button
+                style={{ marginLeft: 1 }}
+                component={RouterLink}
+                to="/"
+                variant="contained"
+              >
+                Back
              </Button>
-        </form>
-      </div>
-    </Container>
-  );
-};
+            </form>
+          </div>
+        </Container>
+      </Content>
+    );
+  };
 
-export default SignInCustomer;
+  export default SignInCustomer;
