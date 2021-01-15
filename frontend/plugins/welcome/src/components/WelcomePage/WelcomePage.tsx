@@ -129,20 +129,34 @@ const tiers = [
 ];
 const footers = [
   {
-    title: 'Company',
-    description: ['Team', 'History', 'Contact us', 'Locations'],
+    title: 'Poommin Phinphimai',
+    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
+    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
   },
   {
     title: 'Features',
-    description: ['Cool stuff', 'Random feature', 'Team feature', 'Developer stuff', 'Another one'],
+    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
+    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
   },
   {
     title: 'Resources',
-    description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
+    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
+    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
   },
   {
     title: 'Legal',
-    description: ['Privacy policy', 'Terms of use'],
+    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
+    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
+  },
+  {
+    title: 'Legal',
+    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
+    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
+  },
+  {
+    title: 'Legal',
+    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
+    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
   },
 ];
 
@@ -229,8 +243,9 @@ export default function Pricing() {
               </Typography>
               <ul>
                 {footer.description.map((item) => (
+                  
                   <li key={item}>
-                    <Link href="#" variant="subtitle1" color="textSecondary">
+                    <Link href="{footer.link}" variant="subtitle1" color="textSecondary">
                       {item}
                     </Link>
                   </li>

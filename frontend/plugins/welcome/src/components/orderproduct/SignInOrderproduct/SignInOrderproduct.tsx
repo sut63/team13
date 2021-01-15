@@ -91,7 +91,7 @@ const SignInManager: FC<{}> = () => {
     setStatus(true);
     const timer = setTimeout(() => {
       setStatus(false);
-    }, 5000);
+    }, 3000);
   };
   // useEffect
   useEffect(() => {
