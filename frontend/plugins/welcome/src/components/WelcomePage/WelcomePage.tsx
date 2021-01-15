@@ -129,35 +129,54 @@ const tiers = [
 ];
 const footers = [
   {
+    title: 'Poommin Phinphimai B6111090',
+    description: 'SOURCE CODE',
+    description2: 'Orderproduct System',
+    description3: 'Contact us',
+    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
+    link2:"https://www.facebook.com/poommin2543/"
+  },
+  {
     title: 'Poommin Phinphimai',
-    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
-    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
+    description: 'SOURCE CODE',
+    description2: 'Orderproduct System',
+    description3: 'Contact us',
+    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
+    link2:"https://www.facebook.com/poommin2543/"
   },
   {
-    title: 'Features',
-    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
-    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
+    title: 'Poommin Phinphimai',
+    description: 'SOURCE CODE',
+    description2: 'Orderproduct System',
+    description3: 'Contact us',
+    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
+    link2:"https://www.facebook.com/poommin2543/"
   },
   {
-    title: 'Resources',
-    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
-    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
+    title: 'Poommin Phinphimai',
+    description: 'SOURCE CODE',
+    description2: 'Orderproduct System',
+    description3: 'Contact us',
+    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
+    link2:"https://www.facebook.com/poommin2543/"
   },
   {
-    title: 'Legal',
-    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
-    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
+    title: 'Poommin Phinphimai',
+    description: 'SOURCE CODE',
+    description2: 'Orderproduct System',
+    description3: 'Contact us',
+    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
+    link2:"https://www.facebook.com/poommin2543/"
   },
   {
-    title: 'Legal',
-    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
-    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
+    title: 'Poommin Phinphimai',
+    description: 'SOURCE CODE',
+    description2: 'Orderproduct System',
+    description3: 'Contact us',
+    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
+    link2:"https://www.facebook.com/poommin2543/"
   },
-  {
-    title: 'Legal',
-    description: ['SOURCE CODE', 'Orderproduct System', 'Contact us'],
-    link: ["https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct","","https://www.facebook.com/poommin2543/"]
-  },
+  
 ];
 
 
@@ -242,14 +261,23 @@ export default function Pricing() {
                 {footer.title}
               </Typography>
               <ul>
-                {footer.description.map((item) => (
-                  
-                  <li key={item}>
-                    <Link href="{footer.link}" variant="subtitle1" color="textSecondary">
-                      {item}
+                    
+                  <li>
+                    <Link href= '' variant="subtitle1" color="textSecondary">
+                    {footer.description2}
                     </Link>
                   </li>
-                ))}
+                  <li>
+                    <Link href= {footer.link}variant="subtitle1" color="textSecondary">
+                    {footer.description}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href= {footer.link2}variant="subtitle1" color="textSecondary">
+                    {footer.description3}
+                    </Link>
+                  </li>
+               
               </ul>
             </Grid>
           ))}
