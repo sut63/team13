@@ -78,11 +78,11 @@ export function ControllersPromotionToJSON(value?: ControllersPromotion | null):
     }
     return {
         
-        'Discount': value.discount,
-        'Giveaway': value.giveaway,
-        'Price': value.price,
-        'Product': value.product,
-        'PromotionName': value.promotionName,
+        'discount': value.discount,
+        'giveaway': value.giveaway,
+        'price': value.price,
+        'product': value.product,
+        'promotionName': value.promotionName,
     };
 }
 

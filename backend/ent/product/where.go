@@ -625,7 +625,7 @@ func HasForproduct() predicate.Product {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.To(ForproductTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, ForproductTable, ForproductColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, ForproductTable, ForproductColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
@@ -637,7 +637,7 @@ func HasForproductWith(preds ...predicate.Promotion) predicate.Product {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.To(ForproductInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, ForproductTable, ForproductColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, ForproductTable, ForproductColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

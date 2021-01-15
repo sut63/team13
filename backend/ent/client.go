@@ -1838,7 +1838,7 @@ func (c *ProductClient) QueryForproduct(pr *Product) *PromotionQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(product.Table, product.FieldID, id),
 			sqlgraph.To(promotion.Table, promotion.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, product.ForproductTable, product.ForproductColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, product.ForproductTable, product.ForproductColumn),
 		)
 		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
 		return fromV, nil
@@ -1985,7 +1985,7 @@ func (c *PromotionClient) QueryProduct(pr *Promotion) *ProductQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(promotion.Table, promotion.FieldID, id),
 			sqlgraph.To(product.Table, product.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, true, promotion.ProductTable, promotion.ProductColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, promotion.ProductTable, promotion.ProductColumn),
 		)
 		fromV = sqlgraph.Neighbors(pr.driver.Dialect(), step)
 		return fromV, nil

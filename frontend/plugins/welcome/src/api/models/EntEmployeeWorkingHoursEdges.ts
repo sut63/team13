@@ -74,10 +74,10 @@ export function EntEmployeeWorkingHoursEdgesFromJSONTyped(json: any, ignoreDiscr
     }
     return {
         
-        'day': !exists(json, 'Day') ? undefined : EntDayFromJSON(json['Day']),
-        'employee': !exists(json, 'Employee') ? undefined : EntEmployeeFromJSON(json['Employee']),
-        'role': !exists(json, 'Role') ? undefined : EntRoleFromJSON(json['Role']),
-        'shift': !exists(json, 'Shift') ? undefined : EntShiftFromJSON(json['Shift']),
+        'day': !exists(json, 'day') ? undefined : EntDayFromJSON(json['day']),
+        'employee': !exists(json, 'employee') ? undefined : EntEmployeeFromJSON(json['employee']),
+        'role': !exists(json, 'role') ? undefined : EntRoleFromJSON(json['role']),
+        'shift': !exists(json, 'shift') ? undefined : EntShiftFromJSON(json['shift']),
     };
 }
 

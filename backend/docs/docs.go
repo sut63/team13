@@ -5035,8 +5035,10 @@ var doc = `{
                 },
                 "forproduct": {
                     "description": "Forproduct holds the value of the forproduct edge.",
-                    "type": "object",
-                    "$ref": "#/definitions/ent.Promotion"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.Promotion"
+                    }
                 },
                 "products": {
                     "description": "Products holds the value of the products edge.",

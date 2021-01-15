@@ -108,7 +108,7 @@ func (pq *ProductQuery) QueryForproduct() *PromotionQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(product.Table, product.FieldID, pq.sqlQuery()),
 			sqlgraph.To(promotion.Table, promotion.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, product.ForproductTable, product.ForproductColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, product.ForproductTable, product.ForproductColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
 		return fromU, nil
@@ -531,7 +531,7 @@ func (pq *ProductQuery) sqlAll(ctx context.Context) ([]*Product, error) {
 			if !ok {
 				return nil, fmt.Errorf(`unexpected foreign-key "product_forproduct" returned %v for node %v`, *fk, n.ID)
 			}
-			node.Edges.Forproduct = n
+			node.Edges.Forproduct = append(node.Edges.Forproduct, n)
 		}
 	}
 

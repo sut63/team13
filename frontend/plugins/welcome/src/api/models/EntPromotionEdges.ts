@@ -79,9 +79,9 @@ export function EntPromotionEdgesToJSON(value?: EntPromotionEdges | null): any {
     }
     return {
         
-        'Give': EntGiveawayToJSON(value.give),
-        'Product': EntProductToJSON(value.product),
-        'Sale': EntDiscountToJSON(value.sale),
+        'give': EntGiveawayToJSON(value.give),
+        'product': EntProductToJSON(value.product),
+        'sale': EntDiscountToJSON(value.sale),
     };
 }
 

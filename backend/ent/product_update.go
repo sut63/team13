@@ -85,23 +85,19 @@ func (pu *ProductUpdate) AddStockproduct(s ...*Stock) *ProductUpdate {
 	return pu.AddStockproductIDs(ids...)
 }
 
-// SetForproductID sets the forproduct edge to Promotion by id.
-func (pu *ProductUpdate) SetForproductID(id int) *ProductUpdate {
-	pu.mutation.SetForproductID(id)
+// AddForproductIDs adds the forproduct edge to Promotion by ids.
+func (pu *ProductUpdate) AddForproductIDs(ids ...int) *ProductUpdate {
+	pu.mutation.AddForproductIDs(ids...)
 	return pu
 }
 
-// SetNillableForproductID sets the forproduct edge to Promotion by id if the given value is not nil.
-func (pu *ProductUpdate) SetNillableForproductID(id *int) *ProductUpdate {
-	if id != nil {
-		pu = pu.SetForproductID(*id)
+// AddForproduct adds the forproduct edges to Promotion.
+func (pu *ProductUpdate) AddForproduct(p ...*Promotion) *ProductUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
 	}
-	return pu
-}
-
-// SetForproduct sets the forproduct edge to Promotion.
-func (pu *ProductUpdate) SetForproduct(p *Promotion) *ProductUpdate {
-	return pu.SetForproductID(p.ID)
+	return pu.AddForproductIDs(ids...)
 }
 
 // AddFormproductonlineIDs adds the formproductonline edge to Orderonline by ids.
@@ -154,10 +150,19 @@ func (pu *ProductUpdate) RemoveStockproduct(s ...*Stock) *ProductUpdate {
 	return pu.RemoveStockproductIDs(ids...)
 }
 
-// ClearForproduct clears the forproduct edge to Promotion.
-func (pu *ProductUpdate) ClearForproduct() *ProductUpdate {
-	pu.mutation.ClearForproduct()
+// RemoveForproductIDs removes the forproduct edge to Promotion by ids.
+func (pu *ProductUpdate) RemoveForproductIDs(ids ...int) *ProductUpdate {
+	pu.mutation.RemoveForproductIDs(ids...)
 	return pu
+}
+
+// RemoveForproduct removes forproduct edges to Promotion.
+func (pu *ProductUpdate) RemoveForproduct(p ...*Promotion) *ProductUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return pu.RemoveForproductIDs(ids...)
 }
 
 // RemoveFormproductonlineIDs removes the formproductonline edge to Orderonline by ids.
@@ -354,9 +359,9 @@ func (pu *ProductUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if pu.mutation.ForproductCleared() {
+	if nodes := pu.mutation.RemovedForproductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   product.ForproductTable,
 			Columns: []string{product.ForproductColumn},
@@ -368,11 +373,14 @@ func (pu *ProductUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				},
 			},
 		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := pu.mutation.ForproductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   product.ForproductTable,
 			Columns: []string{product.ForproductColumn},
@@ -499,23 +507,19 @@ func (puo *ProductUpdateOne) AddStockproduct(s ...*Stock) *ProductUpdateOne {
 	return puo.AddStockproductIDs(ids...)
 }
 
-// SetForproductID sets the forproduct edge to Promotion by id.
-func (puo *ProductUpdateOne) SetForproductID(id int) *ProductUpdateOne {
-	puo.mutation.SetForproductID(id)
+// AddForproductIDs adds the forproduct edge to Promotion by ids.
+func (puo *ProductUpdateOne) AddForproductIDs(ids ...int) *ProductUpdateOne {
+	puo.mutation.AddForproductIDs(ids...)
 	return puo
 }
 
-// SetNillableForproductID sets the forproduct edge to Promotion by id if the given value is not nil.
-func (puo *ProductUpdateOne) SetNillableForproductID(id *int) *ProductUpdateOne {
-	if id != nil {
-		puo = puo.SetForproductID(*id)
+// AddForproduct adds the forproduct edges to Promotion.
+func (puo *ProductUpdateOne) AddForproduct(p ...*Promotion) *ProductUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
 	}
-	return puo
-}
-
-// SetForproduct sets the forproduct edge to Promotion.
-func (puo *ProductUpdateOne) SetForproduct(p *Promotion) *ProductUpdateOne {
-	return puo.SetForproductID(p.ID)
+	return puo.AddForproductIDs(ids...)
 }
 
 // AddFormproductonlineIDs adds the formproductonline edge to Orderonline by ids.
@@ -568,10 +572,19 @@ func (puo *ProductUpdateOne) RemoveStockproduct(s ...*Stock) *ProductUpdateOne {
 	return puo.RemoveStockproductIDs(ids...)
 }
 
-// ClearForproduct clears the forproduct edge to Promotion.
-func (puo *ProductUpdateOne) ClearForproduct() *ProductUpdateOne {
-	puo.mutation.ClearForproduct()
+// RemoveForproductIDs removes the forproduct edge to Promotion by ids.
+func (puo *ProductUpdateOne) RemoveForproductIDs(ids ...int) *ProductUpdateOne {
+	puo.mutation.RemoveForproductIDs(ids...)
 	return puo
+}
+
+// RemoveForproduct removes forproduct edges to Promotion.
+func (puo *ProductUpdateOne) RemoveForproduct(p ...*Promotion) *ProductUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return puo.RemoveForproductIDs(ids...)
 }
 
 // RemoveFormproductonlineIDs removes the formproductonline edge to Orderonline by ids.
@@ -766,9 +779,9 @@ func (puo *ProductUpdateOne) sqlSave(ctx context.Context) (pr *Product, err erro
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if puo.mutation.ForproductCleared() {
+	if nodes := puo.mutation.RemovedForproductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   product.ForproductTable,
 			Columns: []string{product.ForproductColumn},
@@ -780,11 +793,14 @@ func (puo *ProductUpdateOne) sqlSave(ctx context.Context) (pr *Product, err erro
 				},
 			},
 		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := puo.mutation.ForproductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   product.ForproductTable,
 			Columns: []string{product.ForproductColumn},

@@ -14,7 +14,7 @@ type Promotion struct {
 // Fields of the Promotion.
 func (Promotion) Fields() []ent.Field {
     return []ent.Field{
-        field.String("PromotionName").Unique(),
+        field.String("PromotionName"),
         field.Float("Price"),
     }
 }

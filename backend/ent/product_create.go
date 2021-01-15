@@ -77,23 +77,19 @@ func (pc *ProductCreate) AddStockproduct(s ...*Stock) *ProductCreate {
 	return pc.AddStockproductIDs(ids...)
 }
 
-// SetForproductID sets the forproduct edge to Promotion by id.
-func (pc *ProductCreate) SetForproductID(id int) *ProductCreate {
-	pc.mutation.SetForproductID(id)
+// AddForproductIDs adds the forproduct edge to Promotion by ids.
+func (pc *ProductCreate) AddForproductIDs(ids ...int) *ProductCreate {
+	pc.mutation.AddForproductIDs(ids...)
 	return pc
 }
 
-// SetNillableForproductID sets the forproduct edge to Promotion by id if the given value is not nil.
-func (pc *ProductCreate) SetNillableForproductID(id *int) *ProductCreate {
-	if id != nil {
-		pc = pc.SetForproductID(*id)
+// AddForproduct adds the forproduct edges to Promotion.
+func (pc *ProductCreate) AddForproduct(p ...*Promotion) *ProductCreate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
 	}
-	return pc
-}
-
-// SetForproduct sets the forproduct edge to Promotion.
-func (pc *ProductCreate) SetForproduct(p *Promotion) *ProductCreate {
-	return pc.SetForproductID(p.ID)
+	return pc.AddForproductIDs(ids...)
 }
 
 // AddFormproductonlineIDs adds the formproductonline edge to Orderonline by ids.
@@ -267,7 +263,7 @@ func (pc *ProductCreate) createSpec() (*Product, *sqlgraph.CreateSpec) {
 	}
 	if nodes := pc.mutation.ForproductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   product.ForproductTable,
 			Columns: []string{product.ForproductColumn},

@@ -106,7 +106,7 @@ func (pq *PromotionQuery) QueryProduct() *ProductQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(promotion.Table, promotion.FieldID, pq.sqlQuery()),
 			sqlgraph.To(product.Table, product.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, true, promotion.ProductTable, promotion.ProductColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, promotion.ProductTable, promotion.ProductColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
 		return fromU, nil

@@ -54,8 +54,8 @@ export default function Promotiontable() {
 
     <Page theme={pageTheme.home}>
       <Header
-        title=" Welcome to Orderonline "
-        subtitle="Select Product you want to be in."
+        title=" Welcome to PROMOTION "
+        subtitle=""
       >
 
         <TableCell align="right">
