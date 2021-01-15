@@ -1,4 +1,4 @@
-import React, { useState,Component, useEffect } from 'react';
+import React, { useState, Component, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -21,14 +21,8 @@ import { EntProduct } from '../../api/models/EntProduct';
 import { EntCompany } from '../../api/models/EntCompany';
 import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntManager } from '../../api/models/EntManager';
-//import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-
-//import { ContentHeader } from '@backstage/core';
-import ComponanceTable from './Tableorderproduct';  
- 
-//import { ContentHeader } from '@backstage/core'; 
-
+import ComponanceTable from './Tableorderproduct';
 import Swal from 'sweetalert2';
 //cookie
 import { Cookies } from './SignInOrderproduct/Cookie'
@@ -91,7 +85,7 @@ function Copyright() {
 //testupgithub
 
 export default function MenuAppBar() {
-  
+
   var ck = new Cookies()
   var cookieEmail = ck.GetCookie()
   var cookieID = ck.GetID()
@@ -100,7 +94,7 @@ export default function MenuAppBar() {
   const classes = useStyles();
   const profile = { givenName: 'to Software Analysis 63' };
   const api = new DefaultApi();
-  
+
   const [products, setProducts] = useState<EntProduct[]>([]);
   const [companys, setCompanys] = useState<EntCompany[]>([]);
   const [typeproducts, setTypeproducts] = useState<EntTypeproduct[]>([]);
@@ -117,111 +111,111 @@ export default function MenuAppBar() {
   const [orderstockid, setOrderstockid] = useState(Number);
   //const [datetime, setDatetime] = useState(String);
 
- let stock = Number(orderstockid) 
- let managerID  = Number(cookieID)
- let typeproductID =Number(typeproductid)
- let productID  = Number(productid)
- let companyID  = Number(companyid)
+  let stock = Number(orderstockid)
+  let managerID = Number(cookieID)
+  let typeproductID = Number(typeproductid)
+  let productID = Number(productid)
+  let companyID = Number(companyid)
 
- console.log(managerID)
- useEffect(() => {
-  
-  const getmanagers = async () => {
+  console.log(managerID)
+  useEffect(() => {
 
-    const mn = await api.listManager({ limit: 10, offset: 0 });
-    setLoading(false);
-    setManagers(mn);
+    const getmanagers = async () => {
+
+      const mn = await api.listManager({ limit: 10, offset: 0 });
+      setLoading(false);
+      setManagers(mn);
+    };
+    getmanagers();
+
+    const getTypeproducts = async () => {
+
+      const tp = await api.listTypeproduct({ limit: 10, offset: 0 });
+      setLoading(false);
+      setTypeproducts(tp);
+    };
+    getTypeproducts();
+
+    const getproducts = async () => {
+
+      const pr = await api.listProduct({ limit: 10, offset: 0 });
+      setLoading(false);
+      setProducts(pr);
+    };
+    getproducts();
+
+    const getcompanys = async () => {
+
+      const cp = await api.listCompany({ limit: 10, offset: 0 });
+      setLoading(false);
+      setCompanys(cp);
+    };
+    getcompanys();
+
+  }, [loading]);
+
+  const orderproduct = {
+
+    managerID,
+    typeproductID,
+    productID,
+    companyID,
+    stock,
+    //Addedtime :datetime   + ":00+07:00"
+  }
+  console.log(orderproduct)
+  function save() {
+    const apiUrl = 'http://localhost:8080/api/v1/orderproducts';
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderproduct),
+    };
+
+    console.log(orderproduct); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+
+    fetch(apiUrl, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.id != null) {
+          //clear();
+          Toast.fire({
+            icon: 'success',
+            title: 'บันทึกข้อมูลสำเร็จ',
+
+          }); window.setTimeout(function () { location.reload() }, 8000);
+        } else {
+          Toast.fire({
+            icon: 'error',
+            title: '<h2>บันทึกข้อมูลไม่สำเร็จ</h2>',
+          });
+        }
+      });
+  }
+  const manager_id_handleChange = (event: any) => {
+    setManagerid(event.target.value);
   };
-  getmanagers();
 
-  const getTypeproducts = async () => {
-
-  const tp = await api.listTypeproduct({ limit: 10, offset: 0 });
-    setLoading(false);
-    setTypeproducts(tp);
-  };
-  getTypeproducts();
-
-  const getproducts = async () => {
-
-   const pr = await api.listProduct({ limit: 10, offset: 0 });
-     setLoading(false);
-     setProducts(pr);
-   };
-   getproducts();
-
-   const getcompanys = async () => {
-
-    const cp = await api.listCompany({ limit: 10, offset: 0 });
-    setLoading(false);
-    setCompanys(cp);
-  };
-  getcompanys();
-   
-}, [loading]);
-  
-const orderproduct = {
-                 
-  managerID  , 
-  typeproductID ,   
-  productID , 
-  companyID ,
-  stock ,
-  //Addedtime :datetime   + ":00+07:00"
-}
-console.log(orderproduct)
-function save() {
-  const apiUrl = 'http://localhost:8080/api/v1/orderproducts';
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(orderproduct),
-  };
-
-  console.log(orderproduct); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
-
-  fetch(apiUrl, requestOptions)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      if (data.id != null) {
-        //clear();
-        Toast.fire({
-          icon: 'success',
-          title: 'บันทึกข้อมูลสำเร็จ',
-
-        });window.setTimeout(function(){location.reload()},8000);
-      } else {
-        Toast.fire({
-          icon: 'error',
-          title: '<h2>บันทึกข้อมูลไม่สำเร็จ</h2>',
-        });
-      }
-    });
-}
-  const manager_id_handleChange = (event: any)=> {
-  setManagerid(event.target.value);
-   }; 
-
-  const Typeproduct_id_handleChange = (event:any) => {
+  const Typeproduct_id_handleChange = (event: any) => {
     setTypeproductid(event.target.value);
-   };
+  };
 
   const Product_id_handleChange = (event: any) => {
     setProductid(event.target.value);
   }
   const Company_id_handleChange = (event: any) => {
     setCompanyid(event.target.value);
-   };
-   const Orderstock_id_handleChange = (event: any) => {
+  };
+  const Orderstock_id_handleChange = (event: any) => {
     setOrderstockid(event.target.value);
-   };
+  };
   /*const handleDatetimeChange = (event: any) => {
     setDatetime(event.target.value as string);
   }; */
-  
 
- function HomeIcon(props:any) {
+
+  function HomeIcon(props: any) {
     return (
       <SvgIcon {...props}>
         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
@@ -235,43 +229,43 @@ function save() {
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
             <Hidden smUp>
-            <Grid item>
-                
+              <Grid item>
+
               </Grid>
             </Hidden>
             <Grid item xs />
             <Grid item>
-            
+
             </Grid>
-            
+
             <Grid item>
-                <IconButton 
+              <IconButton
                 style={{ marginLeft: 20 }}
                 component={RouterLink}
                 to="/"
-                >    
+              >
                 <HomeIcon color="inherit" />
-                </IconButton>
-                </Grid>
-                <Grid item>
-            <Button className={classes.button} variant="outlined" color="inherit" 
-            size="small" component={RouterLink}
-            to="/signinorderproduct">
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <Button className={classes.button} variant="outlined" color="inherit"
+                size="small" component={RouterLink}
+                to="/signinorderproduct">
                 logout
               </Button>
-                </Grid>  
+            </Grid>
             <Grid item>
-            
+
             </Grid>
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src='o' alt = {cookieEmail} />
+                <Avatar src='o' alt={cookieEmail} />
               </IconButton>
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
-      
+
       <AppBar
         component="div"
         color="primary"
@@ -286,13 +280,13 @@ function save() {
               </Typography>
             </Grid>
             <Grid item>
-            
-                </Grid>  
-            
-            <Grid item>
-            
+
             </Grid>
-            
+
+            <Grid item>
+
+            </Grid>
+
           </Grid>
         </Toolbar>
       </AppBar>
@@ -304,12 +298,12 @@ function save() {
         elevation={0}
       >
         <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="ADD Data" />     
+          <Tab textColor="inherit" label="ADD Data" />
         </Tabs>
-        
+
       </AppBar>
-            
-       
+
+
       <AppBar
         component="div"
         className={classes.secondaryBar}
@@ -321,9 +315,6 @@ function save() {
           <Grid container alignItems="center" spacing={4}>
             <Grid item xs={12}></Grid>
             <Grid item xs={12}></Grid>
-        
-            
-            
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
@@ -332,8 +323,8 @@ function save() {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-              
-            {/*<Select
+
+              {/*<Select
                labelId="manager_id-label"
                label="manager"
                id="manager_id"
@@ -343,7 +334,7 @@ function save() {
                {managers.map((item:EntManager)=>
                <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
                </Select>*/}
-               <div style={{ marginLeft: 10, marginRight:20 }}>{cookieName}</div>
+              <div style={{ marginLeft: 10, marginRight: 20 }}>{cookieName}</div>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -356,17 +347,17 @@ function save() {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-              
-            <Select
-               labelId="Equipment_id-label"
-               label="Equipment"
-               id="Equipment_id"
-               onChange={Product_id_handleChange}
-               style = {{width: 200}}
-               >
-               {products.map((item:EntProduct)=>
-               <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
-             </Select>
+
+              <Select
+                labelId="Equipment_id-label"
+                label="Equipment"
+                id="Equipment_id"
+                onChange={Product_id_handleChange}
+                style={{ width: 200 }}
+              >
+                {products.map((item: EntProduct) =>
+                  <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
+              </Select>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -379,23 +370,23 @@ function save() {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-            
-            <Select
-               labelId="medicalType_id-label"
-               label="medicalType"
-               id="medicalType_id"
-               onChange={Typeproduct_id_handleChange}
-               style = {{width: 200}}
-               >
-               {typeproducts.map((item:EntTypeproduct)=>
-               <MenuItem key={item.id} value={item.id}>{item.typeproduct}</MenuItem>)}
-             </Select>
 
-             
+              <Select
+                labelId="medicalType_id-label"
+                label="medicalType"
+                id="medicalType_id"
+                onChange={Typeproduct_id_handleChange}
+                style={{ width: 200 }}
+              >
+                {typeproducts.map((item: EntTypeproduct) =>
+                  <MenuItem key={item.id} value={item.id}>{item.typeproduct}</MenuItem>)}
+              </Select>
+
+
 
             </Grid>
 
-            
+
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 
@@ -407,17 +398,17 @@ function save() {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-              
-            <Select
-               labelId="Equipment_id-label"
-               label="Equipment"
-               id="Equipment_id"
-               onChange={Company_id_handleChange}
-               style = {{width: 200}}
-               >
-               {companys.map((item:EntCompany)=>
-               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-             </Select>
+
+              <Select
+                labelId="Equipment_id-label"
+                label="Equipment"
+                id="Equipment_id"
+                onChange={Company_id_handleChange}
+                style={{ width: 200 }}
+              >
+                {companys.map((item: EntCompany) =>
+                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
+              </Select>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -431,18 +422,19 @@ function save() {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-            
-                <TextField id="outlined-number" type='number'  InputLabelProps={{
-                  shrink: true,}}label="กรุณาใส่จำนวน" variant="outlined"
-                  onChange = {Orderstock_id_handleChange}
-                  />
-                  
-                  
+
+              <TextField id="outlined-number" type='number' InputLabelProps={{
+                shrink: true,
+              }} label="กรุณาใส่จำนวน" variant="outlined"
+                onChange={Orderstock_id_handleChange}
+              />
+
+
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 
-           {/* <Grid item xs={2}></Grid>
+            {/* <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
@@ -475,7 +467,7 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Button
-              
+
                 variant="contained"
                 color="primary"
                 size="large"
@@ -483,8 +475,8 @@ function save() {
                 onClick={() => {
                   save();
                 }}
-                
-                startIcon={<SaveIcon 
+
+                startIcon={<SaveIcon
                 />}
               >
                 Save
@@ -494,8 +486,8 @@ function save() {
             <Grid item xs={2}> </Grid>
             <Grid item xs={12}></Grid>
             <Grid item xs={12}></Grid>
-            
-        </Grid>
+
+          </Grid>
         </Toolbar>
       </AppBar>
       <AppBar
@@ -507,15 +499,15 @@ function save() {
       >
         <Toolbar>
           <Grid container alignItems="center" spacing={1}>
-            <Grid item xs>  
-            <Copyright />
-              
+            <Grid item xs>
+              <Copyright />
+
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
       <ComponanceTable></ComponanceTable>
-    
+
     </div>
   );
- }
+}
