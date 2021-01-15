@@ -193,7 +193,7 @@ export default function Stock() {
         } else {
           Toast.fire({
             icon: 'error',
-            title: 'บันทึกข้อมูลไม่สำเร็จ',
+            title: 'บันทึกข้อมูลไม่สำเร็จ กรุณากรอกข้อมูลให้ครบ',
           });
         }
       });

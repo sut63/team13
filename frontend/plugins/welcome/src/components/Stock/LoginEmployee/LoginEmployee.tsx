@@ -1,13 +1,9 @@
-import React, { FC , useEffect } from 'react';
+import React, { FC , useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,21 +11,11 @@ import Container from '@material-ui/core/Container';
 import { Cookies } from './Cookie';
 import { DefaultApi } from '../../../api/apis'; 
 import { EntEmployee } from '../../../api';
-import { ApiProvider } from '@backstage/core';
+import {  Content, ContentHeader } from '@backstage/core';
 import { Link as RouterLink } from 'react-router-dom';
+import { Alert } from '@material-ui/lab'; // alert
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -58,6 +44,8 @@ const LoginEmployee: FC<{}> = () => {
   var ck = new Cookies();
   var check : boolean
   const [path, setPath] = React.useState("");
+  const [alert, setAlert] = useState(Boolean);
+  const [status, setStatus] = useState(false);
 
   // list CounterStaff
   const [employee,setEmployee] = React.useState<EntEmployee[]>([])
@@ -72,10 +60,7 @@ const LoginEmployee: FC<{}> = () => {
       setEmail(event.target.value)
   }
 
-  const [name, setName] = React.useState()
-  const handleName = (event : any) => {
-      setName(event.target.value)
-  }
+
 
   // setPassword
   const [password, setPassword] = React.useState()
@@ -88,6 +73,7 @@ const LoginEmployee: FC<{}> = () => {
     check = ck.CheckLogin(employee,email,password)
     console.log("check => "+check)
     if(check === true){
+      setAlert(true);
       history.pushState('', '', '/Stock');
       ck.SetCookie("email",email,30)
       ck.SetCookie("id",ck.SetID(employee,email,password),30)
@@ -95,16 +81,37 @@ const LoginEmployee: FC<{}> = () => {
       
       window.location.reload(false)
     }else if(check === false){
-      alert("The wrong password or email was entered.!!!")
+      setAlert(false);
       //setPath("/")
     }
-  }
+    setStatus(true);
+    const timer = setTimeout(() => {
+      setStatus(false);
+    }, 3000);
+  };
   // useEffect
   useEffect(() => {
       listCounter()
   },[])
 
   return (
+
+    <Content>
+
+      <ContentHeader title="Login Employee">
+          {status ? (
+            <div>
+              {alert ? (
+                <Alert severity="success">เข้าสู่ระบบสำเร็จ</Alert>
+              ) : (
+                  <Alert severity="error" >
+                    ไม่พบข้อมูลในระบบ
+                  </Alert>
+                )}
+            </div>
+          ) : null}
+      </ContentHeader>
+      
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -164,7 +171,9 @@ const LoginEmployee: FC<{}> = () => {
         </form>
       </div>
     </Container>
+
+    </Content>
   );
-};
+}
 
 export default LoginEmployee;
