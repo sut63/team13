@@ -154,14 +154,17 @@ const SignInCustomer: FC<{}> = () => {
                 Sign In
           </Button>
 
-              <Button
-                style={{ marginLeft: 1 }}
-                component={RouterLink}
-                to="/"
-                variant="contained"
-              >
-                Back
-             </Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            className={classes.submit}
+            component={RouterLink}
+                  to="/"
+            
+          >
+            Back
+          </Button>
             </form>
           </div>
         </Container>
