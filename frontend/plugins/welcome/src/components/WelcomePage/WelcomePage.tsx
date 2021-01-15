@@ -26,7 +26,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Farmmart Website
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
 const tiers = [
   {
     image: "https://cutt.ly/IjWi4y3",
-    title: 'ผู้จัดการ',
+    title: 'Manager',
     description: [/*'ระบบย่อย', 'บันทึกเงินเดือนพนักงาน', 'ตารางเวลาทำงานพนักงาน'*/],
     buttonText: 'Contineus',
     buttinLink: "/signinorderproduct",
@@ -100,7 +100,7 @@ const tiers = [
   },
   {
     image: "https://cutt.ly/MjWi5uk",
-    title: 'พนักงาน',
+    title: 'Employee',
     description: [
      /* '50 users included',
       '30 GB of storage',
@@ -113,7 +113,7 @@ const tiers = [
   },
   {
     image: "https://cutt.ly/WjWoq99",
-    title: 'ลูกค้า',
+    title: 'Customer',
     description: [
       /*'20 users included',
       '10 GB of storage',
@@ -132,49 +132,55 @@ const footers = [
     title: 'Poommin Phinphimai B6111090',
     description: 'SOURCE CODE',
     description2: 'Orderproduct System',
-    description3: 'Contact us',
+    description3: 'Contact ',
     link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
-    link2:"https://www.facebook.com/poommin2543/"
+    link2:"https://www.facebook.com/poommin2543/",
+    link3: "/orderproduct"
   },
   {
     title: 'Konrawit Kongsri B6118310',
     description: 'SOURCE CODE',
     description2: 'Orderonline System',
-    description3: 'Contact us',
+    description3: 'Contact ',
     link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/Orderonline",
-    link2:"https://www.facebook.com/peerat.kongsree"
+    link2:"https://www.facebook.com/peerat.kongsree",
+    link3: "/Orderonline"
   },
   {
-    title: 'Poommin Phinphimai',
+    title: 'Prakaifa Kummungkun B6104245',
     description: 'SOURCE CODE',
-    description2: 'Orderproduct System',
-    description3: 'Contact us',
-    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
-    link2:"https://www.facebook.com/poommin2543/"
+    description2: 'StockProduct    System',
+    description3: 'Contact ',
+    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/Stock",
+    link2:"https://www.facebook.com/prakaifa.kummungkum/",
+    link3: "/Stock"
   },
   {
-    title: 'Poommin Phinphimai',
+    title: 'Nontakorn Payusuk B6111052',
     description: 'SOURCE CODE',
-    description2: 'Orderproduct System',
-    description3: 'Contact us',
-    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
-    link2:"https://www.facebook.com/poommin2543/"
+    description2: 'Salary  System',
+    description3: 'Contact ',
+    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/Salary",
+    link2:"https://www.facebook.com/profile.php?id=100002730288880",
+    link3: "/Salary"
   },
   {
-    title: 'Poommin Phinphimai',
+    title: 'Thanabodee Petchrey B6118631',
     description: 'SOURCE CODE',
-    description2: 'Orderproduct System',
-    description3: 'Contact us',
-    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
-    link2:"https://www.facebook.com/poommin2543/"
+    description2: 'EmployeeWorkingHours',
+    description3: 'Contact ',
+    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/EmployeeWorkingHours",
+    link2:"https://www.facebook.com/profile.php?id=100004791875262",
+    link3: "/EmployeeWorkingHours"
   },
   {
-    title: 'Poommin Phinphimai',
+    title: 'Pichai Somasa B6116637',
     description: 'SOURCE CODE',
-    description2: 'Orderproduct System',
-    description3: 'Contact us',
-    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/orderproduct",
-    link2:"https://www.facebook.com/poommin2543/"
+    description2: 'Promotion System',
+    description3: 'Contact ',
+    link: "https://github.com/sut63/team13/tree/main/frontend/plugins/welcome/src/components/Promotion",
+    link2:"https://www.facebook.com/bank.kub.775/",
+    link3: "/Promotion"
   },
   
 ];
@@ -190,7 +196,7 @@ export default function Pricing() {
       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h3" color="inherit" noWrap className={classes.toolbarTitle}>
-            ระบบฟาร์มมาร์ท
+          Farmmart System
           </Typography>
           <nav>
             <Link variant="button" color="textPrimary" href="https://github.com/sut63/team13" className={classes.link}>
@@ -198,17 +204,13 @@ export default function Pricing() {
             </Link>
             
           </nav>
-          <Button href="#" color="primary" variant="outlined" className={classes.link}
-          component={RouterLink}
-          to="/signinorderproduct">
-            
-          </Button>
+         
         </Toolbar>
       </AppBar>
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-          ยินดีต้อนรับ
+          Welcome
         </Typography>
         {/*<Typography variant="h5" align="center" color="textSecondary" component="p">
           Quickly build an effective pricing table for your potential customers with this layout.
@@ -251,9 +253,13 @@ export default function Pricing() {
             ))}
         </Grid>
       </Container>
+                       
       
-      
+      <Container>
+
+      </Container>
       <Container maxWidth="md" component="footer" className={classes.footer}>
+        
         <Grid container spacing={4} justify="space-evenly">
           {footers.map((footer) => (
             <Grid item xs={6} sm={3} key={footer.title}>
@@ -263,7 +269,7 @@ export default function Pricing() {
               <ul>
                     
                   <li>
-                    <Link href= '' variant="subtitle1" color="textSecondary">
+                    <Link href= {footer.link3} variant="subtitle1" color="textSecondary">
                     {footer.description2}
                     </Link>
                   </li>
