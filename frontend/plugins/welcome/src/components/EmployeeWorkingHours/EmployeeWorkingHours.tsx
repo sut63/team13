@@ -49,6 +49,13 @@ const useStyles = makeStyles(theme => ({
   textField: {
     width: 300,
   },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
 }));
 
 interface EmployeeWorkingHours {

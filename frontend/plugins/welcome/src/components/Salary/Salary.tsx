@@ -24,7 +24,8 @@ import { EntSalary } from '../../api/models/EntSalary';
 //import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 //import { ContentHeader } from '@backstage/core';
- 
+import { createMuiTheme } from '@material-ui/core/styles';
+import purple from '@material-ui/core/colors/purple';
 import Swal from 'sweetalert2';
 
 
@@ -53,8 +54,26 @@ const useStyles = makeStyles((theme: Theme) =>
     textField: {
       width: 200,
     },
+
+    primary: {
+      light: '#757ce8',
+      main: '#3f50b5',
+      dark: '#002884',
+      contrastText: '#fff',
+    },
   }),
 );
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: purple[500],
+    },
+    secondary: {
+      main: '#f44336',
+    },
+  },
+});
 
 const Toast = Swal.mixin({
   toast: true,
@@ -69,7 +88,7 @@ const Toast = Swal.mixin({
 });
 
 
-function Copyright() {
+/*function Copyright() {
   return (
     <Typography variant="body2" color="inherit" align="center">
       {'Copyright © '}
@@ -80,7 +99,7 @@ function Copyright() {
       {'.'}
     </Typography>
   );
-}
+}*/
 
 
 export default function MenuAppBar() {
@@ -170,7 +189,7 @@ function save() {
           icon: 'success',
           title: 'บันทึกข้อมูลสำเร็จ',
         });
-       // window.setTimeout(function(){location.reload()},1500);
+        window.setTimeout(function(){location.reload()},1000);
       } else {
         Toast.fire({
           icon: 'error',
@@ -220,7 +239,7 @@ function save() {
       
       <AppBar
         component="div"
-        color="primary"
+        color= 'secondary'
         position="static"
         elevation={0}
       >
@@ -235,7 +254,7 @@ function save() {
                 <IconButton 
                 style={{ marginLeft: 20 }}
                 component={RouterLink}
-                to="/"
+                to="/SplitsystemManager"
                 >    
                 <HomeIcon color="inherit" />
                 </IconButton>
@@ -244,38 +263,16 @@ function save() {
                   
             <Button className={classes.button} variant="outlined" color="inherit" 
             size="small" component={RouterLink}
-            to="/signinmanager">
+            to="/">
                 logout
               </Button>
                 </Grid>  
-            <Grid item>
             
-            </Grid>
-            <Grid item>
-              <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                
-              </IconButton>
-            </Grid>
-            
-            <Grid item>
-            
-            </Grid>
             
           </Grid>
         </Toolbar>
       </AppBar>
-      <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="static"
-        elevation={0}
-      >
-        <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="ADD Data" />     
-        </Tabs>
-        
-      </AppBar>
+      
             
        
       <AppBar
@@ -295,7 +292,7 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
+              <Typography color="secondary" variant="h6" component="h1">
                 ชื่อพนักงาน
               </Typography>
             </Grid>
@@ -319,7 +316,7 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
+              <Typography color="secondary" variant="h6" component="h1">
                 ตำแหน่ง
               </Typography>
             </Grid>
@@ -342,7 +339,7 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
+              <Typography color="secondary" variant="h6" component="h1">
                 ผลการประเมิน
               </Typography>
             </Grid>
@@ -370,21 +367,20 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
+              <Typography color="secondary" variant="h6" component="h1">
                 เงินเดือน
               </Typography>
             </Grid>
             <Grid item xs={2}>
               
             <TextField
-                id="salary"
-                label="salary"
+                id="salary-number" 
+                type='number'  
+                InputLabelProps={{shrink: true,}}
+                label="เงินเดือน" 
                 variant="outlined"
-                type="string"
-                size="medium"
-                value={salaryNumber}
                 onChange={handleSalaryChange }
-                style={{  marginRight :300,width: 300 }}
+           
               />
             </Grid>
             <Grid item xs={2}></Grid>
@@ -394,15 +390,19 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
+              <Typography color="secondary" variant="h6" component="h1">
                 โบนัส
               </Typography>
             </Grid>
             <Grid item xs={2}>
             
-                <TextField id="bonus-number" type='number'  InputLabelProps={{
-                  shrink: true,}}label="โบนัส" variant="outlined"
-                  onChange = {handleBonusChange}
+                <TextField 
+                id="bonus-number" 
+                type='number'  
+                InputLabelProps={{shrink: true,}}
+                label="โบนัส" 
+                variant="outlined"
+                onChange = {handleBonusChange}
                   />
                   
                   
@@ -413,7 +413,7 @@ function save() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
+              <Typography color="secondary" variant="h6" component="h1">
                 เวลาที่เงินเดือนออก
               </Typography>
             </Grid>
@@ -438,10 +438,10 @@ function save() {
             <Grid item xs={2}></Grid>
                     <Grid item xs={2}> </Grid>
 
-            <Grid item xs={2}></Grid>
+           
             <Grid item xs={2}> </Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}>
+            <Grid item xs={4}></Grid>
+            <Grid item xs={1}>
               <Button
               
                 variant="contained"
@@ -458,16 +458,10 @@ function save() {
                 Save
               </Button>
 
-              
             </Grid>
-            <Link component={RouterLink} to="/SalaryTable">
+            <Link component={RouterLink} to="/STable">
                 <Button variant="contained" color="secondary" style={{ marginLeft : 40}}>
                 SHOW
-            </Button>
-            </Link>
-            <Link component={RouterLink} to="/SplitsystemManager">
-                <Button variant="contained" color="secondary" style={{ marginLeft : 40}}>
-                Login
             </Button>
             </Link>
             <Grid item xs={2}></Grid>
@@ -478,22 +472,7 @@ function save() {
         </Grid>
         </Toolbar>
       </AppBar>
-      <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="static"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container alignItems="center" spacing={1}>
-            <Grid item xs>  
-            <Copyright />
-              
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
+      
     
     
     </div>

@@ -291,6 +291,7 @@ var (
 	PromotionsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "promotion_name", Type: field.TypeString},
+		{Name: "duration_promotion", Type: field.TypeString},
 		{Name: "price", Type: field.TypeFloat64},
 		{Name: "discount_fordiscount", Type: field.TypeInt, Nullable: true},
 		{Name: "giveaway_forgiveaway", Type: field.TypeInt, Nullable: true},
@@ -304,21 +305,21 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "promotions_discounts_fordiscount",
-				Columns: []*schema.Column{PromotionsColumns[3]},
+				Columns: []*schema.Column{PromotionsColumns[4]},
 
 				RefColumns: []*schema.Column{DiscountsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "promotions_giveaways_forgiveaway",
-				Columns: []*schema.Column{PromotionsColumns[4]},
+				Columns: []*schema.Column{PromotionsColumns[5]},
 
 				RefColumns: []*schema.Column{GiveawaysColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "promotions_products_forproduct",
-				Columns: []*schema.Column{PromotionsColumns[5]},
+				Columns: []*schema.Column{PromotionsColumns[6]},
 
 				RefColumns: []*schema.Column{ProductsColumns[0]},
 				OnDelete:   schema.SetNull,

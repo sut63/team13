@@ -15,10 +15,11 @@ import Tablestock from './components/Tablestock'
 import Tableorderproduct from './components/orderproduct/Tableorderproduct'
 import LoginEmployee from './components/Stock/LoginEmployee'
 import ManagerPage from './components/ManagerPage'
-import Promotion from './components/Promotion';
+import Promotion from './components/Promotion'
 import Promotiontable from './components/Promotion/Promotiontable'
-import EmployeeWorkingHours from './components/EmployeeWorkingHours';
-import TableEmployeeWorkingHours from './components/TableEmployeeWorkingHours';
+import EmployeeWorkingHours from './components/EmployeeWorkingHours'
+import TableEmployeeWorkingHours from './components/TableEmployeeWorkingHours'
+import STable from './components/STable'
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -43,6 +44,7 @@ export const plugin = createPlugin({
     router.registerRoute('/ManagerPage', ManagerPage);
     router.registerRoute('/EmployeeWorkingHours', EmployeeWorkingHours);
     router.registerRoute('/TableEmployeeWorkingHours', TableEmployeeWorkingHours);
+    router.registerRoute('/STable', STable);
 
   },
 });

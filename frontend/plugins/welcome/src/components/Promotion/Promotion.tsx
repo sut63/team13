@@ -66,6 +66,7 @@ export default function MenuAppBar() {
   const [discountID, setDiscountid] = useState(Number);
   const [giveawayID, setGiveawayid] = useState(Number);
   const [promotionname, setPromotionname] = useState(String);
+  const [durationpromotion, setDurationpromotion ] = useState(String);
   const [price, setPrice] = useState(Number);
 
 
@@ -100,10 +101,36 @@ export default function MenuAppBar() {
       discount: discountID,
       product: productID,
       giveaway: giveawayID,
+      DurationPromotion: durationpromotion,
       promotionName: promotionname,
       price: pc,
     }
 
+
+    const alertMessage = (icon: any, title: any) => {
+      Toast.fire({
+        icon: icon,
+        title: title,
+      });
+    }
+
+    const checkCaseSaveError = (field: string) => {
+      switch(field) {
+        case 'PromotionName':
+          alertMessage("error","กรุณาเขียนชื่อ promotion เพิ่มเติม");
+          return;
+        case 'Price':
+          alertMessage("error","กรุณากรอกราคาให้ถูกต้อง");
+          return;
+        case 'DurationPromotion':
+          alertMessage("error","กรุณาระบุระยะเวลาโปรโมชั่นให้ถูกต้อง");
+          return;
+        default:
+          alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
+          return;
+      }
+    }
+    
 console.log(Promotions)
 function save() {
   const apiUrl = 'http://localhost:8080/api/v1/promotions';
@@ -119,7 +146,7 @@ function save() {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      if (data.id != null) {
+      if (data.status == true) {
         //clear();
         Toast.fire({
           icon: 'success',
@@ -127,10 +154,7 @@ function save() {
 
         });//window.setTimeout(function(){location.reload()},8000);
       } else {
-        Toast.fire({
-          icon: 'error',
-          title: 'บันทึกข้อมูลไม่สำเร็จ',
-        });
+        checkCaseSaveError(data.error.Name)
       }
     });
 
@@ -158,6 +182,10 @@ function save() {
 
   const Promotionname_id_handleChange = (event: any) => {
     setPromotionname(event.target.value as string);
+  };
+
+  const Duration_id_handleChange = (event: any) => {
+    setDurationpromotion(event.target.value as string);
   };
 
   const handleClose = () => {
@@ -225,7 +253,7 @@ function save() {
                   
           />
           </Grid>
-          <Grid item xs={2}><p></p></Grid>
+          <Grid item xs={2}><p>(ชื่อ Promotion มากกว่า 10 ตัวอักษร)</p></Grid>
           <Grid item xs={2}><p></p></Grid>
 
           <Grid item xs={2}><p></p></Grid>
@@ -288,23 +316,30 @@ function save() {
 
           <Grid item xs={2}><p></p></Grid>
           <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><h3>กรุณาระบุราคา</h3></Grid>
+          <Grid item xs={2}><h3>ระยะเวลาโปรโมชั่น</h3></Grid>
           <Grid item xs={2}>
+          <Paper >
+                <TextField id="ระยะ Promotion" type='string'  InputLabelProps={{
+                  shrink: true,}}label="" variant="outlined"
+                  onChange = {Duration_id_handleChange}
+                  value={durationpromotion}
+                  />
+          </Paper>
+          </Grid>
+          <Grid item xs={2}><p>(วันที่เริ่มโปรโมชั่น - วันที่หมดโปรโมชั่น)(ตัวอย่าง: 3 มค - 10 มค 2564)</p></Grid>
+          <Grid item xs={2}><p></p></Grid>
+
+          <Grid item xs={2}><p></p></Grid>
+          <Grid item xs={2}><p></p></Grid>
+          <Grid item xs={2}><h3>กรุณาระบุราคา</h3></Grid>
+          <Grid item xs={2}>          
           <Paper >
                 <TextField id="outlined-number" type='number'  InputLabelProps={{
                   shrink: true,}}label="" variant="outlined"
                   onChange = {price_id_handleChange}
                   value={price}
                   />
-                  </Paper>
-          </Grid>
-          <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><p></p></Grid>
-
-          <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><p></p></Grid>
+          </Paper></Grid>
           <Grid item xs={2}><p></p></Grid>
           <Grid item xs={2}><p></p></Grid>
 
@@ -357,12 +392,7 @@ function save() {
           <Grid item xs={1}><p></p></Grid>
           <Grid item xs={1}><p></p></Grid>
 
-          <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><p></p></Grid>
+
 
           <Grid item xs={2}><p></p></Grid>
           <Grid item xs={2}><p></p></Grid>

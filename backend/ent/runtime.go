@@ -11,6 +11,7 @@ import (
 	"github.com/team13/app/ent/paymentchannel"
 	"github.com/team13/app/ent/position"
 	"github.com/team13/app/ent/product"
+	"github.com/team13/app/ent/promotion"
 	"github.com/team13/app/ent/role"
 	"github.com/team13/app/ent/salary"
 	"github.com/team13/app/ent/schema"
@@ -103,6 +104,34 @@ func init() {
 	productDescNameProduct := productFields[0].Descriptor()
 	// product.NameProductValidator is a validator for the "NameProduct" field. It is called by the builders before save.
 	product.NameProductValidator = productDescNameProduct.Validators[0].(func(string) error)
+	promotionFields := schema.Promotion{}.Fields()
+	_ = promotionFields
+	// promotionDescPromotionName is the schema descriptor for PromotionName field.
+	promotionDescPromotionName := promotionFields[0].Descriptor()
+	// promotion.PromotionNameValidator is a validator for the "PromotionName" field. It is called by the builders before save.
+	promotion.PromotionNameValidator = promotionDescPromotionName.Validators[0].(func(string) error)
+	// promotionDescDurationPromotion is the schema descriptor for DurationPromotion field.
+	promotionDescDurationPromotion := promotionFields[1].Descriptor()
+	// promotion.DurationPromotionValidator is a validator for the "DurationPromotion" field. It is called by the builders before save.
+	promotion.DurationPromotionValidator = promotionDescDurationPromotion.Validators[0].(func(string) error)
+	// promotionDescPrice is the schema descriptor for Price field.
+	promotionDescPrice := promotionFields[2].Descriptor()
+	// promotion.PriceValidator is a validator for the "Price" field. It is called by the builders before save.
+	promotion.PriceValidator = func() func(float64) error {
+		validators := promotionDescPrice.Validators
+		fns := [...]func(float64) error{
+			validators[0].(func(float64) error),
+			validators[1].(func(float64) error),
+		}
+		return func(_Price float64) error {
+			for _, fn := range fns {
+				if err := fn(_Price); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	roleFields := schema.Role{}.Fields()
 	_ = roleFields
 	// roleDescRole is the schema descriptor for Role field.
