@@ -30,6 +30,7 @@ type Stock struct {
 	Priceproduct  float64
 	Amount        int
 	Time          string
+	IDcardemployee	string
 
 }
 
@@ -113,6 +114,7 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 		SetEmployee(em).
 		SetAmount(obj.Amount).
 		SetPriceproduct(obj.Priceproduct).
+		SetIDcardemployee(obj.IDcardemployee).
 		SetTime(times).
 		Save(context.Background())
 	if err != nil {

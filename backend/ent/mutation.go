@@ -8964,6 +8964,7 @@ type StockMutation struct {
 	op                  Op
 	typ                 string
 	id                  *int
+	_IDcardemployee     *string
 	_Priceproduct       *float64
 	add_Priceproduct    *float64
 	_Amount             *int
@@ -9059,6 +9060,43 @@ func (m *StockMutation) ID() (id int, exists bool) {
 		return
 	}
 	return *m.id, true
+}
+
+// SetIDcardemployee sets the IDcardemployee field.
+func (m *StockMutation) SetIDcardemployee(s string) {
+	m._IDcardemployee = &s
+}
+
+// IDcardemployee returns the IDcardemployee value in the mutation.
+func (m *StockMutation) IDcardemployee() (r string, exists bool) {
+	v := m._IDcardemployee
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIDcardemployee returns the old IDcardemployee value of the Stock.
+// If the Stock object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *StockMutation) OldIDcardemployee(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldIDcardemployee is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldIDcardemployee requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIDcardemployee: %w", err)
+	}
+	return oldValue.IDcardemployee, nil
+}
+
+// ResetIDcardemployee reset all changes of the "IDcardemployee" field.
+func (m *StockMutation) ResetIDcardemployee() {
+	m._IDcardemployee = nil
 }
 
 // SetPriceproduct sets the Priceproduct field.
@@ -9382,7 +9420,10 @@ func (m *StockMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *StockMutation) Fields() []string {
-	fields := make([]string, 0, 3)
+	fields := make([]string, 0, 4)
+	if m._IDcardemployee != nil {
+		fields = append(fields, stock.FieldIDcardemployee)
+	}
 	if m._Priceproduct != nil {
 		fields = append(fields, stock.FieldPriceproduct)
 	}
@@ -9400,6 +9441,8 @@ func (m *StockMutation) Fields() []string {
 // not set, or was not define in the schema.
 func (m *StockMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case stock.FieldIDcardemployee:
+		return m.IDcardemployee()
 	case stock.FieldPriceproduct:
 		return m.Priceproduct()
 	case stock.FieldAmount:
@@ -9415,6 +9458,8 @@ func (m *StockMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *StockMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case stock.FieldIDcardemployee:
+		return m.OldIDcardemployee(ctx)
 	case stock.FieldPriceproduct:
 		return m.OldPriceproduct(ctx)
 	case stock.FieldAmount:
@@ -9430,6 +9475,13 @@ func (m *StockMutation) OldField(ctx context.Context, name string) (ent.Value, e
 // type mismatch the field type.
 func (m *StockMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case stock.FieldIDcardemployee:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIDcardemployee(v)
+		return nil
 	case stock.FieldPriceproduct:
 		v, ok := value.(float64)
 		if !ok {
@@ -9528,6 +9580,9 @@ func (m *StockMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *StockMutation) ResetField(name string) error {
 	switch name {
+	case stock.FieldIDcardemployee:
+		m.ResetIDcardemployee()
+		return nil
 	case stock.FieldPriceproduct:
 		m.ResetPriceproduct()
 		return nil

@@ -20,6 +20,8 @@ type Stock struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// IDcardemployee holds the value of the "IDcardemployee" field.
+	IDcardemployee string `json:"IDcardemployee,omitempty"`
 	// Priceproduct holds the value of the "Priceproduct" field.
 	Priceproduct float64 `json:"Priceproduct,omitempty"`
 	// Amount holds the value of the "Amount" field.
@@ -110,6 +112,7 @@ func (e StockEdges) TypeproductOrErr() (*Typeproduct, error) {
 func (*Stock) scanValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{},   // id
+		&sql.NullString{},  // IDcardemployee
 		&sql.NullFloat64{}, // Priceproduct
 		&sql.NullInt64{},   // Amount
 		&sql.NullTime{},    // Time
@@ -138,22 +141,27 @@ func (s *Stock) assignValues(values ...interface{}) error {
 	}
 	s.ID = int(value.Int64)
 	values = values[1:]
-	if value, ok := values[0].(*sql.NullFloat64); !ok {
-		return fmt.Errorf("unexpected type %T for field Priceproduct", values[0])
+	if value, ok := values[0].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field IDcardemployee", values[0])
+	} else if value.Valid {
+		s.IDcardemployee = value.String
+	}
+	if value, ok := values[1].(*sql.NullFloat64); !ok {
+		return fmt.Errorf("unexpected type %T for field Priceproduct", values[1])
 	} else if value.Valid {
 		s.Priceproduct = value.Float64
 	}
-	if value, ok := values[1].(*sql.NullInt64); !ok {
-		return fmt.Errorf("unexpected type %T for field Amount", values[1])
+	if value, ok := values[2].(*sql.NullInt64); !ok {
+		return fmt.Errorf("unexpected type %T for field Amount", values[2])
 	} else if value.Valid {
 		s.Amount = int(value.Int64)
 	}
-	if value, ok := values[2].(*sql.NullTime); !ok {
-		return fmt.Errorf("unexpected type %T for field Time", values[2])
+	if value, ok := values[3].(*sql.NullTime); !ok {
+		return fmt.Errorf("unexpected type %T for field Time", values[3])
 	} else if value.Valid {
 		s.Time = value.Time
 	}
-	values = values[3:]
+	values = values[4:]
 	if len(values) == len(stock.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field employee_employeestock", value)
@@ -226,6 +234,8 @@ func (s *Stock) String() string {
 	var builder strings.Builder
 	builder.WriteString("Stock(")
 	builder.WriteString(fmt.Sprintf("id=%v", s.ID))
+	builder.WriteString(", IDcardemployee=")
+	builder.WriteString(s.IDcardemployee)
 	builder.WriteString(", Priceproduct=")
 	builder.WriteString(fmt.Sprintf("%v", s.Priceproduct))
 	builder.WriteString(", Amount=")
