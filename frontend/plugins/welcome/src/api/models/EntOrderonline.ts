@@ -27,11 +27,23 @@ import {
  */
 export interface EntOrderonline {
     /**
+     * Accountnumber holds the value of the "accountnumber" field.
+     * @type {string}
+     * @memberof EntOrderonline
+     */
+    accountnumber?: string;
+    /**
      * Addedtime holds the value of the "addedtime" field.
      * @type {string}
      * @memberof EntOrderonline
      */
     addedtime?: string;
+    /**
+     * Cvv holds the value of the "cvv" field.
+     * @type {string}
+     * @memberof EntOrderonline
+     */
+    cvv?: string;
     /**
      * 
      * @type {EntOrderonlineEdges}
@@ -62,7 +74,9 @@ export function EntOrderonlineFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
+        'accountnumber': !exists(json, 'accountnumber') ? undefined : json['accountnumber'],
         'addedtime': !exists(json, 'addedtime') ? undefined : json['addedtime'],
+        'cvv': !exists(json, 'cvv') ? undefined : json['cvv'],
         'edges': !exists(json, 'edges') ? undefined : EntOrderonlineEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
         'stock': !exists(json, 'stock') ? undefined : json['stock'],
@@ -78,7 +92,9 @@ export function EntOrderonlineToJSON(value?: EntOrderonline | null): any {
     }
     return {
         
+        'accountnumber': value.accountnumber,
         'addedtime': value.addedtime,
+        'cvv': value.cvv,
         'edges': EntOrderonlineEdgesToJSON(value.edges),
         'id': value.id,
         'stock': value.stock,

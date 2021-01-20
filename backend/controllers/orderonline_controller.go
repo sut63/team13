@@ -25,6 +25,8 @@ type Orderonline struct{
 	Productid          int
 	Typeproductid      int
 	Stock			   int
+	Accountnumber	   string
+	Cvv				   string
 	Addedtime       string
 }
 
@@ -105,18 +107,24 @@ func (ctl *OrderonlineController) CreateOrderonline(c *gin.Context) {
 		SetProduct(p).
 		SetTypeproduct(tp).
 		SetStock(obj.Stock).
-        SetAddedtime(times).
+		SetAddedtime(times).
+		SetAccountnumber(obj.Accountnumber).
+		SetCvv(obj.Cvv).
 		Save(context.Background())
 		
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "saving failed",
+		if err != nil {
+			c.JSON(400, gin.H{
+				"status" : false,
+				"error": err,
+			})
+			return
+		}
+	
+		c.JSON(200, gin.H{
+			"status" : true,
+			"data": ol,
 		})
-		return
 	}
-  
-	c.JSON(200, ol)
- }
 // GetOrderonline handles GET requests to retrieve a orderonline entity
 // @Summary Get a orderonline entity by ID
 // @Description get orderonline by ID

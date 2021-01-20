@@ -7,6 +7,7 @@ import (
 	"github.com/team13/app/ent/customer"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/manager"
+	"github.com/team13/app/ent/orderonline"
 	"github.com/team13/app/ent/orderproduct"
 	"github.com/team13/app/ent/paymentchannel"
 	"github.com/team13/app/ent/position"
@@ -79,6 +80,62 @@ func init() {
 	managerDescPassword := managerFields[2].Descriptor()
 	// manager.PasswordValidator is a validator for the "password" field. It is called by the builders before save.
 	manager.PasswordValidator = managerDescPassword.Validators[0].(func(string) error)
+	orderonlineFields := schema.Orderonline{}.Fields()
+	_ = orderonlineFields
+	// orderonlineDescStock is the schema descriptor for stock field.
+	orderonlineDescStock := orderonlineFields[1].Descriptor()
+	// orderonline.StockValidator is a validator for the "stock" field. It is called by the builders before save.
+	orderonline.StockValidator = func() func(int) error {
+		validators := orderonlineDescStock.Validators
+		fns := [...]func(int) error{
+			validators[0].(func(int) error),
+			validators[1].(func(int) error),
+		}
+		return func(stock int) error {
+			for _, fn := range fns {
+				if err := fn(stock); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// orderonlineDescAccountnumber is the schema descriptor for accountnumber field.
+	orderonlineDescAccountnumber := orderonlineFields[2].Descriptor()
+	// orderonline.AccountnumberValidator is a validator for the "accountnumber" field. It is called by the builders before save.
+	orderonline.AccountnumberValidator = func() func(string) error {
+		validators := orderonlineDescAccountnumber.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(accountnumber string) error {
+			for _, fn := range fns {
+				if err := fn(accountnumber); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// orderonlineDescCvv is the schema descriptor for cvv field.
+	orderonlineDescCvv := orderonlineFields[3].Descriptor()
+	// orderonline.CvvValidator is a validator for the "cvv" field. It is called by the builders before save.
+	orderonline.CvvValidator = func() func(string) error {
+		validators := orderonlineDescCvv.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(cvv string) error {
+			for _, fn := range fns {
+				if err := fn(cvv); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	orderproductFields := schema.Orderproduct{}.Fields()
 	_ = orderproductFields
 	// orderproductDescStock is the schema descriptor for stock field.

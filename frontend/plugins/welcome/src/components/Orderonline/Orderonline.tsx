@@ -24,7 +24,6 @@ import {
   Typography,
   TableCell,
   Avatar,
-  Box,
   IconButton,
   SvgIcon,
 } from '@material-ui/core';
@@ -77,15 +76,6 @@ const Toast = Swal.mixin({
   },
 });
 
-interface order {
-  customerid: number;
-  typeproductid: number;
-  productid: number;
-  paymentchannelid: number;
-  stock: number;
-  addedtime: Date;
-}
-
 export default function Orderonline() {
 
   var ck = new Cookiesonline()
@@ -111,6 +101,9 @@ export default function Orderonline() {
   const [paymentchannelID, setPaymentchannelid] = useState(Number);
   const [orderstockid, setOrderstockid] = useState(Number);
   const [datetime, setDatetime] = useState(String);
+  const [accountnumber, setAccountnumber] = useState(String);
+  const [cvv, setCvv] = useState(String);
+  
 
   let stock = Number(orderstockid)
   let customerid = Number(cookieID)
@@ -151,12 +144,38 @@ export default function Orderonline() {
 
   }, [loading]);
 
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  const checkCaseSaveError = (field: string) => {
+    switch(field) {
+      case 'stock':
+        alertMessage("error","กรุณาจำนวนสินค้าที่ต้องการ");
+        return;
+      case 'accountnumber':
+        alertMessage("error","กรอกเลขบัญชีของคุณ");
+        return;
+      case 'cvv':
+        alertMessage("error","กรอก CVV");
+        return;
+      default:
+        alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
+        return;
+    }
+  }
+
   const orderonline = {
     customerid,
     typeproductid,
     productid,
     paymentchannelid,
     stock,
+    accountnumber,
+    cvv,
     addedtime: datetime + ":00+07:00"
   }
   console.log(orderonline)
@@ -175,17 +194,14 @@ export default function Orderonline() {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        if (data.id != null) {
+        if (data.status === true) {
           //clear();
           Toast.fire({
             icon: 'success',
             title: 'บันทึกข้อมูลสำเร็จ',
           });window.setTimeout(function(){location.reload()},5000);
         } else {
-          Toast.fire({
-            icon: 'error',
-            title: 'บันทึกข้อมูลไม่สำเร็จ',
-          });
+          checkCaseSaveError(data.error.Name)
         }
       });
   }
@@ -209,6 +225,12 @@ export default function Orderonline() {
   };
   const handleDatetimeChange = (event: any) => {
     setDatetime(event.target.value as string);
+  };
+  const Accountnumber_id_handleChange = (event: any) => {
+    setAccountnumber(event.target.value as string);
+  };
+  const Cvv_id_handleChange = (event: any) => {
+    setCvv(event.target.value as string);
   };
 
   function HomeIcon(props:any) {
@@ -342,6 +364,20 @@ export default function Orderonline() {
                 fullWidth
                 className={classes.margin}
                 variant="outlined"
+                style={{ marginLeft: 560, width: 302 }}
+              >
+                <TextField id="outlined-number" type='number' InputLabelProps={{
+                  shrink: true,
+                }} label="กรุณาใส่จำนวน" variant="outlined"
+                  onChange={Orderstock_id_handleChange}
+                  value={orderstockid || ''}
+                />
+              </FormControl>
+
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
                 style={{ marginLeft: 560, width: 600 }}
               >
                 <InputLabel id="paymentchannel_id-label">Paymentchannel</InputLabel>
@@ -364,14 +400,27 @@ export default function Orderonline() {
                 variant="outlined"
                 style={{ marginLeft: 560, width: 302 }}
               >
-                <TextField id="outlined-number" type='number' InputLabelProps={{
+                <TextField id="Accountnumber" type='string' InputLabelProps={{
                   shrink: true,
-                }} label="กรุณาใส่จำนวน" variant="outlined"
-                  onChange={Orderstock_id_handleChange}
-                  value={orderstockid || ''}
+                }} label="กรุณาใส่เลขบัญชี" variant="outlined"
+                  onChange={Accountnumber_id_handleChange}
+                  value={accountnumber || ''}
                 />
               </FormControl>
 
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+                style={{ marginLeft: 560, width: 302 }}
+              >
+                <TextField id="cvv-number" type='string' InputLabelProps={{
+                  shrink: true,
+                }} label="กรุณาใส่ CVV" variant="outlined"
+                  onChange={Cvv_id_handleChange}
+                  value={cvv || ''}
+                />
+              </FormControl>              
 
             </TableCell>
 

@@ -161,6 +161,8 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "addedtime", Type: field.TypeTime},
 		{Name: "stock", Type: field.TypeInt},
+		{Name: "accountnumber", Type: field.TypeString, Size: 13},
+		{Name: "cvv", Type: field.TypeString, Size: 3},
 		{Name: "customer_id", Type: field.TypeInt, Nullable: true},
 		{Name: "paymentchannel_formpaymentchannel", Type: field.TypeInt, Nullable: true},
 		{Name: "product_formproductonline", Type: field.TypeInt, Nullable: true},
@@ -174,28 +176,28 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "orderonlines_customers_formcustomer",
-				Columns: []*schema.Column{OrderonlinesColumns[3]},
+				Columns: []*schema.Column{OrderonlinesColumns[5]},
 
 				RefColumns: []*schema.Column{CustomersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "orderonlines_paymentchannels_formpaymentchannel",
-				Columns: []*schema.Column{OrderonlinesColumns[4]},
+				Columns: []*schema.Column{OrderonlinesColumns[6]},
 
 				RefColumns: []*schema.Column{PaymentchannelsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "orderonlines_products_formproductonline",
-				Columns: []*schema.Column{OrderonlinesColumns[5]},
+				Columns: []*schema.Column{OrderonlinesColumns[7]},
 
 				RefColumns: []*schema.Column{ProductsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "orderonlines_typeproducts_fromTypeproductonline",
-				Columns: []*schema.Column{OrderonlinesColumns[6]},
+				Columns: []*schema.Column{OrderonlinesColumns[8]},
 
 				RefColumns: []*schema.Column{TypeproductsColumns[0]},
 				OnDelete:   schema.SetNull,

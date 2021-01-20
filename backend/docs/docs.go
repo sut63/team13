@@ -4404,11 +4404,17 @@ var doc = `{
         "controllers.Orderonline": {
             "type": "object",
             "properties": {
+                "accountnumber": {
+                    "type": "string"
+                },
                 "addedtime": {
                     "type": "string"
                 },
                 "customerid": {
                     "type": "integer"
+                },
+                "cvv": {
+                    "type": "string"
                 },
                 "paymentchannelid": {
                     "type": "integer"
@@ -4851,8 +4857,16 @@ var doc = `{
         "ent.Orderonline": {
             "type": "object",
             "properties": {
+                "accountnumber": {
+                    "description": "Accountnumber holds the value of the \"accountnumber\" field.",
+                    "type": "string"
+                },
                 "addedtime": {
                     "description": "Addedtime holds the value of the \"addedtime\" field.",
+                    "type": "string"
+                },
+                "cvv": {
+                    "description": "Cvv holds the value of the \"cvv\" field.",
                     "type": "string"
                 },
                 "edges": {
