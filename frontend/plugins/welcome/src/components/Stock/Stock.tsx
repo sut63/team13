@@ -291,12 +291,12 @@ export default function Stock() {
 
   const priceproduct_id_handleChange = (event: any) => {
     setPriceproduct(event.target.value);
-    //checkPattern(data.error.Name);
+    
   };
 
   const idcardemployee_id_handleChange = (event: any) => {
     setidcardemployee(event.target.value);
-    //checkPattern(data.error.Name);
+    
 
   };
 
