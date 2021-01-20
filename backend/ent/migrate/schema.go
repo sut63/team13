@@ -207,6 +207,8 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "addedtime", Type: field.TypeTime},
 		{Name: "stock", Type: field.TypeInt},
+		{Name: "shipment", Type: field.TypeString},
+		{Name: "detail", Type: field.TypeString},
 		{Name: "company_companys", Type: field.TypeInt, Nullable: true},
 		{Name: "manager_id", Type: field.TypeInt, Nullable: true},
 		{Name: "product_products", Type: field.TypeInt, Nullable: true},
@@ -220,28 +222,28 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "orderproducts_companies_companys",
-				Columns: []*schema.Column{OrderproductsColumns[3]},
+				Columns: []*schema.Column{OrderproductsColumns[5]},
 
 				RefColumns: []*schema.Column{CompaniesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "orderproducts_managers_managers",
-				Columns: []*schema.Column{OrderproductsColumns[4]},
+				Columns: []*schema.Column{OrderproductsColumns[6]},
 
 				RefColumns: []*schema.Column{ManagersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "orderproducts_products_products",
-				Columns: []*schema.Column{OrderproductsColumns[5]},
+				Columns: []*schema.Column{OrderproductsColumns[7]},
 
 				RefColumns: []*schema.Column{ProductsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "orderproducts_typeproducts_Typeproducts",
-				Columns: []*schema.Column{OrderproductsColumns[6]},
+				Columns: []*schema.Column{OrderproductsColumns[8]},
 
 				RefColumns: []*schema.Column{TypeproductsColumns[0]},
 				OnDelete:   schema.SetNull,

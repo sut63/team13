@@ -24,6 +24,10 @@ type Orderproduct struct {
 	Addedtime time.Time `json:"addedtime,omitempty"`
 	// Stock holds the value of the "stock" field.
 	Stock int `json:"stock,omitempty"`
+	// Shipment holds the value of the "shipment" field.
+	Shipment string `json:"shipment,omitempty"`
+	// Detail holds the value of the "detail" field.
+	Detail string `json:"detail,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the OrderproductQuery when eager-loading is set.
 	Edges                    OrderproductEdges `json:"edges"`
@@ -107,9 +111,11 @@ func (e OrderproductEdges) ManagersOrErr() (*Manager, error) {
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Orderproduct) scanValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{}, // id
-		&sql.NullTime{},  // addedtime
-		&sql.NullInt64{}, // stock
+		&sql.NullInt64{},  // id
+		&sql.NullTime{},   // addedtime
+		&sql.NullInt64{},  // stock
+		&sql.NullString{}, // shipment
+		&sql.NullString{}, // detail
 	}
 }
 
@@ -145,7 +151,17 @@ func (o *Orderproduct) assignValues(values ...interface{}) error {
 	} else if value.Valid {
 		o.Stock = int(value.Int64)
 	}
-	values = values[2:]
+	if value, ok := values[2].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field shipment", values[2])
+	} else if value.Valid {
+		o.Shipment = value.String
+	}
+	if value, ok := values[3].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field detail", values[3])
+	} else if value.Valid {
+		o.Detail = value.String
+	}
+	values = values[4:]
 	if len(values) == len(orderproduct.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field company_companys", value)
@@ -222,6 +238,10 @@ func (o *Orderproduct) String() string {
 	builder.WriteString(o.Addedtime.Format(time.ANSIC))
 	builder.WriteString(", stock=")
 	builder.WriteString(fmt.Sprintf("%v", o.Stock))
+	builder.WriteString(", shipment=")
+	builder.WriteString(o.Shipment)
+	builder.WriteString(", detail=")
+	builder.WriteString(o.Detail)
 	builder.WriteByte(')')
 	return builder.String()
 }

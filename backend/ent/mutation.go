@@ -4797,6 +4797,8 @@ type OrderproductMutation struct {
 	addedtime           *time.Time
 	stock               *int
 	addstock            *int
+	shipment            *string
+	detail              *string
 	clearedFields       map[string]struct{}
 	product             *int
 	clearedproduct      bool
@@ -4983,6 +4985,80 @@ func (m *OrderproductMutation) ResetStock() {
 	m.addstock = nil
 }
 
+// SetShipment sets the shipment field.
+func (m *OrderproductMutation) SetShipment(s string) {
+	m.shipment = &s
+}
+
+// Shipment returns the shipment value in the mutation.
+func (m *OrderproductMutation) Shipment() (r string, exists bool) {
+	v := m.shipment
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldShipment returns the old shipment value of the Orderproduct.
+// If the Orderproduct object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *OrderproductMutation) OldShipment(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldShipment is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldShipment requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldShipment: %w", err)
+	}
+	return oldValue.Shipment, nil
+}
+
+// ResetShipment reset all changes of the "shipment" field.
+func (m *OrderproductMutation) ResetShipment() {
+	m.shipment = nil
+}
+
+// SetDetail sets the detail field.
+func (m *OrderproductMutation) SetDetail(s string) {
+	m.detail = &s
+}
+
+// Detail returns the detail value in the mutation.
+func (m *OrderproductMutation) Detail() (r string, exists bool) {
+	v := m.detail
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDetail returns the old detail value of the Orderproduct.
+// If the Orderproduct object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *OrderproductMutation) OldDetail(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDetail is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDetail requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDetail: %w", err)
+	}
+	return oldValue.Detail, nil
+}
+
+// ResetDetail reset all changes of the "detail" field.
+func (m *OrderproductMutation) ResetDetail() {
+	m.detail = nil
+}
+
 // SetProductID sets the product edge to Product by id.
 func (m *OrderproductMutation) SetProductID(id int) {
 	m.product = &id
@@ -5153,12 +5229,18 @@ func (m *OrderproductMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *OrderproductMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 4)
 	if m.addedtime != nil {
 		fields = append(fields, orderproduct.FieldAddedtime)
 	}
 	if m.stock != nil {
 		fields = append(fields, orderproduct.FieldStock)
+	}
+	if m.shipment != nil {
+		fields = append(fields, orderproduct.FieldShipment)
+	}
+	if m.detail != nil {
+		fields = append(fields, orderproduct.FieldDetail)
 	}
 	return fields
 }
@@ -5172,6 +5254,10 @@ func (m *OrderproductMutation) Field(name string) (ent.Value, bool) {
 		return m.Addedtime()
 	case orderproduct.FieldStock:
 		return m.Stock()
+	case orderproduct.FieldShipment:
+		return m.Shipment()
+	case orderproduct.FieldDetail:
+		return m.Detail()
 	}
 	return nil, false
 }
@@ -5185,6 +5271,10 @@ func (m *OrderproductMutation) OldField(ctx context.Context, name string) (ent.V
 		return m.OldAddedtime(ctx)
 	case orderproduct.FieldStock:
 		return m.OldStock(ctx)
+	case orderproduct.FieldShipment:
+		return m.OldShipment(ctx)
+	case orderproduct.FieldDetail:
+		return m.OldDetail(ctx)
 	}
 	return nil, fmt.Errorf("unknown Orderproduct field %s", name)
 }
@@ -5207,6 +5297,20 @@ func (m *OrderproductMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetStock(v)
+		return nil
+	case orderproduct.FieldShipment:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetShipment(v)
+		return nil
+	case orderproduct.FieldDetail:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDetail(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Orderproduct field %s", name)
@@ -5278,6 +5382,12 @@ func (m *OrderproductMutation) ResetField(name string) error {
 		return nil
 	case orderproduct.FieldStock:
 		m.ResetStock()
+		return nil
+	case orderproduct.FieldShipment:
+		m.ResetShipment()
+		return nil
+	case orderproduct.FieldDetail:
+		m.ResetDetail()
 		return nil
 	}
 	return fmt.Errorf("unknown Orderproduct field %s", name)

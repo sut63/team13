@@ -20,12 +20,15 @@ import Select from '@material-ui/core/Select';
 import { EntProduct } from '../../api/models/EntProduct';
 import { EntCompany } from '../../api/models/EntCompany';
 import { EntTypeproduct } from '../../api/models/EntTypeproduct';
-import { EntManager } from '../../api/models/EntManager';
+//import { EntManager } from '../../api/models/EntManager';
 import TextField from '@material-ui/core/TextField';
 import ComponanceTable from './Tableorderproduct';
 import Swal from 'sweetalert2';
 //cookie
 import { Cookies } from './SignInOrderproduct/Cookie'
+
+
+
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -92,23 +95,26 @@ export default function MenuAppBar() {
   var cookieName = ck.GetName()
 
   const classes = useStyles();
-  const profile = { givenName: 'to Software Analysis 63' };
+  //const profile = { givenName: 'to Software Analysis 63' };
   const api = new DefaultApi();
 
   const [products, setProducts] = useState<EntProduct[]>([]);
   const [companys, setCompanys] = useState<EntCompany[]>([]);
   const [typeproducts, setTypeproducts] = useState<EntTypeproduct[]>([]);
-  const [managers, setManagers] = useState<EntManager[]>([]);
-  const [status, setStatus] = useState(false);
-  const [alert, setAlert] = useState(true);
+  //const [managers, setManagers] = useState<EntManager[]>([]);
+  //const [status, setStatus] = useState(false);
+  //const [alert, setAlert] = useState(true);
   const [loading, setLoading] = useState(true);
 
 
-  const [managerid, setManagerid] = useState(Number);
+  //const [managerid, setManagerid] = useState(Number);
   const [typeproductid, setTypeproductid] = useState(Number);
   const [productid, setProductid] = useState(Number);
   const [companyid, setCompanyid] = useState(Number);
   const [orderstockid, setOrderstockid] = useState(Number);
+
+  const [ordershipment, setOrdershipment] = useState(String);
+  const [orderdetail, setOrderdetail] = useState(String);
   //const [datetime, setDatetime] = useState(String);
 
   let stock = Number(orderstockid)
@@ -117,16 +123,18 @@ export default function MenuAppBar() {
   let productID = Number(productid)
   let companyID = Number(companyid)
 
+  let detail = String(orderdetail)
+  let shipment = String(ordershipment)
   console.log(managerID)
   useEffect(() => {
 
-    const getmanagers = async () => {
+    /*const getmanagers = async () => {
 
       const mn = await api.listManager({ limit: 10, offset: 0 });
       setLoading(false);
       setManagers(mn);
     };
-    getmanagers();
+    getmanagers();*/
 
     const getTypeproducts = async () => {
 
@@ -156,13 +164,40 @@ export default function MenuAppBar() {
 
   const orderproduct = {
 
-    managerID,
+    //managerID,
     typeproductID,
     productID,
     companyID,
     stock,
+    shipment,
+    detail,
     //Addedtime :datetime   + ":00+07:00"
   }
+
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+  const checkCaseSaveError = (field: string) => {
+    switch(field) {
+      case 'stock':
+        alertMessage("error","กรุณาใส่ stock ให้ถูกต้อง");
+        return;
+      case 'shipment':
+        alertMessage("error","กรุณาระบุการจัดส่งให้ถูกต้อง");
+        return;
+      case 'detail':
+        alertMessage("error","กรุณาหมายเหตุให้ถูกต้อง");
+        return;
+      default:
+        alertMessage("error","<h2>บันทึกข้อมูลไม่สำเร็จ</h2>");
+        return;
+    }
+  }
+
   console.log(orderproduct)
   function save() {
     const apiUrl = 'http://localhost:8080/api/v1/orderproducts';
@@ -178,7 +213,8 @@ export default function MenuAppBar() {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        if (data.id != null) {
+        //if (data.id != null) {
+          if (data.status == true) {
           //clear();
           Toast.fire({
             icon: 'success',
@@ -186,16 +222,17 @@ export default function MenuAppBar() {
 
           }); window.setTimeout(function () { location.reload() }, 3000);
         } else {
-          Toast.fire({
-            icon: 'error',
-            title: '<h2>บันทึกข้อมูลไม่สำเร็จ</h2>',
-          });
+         // Toast.fire({
+           // icon: 'error',
+           // title: '<h2>บันทึกข้อมูลไม่สำเร็จ</h2>',
+         // });
+          checkCaseSaveError(data.error.Name)
         }
       });
   }
-  const manager_id_handleChange = (event: any) => {
+  /*const manager_id_handleChange = (event: any) => {
     setManagerid(event.target.value);
-  };
+  };*/
 
   const Typeproduct_id_handleChange = (event: any) => {
     setTypeproductid(event.target.value);
@@ -209,6 +246,12 @@ export default function MenuAppBar() {
   };
   const Orderstock_id_handleChange = (event: any) => {
     setOrderstockid(event.target.value);
+  };
+  const Ordershipment_id_handleChange = (event: any) => {
+    setOrdershipment(event.target.value);
+  };
+  const Orderdetail_id_handleChange = (event: any) => {
+    setOrderdetail(event.target.value);
   };
   /*const handleDatetimeChange = (event: any) => {
     setDatetime(event.target.value as string);
@@ -427,6 +470,49 @@ export default function MenuAppBar() {
                 shrink: true,
               }} label="กรุณาใส่จำนวน" variant="outlined"
                 onChange={Orderstock_id_handleChange}
+              />
+
+
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
+
+
+
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="primary" variant="h6" component="h1">
+                จัดส่งแบบ
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+
+              <TextField InputLabelProps={{
+                shrink: true,
+              }} 
+                onChange={Ordershipment_id_handleChange}
+              />
+
+
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
+
+
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="primary" variant="h6" component="h1">
+                หมายเหตุ
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+
+            <TextField InputLabelProps={{
+                shrink: true,
+              }} 
+                onChange={Orderdetail_id_handleChange}
               />
 
 

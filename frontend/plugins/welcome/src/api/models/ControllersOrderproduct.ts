@@ -33,6 +33,12 @@ export interface ControllersOrderproduct {
     companyID?: number;
     /**
      * 
+     * @type {string}
+     * @memberof ControllersOrderproduct
+     */
+    detail?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ControllersOrderproduct
      */
@@ -43,6 +49,12 @@ export interface ControllersOrderproduct {
      * @memberof ControllersOrderproduct
      */
     productID?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ControllersOrderproduct
+     */
+    shipment?: string;
     /**
      * 
      * @type {number}
@@ -69,8 +81,10 @@ export function ControllersOrderproductFromJSONTyped(json: any, ignoreDiscrimina
         
         'addedtime': !exists(json, 'addedtime') ? undefined : json['addedtime'],
         'companyID': !exists(json, 'companyID') ? undefined : json['companyID'],
+        'detail': !exists(json, 'detail') ? undefined : json['detail'],
         'managerID': !exists(json, 'managerID') ? undefined : json['managerID'],
         'productID': !exists(json, 'productID') ? undefined : json['productID'],
+        'shipment': !exists(json, 'shipment') ? undefined : json['shipment'],
         'stock': !exists(json, 'stock') ? undefined : json['stock'],
         'typeproductID': !exists(json, 'typeproductID') ? undefined : json['typeproductID'],
     };
@@ -87,8 +101,10 @@ export function ControllersOrderproductToJSON(value?: ControllersOrderproduct | 
         
         'addedtime': value.addedtime,
         'companyID': value.companyID,
+        'detail': value.detail,
         'managerID': value.managerID,
         'productID': value.productID,
+        'shipment': value.shipment,
         'stock': value.stock,
         'typeproductID': value.typeproductID,
     };

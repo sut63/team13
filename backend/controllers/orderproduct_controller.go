@@ -30,6 +30,8 @@ type Orderproduct struct {
 	CompanyID       int
 	Stock			int
 	Addedtime       string
+	Shipment      string
+	Detail        string
 }
 
 // CreateOrderproduct handles POST requests for adding orderproduct entities
@@ -113,15 +115,21 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 		SetCompany(cp).
 		SetStock(obj.Stock).
 		SetAddedtime(time).
+		SetShipment(obj.Shipment).
+		SetDetail(obj.Detail).
 		Save(context.Background())
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "saving failed",
+		if err != nil {
+			c.JSON(400, gin.H{
+				"status" : false,
+				"error": err,
+			})
+			return
+		}
+	
+		c.JSON(200, gin.H{
+			"status" : true,
+			"data": sa,
 		})
-		return
-	}
-
-	c.JSON(200, sa)
 }
 
 // GetOrderproduct handles GET requests to retrieve a orderproduct entity

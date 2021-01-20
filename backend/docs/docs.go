@@ -4433,11 +4433,17 @@ var doc = `{
                 "companyID": {
                     "type": "integer"
                 },
+                "detail": {
+                    "type": "string"
+                },
                 "managerID": {
                     "type": "integer"
                 },
                 "productID": {
                     "type": "integer"
+                },
+                "shipment": {
+                    "type": "string"
                 },
                 "stock": {
                     "type": "integer"
@@ -4896,6 +4902,10 @@ var doc = `{
                     "description": "Addedtime holds the value of the \"addedtime\" field.",
                     "type": "string"
                 },
+                "detail": {
+                    "description": "Detail holds the value of the \"detail\" field.",
+                    "type": "string"
+                },
                 "edges": {
                     "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the OrderproductQuery when eager-loading is set.",
                     "type": "object",
@@ -4904,6 +4914,10 @@ var doc = `{
                 "id": {
                     "description": "ID of the ent.",
                     "type": "integer"
+                },
+                "shipment": {
+                    "description": "Shipment holds the value of the \"shipment\" field.",
+                    "type": "string"
                 },
                 "stock": {
                     "description": "Stock holds the value of the \"stock\" field.",

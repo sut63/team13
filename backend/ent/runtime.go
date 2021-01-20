@@ -85,6 +85,14 @@ func init() {
 	orderproductDescStock := orderproductFields[1].Descriptor()
 	// orderproduct.StockValidator is a validator for the "stock" field. It is called by the builders before save.
 	orderproduct.StockValidator = orderproductDescStock.Validators[0].(func(int) error)
+	// orderproductDescShipment is the schema descriptor for shipment field.
+	orderproductDescShipment := orderproductFields[2].Descriptor()
+	// orderproduct.ShipmentValidator is a validator for the "shipment" field. It is called by the builders before save.
+	orderproduct.ShipmentValidator = orderproductDescShipment.Validators[0].(func(string) error)
+	// orderproductDescDetail is the schema descriptor for detail field.
+	orderproductDescDetail := orderproductFields[3].Descriptor()
+	// orderproduct.DetailValidator is a validator for the "detail" field. It is called by the builders before save.
+	orderproduct.DetailValidator = orderproductDescDetail.Validators[0].(func(string) error)
 	paymentchannelFields := schema.Paymentchannel{}.Fields()
 	_ = paymentchannelFields
 	// paymentchannelDescBank is the schema descriptor for Bank field.

@@ -11,6 +11,10 @@ const (
 	FieldAddedtime = "addedtime"
 	// FieldStock holds the string denoting the stock field in the database.
 	FieldStock = "stock"
+	// FieldShipment holds the string denoting the shipment field in the database.
+	FieldShipment = "shipment"
+	// FieldDetail holds the string denoting the detail field in the database.
+	FieldDetail = "detail"
 
 	// EdgeProduct holds the string denoting the product edge name in mutations.
 	EdgeProduct = "product"
@@ -58,6 +62,8 @@ var Columns = []string{
 	FieldID,
 	FieldAddedtime,
 	FieldStock,
+	FieldShipment,
+	FieldDetail,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Orderproduct type.
@@ -71,4 +77,8 @@ var ForeignKeys = []string{
 var (
 	// StockValidator is a validator for the "stock" field. It is called by the builders before save.
 	StockValidator func(int) error
+	// ShipmentValidator is a validator for the "shipment" field. It is called by the builders before save.
+	ShipmentValidator func(string) error
+	// DetailValidator is a validator for the "detail" field. It is called by the builders before save.
+	DetailValidator func(string) error
 )

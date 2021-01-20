@@ -27,6 +27,12 @@ export interface ControllersPromotion {
     discount?: number;
     /**
      * 
+     * @type {string}
+     * @memberof ControllersPromotion
+     */
+    durationPromotion?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ControllersPromotion
      */
@@ -62,6 +68,7 @@ export function ControllersPromotionFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'discount': !exists(json, 'discount') ? undefined : json['discount'],
+        'durationPromotion': !exists(json, 'durationPromotion') ? undefined : json['durationPromotion'],
         'giveaway': !exists(json, 'giveaway') ? undefined : json['giveaway'],
         'price': !exists(json, 'price') ? undefined : json['price'],
         'product': !exists(json, 'product') ? undefined : json['product'],
@@ -79,6 +86,7 @@ export function ControllersPromotionToJSON(value?: ControllersPromotion | null):
     return {
         
         'discount': value.discount,
+        'durationPromotion': value.durationPromotion,
         'giveaway': value.giveaway,
         'price': value.price,
         'product': value.product,
