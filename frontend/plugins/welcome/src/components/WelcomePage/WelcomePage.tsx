@@ -219,7 +219,7 @@ export default function Pricing() {
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
             {tiers.map((tier) =>  (
-              <Grid item key={tier} xs={12} sm={6} md={4}>
+              <Grid item  xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
