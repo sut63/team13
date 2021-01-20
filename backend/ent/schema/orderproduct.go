@@ -16,6 +16,8 @@ func (Orderproduct) Fields() []ent.Field {
 	return []ent.Field{
 		field.Time("addedtime"),
 		field.Int("stock").Positive(),
+		field.String("shipment").NotEmpty(),
+		field.String("detail").NotEmpty(),
 	}
 }
 

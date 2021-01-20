@@ -33,6 +33,12 @@ export interface EntOrderproduct {
      */
     addedtime?: string;
     /**
+     * Detail holds the value of the "detail" field.
+     * @type {string}
+     * @memberof EntOrderproduct
+     */
+    detail?: string;
+    /**
      * 
      * @type {EntOrderproductEdges}
      * @memberof EntOrderproduct
@@ -44,6 +50,12 @@ export interface EntOrderproduct {
      * @memberof EntOrderproduct
      */
     id?: number;
+    /**
+     * Shipment holds the value of the "shipment" field.
+     * @type {string}
+     * @memberof EntOrderproduct
+     */
+    shipment?: string;
     /**
      * Stock holds the value of the "stock" field.
      * @type {number}
@@ -63,8 +75,10 @@ export function EntOrderproductFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'addedtime': !exists(json, 'addedtime') ? undefined : json['addedtime'],
+        'detail': !exists(json, 'detail') ? undefined : json['detail'],
         'edges': !exists(json, 'edges') ? undefined : EntOrderproductEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'shipment': !exists(json, 'shipment') ? undefined : json['shipment'],
         'stock': !exists(json, 'stock') ? undefined : json['stock'],
     };
 }
@@ -79,8 +93,10 @@ export function EntOrderproductToJSON(value?: EntOrderproduct | null): any {
     return {
         
         'addedtime': value.addedtime,
+        'detail': value.detail,
         'edges': EntOrderproductEdgesToJSON(value.edges),
         'id': value.id,
+        'shipment': value.shipment,
         'stock': value.stock,
     };
 }

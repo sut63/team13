@@ -2,10 +2,14 @@ basePath: /api/v1
 definitions:
   controllers.Orderonline:
     properties:
+      accountnumber:
+        type: string
       addedtime:
         type: string
       customerid:
         type: integer
+      cvv:
+        type: string
       paymentchannelid:
         type: integer
       productid:
@@ -21,10 +25,14 @@ definitions:
         type: string
       companyID:
         type: integer
+      detail:
+        type: string
       managerID:
         type: integer
       productID:
         type: integer
+      shipment:
+        type: string
       stock:
         type: integer
       typeproductID:
@@ -329,8 +337,14 @@ definitions:
     type: object
   ent.Orderonline:
     properties:
+      accountnumber:
+        description: Accountnumber holds the value of the "accountnumber" field.
+        type: string
       addedtime:
         description: Addedtime holds the value of the "addedtime" field.
+        type: string
+      cvv:
+        description: Cvv holds the value of the "cvv" field.
         type: string
       edges:
         $ref: '#/definitions/ent.OrderonlineEdges'
@@ -369,6 +383,9 @@ definitions:
       addedtime:
         description: Addedtime holds the value of the "addedtime" field.
         type: string
+      detail:
+        description: Detail holds the value of the "detail" field.
+        type: string
       edges:
         $ref: '#/definitions/ent.OrderproductEdges'
         description: |-
@@ -378,6 +395,9 @@ definitions:
       id:
         description: ID of the ent.
         type: integer
+      shipment:
+        description: Shipment holds the value of the "shipment" field.
+        type: string
       stock:
         description: Stock holds the value of the "stock" field.
         type: integer

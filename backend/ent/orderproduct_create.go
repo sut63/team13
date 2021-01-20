@@ -36,6 +36,18 @@ func (oc *OrderproductCreate) SetStock(i int) *OrderproductCreate {
 	return oc
 }
 
+// SetShipment sets the shipment field.
+func (oc *OrderproductCreate) SetShipment(s string) *OrderproductCreate {
+	oc.mutation.SetShipment(s)
+	return oc
+}
+
+// SetDetail sets the detail field.
+func (oc *OrderproductCreate) SetDetail(s string) *OrderproductCreate {
+	oc.mutation.SetDetail(s)
+	return oc
+}
+
 // SetProductID sets the product edge to Product by id.
 func (oc *OrderproductCreate) SetProductID(id int) *OrderproductCreate {
 	oc.mutation.SetProductID(id)
@@ -130,6 +142,22 @@ func (oc *OrderproductCreate) Save(ctx context.Context) (*Orderproduct, error) {
 			return nil, &ValidationError{Name: "stock", err: fmt.Errorf("ent: validator failed for field \"stock\": %w", err)}
 		}
 	}
+	if _, ok := oc.mutation.Shipment(); !ok {
+		return nil, &ValidationError{Name: "shipment", err: errors.New("ent: missing required field \"shipment\"")}
+	}
+	if v, ok := oc.mutation.Shipment(); ok {
+		if err := orderproduct.ShipmentValidator(v); err != nil {
+			return nil, &ValidationError{Name: "shipment", err: fmt.Errorf("ent: validator failed for field \"shipment\": %w", err)}
+		}
+	}
+	if _, ok := oc.mutation.Detail(); !ok {
+		return nil, &ValidationError{Name: "detail", err: errors.New("ent: missing required field \"detail\"")}
+	}
+	if v, ok := oc.mutation.Detail(); ok {
+		if err := orderproduct.DetailValidator(v); err != nil {
+			return nil, &ValidationError{Name: "detail", err: fmt.Errorf("ent: validator failed for field \"detail\": %w", err)}
+		}
+	}
 	var (
 		err  error
 		node *Orderproduct
@@ -205,6 +233,22 @@ func (oc *OrderproductCreate) createSpec() (*Orderproduct, *sqlgraph.CreateSpec)
 			Column: orderproduct.FieldStock,
 		})
 		o.Stock = value
+	}
+	if value, ok := oc.mutation.Shipment(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderproduct.FieldShipment,
+		})
+		o.Shipment = value
+	}
+	if value, ok := oc.mutation.Detail(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderproduct.FieldDetail,
+		})
+		o.Detail = value
 	}
 	if nodes := oc.mutation.ProductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

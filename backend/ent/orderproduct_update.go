@@ -51,6 +51,18 @@ func (ou *OrderproductUpdate) AddStock(i int) *OrderproductUpdate {
 	return ou
 }
 
+// SetShipment sets the shipment field.
+func (ou *OrderproductUpdate) SetShipment(s string) *OrderproductUpdate {
+	ou.mutation.SetShipment(s)
+	return ou
+}
+
+// SetDetail sets the detail field.
+func (ou *OrderproductUpdate) SetDetail(s string) *OrderproductUpdate {
+	ou.mutation.SetDetail(s)
+	return ou
+}
+
 // SetProductID sets the product edge to Product by id.
 func (ou *OrderproductUpdate) SetProductID(id int) *OrderproductUpdate {
 	ou.mutation.SetProductID(id)
@@ -163,6 +175,16 @@ func (ou *OrderproductUpdate) Save(ctx context.Context) (int, error) {
 			return 0, &ValidationError{Name: "stock", err: fmt.Errorf("ent: validator failed for field \"stock\": %w", err)}
 		}
 	}
+	if v, ok := ou.mutation.Shipment(); ok {
+		if err := orderproduct.ShipmentValidator(v); err != nil {
+			return 0, &ValidationError{Name: "shipment", err: fmt.Errorf("ent: validator failed for field \"shipment\": %w", err)}
+		}
+	}
+	if v, ok := ou.mutation.Detail(); ok {
+		if err := orderproduct.DetailValidator(v); err != nil {
+			return 0, &ValidationError{Name: "detail", err: fmt.Errorf("ent: validator failed for field \"detail\": %w", err)}
+		}
+	}
 
 	var (
 		err      error
@@ -250,6 +272,20 @@ func (ou *OrderproductUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeInt,
 			Value:  value,
 			Column: orderproduct.FieldStock,
+		})
+	}
+	if value, ok := ou.mutation.Shipment(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderproduct.FieldShipment,
+		})
+	}
+	if value, ok := ou.mutation.Detail(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderproduct.FieldDetail,
 		})
 	}
 	if ou.mutation.ProductCleared() {
@@ -429,6 +465,18 @@ func (ouo *OrderproductUpdateOne) AddStock(i int) *OrderproductUpdateOne {
 	return ouo
 }
 
+// SetShipment sets the shipment field.
+func (ouo *OrderproductUpdateOne) SetShipment(s string) *OrderproductUpdateOne {
+	ouo.mutation.SetShipment(s)
+	return ouo
+}
+
+// SetDetail sets the detail field.
+func (ouo *OrderproductUpdateOne) SetDetail(s string) *OrderproductUpdateOne {
+	ouo.mutation.SetDetail(s)
+	return ouo
+}
+
 // SetProductID sets the product edge to Product by id.
 func (ouo *OrderproductUpdateOne) SetProductID(id int) *OrderproductUpdateOne {
 	ouo.mutation.SetProductID(id)
@@ -541,6 +589,16 @@ func (ouo *OrderproductUpdateOne) Save(ctx context.Context) (*Orderproduct, erro
 			return nil, &ValidationError{Name: "stock", err: fmt.Errorf("ent: validator failed for field \"stock\": %w", err)}
 		}
 	}
+	if v, ok := ouo.mutation.Shipment(); ok {
+		if err := orderproduct.ShipmentValidator(v); err != nil {
+			return nil, &ValidationError{Name: "shipment", err: fmt.Errorf("ent: validator failed for field \"shipment\": %w", err)}
+		}
+	}
+	if v, ok := ouo.mutation.Detail(); ok {
+		if err := orderproduct.DetailValidator(v); err != nil {
+			return nil, &ValidationError{Name: "detail", err: fmt.Errorf("ent: validator failed for field \"detail\": %w", err)}
+		}
+	}
 
 	var (
 		err  error
@@ -626,6 +684,20 @@ func (ouo *OrderproductUpdateOne) sqlSave(ctx context.Context) (o *Orderproduct,
 			Type:   field.TypeInt,
 			Value:  value,
 			Column: orderproduct.FieldStock,
+		})
+	}
+	if value, ok := ouo.mutation.Shipment(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderproduct.FieldShipment,
+		})
+	}
+	if value, ok := ouo.mutation.Detail(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderproduct.FieldDetail,
 		})
 	}
 	if ouo.mutation.ProductCleared() {

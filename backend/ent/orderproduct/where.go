@@ -107,6 +107,20 @@ func Stock(v int) predicate.Orderproduct {
 	})
 }
 
+// Shipment applies equality check predicate on the "shipment" field. It's identical to ShipmentEQ.
+func Shipment(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldShipment), v))
+	})
+}
+
+// Detail applies equality check predicate on the "detail" field. It's identical to DetailEQ.
+func Detail(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDetail), v))
+	})
+}
+
 // AddedtimeEQ applies the EQ predicate on the "addedtime" field.
 func AddedtimeEQ(v time.Time) predicate.Orderproduct {
 	return predicate.Orderproduct(func(s *sql.Selector) {
@@ -256,6 +270,228 @@ func StockLT(v int) predicate.Orderproduct {
 func StockLTE(v int) predicate.Orderproduct {
 	return predicate.Orderproduct(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldStock), v))
+	})
+}
+
+// ShipmentEQ applies the EQ predicate on the "shipment" field.
+func ShipmentEQ(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldShipment), v))
+	})
+}
+
+// ShipmentNEQ applies the NEQ predicate on the "shipment" field.
+func ShipmentNEQ(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldShipment), v))
+	})
+}
+
+// ShipmentIn applies the In predicate on the "shipment" field.
+func ShipmentIn(vs ...string) predicate.Orderproduct {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldShipment), v...))
+	})
+}
+
+// ShipmentNotIn applies the NotIn predicate on the "shipment" field.
+func ShipmentNotIn(vs ...string) predicate.Orderproduct {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldShipment), v...))
+	})
+}
+
+// ShipmentGT applies the GT predicate on the "shipment" field.
+func ShipmentGT(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldShipment), v))
+	})
+}
+
+// ShipmentGTE applies the GTE predicate on the "shipment" field.
+func ShipmentGTE(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldShipment), v))
+	})
+}
+
+// ShipmentLT applies the LT predicate on the "shipment" field.
+func ShipmentLT(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldShipment), v))
+	})
+}
+
+// ShipmentLTE applies the LTE predicate on the "shipment" field.
+func ShipmentLTE(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldShipment), v))
+	})
+}
+
+// ShipmentContains applies the Contains predicate on the "shipment" field.
+func ShipmentContains(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldShipment), v))
+	})
+}
+
+// ShipmentHasPrefix applies the HasPrefix predicate on the "shipment" field.
+func ShipmentHasPrefix(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldShipment), v))
+	})
+}
+
+// ShipmentHasSuffix applies the HasSuffix predicate on the "shipment" field.
+func ShipmentHasSuffix(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldShipment), v))
+	})
+}
+
+// ShipmentEqualFold applies the EqualFold predicate on the "shipment" field.
+func ShipmentEqualFold(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldShipment), v))
+	})
+}
+
+// ShipmentContainsFold applies the ContainsFold predicate on the "shipment" field.
+func ShipmentContainsFold(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldShipment), v))
+	})
+}
+
+// DetailEQ applies the EQ predicate on the "detail" field.
+func DetailEQ(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDetail), v))
+	})
+}
+
+// DetailNEQ applies the NEQ predicate on the "detail" field.
+func DetailNEQ(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldDetail), v))
+	})
+}
+
+// DetailIn applies the In predicate on the "detail" field.
+func DetailIn(vs ...string) predicate.Orderproduct {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldDetail), v...))
+	})
+}
+
+// DetailNotIn applies the NotIn predicate on the "detail" field.
+func DetailNotIn(vs ...string) predicate.Orderproduct {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldDetail), v...))
+	})
+}
+
+// DetailGT applies the GT predicate on the "detail" field.
+func DetailGT(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldDetail), v))
+	})
+}
+
+// DetailGTE applies the GTE predicate on the "detail" field.
+func DetailGTE(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldDetail), v))
+	})
+}
+
+// DetailLT applies the LT predicate on the "detail" field.
+func DetailLT(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldDetail), v))
+	})
+}
+
+// DetailLTE applies the LTE predicate on the "detail" field.
+func DetailLTE(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldDetail), v))
+	})
+}
+
+// DetailContains applies the Contains predicate on the "detail" field.
+func DetailContains(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldDetail), v))
+	})
+}
+
+// DetailHasPrefix applies the HasPrefix predicate on the "detail" field.
+func DetailHasPrefix(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldDetail), v))
+	})
+}
+
+// DetailHasSuffix applies the HasSuffix predicate on the "detail" field.
+func DetailHasSuffix(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldDetail), v))
+	})
+}
+
+// DetailEqualFold applies the EqualFold predicate on the "detail" field.
+func DetailEqualFold(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldDetail), v))
+	})
+}
+
+// DetailContainsFold applies the ContainsFold predicate on the "detail" field.
+func DetailContainsFold(v string) predicate.Orderproduct {
+	return predicate.Orderproduct(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldDetail), v))
 	})
 }
 
