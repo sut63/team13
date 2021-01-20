@@ -164,7 +164,7 @@ export default function MenuAppBar() {
 
   const orderproduct = {
 
-    //managerID,
+    managerID,
     typeproductID,
     productID,
     companyID,
@@ -184,7 +184,7 @@ export default function MenuAppBar() {
   const checkCaseSaveError = (field: string) => {
     switch(field) {
       case 'stock':
-        alertMessage("error","กรุณาใส่ stock ให้ถูกต้อง");
+        alertMessage("error","กรุณาใส่จำนวนให้ถูกต้อง");
         return;
       case 'shipment':
         alertMessage("error","กรุณาระบุการจัดส่งให้ถูกต้อง");
