@@ -176,7 +176,7 @@ export default function Stock() {
 
 
   //validate
-  const validateIdcardemployee = (val: string) => {
+  /*const validateIdcardemployee = (val: string) => {
     return val.match("[E]\\d{4}");
   }
 
@@ -188,7 +188,7 @@ export default function Stock() {
   const validatePrice = (val: Number) => {
     return val  > 0 ? false : true;
   }
-
+*/
 
   /* checkPattern
   const checkPattern  = (id: string, value: string) => {
@@ -255,21 +255,7 @@ export default function Stock() {
       }
     });
   };
-  const checkPattern  = (id: string, value: string) => {
-    switch(id) { 
-      case 'IDcardemployee':
-        validateIdcardemployee(value) ? setIdcardemployeeError('') : setIdcardemployeeError('ขึ้นต้นตัวอักษรด้สน E ใส่ตัวเลขได้ไม่เกิน 4 ตัว');
-        return;
-      case 'Priceproduct': 
-        validatePrice(Number(value)) ? setPriceError('') : setPriceError('เป็นตัวเลขเท่านั้น ห้ามติดลบ');
-        return;
-      case 'Amount':
-        validateAmount(Number(value)) ? setAmountError('') : setAmountError('เป็นตัวเลขเท่านั้น ห้ามติดลบ')
-        return;
-      default:
-        return;
-    }
-  }
+  
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -300,7 +286,6 @@ export default function Stock() {
 
   const amount_id_handleChange = (event: any) => {
     setAmount(event.target.value);
-    checkPattern(validateIdcardemployee);
     
   };
 
