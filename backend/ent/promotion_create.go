@@ -28,6 +28,12 @@ func (pc *PromotionCreate) SetPromotionName(s string) *PromotionCreate {
 	return pc
 }
 
+// SetDurationPromotion sets the DurationPromotion field.
+func (pc *PromotionCreate) SetDurationPromotion(s string) *PromotionCreate {
+	pc.mutation.SetDurationPromotion(s)
+	return pc
+}
+
 // SetPrice sets the Price field.
 func (pc *PromotionCreate) SetPrice(f float64) *PromotionCreate {
 	pc.mutation.SetPrice(f)
@@ -101,8 +107,26 @@ func (pc *PromotionCreate) Save(ctx context.Context) (*Promotion, error) {
 	if _, ok := pc.mutation.PromotionName(); !ok {
 		return nil, &ValidationError{Name: "PromotionName", err: errors.New("ent: missing required field \"PromotionName\"")}
 	}
+	if v, ok := pc.mutation.PromotionName(); ok {
+		if err := promotion.PromotionNameValidator(v); err != nil {
+			return nil, &ValidationError{Name: "PromotionName", err: fmt.Errorf("ent: validator failed for field \"PromotionName\": %w", err)}
+		}
+	}
+	if _, ok := pc.mutation.DurationPromotion(); !ok {
+		return nil, &ValidationError{Name: "DurationPromotion", err: errors.New("ent: missing required field \"DurationPromotion\"")}
+	}
+	if v, ok := pc.mutation.DurationPromotion(); ok {
+		if err := promotion.DurationPromotionValidator(v); err != nil {
+			return nil, &ValidationError{Name: "DurationPromotion", err: fmt.Errorf("ent: validator failed for field \"DurationPromotion\": %w", err)}
+		}
+	}
 	if _, ok := pc.mutation.Price(); !ok {
 		return nil, &ValidationError{Name: "Price", err: errors.New("ent: missing required field \"Price\"")}
+	}
+	if v, ok := pc.mutation.Price(); ok {
+		if err := promotion.PriceValidator(v); err != nil {
+			return nil, &ValidationError{Name: "Price", err: fmt.Errorf("ent: validator failed for field \"Price\": %w", err)}
+		}
 	}
 	var (
 		err  error
@@ -171,6 +195,14 @@ func (pc *PromotionCreate) createSpec() (*Promotion, *sqlgraph.CreateSpec) {
 			Column: promotion.FieldPromotionName,
 		})
 		pr.PromotionName = value
+	}
+	if value, ok := pc.mutation.DurationPromotion(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: promotion.FieldDurationPromotion,
+		})
+		pr.DurationPromotion = value
 	}
 	if value, ok := pc.mutation.Price(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{

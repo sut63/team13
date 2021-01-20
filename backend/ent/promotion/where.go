@@ -98,6 +98,13 @@ func PromotionName(v string) predicate.Promotion {
 	})
 }
 
+// DurationPromotion applies equality check predicate on the "DurationPromotion" field. It's identical to DurationPromotionEQ.
+func DurationPromotion(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDurationPromotion), v))
+	})
+}
+
 // Price applies equality check predicate on the "Price" field. It's identical to PriceEQ.
 func Price(v float64) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
@@ -213,6 +220,117 @@ func PromotionNameEqualFold(v string) predicate.Promotion {
 func PromotionNameContainsFold(v string) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldPromotionName), v))
+	})
+}
+
+// DurationPromotionEQ applies the EQ predicate on the "DurationPromotion" field.
+func DurationPromotionEQ(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldDurationPromotion), v))
+	})
+}
+
+// DurationPromotionNEQ applies the NEQ predicate on the "DurationPromotion" field.
+func DurationPromotionNEQ(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldDurationPromotion), v))
+	})
+}
+
+// DurationPromotionIn applies the In predicate on the "DurationPromotion" field.
+func DurationPromotionIn(vs ...string) predicate.Promotion {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Promotion(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldDurationPromotion), v...))
+	})
+}
+
+// DurationPromotionNotIn applies the NotIn predicate on the "DurationPromotion" field.
+func DurationPromotionNotIn(vs ...string) predicate.Promotion {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Promotion(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldDurationPromotion), v...))
+	})
+}
+
+// DurationPromotionGT applies the GT predicate on the "DurationPromotion" field.
+func DurationPromotionGT(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldDurationPromotion), v))
+	})
+}
+
+// DurationPromotionGTE applies the GTE predicate on the "DurationPromotion" field.
+func DurationPromotionGTE(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldDurationPromotion), v))
+	})
+}
+
+// DurationPromotionLT applies the LT predicate on the "DurationPromotion" field.
+func DurationPromotionLT(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldDurationPromotion), v))
+	})
+}
+
+// DurationPromotionLTE applies the LTE predicate on the "DurationPromotion" field.
+func DurationPromotionLTE(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldDurationPromotion), v))
+	})
+}
+
+// DurationPromotionContains applies the Contains predicate on the "DurationPromotion" field.
+func DurationPromotionContains(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldDurationPromotion), v))
+	})
+}
+
+// DurationPromotionHasPrefix applies the HasPrefix predicate on the "DurationPromotion" field.
+func DurationPromotionHasPrefix(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldDurationPromotion), v))
+	})
+}
+
+// DurationPromotionHasSuffix applies the HasSuffix predicate on the "DurationPromotion" field.
+func DurationPromotionHasSuffix(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldDurationPromotion), v))
+	})
+}
+
+// DurationPromotionEqualFold applies the EqualFold predicate on the "DurationPromotion" field.
+func DurationPromotionEqualFold(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldDurationPromotion), v))
+	})
+}
+
+// DurationPromotionContainsFold applies the ContainsFold predicate on the "DurationPromotion" field.
+func DurationPromotionContainsFold(v string) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldDurationPromotion), v))
 	})
 }
 

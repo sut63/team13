@@ -36,6 +36,12 @@ func (pu *PromotionUpdate) SetPromotionName(s string) *PromotionUpdate {
 	return pu
 }
 
+// SetDurationPromotion sets the DurationPromotion field.
+func (pu *PromotionUpdate) SetDurationPromotion(s string) *PromotionUpdate {
+	pu.mutation.SetDurationPromotion(s)
+	return pu
+}
+
 // SetPrice sets the Price field.
 func (pu *PromotionUpdate) SetPrice(f float64) *PromotionUpdate {
 	pu.mutation.ResetPrice()
@@ -131,6 +137,21 @@ func (pu *PromotionUpdate) ClearProduct() *PromotionUpdate {
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (pu *PromotionUpdate) Save(ctx context.Context) (int, error) {
+	if v, ok := pu.mutation.PromotionName(); ok {
+		if err := promotion.PromotionNameValidator(v); err != nil {
+			return 0, &ValidationError{Name: "PromotionName", err: fmt.Errorf("ent: validator failed for field \"PromotionName\": %w", err)}
+		}
+	}
+	if v, ok := pu.mutation.DurationPromotion(); ok {
+		if err := promotion.DurationPromotionValidator(v); err != nil {
+			return 0, &ValidationError{Name: "DurationPromotion", err: fmt.Errorf("ent: validator failed for field \"DurationPromotion\": %w", err)}
+		}
+	}
+	if v, ok := pu.mutation.Price(); ok {
+		if err := promotion.PriceValidator(v); err != nil {
+			return 0, &ValidationError{Name: "Price", err: fmt.Errorf("ent: validator failed for field \"Price\": %w", err)}
+		}
+	}
 
 	var (
 		err      error
@@ -204,6 +225,13 @@ func (pu *PromotionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeString,
 			Value:  value,
 			Column: promotion.FieldPromotionName,
+		})
+	}
+	if value, ok := pu.mutation.DurationPromotion(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: promotion.FieldDurationPromotion,
 		})
 	}
 	if value, ok := pu.mutation.Price(); ok {
@@ -349,6 +377,12 @@ func (puo *PromotionUpdateOne) SetPromotionName(s string) *PromotionUpdateOne {
 	return puo
 }
 
+// SetDurationPromotion sets the DurationPromotion field.
+func (puo *PromotionUpdateOne) SetDurationPromotion(s string) *PromotionUpdateOne {
+	puo.mutation.SetDurationPromotion(s)
+	return puo
+}
+
 // SetPrice sets the Price field.
 func (puo *PromotionUpdateOne) SetPrice(f float64) *PromotionUpdateOne {
 	puo.mutation.ResetPrice()
@@ -444,6 +478,21 @@ func (puo *PromotionUpdateOne) ClearProduct() *PromotionUpdateOne {
 
 // Save executes the query and returns the updated entity.
 func (puo *PromotionUpdateOne) Save(ctx context.Context) (*Promotion, error) {
+	if v, ok := puo.mutation.PromotionName(); ok {
+		if err := promotion.PromotionNameValidator(v); err != nil {
+			return nil, &ValidationError{Name: "PromotionName", err: fmt.Errorf("ent: validator failed for field \"PromotionName\": %w", err)}
+		}
+	}
+	if v, ok := puo.mutation.DurationPromotion(); ok {
+		if err := promotion.DurationPromotionValidator(v); err != nil {
+			return nil, &ValidationError{Name: "DurationPromotion", err: fmt.Errorf("ent: validator failed for field \"DurationPromotion\": %w", err)}
+		}
+	}
+	if v, ok := puo.mutation.Price(); ok {
+		if err := promotion.PriceValidator(v); err != nil {
+			return nil, &ValidationError{Name: "Price", err: fmt.Errorf("ent: validator failed for field \"Price\": %w", err)}
+		}
+	}
 
 	var (
 		err  error
@@ -515,6 +564,13 @@ func (puo *PromotionUpdateOne) sqlSave(ctx context.Context) (pr *Promotion, err 
 			Type:   field.TypeString,
 			Value:  value,
 			Column: promotion.FieldPromotionName,
+		})
+	}
+	if value, ok := puo.mutation.DurationPromotion(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: promotion.FieldDurationPromotion,
 		})
 	}
 	if value, ok := puo.mutation.Price(); ok {

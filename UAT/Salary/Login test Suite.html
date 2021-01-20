@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+	<title>Login test Suite</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">loginOK</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/signinorderproduct<datalist><option>http://localhost:3000/signinorderproduct</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=email<datalist><option>id=email</option><option>name=email</option><option>//input[@id='email']</option><option>//div[@id='root']/div/article/main/div/form/div/div/input</option><option>//input</option><option>css=#email</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=email<datalist><option>id=email</option><option>name=email</option><option>//input[@id='email']</option><option>//div[@id='root']/div/article/main/div/form/div/div/input</option><option>//input</option><option>css=#email</option></datalist></td><td>frashrock@gmail.com</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article<datalist><option>//div[@id='root']/div/article</option><option>//article</option><option>css=article.makeStyles-root-17</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=password<datalist><option>id=password</option><option>name=password</option><option>//input[@id='password']</option><option>//div[@id='root']/div/article/main/div/form/div[2]/div/input</option><option>//div[2]/div/input</option><option>css=#password</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=password<datalist><option>id=password</option><option>name=password</option><option>//input[@id='password']</option><option>//div[@id='root']/div/article/main/div/form/div[2]/div/input</option><option>//div[2]/div/input</option><option>css=#password</option></datalist></td><td>0862234089</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/main/div/form/a/span<datalist><option>//div[@id='root']/div/article/main/div/form/a/span</option><option>//a/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/main/h1<datalist><option>//div[@id='root']/div/main/h1</option><option>//h1</option><option>css=h1.MuiTypography-root.MuiTypography-h2.MuiTypography-colorTextPrimary.MuiTypography-gutterBottom.MuiTypography-alignCenter</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>//div[@id='root']/div/main/h1<datalist><option>//div[@id='root']/div/main/h1</option><option>//h1</option><option>css=h1.MuiTypography-root.MuiTypography-h2.MuiTypography-colorTextPrimary.MuiTypography-gutterBottom.MuiTypography-alignCenter</option></datalist></td><td>คุณ Nontakorn Payusuk</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/header/div/a/span<datalist><option>//div[@id='root']/div/header/div/a/span</option><option>//span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">loginFailure</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/signinorderproduct<datalist><option>http://localhost:3000/signinorderproduct</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=email<datalist><option>id=email</option><option>name=email</option><option>//input[@id='email']</option><option>//div[@id='root']/div/article/main/div/form/div/div/input</option><option>//input</option><option>css=#email</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=email<datalist><option>id=email</option><option>name=email</option><option>//input[@id='email']</option><option>//div[@id='root']/div/article/main/div/form/div/div/input</option><option>//input</option><option>css=#email</option></datalist></td><td>frashcasd@gmail.com</td>
+</tr>
+<tr><td>click</td><td>id=password<datalist><option>id=password</option><option>name=password</option><option>//input[@id='password']</option><option>//div[@id='root']/div/article/main/div/form/div[2]/div/input</option><option>//div[2]/div/input</option><option>css=#password</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=password<datalist><option>id=password</option><option>name=password</option><option>//input[@id='password']</option><option>//div[@id='root']/div/article/main/div/form/div[2]/div/input</option><option>//div[2]/div/input</option><option>css=#password</option></datalist></td><td>086235</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/article/main/div/form/a/span<datalist><option>//div[@id='root']/div/article/main/div/form/a/span</option><option>//a/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>//div[@id='root']/div/article/div/div[2]/div/div/div[2]<datalist><option>//div[@id='root']/div/article/div/div[2]/div/div/div[2]</option><option>//div/div/div[2]</option><option>css=div.MuiAlert-message</option></datalist></td><td>ไม่พบข้อมูลในระบบ</td>
+</tr>
+</tbody></table>
+</body>
+</html>

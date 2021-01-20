@@ -20,6 +20,8 @@ type Promotion struct {
 	ID int `json:"id,omitempty"`
 	// PromotionName holds the value of the "PromotionName" field.
 	PromotionName string `json:"PromotionName,omitempty"`
+	// DurationPromotion holds the value of the "DurationPromotion" field.
+	DurationPromotion string `json:"DurationPromotion,omitempty"`
 	// Price holds the value of the "Price" field.
 	Price float64 `json:"Price,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -90,6 +92,7 @@ func (*Promotion) scanValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{},   // id
 		&sql.NullString{},  // PromotionName
+		&sql.NullString{},  // DurationPromotion
 		&sql.NullFloat64{}, // Price
 	}
 }
@@ -120,12 +123,17 @@ func (pr *Promotion) assignValues(values ...interface{}) error {
 	} else if value.Valid {
 		pr.PromotionName = value.String
 	}
-	if value, ok := values[1].(*sql.NullFloat64); !ok {
-		return fmt.Errorf("unexpected type %T for field Price", values[1])
+	if value, ok := values[1].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field DurationPromotion", values[1])
+	} else if value.Valid {
+		pr.DurationPromotion = value.String
+	}
+	if value, ok := values[2].(*sql.NullFloat64); !ok {
+		return fmt.Errorf("unexpected type %T for field Price", values[2])
 	} else if value.Valid {
 		pr.Price = value.Float64
 	}
-	values = values[2:]
+	values = values[3:]
 	if len(values) == len(promotion.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field discount_fordiscount", value)
@@ -189,6 +197,8 @@ func (pr *Promotion) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v", pr.ID))
 	builder.WriteString(", PromotionName=")
 	builder.WriteString(pr.PromotionName)
+	builder.WriteString(", DurationPromotion=")
+	builder.WriteString(pr.DurationPromotion)
 	builder.WriteString(", Price=")
 	builder.WriteString(fmt.Sprintf("%v", pr.Price))
 	builder.WriteByte(')')

@@ -21,11 +21,12 @@ type PromotionController struct {
 
 // Promotion defines the struct for the promotion
 type Promotion struct {
-	Discount       int
-	Giveaway       int
-	Product		   int
-	PromotionName  string
-	Price		   float64
+	Discount       		int
+	Giveaway       		int
+	Product		   		int
+	PromotionName  		string
+	DurationPromotion 	string
+	Price		   		float64
 }
 
 // CreatePromotion handles POST requests for adding promotion entities
@@ -87,20 +88,27 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 
 	po, err := ctl.client.Promotion.
 		Create().
-		SetSale(d).
-		SetGive(g).
-		SetProduct(p).
-		SetPrice(obj.Price).
 		SetPromotionName(obj.PromotionName).
+		SetProduct(p).
+		SetGive(g).
+		SetSale(d).
+		SetDurationPromotion(obj.DurationPromotion).
+		SetPrice(obj.Price).
+	
 		Save(context.Background())
+
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+			"status" : false,
+			"error": err,
 		})
 		return
 	}
 
-	c.JSON(200, po)
+	c.JSON(200, gin.H{
+		"status" : true,
+		"data": po,
+	})
 }
 
 // GetPromotion handles GET requests to retrieve a promotion entity

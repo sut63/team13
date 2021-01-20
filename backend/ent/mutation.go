@@ -6885,21 +6885,22 @@ func (m *ProductMutation) ResetEdge(name string) error {
 // nodes in the graph.
 type PromotionMutation struct {
 	config
-	op             Op
-	typ            string
-	id             *int
-	_PromotionName *string
-	_Price         *float64
-	add_Price      *float64
-	clearedFields  map[string]struct{}
-	sale           *int
-	clearedsale    bool
-	give           *int
-	clearedgive    bool
-	product        *int
-	clearedproduct bool
-	done           bool
-	oldValue       func(context.Context) (*Promotion, error)
+	op                 Op
+	typ                string
+	id                 *int
+	_PromotionName     *string
+	_DurationPromotion *string
+	_Price             *float64
+	add_Price          *float64
+	clearedFields      map[string]struct{}
+	sale               *int
+	clearedsale        bool
+	give               *int
+	clearedgive        bool
+	product            *int
+	clearedproduct     bool
+	done               bool
+	oldValue           func(context.Context) (*Promotion, error)
 }
 
 var _ ent.Mutation = (*PromotionMutation)(nil)
@@ -7016,6 +7017,43 @@ func (m *PromotionMutation) OldPromotionName(ctx context.Context) (v string, err
 // ResetPromotionName reset all changes of the "PromotionName" field.
 func (m *PromotionMutation) ResetPromotionName() {
 	m._PromotionName = nil
+}
+
+// SetDurationPromotion sets the DurationPromotion field.
+func (m *PromotionMutation) SetDurationPromotion(s string) {
+	m._DurationPromotion = &s
+}
+
+// DurationPromotion returns the DurationPromotion value in the mutation.
+func (m *PromotionMutation) DurationPromotion() (r string, exists bool) {
+	v := m._DurationPromotion
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDurationPromotion returns the old DurationPromotion value of the Promotion.
+// If the Promotion object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *PromotionMutation) OldDurationPromotion(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldDurationPromotion is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldDurationPromotion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDurationPromotion: %w", err)
+	}
+	return oldValue.DurationPromotion, nil
+}
+
+// ResetDurationPromotion reset all changes of the "DurationPromotion" field.
+func (m *PromotionMutation) ResetDurationPromotion() {
+	m._DurationPromotion = nil
 }
 
 // SetPrice sets the Price field.
@@ -7206,9 +7244,12 @@ func (m *PromotionMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *PromotionMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 3)
 	if m._PromotionName != nil {
 		fields = append(fields, promotion.FieldPromotionName)
+	}
+	if m._DurationPromotion != nil {
+		fields = append(fields, promotion.FieldDurationPromotion)
 	}
 	if m._Price != nil {
 		fields = append(fields, promotion.FieldPrice)
@@ -7223,6 +7264,8 @@ func (m *PromotionMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case promotion.FieldPromotionName:
 		return m.PromotionName()
+	case promotion.FieldDurationPromotion:
+		return m.DurationPromotion()
 	case promotion.FieldPrice:
 		return m.Price()
 	}
@@ -7236,6 +7279,8 @@ func (m *PromotionMutation) OldField(ctx context.Context, name string) (ent.Valu
 	switch name {
 	case promotion.FieldPromotionName:
 		return m.OldPromotionName(ctx)
+	case promotion.FieldDurationPromotion:
+		return m.OldDurationPromotion(ctx)
 	case promotion.FieldPrice:
 		return m.OldPrice(ctx)
 	}
@@ -7253,6 +7298,13 @@ func (m *PromotionMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPromotionName(v)
+		return nil
+	case promotion.FieldDurationPromotion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDurationPromotion(v)
 		return nil
 	case promotion.FieldPrice:
 		v, ok := value.(float64)
@@ -7328,6 +7380,9 @@ func (m *PromotionMutation) ResetField(name string) error {
 	switch name {
 	case promotion.FieldPromotionName:
 		m.ResetPromotionName()
+		return nil
+	case promotion.FieldDurationPromotion:
+		m.ResetDurationPromotion()
 		return nil
 	case promotion.FieldPrice:
 		m.ResetPrice()

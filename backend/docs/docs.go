@@ -4453,6 +4453,9 @@ var doc = `{
                 "discount": {
                     "type": "integer"
                 },
+                "durationPromotion": {
+                    "type": "string"
+                },
                 "giveaway": {
                     "type": "integer"
                 },
@@ -5059,6 +5062,10 @@ var doc = `{
         "ent.Promotion": {
             "type": "object",
             "properties": {
+                "DurationPromotion": {
+                    "description": "DurationPromotion holds the value of the \"DurationPromotion\" field.",
+                    "type": "string"
+                },
                 "Price": {
                     "description": "Price holds the value of the \"Price\" field.",
                     "type": "number"
