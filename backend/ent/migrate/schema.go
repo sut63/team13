@@ -398,6 +398,7 @@ var (
 	// StocksColumns holds the columns for the "stocks" table.
 	StocksColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "idcardemployee", Type: field.TypeString},
 		{Name: "priceproduct", Type: field.TypeFloat64},
 		{Name: "amount", Type: field.TypeInt},
 		{Name: "time", Type: field.TypeTime},
@@ -414,28 +415,28 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "stocks_employees_employeestock",
-				Columns: []*schema.Column{StocksColumns[4]},
+				Columns: []*schema.Column{StocksColumns[5]},
 
 				RefColumns: []*schema.Column{EmployeesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "stocks_products_stockproduct",
-				Columns: []*schema.Column{StocksColumns[5]},
+				Columns: []*schema.Column{StocksColumns[6]},
 
 				RefColumns: []*schema.Column{ProductsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "stocks_typeproducts_typestock",
-				Columns: []*schema.Column{StocksColumns[6]},
+				Columns: []*schema.Column{StocksColumns[7]},
 
 				RefColumns: []*schema.Column{TypeproductsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "stocks_zoneproducts_zonestock",
-				Columns: []*schema.Column{StocksColumns[7]},
+				Columns: []*schema.Column{StocksColumns[8]},
 
 				RefColumns: []*schema.Column{ZoneproductsColumns[0]},
 				OnDelete:   schema.SetNull,

@@ -16,6 +16,7 @@ import (
 	"github.com/team13/app/ent/role"
 	"github.com/team13/app/ent/salary"
 	"github.com/team13/app/ent/schema"
+	"github.com/team13/app/ent/stock"
 	"github.com/team13/app/ent/typeproduct"
 	"github.com/team13/app/ent/zoneproduct"
 )
@@ -212,6 +213,48 @@ func init() {
 	salaryDescBonus := salaryFields[1].Descriptor()
 	// salary.BonusValidator is a validator for the "Bonus" field. It is called by the builders before save.
 	salary.BonusValidator = salaryDescBonus.Validators[0].(func(float64) error)
+	stockFields := schema.Stock{}.Fields()
+	_ = stockFields
+	// stockDescIDcardemployee is the schema descriptor for IDcardemployee field.
+	stockDescIDcardemployee := stockFields[0].Descriptor()
+	// stock.IDcardemployeeValidator is a validator for the "IDcardemployee" field. It is called by the builders before save.
+	stock.IDcardemployeeValidator = stockDescIDcardemployee.Validators[0].(func(string) error)
+	// stockDescPriceproduct is the schema descriptor for Priceproduct field.
+	stockDescPriceproduct := stockFields[1].Descriptor()
+	// stock.PriceproductValidator is a validator for the "Priceproduct" field. It is called by the builders before save.
+	stock.PriceproductValidator = func() func(float64) error {
+		validators := stockDescPriceproduct.Validators
+		fns := [...]func(float64) error{
+			validators[0].(func(float64) error),
+			validators[1].(func(float64) error),
+		}
+		return func(_Priceproduct float64) error {
+			for _, fn := range fns {
+				if err := fn(_Priceproduct); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// stockDescAmount is the schema descriptor for Amount field.
+	stockDescAmount := stockFields[2].Descriptor()
+	// stock.AmountValidator is a validator for the "Amount" field. It is called by the builders before save.
+	stock.AmountValidator = func() func(int) error {
+		validators := stockDescAmount.Validators
+		fns := [...]func(int) error{
+			validators[0].(func(int) error),
+			validators[1].(func(int) error),
+		}
+		return func(_Amount int) error {
+			for _, fn := range fns {
+				if err := fn(_Amount); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	typeproductFields := schema.Typeproduct{}.Fields()
 	_ = typeproductFields
 	// typeproductDescTypeproduct is the schema descriptor for Typeproduct field.

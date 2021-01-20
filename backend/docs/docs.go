@@ -4514,6 +4514,9 @@ var doc = `{
                 "employeeID": {
                     "type": "integer"
                 },
+                "idcardemployee": {
+                    "type": "string"
+                },
                 "priceproduct": {
                     "type": "number"
                 },
@@ -5253,6 +5256,10 @@ var doc = `{
                 "Amount": {
                     "description": "Amount holds the value of the \"Amount\" field.",
                     "type": "integer"
+                },
+                "IDcardemployee": {
+                    "description": "IDcardemployee holds the value of the \"IDcardemployee\" field.",
+                    "type": "string"
                 },
                 "Priceproduct": {
                     "description": "Priceproduct holds the value of the \"Priceproduct\" field.",
