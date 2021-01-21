@@ -51,7 +51,8 @@ export default function ComponentsTable() {
             <TableCell align="center">Company</TableCell>
             <TableCell align="center">Stock</TableCell>
             <TableCell align="center">Date</TableCell>
-            <TableCell align="center">Manage</TableCell>
+            <TableCell align="center">shipment</TableCell>
+            <TableCell align="center">detail</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -66,6 +67,8 @@ export default function ComponentsTable() {
                 <TableCell align="center">{item.edges?.company?.name}</TableCell>
                 <TableCell align="center">{item.stock}</TableCell>
                 <TableCell align="center">{moment(item.addedtime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
+                <TableCell align="center">{item.shipment}</TableCell>
+                <TableCell align="center">{item.detail}</TableCell>
 
                 <TableCell align="center">
                   <Button

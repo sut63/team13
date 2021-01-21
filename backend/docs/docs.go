@@ -4404,11 +4404,17 @@ var doc = `{
         "controllers.Orderonline": {
             "type": "object",
             "properties": {
+                "accountnumber": {
+                    "type": "string"
+                },
                 "addedtime": {
                     "type": "string"
                 },
                 "customerid": {
                     "type": "integer"
+                },
+                "cvv": {
+                    "type": "string"
                 },
                 "paymentchannelid": {
                     "type": "integer"
@@ -4433,11 +4439,17 @@ var doc = `{
                 "companyID": {
                     "type": "integer"
                 },
+                "detail": {
+                    "type": "string"
+                },
                 "managerID": {
                     "type": "integer"
                 },
                 "productID": {
                     "type": "integer"
+                },
+                "shipment": {
+                    "type": "string"
                 },
                 "stock": {
                     "type": "integer"
@@ -4501,6 +4513,9 @@ var doc = `{
                 },
                 "employeeID": {
                     "type": "integer"
+                },
+                "idcardemployee": {
+                    "type": "string"
                 },
                 "priceproduct": {
                     "type": "number"
@@ -4857,8 +4872,16 @@ var doc = `{
         "ent.Orderonline": {
             "type": "object",
             "properties": {
+                "accountnumber": {
+                    "description": "Accountnumber holds the value of the \"accountnumber\" field.",
+                    "type": "string"
+                },
                 "addedtime": {
                     "description": "Addedtime holds the value of the \"addedtime\" field.",
+                    "type": "string"
+                },
+                "cvv": {
+                    "description": "Cvv holds the value of the \"cvv\" field.",
                     "type": "string"
                 },
                 "edges": {
@@ -4908,6 +4931,10 @@ var doc = `{
                     "description": "Addedtime holds the value of the \"addedtime\" field.",
                     "type": "string"
                 },
+                "detail": {
+                    "description": "Detail holds the value of the \"detail\" field.",
+                    "type": "string"
+                },
                 "edges": {
                     "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the OrderproductQuery when eager-loading is set.",
                     "type": "object",
@@ -4916,6 +4943,10 @@ var doc = `{
                 "id": {
                     "description": "ID of the ent.",
                     "type": "integer"
+                },
+                "shipment": {
+                    "description": "Shipment holds the value of the \"shipment\" field.",
+                    "type": "string"
                 },
                 "stock": {
                     "description": "Stock holds the value of the \"stock\" field.",
@@ -5237,6 +5268,10 @@ var doc = `{
                 "Amount": {
                     "description": "Amount holds the value of the \"Amount\" field.",
                     "type": "integer"
+                },
+                "IDcardemployee": {
+                    "description": "IDcardemployee holds the value of the \"IDcardemployee\" field.",
+                    "type": "string"
                 },
                 "Priceproduct": {
                     "description": "Priceproduct holds the value of the \"Priceproduct\" field.",

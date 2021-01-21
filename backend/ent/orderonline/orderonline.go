@@ -11,6 +11,10 @@ const (
 	FieldAddedtime = "addedtime"
 	// FieldStock holds the string denoting the stock field in the database.
 	FieldStock = "stock"
+	// FieldAccountnumber holds the string denoting the accountnumber field in the database.
+	FieldAccountnumber = "accountnumber"
+	// FieldCvv holds the string denoting the cvv field in the database.
+	FieldCvv = "cvv"
 
 	// EdgeProduct holds the string denoting the product edge name in mutations.
 	EdgeProduct = "product"
@@ -58,6 +62,8 @@ var Columns = []string{
 	FieldID,
 	FieldAddedtime,
 	FieldStock,
+	FieldAccountnumber,
+	FieldCvv,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Orderonline type.
@@ -67,3 +73,12 @@ var ForeignKeys = []string{
 	"product_formproductonline",
 	"typeproduct_from_typeproductonline",
 }
+
+var (
+	// StockValidator is a validator for the "stock" field. It is called by the builders before save.
+	StockValidator func(int) error
+	// AccountnumberValidator is a validator for the "accountnumber" field. It is called by the builders before save.
+	AccountnumberValidator func(string) error
+	// CvvValidator is a validator for the "cvv" field. It is called by the builders before save.
+	CvvValidator func(string) error
+)

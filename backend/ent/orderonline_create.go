@@ -36,6 +36,18 @@ func (oc *OrderonlineCreate) SetStock(i int) *OrderonlineCreate {
 	return oc
 }
 
+// SetAccountnumber sets the accountnumber field.
+func (oc *OrderonlineCreate) SetAccountnumber(s string) *OrderonlineCreate {
+	oc.mutation.SetAccountnumber(s)
+	return oc
+}
+
+// SetCvv sets the cvv field.
+func (oc *OrderonlineCreate) SetCvv(s string) *OrderonlineCreate {
+	oc.mutation.SetCvv(s)
+	return oc
+}
+
 // SetProductID sets the product edge to Product by id.
 func (oc *OrderonlineCreate) SetProductID(id int) *OrderonlineCreate {
 	oc.mutation.SetProductID(id)
@@ -125,6 +137,27 @@ func (oc *OrderonlineCreate) Save(ctx context.Context) (*Orderonline, error) {
 	if _, ok := oc.mutation.Stock(); !ok {
 		return nil, &ValidationError{Name: "stock", err: errors.New("ent: missing required field \"stock\"")}
 	}
+	if v, ok := oc.mutation.Stock(); ok {
+		if err := orderonline.StockValidator(v); err != nil {
+			return nil, &ValidationError{Name: "stock", err: fmt.Errorf("ent: validator failed for field \"stock\": %w", err)}
+		}
+	}
+	if _, ok := oc.mutation.Accountnumber(); !ok {
+		return nil, &ValidationError{Name: "accountnumber", err: errors.New("ent: missing required field \"accountnumber\"")}
+	}
+	if v, ok := oc.mutation.Accountnumber(); ok {
+		if err := orderonline.AccountnumberValidator(v); err != nil {
+			return nil, &ValidationError{Name: "accountnumber", err: fmt.Errorf("ent: validator failed for field \"accountnumber\": %w", err)}
+		}
+	}
+	if _, ok := oc.mutation.Cvv(); !ok {
+		return nil, &ValidationError{Name: "cvv", err: errors.New("ent: missing required field \"cvv\"")}
+	}
+	if v, ok := oc.mutation.Cvv(); ok {
+		if err := orderonline.CvvValidator(v); err != nil {
+			return nil, &ValidationError{Name: "cvv", err: fmt.Errorf("ent: validator failed for field \"cvv\": %w", err)}
+		}
+	}
 	var (
 		err  error
 		node *Orderonline
@@ -200,6 +233,22 @@ func (oc *OrderonlineCreate) createSpec() (*Orderonline, *sqlgraph.CreateSpec) {
 			Column: orderonline.FieldStock,
 		})
 		o.Stock = value
+	}
+	if value, ok := oc.mutation.Accountnumber(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderonline.FieldAccountnumber,
+		})
+		o.Accountnumber = value
+	}
+	if value, ok := oc.mutation.Cvv(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderonline.FieldCvv,
+		})
+		o.Cvv = value
 	}
 	if nodes := oc.mutation.ProductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

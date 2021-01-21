@@ -15,7 +15,9 @@ type Orderonline struct {
 func (Orderonline) Fields() []ent.Field {
 	return []ent.Field{
 		field.Time("addedtime"),
-		field.Int("stock"),
+		field.Int("stock").Min(0).Positive(),
+		field.String("accountnumber").MinLen(10).MaxLen(13),
+		field.String("cvv").MinLen(3).MaxLen(3),
 	}
 }
 

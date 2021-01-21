@@ -107,6 +107,20 @@ func Stock(v int) predicate.Orderonline {
 	})
 }
 
+// Accountnumber applies equality check predicate on the "accountnumber" field. It's identical to AccountnumberEQ.
+func Accountnumber(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAccountnumber), v))
+	})
+}
+
+// Cvv applies equality check predicate on the "cvv" field. It's identical to CvvEQ.
+func Cvv(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCvv), v))
+	})
+}
+
 // AddedtimeEQ applies the EQ predicate on the "addedtime" field.
 func AddedtimeEQ(v time.Time) predicate.Orderonline {
 	return predicate.Orderonline(func(s *sql.Selector) {
@@ -256,6 +270,228 @@ func StockLT(v int) predicate.Orderonline {
 func StockLTE(v int) predicate.Orderonline {
 	return predicate.Orderonline(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldStock), v))
+	})
+}
+
+// AccountnumberEQ applies the EQ predicate on the "accountnumber" field.
+func AccountnumberEQ(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAccountnumber), v))
+	})
+}
+
+// AccountnumberNEQ applies the NEQ predicate on the "accountnumber" field.
+func AccountnumberNEQ(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldAccountnumber), v))
+	})
+}
+
+// AccountnumberIn applies the In predicate on the "accountnumber" field.
+func AccountnumberIn(vs ...string) predicate.Orderonline {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Orderonline(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldAccountnumber), v...))
+	})
+}
+
+// AccountnumberNotIn applies the NotIn predicate on the "accountnumber" field.
+func AccountnumberNotIn(vs ...string) predicate.Orderonline {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Orderonline(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldAccountnumber), v...))
+	})
+}
+
+// AccountnumberGT applies the GT predicate on the "accountnumber" field.
+func AccountnumberGT(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldAccountnumber), v))
+	})
+}
+
+// AccountnumberGTE applies the GTE predicate on the "accountnumber" field.
+func AccountnumberGTE(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldAccountnumber), v))
+	})
+}
+
+// AccountnumberLT applies the LT predicate on the "accountnumber" field.
+func AccountnumberLT(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldAccountnumber), v))
+	})
+}
+
+// AccountnumberLTE applies the LTE predicate on the "accountnumber" field.
+func AccountnumberLTE(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldAccountnumber), v))
+	})
+}
+
+// AccountnumberContains applies the Contains predicate on the "accountnumber" field.
+func AccountnumberContains(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldAccountnumber), v))
+	})
+}
+
+// AccountnumberHasPrefix applies the HasPrefix predicate on the "accountnumber" field.
+func AccountnumberHasPrefix(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldAccountnumber), v))
+	})
+}
+
+// AccountnumberHasSuffix applies the HasSuffix predicate on the "accountnumber" field.
+func AccountnumberHasSuffix(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldAccountnumber), v))
+	})
+}
+
+// AccountnumberEqualFold applies the EqualFold predicate on the "accountnumber" field.
+func AccountnumberEqualFold(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldAccountnumber), v))
+	})
+}
+
+// AccountnumberContainsFold applies the ContainsFold predicate on the "accountnumber" field.
+func AccountnumberContainsFold(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldAccountnumber), v))
+	})
+}
+
+// CvvEQ applies the EQ predicate on the "cvv" field.
+func CvvEQ(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCvv), v))
+	})
+}
+
+// CvvNEQ applies the NEQ predicate on the "cvv" field.
+func CvvNEQ(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldCvv), v))
+	})
+}
+
+// CvvIn applies the In predicate on the "cvv" field.
+func CvvIn(vs ...string) predicate.Orderonline {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Orderonline(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldCvv), v...))
+	})
+}
+
+// CvvNotIn applies the NotIn predicate on the "cvv" field.
+func CvvNotIn(vs ...string) predicate.Orderonline {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Orderonline(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldCvv), v...))
+	})
+}
+
+// CvvGT applies the GT predicate on the "cvv" field.
+func CvvGT(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldCvv), v))
+	})
+}
+
+// CvvGTE applies the GTE predicate on the "cvv" field.
+func CvvGTE(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldCvv), v))
+	})
+}
+
+// CvvLT applies the LT predicate on the "cvv" field.
+func CvvLT(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldCvv), v))
+	})
+}
+
+// CvvLTE applies the LTE predicate on the "cvv" field.
+func CvvLTE(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldCvv), v))
+	})
+}
+
+// CvvContains applies the Contains predicate on the "cvv" field.
+func CvvContains(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldCvv), v))
+	})
+}
+
+// CvvHasPrefix applies the HasPrefix predicate on the "cvv" field.
+func CvvHasPrefix(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldCvv), v))
+	})
+}
+
+// CvvHasSuffix applies the HasSuffix predicate on the "cvv" field.
+func CvvHasSuffix(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldCvv), v))
+	})
+}
+
+// CvvEqualFold applies the EqualFold predicate on the "cvv" field.
+func CvvEqualFold(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldCvv), v))
+	})
+}
+
+// CvvContainsFold applies the ContainsFold predicate on the "cvv" field.
+func CvvContainsFold(v string) predicate.Orderonline {
+	return predicate.Orderonline(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldCvv), v))
 	})
 }
 

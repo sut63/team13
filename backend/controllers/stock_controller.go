@@ -30,6 +30,7 @@ type Stock struct {
 	Priceproduct  float64
 	Amount        int
 	Time          string
+	IDcardemployee	string
 
 }
 
@@ -113,16 +114,23 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 		SetEmployee(em).
 		SetAmount(obj.Amount).
 		SetPriceproduct(obj.Priceproduct).
+		SetIDcardemployee(obj.IDcardemployee).
 		SetTime(times).
 		Save(context.Background())
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "saving failed",
-		})
-		return
-	}
 
-	c.JSON(200, s)
+		if err != nil {
+			fmt.Println(err)
+			c.JSON(400, gin.H{
+				"status" : false,
+				"error": err,
+			})
+			return
+		}
+	
+		c.JSON(200, gin.H{
+			"status" : true,
+			"data": s,
+		})
 }
 
 // GetStock handles GET requests to retrieve a stock entity

@@ -8,26 +8,17 @@ import {
   FormControl,
   InputLabel,
   Select,
-  Box,
-  Avatar,
+ 
 } from '@material-ui/core';
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import { DefaultApi } from '../../api/apis';
 import SaveIcon from '@material-ui/icons/Save';
-
 import { Link as RouterLink } from 'react-router-dom';
-
-
 import { Alert } from '@material-ui/lab';
-
-
 import { EntProduct } from '../../api/models/EntProduct';
 import { EntTypeproduct } from '../../api/models/EntTypeproduct';
 import { EntEmployee } from '../../api/models/EntEmployee';
@@ -106,7 +97,12 @@ export default function Stock() {
   const [typeproductid, setTypeproductid] = useState(Number);
   const [employeeid, setEmployeeid] = useState(Number);
   const [zoneproductid, setZoneproductid] = useState(Number);
+  const [idcardemployee, setidcardemployee] = useState(String);
 
+  const [IdcardemployeeError, setIdcardemployeeError] = React.useState('');
+  const [PriceError, setPriceError] = React.useState('');
+  const [AmountError, setAmountError] = React.useState('');
+  const [errors, setError] = React.useState(String);
 
   let productID = Number(productid)
   let employeeID = Number(cookieID)
@@ -114,11 +110,13 @@ export default function Stock() {
   let typeproductID = Number(typeproductid)
   let amount = Number(amounts)
   let priceproduct = Number(priceproducts)
+  let iDcardemployee = String(idcardemployee)
 
 
 
 
-  console.log(employeeID)
+
+ // console.log(employeeID)
   useEffect(() => {
 
     const getEmployees = async () => {
@@ -165,9 +163,70 @@ export default function Stock() {
     productID,
     zoneID,
     priceproduct,
+    iDcardemployee,
     amount,
     time: time + ":00+07:00"
   }
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+  }
+
+
+ /* //validate
+  const validateIdcardemployee = (val: string) => {
+    return val.match("[E]\\d{4}");
+  }
+
+  const validateAmount = (val: Number) => {
+    return val > 0  ? true : false;
+  }
+
+  // ฟังก์ชั่นสำหรับ validate 
+  const validatePrice = (val: Number) => {
+    return val  > 0 ? false : true;
+  }
+*/
+
+  /* checkPattern
+  const checkPattern  = (id: string, value: string) => {
+    switch(id) { 
+      case 'IDcardemployee':
+        validateIdcardemployee(value) ? setIdcardemployeeError('') : setIdcardemployeeError('ห้ามเกิน 50 ตัวอักษร');
+        return;
+      case 'Priceproduct': 
+        validatePrice(Number(value)) ? setPriceError('') : setPriceError('Ex 0850583300');
+        return;
+      case 'Amount':
+        validateAmount(Number(value)) ? setAmountError('') : setAmountError('เข้าพักได้ไม่เกินห้องละ 5 คน')
+        return;
+      default:
+        return;
+    }
+  }*/
+
+  const checkCaseSaveError = (field: string) => {
+    switch(field) {
+      case 'IDcardemployee':
+        alertMessage("error","รูปแบบรหัสพนักงานไม่ถูกต้อง กรุณากรอกข้อมูลให้ถูกต้อง");
+        return;
+      case 'Priceproduct':
+        alertMessage("error","ราคาต้องเป็นตัวเลขและห้ามติดลบ กรุณากรอกราคาให้ถูกต้อง");
+        return;
+      case 'Amount':
+        alertMessage("error","จำนวนต้องเป็นตัวเลขห้ามติดลบ กรุณากรอกจำนวนให้ถูกต้อง");
+        return;
+      default:
+        alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
+        return;
+    }
+  }
+
+
+
+
   console.log(stock)
 
   function CreateStock() {
@@ -181,25 +240,21 @@ export default function Stock() {
     console.log(stock);
 
     fetch(apiUrl, requestOptions)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        if (data.id != null) {
-          //clear();
-          Toast.fire({
-            icon: 'success',
-            title: 'บันทึกข้อมูลสำเร็จ',
-          });
-        } else {
-          Toast.fire({
-            icon: 'error',
-            title: 'บันทึกข้อมูลไม่สำเร็จ กรุณากรอกข้อมูลให้ครบ',
-          });
-        }
-      });
-  }
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.status == true) {
+        //clear();
+        Toast.fire({
+          icon: 'success',
+          title: 'บันทึกข้อมูลสำเร็จ',
 
-
+        });//window.setTimeout(function(){location.reload()},8000);
+      } else {
+        checkCaseSaveError(data.error.Name)
+      }
+    });
+  };
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -229,11 +284,19 @@ export default function Stock() {
   };
 
   const amount_id_handleChange = (event: any) => {
-    setAmount(event.target.value);
+    setAmount(event.target.value);  
+    
   };
 
   const priceproduct_id_handleChange = (event: any) => {
     setPriceproduct(event.target.value);
+    //checkPattern(data.error.Name);
+  };
+
+  const idcardemployee_id_handleChange = (event: any) => {
+    setidcardemployee(event.target.value);
+    //checkPattern(data.error.Name);
+
   };
 
   const handletimeChange = (event: any) => {
@@ -345,6 +408,31 @@ export default function Stock() {
             </Grid>
 
 
+
+
+            <Grid item xs={4}><center>
+              <h3 align='right'>รหัสพนักงาน</h3></center>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+
+              ><TextField
+                  id="Idcardemployee"
+                  label="Idcardemployee"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
+                  value={idcardemployee}
+                  onChange={idcardemployee_id_handleChange}
+                  style={{ marginRight: 300, width: 300 }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+            </Grid>
 
 
 
@@ -566,7 +654,9 @@ export default function Stock() {
       </Content>
     </Page>
   );
+
 }
+      
 
 
 

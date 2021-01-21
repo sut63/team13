@@ -93,6 +93,13 @@ func IDLTE(id int) predicate.Stock {
 	})
 }
 
+// IDcardemployee applies equality check predicate on the "IDcardemployee" field. It's identical to IDcardemployeeEQ.
+func IDcardemployee(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIDcardemployee), v))
+	})
+}
+
 // Priceproduct applies equality check predicate on the "Priceproduct" field. It's identical to PriceproductEQ.
 func Priceproduct(v float64) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
@@ -111,6 +118,117 @@ func Amount(v int) predicate.Stock {
 func Time(v time.Time) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldTime), v))
+	})
+}
+
+// IDcardemployeeEQ applies the EQ predicate on the "IDcardemployee" field.
+func IDcardemployeeEQ(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIDcardemployee), v))
+	})
+}
+
+// IDcardemployeeNEQ applies the NEQ predicate on the "IDcardemployee" field.
+func IDcardemployeeNEQ(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldIDcardemployee), v))
+	})
+}
+
+// IDcardemployeeIn applies the In predicate on the "IDcardemployee" field.
+func IDcardemployeeIn(vs ...string) predicate.Stock {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Stock(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldIDcardemployee), v...))
+	})
+}
+
+// IDcardemployeeNotIn applies the NotIn predicate on the "IDcardemployee" field.
+func IDcardemployeeNotIn(vs ...string) predicate.Stock {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Stock(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldIDcardemployee), v...))
+	})
+}
+
+// IDcardemployeeGT applies the GT predicate on the "IDcardemployee" field.
+func IDcardemployeeGT(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldIDcardemployee), v))
+	})
+}
+
+// IDcardemployeeGTE applies the GTE predicate on the "IDcardemployee" field.
+func IDcardemployeeGTE(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldIDcardemployee), v))
+	})
+}
+
+// IDcardemployeeLT applies the LT predicate on the "IDcardemployee" field.
+func IDcardemployeeLT(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldIDcardemployee), v))
+	})
+}
+
+// IDcardemployeeLTE applies the LTE predicate on the "IDcardemployee" field.
+func IDcardemployeeLTE(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldIDcardemployee), v))
+	})
+}
+
+// IDcardemployeeContains applies the Contains predicate on the "IDcardemployee" field.
+func IDcardemployeeContains(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldIDcardemployee), v))
+	})
+}
+
+// IDcardemployeeHasPrefix applies the HasPrefix predicate on the "IDcardemployee" field.
+func IDcardemployeeHasPrefix(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldIDcardemployee), v))
+	})
+}
+
+// IDcardemployeeHasSuffix applies the HasSuffix predicate on the "IDcardemployee" field.
+func IDcardemployeeHasSuffix(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldIDcardemployee), v))
+	})
+}
+
+// IDcardemployeeEqualFold applies the EqualFold predicate on the "IDcardemployee" field.
+func IDcardemployeeEqualFold(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldIDcardemployee), v))
+	})
+}
+
+// IDcardemployeeContainsFold applies the ContainsFold predicate on the "IDcardemployee" field.
+func IDcardemployeeContainsFold(v string) predicate.Stock {
+	return predicate.Stock(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldIDcardemployee), v))
 	})
 }
 

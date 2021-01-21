@@ -51,6 +51,18 @@ func (ou *OrderonlineUpdate) AddStock(i int) *OrderonlineUpdate {
 	return ou
 }
 
+// SetAccountnumber sets the accountnumber field.
+func (ou *OrderonlineUpdate) SetAccountnumber(s string) *OrderonlineUpdate {
+	ou.mutation.SetAccountnumber(s)
+	return ou
+}
+
+// SetCvv sets the cvv field.
+func (ou *OrderonlineUpdate) SetCvv(s string) *OrderonlineUpdate {
+	ou.mutation.SetCvv(s)
+	return ou
+}
+
 // SetProductID sets the product edge to Product by id.
 func (ou *OrderonlineUpdate) SetProductID(id int) *OrderonlineUpdate {
 	ou.mutation.SetProductID(id)
@@ -158,6 +170,21 @@ func (ou *OrderonlineUpdate) ClearCustomer() *OrderonlineUpdate {
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (ou *OrderonlineUpdate) Save(ctx context.Context) (int, error) {
+	if v, ok := ou.mutation.Stock(); ok {
+		if err := orderonline.StockValidator(v); err != nil {
+			return 0, &ValidationError{Name: "stock", err: fmt.Errorf("ent: validator failed for field \"stock\": %w", err)}
+		}
+	}
+	if v, ok := ou.mutation.Accountnumber(); ok {
+		if err := orderonline.AccountnumberValidator(v); err != nil {
+			return 0, &ValidationError{Name: "accountnumber", err: fmt.Errorf("ent: validator failed for field \"accountnumber\": %w", err)}
+		}
+	}
+	if v, ok := ou.mutation.Cvv(); ok {
+		if err := orderonline.CvvValidator(v); err != nil {
+			return 0, &ValidationError{Name: "cvv", err: fmt.Errorf("ent: validator failed for field \"cvv\": %w", err)}
+		}
+	}
 
 	var (
 		err      error
@@ -245,6 +272,20 @@ func (ou *OrderonlineUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeInt,
 			Value:  value,
 			Column: orderonline.FieldStock,
+		})
+	}
+	if value, ok := ou.mutation.Accountnumber(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderonline.FieldAccountnumber,
+		})
+	}
+	if value, ok := ou.mutation.Cvv(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderonline.FieldCvv,
 		})
 	}
 	if ou.mutation.ProductCleared() {
@@ -424,6 +465,18 @@ func (ouo *OrderonlineUpdateOne) AddStock(i int) *OrderonlineUpdateOne {
 	return ouo
 }
 
+// SetAccountnumber sets the accountnumber field.
+func (ouo *OrderonlineUpdateOne) SetAccountnumber(s string) *OrderonlineUpdateOne {
+	ouo.mutation.SetAccountnumber(s)
+	return ouo
+}
+
+// SetCvv sets the cvv field.
+func (ouo *OrderonlineUpdateOne) SetCvv(s string) *OrderonlineUpdateOne {
+	ouo.mutation.SetCvv(s)
+	return ouo
+}
+
 // SetProductID sets the product edge to Product by id.
 func (ouo *OrderonlineUpdateOne) SetProductID(id int) *OrderonlineUpdateOne {
 	ouo.mutation.SetProductID(id)
@@ -531,6 +584,21 @@ func (ouo *OrderonlineUpdateOne) ClearCustomer() *OrderonlineUpdateOne {
 
 // Save executes the query and returns the updated entity.
 func (ouo *OrderonlineUpdateOne) Save(ctx context.Context) (*Orderonline, error) {
+	if v, ok := ouo.mutation.Stock(); ok {
+		if err := orderonline.StockValidator(v); err != nil {
+			return nil, &ValidationError{Name: "stock", err: fmt.Errorf("ent: validator failed for field \"stock\": %w", err)}
+		}
+	}
+	if v, ok := ouo.mutation.Accountnumber(); ok {
+		if err := orderonline.AccountnumberValidator(v); err != nil {
+			return nil, &ValidationError{Name: "accountnumber", err: fmt.Errorf("ent: validator failed for field \"accountnumber\": %w", err)}
+		}
+	}
+	if v, ok := ouo.mutation.Cvv(); ok {
+		if err := orderonline.CvvValidator(v); err != nil {
+			return nil, &ValidationError{Name: "cvv", err: fmt.Errorf("ent: validator failed for field \"cvv\": %w", err)}
+		}
+	}
 
 	var (
 		err  error
@@ -616,6 +684,20 @@ func (ouo *OrderonlineUpdateOne) sqlSave(ctx context.Context) (o *Orderonline, e
 			Type:   field.TypeInt,
 			Value:  value,
 			Column: orderonline.FieldStock,
+		})
+	}
+	if value, ok := ouo.mutation.Accountnumber(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderonline.FieldAccountnumber,
+		})
+	}
+	if value, ok := ouo.mutation.Cvv(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: orderonline.FieldCvv,
 		})
 	}
 	if ouo.mutation.ProductCleared() {
