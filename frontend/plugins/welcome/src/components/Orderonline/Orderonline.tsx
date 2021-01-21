@@ -195,7 +195,6 @@ export default function Orderonline() {
       .then(data => {
         console.log(data);
         if (data.status === true) {
-          //clear();
           Toast.fire({
             icon: 'success',
             title: 'บันทึกข้อมูลสำเร็จ',
