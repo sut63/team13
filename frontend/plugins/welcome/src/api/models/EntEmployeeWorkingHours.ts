@@ -27,6 +27,24 @@ import {
  */
 export interface EntEmployeeWorkingHours {
     /**
+     * IDEmployee holds the value of the "IDEmployee" field.
+     * @type {string}
+     * @memberof EntEmployeeWorkingHours
+     */
+    iDEmployee?: string;
+    /**
+     * IDNumber holds the value of the "IDNumber" field.
+     * @type {string}
+     * @memberof EntEmployeeWorkingHours
+     */
+    iDNumber?: string;
+    /**
+     * Wages holds the value of the "Wages" field.
+     * @type {number}
+     * @memberof EntEmployeeWorkingHours
+     */
+    wages?: number;
+    /**
      * 
      * @type {EntEmployeeWorkingHoursEdges}
      * @memberof EntEmployeeWorkingHours
@@ -50,6 +68,9 @@ export function EntEmployeeWorkingHoursFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
+        'iDEmployee': !exists(json, 'IDEmployee') ? undefined : json['IDEmployee'],
+        'iDNumber': !exists(json, 'IDNumber') ? undefined : json['IDNumber'],
+        'wages': !exists(json, 'Wages') ? undefined : json['Wages'],
         'edges': !exists(json, 'edges') ? undefined : EntEmployeeWorkingHoursEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
     };
@@ -64,6 +85,9 @@ export function EntEmployeeWorkingHoursToJSON(value?: EntEmployeeWorkingHours | 
     }
     return {
         
+        'IDEmployee': value.iDEmployee,
+        'IDNumber': value.iDNumber,
+        'Wages': value.wages,
         'edges': EntEmployeeWorkingHoursEdgesToJSON(value.edges),
         'id': value.id,
     };

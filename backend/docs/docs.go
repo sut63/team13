@@ -1360,7 +1360,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ent.EmployeeWorkingHours"
+                            "$ref": "#/definitions/controllers.EmployeeWorkingHours"
                         }
                     }
                 ],
@@ -4401,6 +4401,32 @@ var doc = `{
         }
     },
     "definitions": {
+        "controllers.EmployeeWorkingHours": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "integer"
+                },
+                "employee": {
+                    "type": "integer"
+                },
+                "idemployee": {
+                    "type": "string"
+                },
+                "idnumber": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "integer"
+                },
+                "shift": {
+                    "type": "integer"
+                },
+                "wages": {
+                    "type": "number"
+                }
+            }
+        },
         "controllers.Orderonline": {
             "type": "object",
             "properties": {
@@ -4753,6 +4779,18 @@ var doc = `{
         "ent.EmployeeWorkingHours": {
             "type": "object",
             "properties": {
+                "IDEmployee": {
+                    "description": "IDEmployee holds the value of the \"IDEmployee\" field.",
+                    "type": "string"
+                },
+                "IDNumber": {
+                    "description": "IDNumber holds the value of the \"IDNumber\" field.",
+                    "type": "string"
+                },
+                "Wages": {
+                    "description": "Wages holds the value of the \"Wages\" field.",
+                    "type": "number"
+                },
                 "edges": {
                     "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the EmployeeWorkingHoursQuery when eager-loading is set.",
                     "type": "object",

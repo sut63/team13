@@ -16,9 +16,15 @@ import (
 
 // EmployeeWorkingHours is the model entity for the EmployeeWorkingHours schema.
 type EmployeeWorkingHours struct {
-	config
+	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// IDEmployee holds the value of the "IDEmployee" field.
+	IDEmployee string `json:"IDEmployee,omitempty"`
+	// IDNumber holds the value of the "IDNumber" field.
+	IDNumber string `json:"IDNumber,omitempty"`
+	// Wages holds the value of the "Wages" field.
+	Wages float64 `json:"Wages,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the EmployeeWorkingHoursQuery when eager-loading is set.
 	Edges          EmployeeWorkingHoursEdges `json:"edges"`
@@ -102,7 +108,10 @@ func (e EmployeeWorkingHoursEdges) RoleOrErr() (*Role, error) {
 // scanValues returns the types for scanning values from sql.Rows.
 func (*EmployeeWorkingHours) scanValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{}, // id
+		&sql.NullInt64{},   // id
+		&sql.NullString{},  // IDEmployee
+		&sql.NullString{},  // IDNumber
+		&sql.NullFloat64{}, // Wages
 	}
 }
 
@@ -128,7 +137,22 @@ func (ewh *EmployeeWorkingHours) assignValues(values ...interface{}) error {
 	}
 	ewh.ID = int(value.Int64)
 	values = values[1:]
-	values = values[0:]
+	if value, ok := values[0].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field IDEmployee", values[0])
+	} else if value.Valid {
+		ewh.IDEmployee = value.String
+	}
+	if value, ok := values[1].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field IDNumber", values[1])
+	} else if value.Valid {
+		ewh.IDNumber = value.String
+	}
+	if value, ok := values[2].(*sql.NullFloat64); !ok {
+		return fmt.Errorf("unexpected type %T for field Wages", values[2])
+	} else if value.Valid {
+		ewh.Wages = value.Float64
+	}
+	values = values[3:]
 	if len(values) == len(employeeworkinghours.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field day_whatday", value)
@@ -201,6 +225,12 @@ func (ewh *EmployeeWorkingHours) String() string {
 	var builder strings.Builder
 	builder.WriteString("EmployeeWorkingHours(")
 	builder.WriteString(fmt.Sprintf("id=%v", ewh.ID))
+	builder.WriteString(", IDEmployee=")
+	builder.WriteString(ewh.IDEmployee)
+	builder.WriteString(", IDNumber=")
+	builder.WriteString(ewh.IDNumber)
+	builder.WriteString(", Wages=")
+	builder.WriteString(fmt.Sprintf("%v", ewh.Wages))
 	builder.WriteByte(')')
 	return builder.String()
 }

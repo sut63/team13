@@ -7,6 +7,12 @@ const (
 	Label = "employee_working_hours"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldIDEmployee holds the string denoting the idemployee field in the database.
+	FieldIDEmployee = "id_employee"
+	// FieldIDNumber holds the string denoting the idnumber field in the database.
+	FieldIDNumber = "id_number"
+	// FieldWages holds the string denoting the wages field in the database.
+	FieldWages = "wages"
 
 	// EdgeEmployee holds the string denoting the employee edge name in mutations.
 	EdgeEmployee = "employee"
@@ -52,6 +58,9 @@ const (
 // Columns holds all SQL columns for employeeworkinghours fields.
 var Columns = []string{
 	FieldID,
+	FieldIDEmployee,
+	FieldIDNumber,
+	FieldWages,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the EmployeeWorkingHours type.
@@ -61,3 +70,12 @@ var ForeignKeys = []string{
 	"role_todo",
 	"shift_when",
 }
+
+var (
+	// IDEmployeeValidator is a validator for the "IDEmployee" field. It is called by the builders before save.
+	IDEmployeeValidator func(string) error
+	// IDNumberValidator is a validator for the "IDNumber" field. It is called by the builders before save.
+	IDNumberValidator func(string) error
+	// WagesValidator is a validator for the "Wages" field. It is called by the builders before save.
+	WagesValidator func(float64) error
+)

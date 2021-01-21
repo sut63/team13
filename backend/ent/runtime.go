@@ -6,6 +6,7 @@ import (
 	"github.com/team13/app/ent/assessment"
 	"github.com/team13/app/ent/customer"
 	"github.com/team13/app/ent/employee"
+	"github.com/team13/app/ent/employeeworkinghours"
 	"github.com/team13/app/ent/manager"
 	"github.com/team13/app/ent/orderonline"
 	"github.com/team13/app/ent/orderproduct"
@@ -67,6 +68,48 @@ func init() {
 	employeeDescAge := employeeFields[3].Descriptor()
 	// employee.AgeValidator is a validator for the "age" field. It is called by the builders before save.
 	employee.AgeValidator = employeeDescAge.Validators[0].(func(int) error)
+	employeeworkinghoursFields := schema.EmployeeWorkingHours{}.Fields()
+	_ = employeeworkinghoursFields
+	// employeeworkinghoursDescIDEmployee is the schema descriptor for IDEmployee field.
+	employeeworkinghoursDescIDEmployee := employeeworkinghoursFields[0].Descriptor()
+	// employeeworkinghours.IDEmployeeValidator is a validator for the "IDEmployee" field. It is called by the builders before save.
+	employeeworkinghours.IDEmployeeValidator = employeeworkinghoursDescIDEmployee.Validators[0].(func(string) error)
+	// employeeworkinghoursDescIDNumber is the schema descriptor for IDNumber field.
+	employeeworkinghoursDescIDNumber := employeeworkinghoursFields[1].Descriptor()
+	// employeeworkinghours.IDNumberValidator is a validator for the "IDNumber" field. It is called by the builders before save.
+	employeeworkinghours.IDNumberValidator = func() func(string) error {
+		validators := employeeworkinghoursDescIDNumber.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(_IDNumber string) error {
+			for _, fn := range fns {
+				if err := fn(_IDNumber); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// employeeworkinghoursDescWages is the schema descriptor for Wages field.
+	employeeworkinghoursDescWages := employeeworkinghoursFields[2].Descriptor()
+	// employeeworkinghours.WagesValidator is a validator for the "Wages" field. It is called by the builders before save.
+	employeeworkinghours.WagesValidator = func() func(float64) error {
+		validators := employeeworkinghoursDescWages.Validators
+		fns := [...]func(float64) error{
+			validators[0].(func(float64) error),
+			validators[1].(func(float64) error),
+		}
+		return func(_Wages float64) error {
+			for _, fn := range fns {
+				if err := fn(_Wages); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	managerFields := schema.Manager{}.Fields()
 	_ = managerFields
 	// managerDescName is the schema descriptor for name field.

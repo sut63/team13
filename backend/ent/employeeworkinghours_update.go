@@ -31,6 +31,31 @@ func (ewhu *EmployeeWorkingHoursUpdate) Where(ps ...predicate.EmployeeWorkingHou
 	return ewhu
 }
 
+// SetIDEmployee sets the IDEmployee field.
+func (ewhu *EmployeeWorkingHoursUpdate) SetIDEmployee(s string) *EmployeeWorkingHoursUpdate {
+	ewhu.mutation.SetIDEmployee(s)
+	return ewhu
+}
+
+// SetIDNumber sets the IDNumber field.
+func (ewhu *EmployeeWorkingHoursUpdate) SetIDNumber(s string) *EmployeeWorkingHoursUpdate {
+	ewhu.mutation.SetIDNumber(s)
+	return ewhu
+}
+
+// SetWages sets the Wages field.
+func (ewhu *EmployeeWorkingHoursUpdate) SetWages(f float64) *EmployeeWorkingHoursUpdate {
+	ewhu.mutation.ResetWages()
+	ewhu.mutation.SetWages(f)
+	return ewhu
+}
+
+// AddWages adds f to Wages.
+func (ewhu *EmployeeWorkingHoursUpdate) AddWages(f float64) *EmployeeWorkingHoursUpdate {
+	ewhu.mutation.AddWages(f)
+	return ewhu
+}
+
 // SetEmployeeID sets the employee edge to Employee by id.
 func (ewhu *EmployeeWorkingHoursUpdate) SetEmployeeID(id int) *EmployeeWorkingHoursUpdate {
 	ewhu.mutation.SetEmployeeID(id)
@@ -138,6 +163,21 @@ func (ewhu *EmployeeWorkingHoursUpdate) ClearRole() *EmployeeWorkingHoursUpdate 
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (ewhu *EmployeeWorkingHoursUpdate) Save(ctx context.Context) (int, error) {
+	if v, ok := ewhu.mutation.IDEmployee(); ok {
+		if err := employeeworkinghours.IDEmployeeValidator(v); err != nil {
+			return 0, &ValidationError{Name: "IDEmployee", err: fmt.Errorf("ent: validator failed for field \"IDEmployee\": %w", err)}
+		}
+	}
+	if v, ok := ewhu.mutation.IDNumber(); ok {
+		if err := employeeworkinghours.IDNumberValidator(v); err != nil {
+			return 0, &ValidationError{Name: "IDNumber", err: fmt.Errorf("ent: validator failed for field \"IDNumber\": %w", err)}
+		}
+	}
+	if v, ok := ewhu.mutation.Wages(); ok {
+		if err := employeeworkinghours.WagesValidator(v); err != nil {
+			return 0, &ValidationError{Name: "Wages", err: fmt.Errorf("ent: validator failed for field \"Wages\": %w", err)}
+		}
+	}
 
 	var (
 		err      error
@@ -205,6 +245,34 @@ func (ewhu *EmployeeWorkingHoursUpdate) sqlSave(ctx context.Context) (n int, err
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := ewhu.mutation.IDEmployee(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: employeeworkinghours.FieldIDEmployee,
+		})
+	}
+	if value, ok := ewhu.mutation.IDNumber(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: employeeworkinghours.FieldIDNumber,
+		})
+	}
+	if value, ok := ewhu.mutation.Wages(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: employeeworkinghours.FieldWages,
+		})
+	}
+	if value, ok := ewhu.mutation.AddedWages(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: employeeworkinghours.FieldWages,
+		})
 	}
 	if ewhu.mutation.EmployeeCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -364,6 +432,31 @@ type EmployeeWorkingHoursUpdateOne struct {
 	mutation *EmployeeWorkingHoursMutation
 }
 
+// SetIDEmployee sets the IDEmployee field.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) SetIDEmployee(s string) *EmployeeWorkingHoursUpdateOne {
+	ewhuo.mutation.SetIDEmployee(s)
+	return ewhuo
+}
+
+// SetIDNumber sets the IDNumber field.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) SetIDNumber(s string) *EmployeeWorkingHoursUpdateOne {
+	ewhuo.mutation.SetIDNumber(s)
+	return ewhuo
+}
+
+// SetWages sets the Wages field.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) SetWages(f float64) *EmployeeWorkingHoursUpdateOne {
+	ewhuo.mutation.ResetWages()
+	ewhuo.mutation.SetWages(f)
+	return ewhuo
+}
+
+// AddWages adds f to Wages.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) AddWages(f float64) *EmployeeWorkingHoursUpdateOne {
+	ewhuo.mutation.AddWages(f)
+	return ewhuo
+}
+
 // SetEmployeeID sets the employee edge to Employee by id.
 func (ewhuo *EmployeeWorkingHoursUpdateOne) SetEmployeeID(id int) *EmployeeWorkingHoursUpdateOne {
 	ewhuo.mutation.SetEmployeeID(id)
@@ -471,6 +564,21 @@ func (ewhuo *EmployeeWorkingHoursUpdateOne) ClearRole() *EmployeeWorkingHoursUpd
 
 // Save executes the query and returns the updated entity.
 func (ewhuo *EmployeeWorkingHoursUpdateOne) Save(ctx context.Context) (*EmployeeWorkingHours, error) {
+	if v, ok := ewhuo.mutation.IDEmployee(); ok {
+		if err := employeeworkinghours.IDEmployeeValidator(v); err != nil {
+			return nil, &ValidationError{Name: "IDEmployee", err: fmt.Errorf("ent: validator failed for field \"IDEmployee\": %w", err)}
+		}
+	}
+	if v, ok := ewhuo.mutation.IDNumber(); ok {
+		if err := employeeworkinghours.IDNumberValidator(v); err != nil {
+			return nil, &ValidationError{Name: "IDNumber", err: fmt.Errorf("ent: validator failed for field \"IDNumber\": %w", err)}
+		}
+	}
+	if v, ok := ewhuo.mutation.Wages(); ok {
+		if err := employeeworkinghours.WagesValidator(v); err != nil {
+			return nil, &ValidationError{Name: "Wages", err: fmt.Errorf("ent: validator failed for field \"Wages\": %w", err)}
+		}
+	}
 
 	var (
 		err  error
@@ -537,6 +645,34 @@ func (ewhuo *EmployeeWorkingHoursUpdateOne) sqlSave(ctx context.Context) (ewh *E
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing EmployeeWorkingHours.ID for update")}
 	}
 	_spec.Node.ID.Value = id
+	if value, ok := ewhuo.mutation.IDEmployee(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: employeeworkinghours.FieldIDEmployee,
+		})
+	}
+	if value, ok := ewhuo.mutation.IDNumber(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: employeeworkinghours.FieldIDNumber,
+		})
+	}
+	if value, ok := ewhuo.mutation.Wages(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: employeeworkinghours.FieldWages,
+		})
+	}
+	if value, ok := ewhuo.mutation.AddedWages(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: employeeworkinghours.FieldWages,
+		})
+	}
 	if ewhuo.mutation.EmployeeCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
