@@ -514,8 +514,6 @@ export default function MenuAppBar() {
               }} 
                 onChange={Orderdetail_id_handleChange}
               />
-
-
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
