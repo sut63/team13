@@ -24,6 +24,12 @@ export interface ControllersOrderonline {
      * @type {string}
      * @memberof ControllersOrderonline
      */
+    accountnumber?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ControllersOrderonline
+     */
     addedtime?: string;
     /**
      * 
@@ -31,6 +37,12 @@ export interface ControllersOrderonline {
      * @memberof ControllersOrderonline
      */
     customerid?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ControllersOrderonline
+     */
+    cvv?: string;
     /**
      * 
      * @type {number}
@@ -67,8 +79,10 @@ export function ControllersOrderonlineFromJSONTyped(json: any, ignoreDiscriminat
     }
     return {
         
+        'accountnumber': !exists(json, 'accountnumber') ? undefined : json['accountnumber'],
         'addedtime': !exists(json, 'addedtime') ? undefined : json['addedtime'],
         'customerid': !exists(json, 'customerid') ? undefined : json['customerid'],
+        'cvv': !exists(json, 'cvv') ? undefined : json['cvv'],
         'paymentchannelid': !exists(json, 'paymentchannelid') ? undefined : json['paymentchannelid'],
         'productid': !exists(json, 'productid') ? undefined : json['productid'],
         'stock': !exists(json, 'stock') ? undefined : json['stock'],
@@ -85,8 +99,10 @@ export function ControllersOrderonlineToJSON(value?: ControllersOrderonline | nu
     }
     return {
         
+        'accountnumber': value.accountnumber,
         'addedtime': value.addedtime,
         'customerid': value.customerid,
+        'cvv': value.cvv,
         'paymentchannelid': value.paymentchannelid,
         'productid': value.productid,
         'stock': value.stock,

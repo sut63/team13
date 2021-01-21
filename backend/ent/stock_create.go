@@ -24,6 +24,12 @@ type StockCreate struct {
 	hooks    []Hook
 }
 
+// SetIDcardemployee sets the IDcardemployee field.
+func (sc *StockCreate) SetIDcardemployee(s string) *StockCreate {
+	sc.mutation.SetIDcardemployee(s)
+	return sc
+}
+
 // SetPriceproduct sets the Priceproduct field.
 func (sc *StockCreate) SetPriceproduct(f float64) *StockCreate {
 	sc.mutation.SetPriceproduct(f)
@@ -125,11 +131,29 @@ func (sc *StockCreate) Mutation() *StockMutation {
 
 // Save creates the Stock in the database.
 func (sc *StockCreate) Save(ctx context.Context) (*Stock, error) {
+	if _, ok := sc.mutation.IDcardemployee(); !ok {
+		return nil, &ValidationError{Name: "IDcardemployee", err: errors.New("ent: missing required field \"IDcardemployee\"")}
+	}
+	if v, ok := sc.mutation.IDcardemployee(); ok {
+		if err := stock.IDcardemployeeValidator(v); err != nil {
+			return nil, &ValidationError{Name: "IDcardemployee", err: fmt.Errorf("ent: validator failed for field \"IDcardemployee\": %w", err)}
+		}
+	}
 	if _, ok := sc.mutation.Priceproduct(); !ok {
 		return nil, &ValidationError{Name: "Priceproduct", err: errors.New("ent: missing required field \"Priceproduct\"")}
 	}
+	if v, ok := sc.mutation.Priceproduct(); ok {
+		if err := stock.PriceproductValidator(v); err != nil {
+			return nil, &ValidationError{Name: "Priceproduct", err: fmt.Errorf("ent: validator failed for field \"Priceproduct\": %w", err)}
+		}
+	}
 	if _, ok := sc.mutation.Amount(); !ok {
 		return nil, &ValidationError{Name: "Amount", err: errors.New("ent: missing required field \"Amount\"")}
+	}
+	if v, ok := sc.mutation.Amount(); ok {
+		if err := stock.AmountValidator(v); err != nil {
+			return nil, &ValidationError{Name: "Amount", err: fmt.Errorf("ent: validator failed for field \"Amount\": %w", err)}
+		}
 	}
 	if _, ok := sc.mutation.Time(); !ok {
 		return nil, &ValidationError{Name: "Time", err: errors.New("ent: missing required field \"Time\"")}
@@ -194,6 +218,14 @@ func (sc *StockCreate) createSpec() (*Stock, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
+	if value, ok := sc.mutation.IDcardemployee(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: stock.FieldIDcardemployee,
+		})
+		s.IDcardemployee = value
+	}
 	if value, ok := sc.mutation.Priceproduct(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeFloat64,

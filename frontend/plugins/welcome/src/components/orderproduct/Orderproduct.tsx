@@ -190,7 +190,7 @@ export default function MenuAppBar() {
         alertMessage("error","กรุณาระบุการจัดส่งให้ถูกต้อง");
         return;
       case 'detail':
-        alertMessage("error","กรุณาหมายเหตุให้ถูกต้อง");
+        alertMessage("error","กรุณาหมายเหตุให้ครบถ้วน");
         return;
       default:
         alertMessage("error","<h2>บันทึกข้อมูลไม่สำเร็จ</h2>");

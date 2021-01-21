@@ -24,6 +24,10 @@ type Orderonline struct {
 	Addedtime time.Time `json:"addedtime,omitempty"`
 	// Stock holds the value of the "stock" field.
 	Stock int `json:"stock,omitempty"`
+	// Accountnumber holds the value of the "accountnumber" field.
+	Accountnumber string `json:"accountnumber,omitempty"`
+	// Cvv holds the value of the "cvv" field.
+	Cvv string `json:"cvv,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the OrderonlineQuery when eager-loading is set.
 	Edges                              OrderonlineEdges `json:"edges"`
@@ -107,9 +111,11 @@ func (e OrderonlineEdges) CustomerOrErr() (*Customer, error) {
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Orderonline) scanValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{}, // id
-		&sql.NullTime{},  // addedtime
-		&sql.NullInt64{}, // stock
+		&sql.NullInt64{},  // id
+		&sql.NullTime{},   // addedtime
+		&sql.NullInt64{},  // stock
+		&sql.NullString{}, // accountnumber
+		&sql.NullString{}, // cvv
 	}
 }
 
@@ -145,7 +151,17 @@ func (o *Orderonline) assignValues(values ...interface{}) error {
 	} else if value.Valid {
 		o.Stock = int(value.Int64)
 	}
-	values = values[2:]
+	if value, ok := values[2].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field accountnumber", values[2])
+	} else if value.Valid {
+		o.Accountnumber = value.String
+	}
+	if value, ok := values[3].(*sql.NullString); !ok {
+		return fmt.Errorf("unexpected type %T for field cvv", values[3])
+	} else if value.Valid {
+		o.Cvv = value.String
+	}
+	values = values[4:]
 	if len(values) == len(orderonline.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field customer_id", value)
@@ -222,6 +238,10 @@ func (o *Orderonline) String() string {
 	builder.WriteString(o.Addedtime.Format(time.ANSIC))
 	builder.WriteString(", stock=")
 	builder.WriteString(fmt.Sprintf("%v", o.Stock))
+	builder.WriteString(", accountnumber=")
+	builder.WriteString(o.Accountnumber)
+	builder.WriteString(", cvv=")
+	builder.WriteString(o.Cvv)
 	builder.WriteByte(')')
 	return builder.String()
 }

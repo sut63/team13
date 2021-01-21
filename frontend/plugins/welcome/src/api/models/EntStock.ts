@@ -33,6 +33,12 @@ export interface EntStock {
      */
     amount?: number;
     /**
+     * IDcardemployee holds the value of the "IDcardemployee" field.
+     * @type {string}
+     * @memberof EntStock
+     */
+    iDcardemployee?: string;
+    /**
      * Priceproduct holds the value of the "Priceproduct" field.
      * @type {number}
      * @memberof EntStock
@@ -69,6 +75,7 @@ export function EntStockFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     return {
         
         'amount': !exists(json, 'Amount') ? undefined : json['Amount'],
+        'iDcardemployee': !exists(json, 'IDcardemployee') ? undefined : json['IDcardemployee'],
         'priceproduct': !exists(json, 'Priceproduct') ? undefined : json['Priceproduct'],
         'time': !exists(json, 'Time') ? undefined : json['Time'],
         'edges': !exists(json, 'edges') ? undefined : EntStockEdgesFromJSON(json['edges']),
@@ -86,6 +93,7 @@ export function EntStockToJSON(value?: EntStock | null): any {
     return {
         
         'Amount': value.amount,
+        'IDcardemployee': value.iDcardemployee,
         'Priceproduct': value.priceproduct,
         'Time': value.time,
         'edges': EntStockEdgesToJSON(value.edges),

@@ -4167,6 +4167,8 @@ type OrderonlineMutation struct {
 	addedtime             *time.Time
 	stock                 *int
 	addstock              *int
+	accountnumber         *string
+	cvv                   *string
 	clearedFields         map[string]struct{}
 	product               *int
 	clearedproduct        bool
@@ -4353,6 +4355,80 @@ func (m *OrderonlineMutation) ResetStock() {
 	m.addstock = nil
 }
 
+// SetAccountnumber sets the accountnumber field.
+func (m *OrderonlineMutation) SetAccountnumber(s string) {
+	m.accountnumber = &s
+}
+
+// Accountnumber returns the accountnumber value in the mutation.
+func (m *OrderonlineMutation) Accountnumber() (r string, exists bool) {
+	v := m.accountnumber
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAccountnumber returns the old accountnumber value of the Orderonline.
+// If the Orderonline object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *OrderonlineMutation) OldAccountnumber(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAccountnumber is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAccountnumber requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAccountnumber: %w", err)
+	}
+	return oldValue.Accountnumber, nil
+}
+
+// ResetAccountnumber reset all changes of the "accountnumber" field.
+func (m *OrderonlineMutation) ResetAccountnumber() {
+	m.accountnumber = nil
+}
+
+// SetCvv sets the cvv field.
+func (m *OrderonlineMutation) SetCvv(s string) {
+	m.cvv = &s
+}
+
+// Cvv returns the cvv value in the mutation.
+func (m *OrderonlineMutation) Cvv() (r string, exists bool) {
+	v := m.cvv
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCvv returns the old cvv value of the Orderonline.
+// If the Orderonline object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *OrderonlineMutation) OldCvv(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldCvv is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldCvv requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCvv: %w", err)
+	}
+	return oldValue.Cvv, nil
+}
+
+// ResetCvv reset all changes of the "cvv" field.
+func (m *OrderonlineMutation) ResetCvv() {
+	m.cvv = nil
+}
+
 // SetProductID sets the product edge to Product by id.
 func (m *OrderonlineMutation) SetProductID(id int) {
 	m.product = &id
@@ -4523,12 +4599,18 @@ func (m *OrderonlineMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *OrderonlineMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 4)
 	if m.addedtime != nil {
 		fields = append(fields, orderonline.FieldAddedtime)
 	}
 	if m.stock != nil {
 		fields = append(fields, orderonline.FieldStock)
+	}
+	if m.accountnumber != nil {
+		fields = append(fields, orderonline.FieldAccountnumber)
+	}
+	if m.cvv != nil {
+		fields = append(fields, orderonline.FieldCvv)
 	}
 	return fields
 }
@@ -4542,6 +4624,10 @@ func (m *OrderonlineMutation) Field(name string) (ent.Value, bool) {
 		return m.Addedtime()
 	case orderonline.FieldStock:
 		return m.Stock()
+	case orderonline.FieldAccountnumber:
+		return m.Accountnumber()
+	case orderonline.FieldCvv:
+		return m.Cvv()
 	}
 	return nil, false
 }
@@ -4555,6 +4641,10 @@ func (m *OrderonlineMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldAddedtime(ctx)
 	case orderonline.FieldStock:
 		return m.OldStock(ctx)
+	case orderonline.FieldAccountnumber:
+		return m.OldAccountnumber(ctx)
+	case orderonline.FieldCvv:
+		return m.OldCvv(ctx)
 	}
 	return nil, fmt.Errorf("unknown Orderonline field %s", name)
 }
@@ -4577,6 +4667,20 @@ func (m *OrderonlineMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetStock(v)
+		return nil
+	case orderonline.FieldAccountnumber:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAccountnumber(v)
+		return nil
+	case orderonline.FieldCvv:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCvv(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Orderonline field %s", name)
@@ -4648,6 +4752,12 @@ func (m *OrderonlineMutation) ResetField(name string) error {
 		return nil
 	case orderonline.FieldStock:
 		m.ResetStock()
+		return nil
+	case orderonline.FieldAccountnumber:
+		m.ResetAccountnumber()
+		return nil
+	case orderonline.FieldCvv:
+		m.ResetCvv()
 		return nil
 	}
 	return fmt.Errorf("unknown Orderonline field %s", name)
@@ -9129,6 +9239,7 @@ type StockMutation struct {
 	op                  Op
 	typ                 string
 	id                  *int
+	_IDcardemployee     *string
 	_Priceproduct       *float64
 	add_Priceproduct    *float64
 	_Amount             *int
@@ -9224,6 +9335,43 @@ func (m *StockMutation) ID() (id int, exists bool) {
 		return
 	}
 	return *m.id, true
+}
+
+// SetIDcardemployee sets the IDcardemployee field.
+func (m *StockMutation) SetIDcardemployee(s string) {
+	m._IDcardemployee = &s
+}
+
+// IDcardemployee returns the IDcardemployee value in the mutation.
+func (m *StockMutation) IDcardemployee() (r string, exists bool) {
+	v := m._IDcardemployee
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIDcardemployee returns the old IDcardemployee value of the Stock.
+// If the Stock object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *StockMutation) OldIDcardemployee(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldIDcardemployee is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldIDcardemployee requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIDcardemployee: %w", err)
+	}
+	return oldValue.IDcardemployee, nil
+}
+
+// ResetIDcardemployee reset all changes of the "IDcardemployee" field.
+func (m *StockMutation) ResetIDcardemployee() {
+	m._IDcardemployee = nil
 }
 
 // SetPriceproduct sets the Priceproduct field.
@@ -9547,7 +9695,10 @@ func (m *StockMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *StockMutation) Fields() []string {
-	fields := make([]string, 0, 3)
+	fields := make([]string, 0, 4)
+	if m._IDcardemployee != nil {
+		fields = append(fields, stock.FieldIDcardemployee)
+	}
 	if m._Priceproduct != nil {
 		fields = append(fields, stock.FieldPriceproduct)
 	}
@@ -9565,6 +9716,8 @@ func (m *StockMutation) Fields() []string {
 // not set, or was not define in the schema.
 func (m *StockMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case stock.FieldIDcardemployee:
+		return m.IDcardemployee()
 	case stock.FieldPriceproduct:
 		return m.Priceproduct()
 	case stock.FieldAmount:
@@ -9580,6 +9733,8 @@ func (m *StockMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *StockMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case stock.FieldIDcardemployee:
+		return m.OldIDcardemployee(ctx)
 	case stock.FieldPriceproduct:
 		return m.OldPriceproduct(ctx)
 	case stock.FieldAmount:
@@ -9595,6 +9750,13 @@ func (m *StockMutation) OldField(ctx context.Context, name string) (ent.Value, e
 // type mismatch the field type.
 func (m *StockMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case stock.FieldIDcardemployee:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIDcardemployee(v)
+		return nil
 	case stock.FieldPriceproduct:
 		v, ok := value.(float64)
 		if !ok {
@@ -9693,6 +9855,9 @@ func (m *StockMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *StockMutation) ResetField(name string) error {
 	switch name {
+	case stock.FieldIDcardemployee:
+		m.ResetIDcardemployee()
+		return nil
 	case stock.FieldPriceproduct:
 		m.ResetPriceproduct()
 		return nil

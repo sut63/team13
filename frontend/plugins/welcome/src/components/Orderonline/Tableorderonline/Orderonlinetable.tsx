@@ -79,8 +79,10 @@ export default function Orderonlinetable() {
               <TableCell align="center">Customer</TableCell>
               <TableCell align="center">Typeproduct</TableCell>
               <TableCell align="center">Product</TableCell>
-              <TableCell align="center">Paymentchannel</TableCell>
               <TableCell align="center">Stock</TableCell>
+              <TableCell align="center">Paymentchannel</TableCell>
+              <TableCell align="center">Accountnumber</TableCell>
+              <TableCell align="center">CVV</TableCell>
               <TableCell align="center">Time</TableCell>
               <TableCell align="center">Amount</TableCell>
             </TableRow>
@@ -94,8 +96,10 @@ export default function Orderonlinetable() {
                   <TableCell align="center">{item.edges?.customer?.name}</TableCell>
                   <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
                   <TableCell align="center">{item.edges?.product?.nameProduct}</TableCell>
-                  <TableCell align="center">{item.edges?.paymentchannel?.bank}</TableCell>
                   <TableCell align="center">{item.stock}</TableCell>
+                  <TableCell align="center">{item.edges?.paymentchannel?.bank}</TableCell>
+                  <TableCell align="center">{item.accountnumber}</TableCell>
+                  <TableCell align="center">{item.cvv}</TableCell>
                   <TableCell align="center">{item.addedtime}</TableCell>
                   <TableCell align="center">{item.amount}</TableCell>
 

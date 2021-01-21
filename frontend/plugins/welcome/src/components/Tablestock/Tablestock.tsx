@@ -55,6 +55,7 @@ export default function ComponentsTable() {
          <TableRow>
            <TableCell align="center">No.</TableCell>
            <TableCell align="center">Employee</TableCell>
+           <TableCell align="center">IDEmployee</TableCell>
            <TableCell align="center">Typeproduct</TableCell>
            <TableCell align="center">Product</TableCell>
            <TableCell align="center">Zoneproduct</TableCell>
@@ -78,6 +79,7 @@ export default function ComponentsTable() {
            <TableRow key={item.id}>
              <TableCell align="center">{item.id}</TableCell>
              <TableCell align="center">{item.edges?.employee?.name}</TableCell>
+             <TableCell align="center">{item.iDcardemployee}</TableCell>
              <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
              <TableCell align="center">{item.edges?.product?.nameProduct}</TableCell>
              <TableCell align="center">{item.edges?.zoneproduct?.zone}</TableCell>
