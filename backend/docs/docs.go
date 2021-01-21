@@ -1360,7 +1360,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ent.EmployeeWorkingHours"
+                            "$ref": "#/definitions/controllers.EmployeeWorkingHours"
                         }
                     }
                 ],
@@ -4401,6 +4401,32 @@ var doc = `{
         }
     },
     "definitions": {
+        "controllers.EmployeeWorkingHours": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "integer"
+                },
+                "employee": {
+                    "type": "integer"
+                },
+                "idemployee": {
+                    "type": "string"
+                },
+                "idnumber": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "integer"
+                },
+                "shift": {
+                    "type": "integer"
+                },
+                "wages": {
+                    "type": "number"
+                }
+            }
+        },
         "controllers.Orderonline": {
             "type": "object",
             "properties": {

@@ -1,3 +1,4 @@
+export * from './ControllersEmployeeWorkingHours';
 export * from './ControllersOrderonline';
 export * from './ControllersOrderproduct';
 export * from './ControllersPromotion';

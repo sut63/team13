@@ -14,14 +14,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// EmployeeWorkingHoursController defines the struct for the employeeworkinghours 
 type EmployeeWorkingHours struct {
 	IDEmployee	string
 	IDNumber	string
-	Wages		float64
 	Employee 	int
 	Day     	int
 	Role	  	int
 	Shift		int
+	Wages		float64
 }
 
 // EmployeeWorkingHoursController defines the struct for the employeeworkinghours controller
@@ -36,7 +37,7 @@ type EmployeeWorkingHoursController struct {
 // @ID create-employeeworkinghours
 // @Accept   json
 // @Produce  json
-// @Param employeeworkinghours body ent.EmployeeWorkingHours true "EmployeeWorkingHours entity"
+// @Param employeeworkinghours body EmployeeWorkingHours true "EmployeeWorkingHours entity"
 // @Success 200 {object} ent.EmployeeWorkingHours
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -113,7 +114,7 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 		fmt.Println(err)
 		c.JSON(400, gin.H{
 			"status" : false,
-			"error": err,
+			"error"  : err,
 		})
 		return
 	}

@@ -66,7 +66,7 @@ interface EmployeeWorkingHours {
   Day:        number;
   Role:       number;
   Shift:      number;
-  Wages:      Float64Array;
+  Wages:      number;
   // create_by: number;
 }
 
@@ -83,9 +83,6 @@ const EmployeeWorkingHours: FC<{}> = () => {
   const [Employees, setEmployees] = React.useState<EntEmployee[]>([]);
   const [Shifts, setShifts] = React.useState<EntShift[]>([]);
 
-  const [IDEmployee, SetIDEmployee] = useState(String);
-  const [IDNumber, SetIDNumber] = useState(String);
-  const [Wages, SetWages] = useState(Number);
 
   //const [Day, SetDayid] = useState(Number);
   //const [Role, SetRolesid] = useState(Number);
@@ -148,15 +145,15 @@ const EmployeeWorkingHours: FC<{}> = () => {
 
   // set data to object playlist_video
 
-  const IDEmployeehandleChange = (event: any) => {
+  /*const IDEmployeehandleChange = (event: any) => {
     SetIDEmployee(event.target.value as string);
   };
   const IDNumberhandleChange = (event: any) => {
     SetIDNumber(event.target.value as string);
   };
   const WagesThandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    SetWages(event.target.value as Number);
-  };
+    SetWages(event.target.value as number);
+  };*/
 
   const handleChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>,
@@ -176,13 +173,13 @@ const EmployeeWorkingHours: FC<{}> = () => {
   const checkCaseSaveError = (field: string) => {
     switch(field) {
       case 'IDEmployee':
-        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 7 หลัก");
+        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 4 หลัก");
         return;
       case 'IDNumber':
         alertMessage("error","กรุณากรอกเลขบัตรประชาชน 13 หลักให้ถูกต้อง");
         return;
       case 'Wages':
-        alertMessage("error","กรุณาระบุระยะเวลาโปรโมชั่นให้ถูกต้อง");
+        alertMessage("error","กรุณาใส่เป็นตัวเลขและไม่ติดลบ");
         return;
       default:
         alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
@@ -196,7 +193,11 @@ const EmployeeWorkingHours: FC<{}> = () => {
   }
 
   // function save data
-  function save() {
+  const save = async () => {
+    if(EmployeeWorkingHourss.Wages){
+      var wages: number = +EmployeeWorkingHourss.Wages;
+      EmployeeWorkingHourss.Wages = wages;
+    }
     const apiUrl = 'http://localhost:8080/api/v1/employeeworkinghourss';
     const requestOptions = {
       method: 'POST',
@@ -225,23 +226,22 @@ const EmployeeWorkingHours: FC<{}> = () => {
   return (
     <Page theme={pageTheme.home}>
       <Header style={HeaderCustom} title={`Employee Working Hours`}>
-        <Avatar alt="Remy Sharp" src="../../image/account.jpg" />
-        <div style={{ marginLeft: 10 }}>Thanabodee Petchrey</div>
+        
       </Header>
       <Content>
         <Container maxWidth="sm">
 
           <Grid container spacing={3}>
-            <Grid item xs={12}></Grid>
             <Grid item xs={3}>
               <div className={classes.paper}>รหัสพนักงาน</div>
             </Grid>
             <Grid item xs={9}>
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>ใส่รหัสพนักงาน</InputLabel>
-                <TextField id="IDEmployee" InputLabelProps={{
-                  shrink: true,
-                }} variant="outlined"
+                <TextField 
+                  name ="IDEmployee"
+                  label = "ใส่รหัสพนักงาน"
+                  InputLabelProps={{shrink: true,}} 
+                  variant="outlined"
                   onChange={handleChange}
                   value={EmployeeWorkingHourss.IDEmployee || ''}
                   
@@ -249,24 +249,22 @@ const EmployeeWorkingHours: FC<{}> = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}></Grid>
             <Grid item xs={3}>
               <div className={classes.paper}>เลขบัตรประชาชน</div>
             </Grid>
             <Grid item xs={9}>
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>ใส่เลขบัตรประชาชน</InputLabel>
-                <TextField id="IDNumber" InputLabelProps={{
-                  shrink: true,
-                }} variant="outlined"
-                  onChange={IDNumberhandleChange}
-                  value={IDNumber}
-                  
+                <TextField  
+                  name = "IDNumber"
+                  label = "ใส่เลขบัตรประชาชน"
+                  InputLabelProps={{shrink: true,}} 
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={EmployeeWorkingHourss.IDNumber || ''}   
               />
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}></Grid>
             <Grid item xs={3}>
               <div className={classes.paper}>พนักงาน</div>
             </Grid>
@@ -355,19 +353,18 @@ const EmployeeWorkingHours: FC<{}> = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}></Grid>
             <Grid item xs={3}>
               <div className={classes.paper}>ค่าจ้าง</div>
             </Grid>
             <Grid item xs={9}>
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>ใส่ค่าจ้าง</InputLabel>
-                <TextField id="Wages" InputLabelProps={{
-                  shrink: true,
-                }} variant="outlined"
-                  onChange={WagesThandleChange}
-                  value={Wages}
-                  
+                <TextField 
+                  name = "Wages"
+                  label = "ใส่ค่าจ้าง"
+                  InputLabelProps={{shrink: true,}} 
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={EmployeeWorkingHourss.Wages || ''}
               />
               </FormControl>
             </Grid>

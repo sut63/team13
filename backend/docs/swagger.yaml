@@ -1,5 +1,22 @@
 basePath: /api/v1
 definitions:
+  controllers.EmployeeWorkingHours:
+    properties:
+      day:
+        type: integer
+      employee:
+        type: integer
+      idemployee:
+        type: string
+      idnumber:
+        type: string
+      role:
+        type: integer
+      shift:
+        type: integer
+      wages:
+        type: number
+    type: object
   controllers.Orderonline:
     properties:
       accountnumber:
@@ -1652,7 +1669,7 @@ paths:
         name: employeeworkinghours
         required: true
         schema:
-          $ref: '#/definitions/ent.EmployeeWorkingHours'
+          $ref: '#/definitions/controllers.EmployeeWorkingHours'
       produces:
       - application/json
       responses:

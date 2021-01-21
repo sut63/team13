@@ -1,7 +1,6 @@
 package schema
 
 import (
-	"errors"
 	"regexp"
 
 	"github.com/facebookincubator/ent"
@@ -17,13 +16,7 @@ type EmployeeWorkingHours struct {
 // Fields of the EmployeeWorkingHours.
 func (EmployeeWorkingHours) Fields() []ent.Field {
 	return []ent.Field{
-        field.String("IDEmployee").Validate(func(s string) error{
-			match, _ := regexp.MatchString("[ABC]\\d{7}", s)
-			if !match {
-				return errors.New("รูปแบบรหัสพนักงานไม่ถูกต้อง")
-			}
-			return nil
-		}),
+        field.String("IDEmployee").Match(regexp.MustCompile("[ABC]\\d{4}")),
         field.String("IDNumber").MinLen(13).MaxLen(13),
         field.Float("Wages").Min(0).Positive(),
     }
