@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
@@ -20,6 +21,24 @@ type EmployeeWorkingHoursCreate struct {
 	config
 	mutation *EmployeeWorkingHoursMutation
 	hooks    []Hook
+}
+
+// SetIDEmployee sets the IDEmployee field.
+func (ewhc *EmployeeWorkingHoursCreate) SetIDEmployee(s string) *EmployeeWorkingHoursCreate {
+	ewhc.mutation.SetIDEmployee(s)
+	return ewhc
+}
+
+// SetIDNumber sets the IDNumber field.
+func (ewhc *EmployeeWorkingHoursCreate) SetIDNumber(s string) *EmployeeWorkingHoursCreate {
+	ewhc.mutation.SetIDNumber(s)
+	return ewhc
+}
+
+// SetWages sets the Wages field.
+func (ewhc *EmployeeWorkingHoursCreate) SetWages(f float64) *EmployeeWorkingHoursCreate {
+	ewhc.mutation.SetWages(f)
+	return ewhc
 }
 
 // SetEmployeeID sets the employee edge to Employee by id.
@@ -105,6 +124,30 @@ func (ewhc *EmployeeWorkingHoursCreate) Mutation() *EmployeeWorkingHoursMutation
 
 // Save creates the EmployeeWorkingHours in the database.
 func (ewhc *EmployeeWorkingHoursCreate) Save(ctx context.Context) (*EmployeeWorkingHours, error) {
+	if _, ok := ewhc.mutation.IDEmployee(); !ok {
+		return nil, &ValidationError{Name: "IDEmployee", err: errors.New("ent: missing required field \"IDEmployee\"")}
+	}
+	if v, ok := ewhc.mutation.IDEmployee(); ok {
+		if err := employeeworkinghours.IDEmployeeValidator(v); err != nil {
+			return nil, &ValidationError{Name: "IDEmployee", err: fmt.Errorf("ent: validator failed for field \"IDEmployee\": %w", err)}
+		}
+	}
+	if _, ok := ewhc.mutation.IDNumber(); !ok {
+		return nil, &ValidationError{Name: "IDNumber", err: errors.New("ent: missing required field \"IDNumber\"")}
+	}
+	if v, ok := ewhc.mutation.IDNumber(); ok {
+		if err := employeeworkinghours.IDNumberValidator(v); err != nil {
+			return nil, &ValidationError{Name: "IDNumber", err: fmt.Errorf("ent: validator failed for field \"IDNumber\": %w", err)}
+		}
+	}
+	if _, ok := ewhc.mutation.Wages(); !ok {
+		return nil, &ValidationError{Name: "Wages", err: errors.New("ent: missing required field \"Wages\"")}
+	}
+	if v, ok := ewhc.mutation.Wages(); ok {
+		if err := employeeworkinghours.WagesValidator(v); err != nil {
+			return nil, &ValidationError{Name: "Wages", err: fmt.Errorf("ent: validator failed for field \"Wages\": %w", err)}
+		}
+	}
 	var (
 		err  error
 		node *EmployeeWorkingHours
@@ -165,6 +208,30 @@ func (ewhc *EmployeeWorkingHoursCreate) createSpec() (*EmployeeWorkingHours, *sq
 			},
 		}
 	)
+	if value, ok := ewhc.mutation.IDEmployee(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: employeeworkinghours.FieldIDEmployee,
+		})
+		ewh.IDEmployee = value
+	}
+	if value, ok := ewhc.mutation.IDNumber(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: employeeworkinghours.FieldIDNumber,
+		})
+		ewh.IDNumber = value
+	}
+	if value, ok := ewhc.mutation.Wages(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeFloat64,
+			Value:  value,
+			Column: employeeworkinghours.FieldWages,
+		})
+		ewh.Wages = value
+	}
 	if nodes := ewhc.mutation.EmployeeIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,

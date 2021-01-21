@@ -4723,6 +4723,18 @@
         "ent.EmployeeWorkingHours": {
             "type": "object",
             "properties": {
+                "IDEmployee": {
+                    "description": "IDEmployee holds the value of the \"IDEmployee\" field.",
+                    "type": "string"
+                },
+                "IDNumber": {
+                    "description": "IDNumber holds the value of the \"IDNumber\" field.",
+                    "type": "string"
+                },
+                "Wages": {
+                    "description": "Wages holds the value of the \"Wages\" field.",
+                    "type": "number"
+                },
                 "edges": {
                     "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the EmployeeWorkingHoursQuery when eager-loading is set.",
                     "type": "object",

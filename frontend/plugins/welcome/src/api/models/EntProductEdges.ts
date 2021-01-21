@@ -45,11 +45,11 @@ export interface EntProductEdges {
      */
     formproductonline?: Array<EntOrderonline>;
     /**
-     * 
-     * @type {EntPromotion}
+     * Forproduct holds the value of the forproduct edge.
+     * @type {Array<EntPromotion>}
      * @memberof EntProductEdges
      */
-    forproduct?: EntPromotion;
+    forproduct?: Array<EntPromotion>;
     /**
      * Products holds the value of the products edge.
      * @type {Array<EntOrderproduct>}
@@ -75,7 +75,7 @@ export function EntProductEdgesFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'formproductonline': !exists(json, 'formproductonline') ? undefined : ((json['formproductonline'] as Array<any>).map(EntOrderonlineFromJSON)),
-        'forproduct': !exists(json, 'forproduct') ? undefined : EntPromotionFromJSON(json['forproduct']),
+        'forproduct': !exists(json, 'forproduct') ? undefined : ((json['forproduct'] as Array<any>).map(EntPromotionFromJSON)),
         'products': !exists(json, 'products') ? undefined : ((json['products'] as Array<any>).map(EntOrderproductFromJSON)),
         'stockproduct': !exists(json, 'stockproduct') ? undefined : ((json['stockproduct'] as Array<any>).map(EntStockFromJSON)),
     };
@@ -91,7 +91,7 @@ export function EntProductEdgesToJSON(value?: EntProductEdges | null): any {
     return {
         
         'formproductonline': value.formproductonline === undefined ? undefined : ((value.formproductonline as Array<any>).map(EntOrderonlineToJSON)),
-        'forproduct': EntPromotionToJSON(value.forproduct),
+        'forproduct': value.forproduct === undefined ? undefined : ((value.forproduct as Array<any>).map(EntPromotionToJSON)),
         'products': value.products === undefined ? undefined : ((value.products as Array<any>).map(EntOrderproductToJSON)),
         'stockproduct': value.stockproduct === undefined ? undefined : ((value.stockproduct as Array<any>).map(EntStockToJSON)),
     };

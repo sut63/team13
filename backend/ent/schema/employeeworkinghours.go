@@ -1,8 +1,12 @@
 package schema
 
 import (
+	"errors"
+	"regexp"
+
 	"github.com/facebookincubator/ent"
 	"github.com/facebookincubator/ent/schema/edge"
+	"github.com/facebookincubator/ent/schema/field"
 )
 
 // EmployeeWorkingHours holds the schema definition for the EmployeeWorkingHours entity.
@@ -12,7 +16,17 @@ type EmployeeWorkingHours struct {
 
 // Fields of the EmployeeWorkingHours.
 func (EmployeeWorkingHours) Fields() []ent.Field {
-	return nil
+	return []ent.Field{
+        field.String("IDEmployee").Validate(func(s string) error{
+			match, _ := regexp.MatchString("[ABC]\\d{7}", s)
+			if !match {
+				return errors.New("รูปแบบรหัสพนักงานไม่ถูกต้อง")
+			}
+			return nil
+		}),
+        field.String("IDNumber").MinLen(13).MaxLen(13),
+        field.Float("Wages").Min(0).Positive(),
+    }
 }
 
 // Edges of the EmployeeWorkingHours.

@@ -244,6 +244,15 @@ definitions:
     type: object
   ent.EmployeeWorkingHours:
     properties:
+      IDEmployee:
+        description: IDEmployee holds the value of the "IDEmployee" field.
+        type: string
+      IDNumber:
+        description: IDNumber holds the value of the "IDNumber" field.
+        type: string
+      Wages:
+        description: Wages holds the value of the "Wages" field.
+        type: number
       edges:
         $ref: '#/definitions/ent.EmployeeWorkingHoursEdges'
         description: |-

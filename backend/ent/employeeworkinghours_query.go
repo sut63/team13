@@ -359,6 +359,19 @@ func (ewhq *EmployeeWorkingHoursQuery) WithRole(opts ...func(*RoleQuery)) *Emplo
 
 // GroupBy used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		IDEmployee string `json:"IDEmployee,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.EmployeeWorkingHours.Query().
+//		GroupBy(employeeworkinghours.FieldIDEmployee).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
+//
 func (ewhq *EmployeeWorkingHoursQuery) GroupBy(field string, fields ...string) *EmployeeWorkingHoursGroupBy {
 	group := &EmployeeWorkingHoursGroupBy{config: ewhq.config}
 	group.fields = append([]string{field}, fields...)
@@ -372,6 +385,17 @@ func (ewhq *EmployeeWorkingHoursQuery) GroupBy(field string, fields ...string) *
 }
 
 // Select one or more fields from the given query.
+//
+// Example:
+//
+//	var v []struct {
+//		IDEmployee string `json:"IDEmployee,omitempty"`
+//	}
+//
+//	client.EmployeeWorkingHours.Query().
+//		Select(employeeworkinghours.FieldIDEmployee).
+//		Scan(ctx, &v)
+//
 func (ewhq *EmployeeWorkingHoursQuery) Select(field string, fields ...string) *EmployeeWorkingHoursSelect {
 	selector := &EmployeeWorkingHoursSelect{config: ewhq.config}
 	selector.fields = append([]string{field}, fields...)
