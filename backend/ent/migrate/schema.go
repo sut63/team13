@@ -23,7 +23,7 @@ var (
 	// CompaniesColumns holds the columns for the "companies" table.
 	CompaniesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "name", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Unique: true},
 	}
 	// CompaniesTable holds the schema information for the "companies" table.
 	CompaniesTable = &schema.Table{
@@ -282,7 +282,7 @@ var (
 	// ProductsColumns holds the columns for the "products" table.
 	ProductsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "name_product", Type: field.TypeString},
+		{Name: "name_product", Type: field.TypeString, Unique: true},
 		{Name: "barcode_product", Type: field.TypeString},
 		{Name: "mfg", Type: field.TypeString},
 		{Name: "exp", Type: field.TypeString},
@@ -449,7 +449,7 @@ var (
 	// TypeproductsColumns holds the columns for the "typeproducts" table.
 	TypeproductsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "typeproduct", Type: field.TypeString},
+		{Name: "typeproduct", Type: field.TypeString, Unique: true},
 	}
 	// TypeproductsTable holds the schema information for the "typeproducts" table.
 	TypeproductsTable = &schema.Table{

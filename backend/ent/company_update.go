@@ -71,6 +71,11 @@ func (cu *CompanyUpdate) RemoveCompanys(o ...*Orderproduct) *CompanyUpdate {
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (cu *CompanyUpdate) Save(ctx context.Context) (int, error) {
+	if v, ok := cu.mutation.Name(); ok {
+		if err := company.NameValidator(v); err != nil {
+			return 0, &ValidationError{Name: "Name", err: fmt.Errorf("ent: validator failed for field \"Name\": %w", err)}
+		}
+	}
 
 	var (
 		err      error
@@ -245,6 +250,11 @@ func (cuo *CompanyUpdateOne) RemoveCompanys(o ...*Orderproduct) *CompanyUpdateOn
 
 // Save executes the query and returns the updated entity.
 func (cuo *CompanyUpdateOne) Save(ctx context.Context) (*Company, error) {
+	if v, ok := cuo.mutation.Name(); ok {
+		if err := company.NameValidator(v); err != nil {
+			return nil, &ValidationError{Name: "Name", err: fmt.Errorf("ent: validator failed for field \"Name\": %w", err)}
+		}
+	}
 
 	var (
 		err  error
