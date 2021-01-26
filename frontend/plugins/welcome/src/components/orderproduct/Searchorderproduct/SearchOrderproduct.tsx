@@ -293,8 +293,8 @@ export default function MenuAppBar() {
             <Grid item>
               <Button className={classes.button} variant="outlined" color="inherit"
                 size="small" component={RouterLink}
-                to="/signinorderproduct">
-                logout
+                to="/orderproduct">
+                Back
               </Button>
             </Grid>
             <Grid item>
@@ -319,7 +319,7 @@ export default function MenuAppBar() {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h2" component="h2">
-                ระบบสั่งซื้อสินค้าเข้ามาในคลัง
+                ระบบค้นหารายการสั่งซื้อสินค้าเข้ามาในคลัง
               </Typography>
             </Grid>
             <Grid item>
@@ -341,7 +341,7 @@ export default function MenuAppBar() {
         elevation={0}
       >
         <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="ADD Data" />
+          <Tab textColor="inherit" label="Search Data" />
         </Tabs>
 
       </AppBar>
