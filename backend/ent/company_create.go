@@ -51,6 +51,11 @@ func (cc *CompanyCreate) Save(ctx context.Context) (*Company, error) {
 	if _, ok := cc.mutation.Name(); !ok {
 		return nil, &ValidationError{Name: "Name", err: errors.New("ent: missing required field \"Name\"")}
 	}
+	if v, ok := cc.mutation.Name(); ok {
+		if err := company.NameValidator(v); err != nil {
+			return nil, &ValidationError{Name: "Name", err: fmt.Errorf("ent: validator failed for field \"Name\": %w", err)}
+		}
+	}
 	var (
 		err  error
 		node *Company

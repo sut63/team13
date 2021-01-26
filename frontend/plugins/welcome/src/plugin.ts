@@ -20,6 +20,7 @@ import Promotiontable from './components/Promotion/Promotiontable'
 import EmployeeWorkingHours from './components/EmployeeWorkingHours'
 import TableEmployeeWorkingHours from './components/TableEmployeeWorkingHours'
 import STable from './components/STable'
+import SearchOrderproduct from './components/orderproduct/Searchorderproduct'
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -32,6 +33,7 @@ export const plugin = createPlugin({
     router.registerRoute('/Orderonlinetable', Orderonlinetable);
     router.registerRoute('/SignInOrderonline', SignInOrderonline);
     router.registerRoute('/Orderproduct', Orderproduct);
+    router.registerRoute('/SearchOrderproduct', SearchOrderproduct);
     router.registerRoute('/Stock', Stock);
     router.registerRoute('/SplitsystemManager', SplitsystemManager);
     router.registerRoute('/Salary', Salary);
@@ -45,6 +47,5 @@ export const plugin = createPlugin({
     router.registerRoute('/EmployeeWorkingHours', EmployeeWorkingHours);
     router.registerRoute('/TableEmployeeWorkingHours', TableEmployeeWorkingHours);
     router.registerRoute('/STable', STable);
-
   },
 });

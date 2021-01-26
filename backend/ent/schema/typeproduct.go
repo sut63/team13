@@ -14,7 +14,7 @@ type Typeproduct struct {
 // Fields of the Typeproduct.
 func (Typeproduct) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("Typeproduct").NotEmpty(),
+		field.String("Typeproduct").NotEmpty().Unique(),
 	}
 }
 

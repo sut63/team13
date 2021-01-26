@@ -1,4 +1,4 @@
-import React, { useState, Component, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,17 +15,17 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import SaveIcon from '@material-ui/icons/Save';
-import { DefaultApi } from '../../api/apis';
+import { DefaultApi } from '../../../api/apis';
 import Select from '@material-ui/core/Select';
-import { EntProduct } from '../../api/models/EntProduct';
-import { EntCompany } from '../../api/models/EntCompany';
-import { EntTypeproduct } from '../../api/models/EntTypeproduct';
+import { EntProduct } from '../../../api/models/EntProduct';
+import { EntCompany } from '../../../api/models/EntCompany';
+import { EntTypeproduct } from '../../../api/models/EntTypeproduct';
 //import { EntManager } from '../../api/models/EntManager';
 import TextField from '@material-ui/core/TextField';
-import ComponanceTable from './Tableorderproduct';
+import ComponanceTable from '../Tableorderproduct';
 import Swal from 'sweetalert2';
 //cookie
-import { Cookies } from './SignInOrderproduct/Cookie'
+import { Cookies } from '../SignInOrderproduct/Cookie'
 
 
 
@@ -293,8 +293,8 @@ export default function MenuAppBar() {
             <Grid item>
               <Button className={classes.button} variant="outlined" color="inherit"
                 size="small" component={RouterLink}
-                to="/signinorderproduct">
-                logout
+                to="/orderproduct">
+                Back
               </Button>
             </Grid>
             <Grid item>
@@ -319,7 +319,7 @@ export default function MenuAppBar() {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h2" component="h2">
-                ระบบสั่งซื้อสินค้าเข้ามาในคลัง
+                ระบบค้นหารายการสั่งซื้อสินค้าเข้ามาในคลัง
               </Typography>
             </Grid>
             <Grid item>
@@ -341,7 +341,7 @@ export default function MenuAppBar() {
         elevation={0}
       >
         <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="ADD Data" />
+          <Tab textColor="inherit" label="Search Data" />
         </Tabs>
 
       </AppBar>

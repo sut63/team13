@@ -4,6 +4,7 @@ package ent
 
 import (
 	"github.com/team13/app/ent/assessment"
+	"github.com/team13/app/ent/company"
 	"github.com/team13/app/ent/customer"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/employeeworkinghours"
@@ -32,6 +33,12 @@ func init() {
 	assessmentDescAssessment := assessmentFields[0].Descriptor()
 	// assessment.AssessmentValidator is a validator for the "assessment" field. It is called by the builders before save.
 	assessment.AssessmentValidator = assessmentDescAssessment.Validators[0].(func(string) error)
+	companyFields := schema.Company{}.Fields()
+	_ = companyFields
+	// companyDescName is the schema descriptor for Name field.
+	companyDescName := companyFields[0].Descriptor()
+	// company.NameValidator is a validator for the "Name" field. It is called by the builders before save.
+	company.NameValidator = companyDescName.Validators[0].(func(string) error)
 	customerFields := schema.Customer{}.Fields()
 	_ = customerFields
 	// customerDescName is the schema descriptor for name field.

@@ -172,8 +172,13 @@ export default function Stock() {
   }
 
 
+<<<<<<< HEAD
   //validate
   /*const validateIdcardemployee = (val: string) => {
+=======
+ /* //validate
+  const validateIdcardemployee = (val: string) => {
+>>>>>>> 34bbbee30742c30ef1d395a4876cc33961a21592
     return val.match("[E]\\d{4}");
   }
 
@@ -252,7 +257,10 @@ export default function Stock() {
       }
     });
   };
+<<<<<<< HEAD
   
+=======
+>>>>>>> 34bbbee30742c30ef1d395a4876cc33961a21592
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -282,7 +290,11 @@ export default function Stock() {
   };
 
   const amount_id_handleChange = (event: any) => {
+<<<<<<< HEAD
     setAmount(event.target.value);
+=======
+    setAmount(event.target.value);  
+>>>>>>> 34bbbee30742c30ef1d395a4876cc33961a21592
     
   };
 

@@ -164,6 +164,28 @@ const EmployeeWorkingHours: FC<{}> = () => {
     console.log(EmployeeWorkingHourss);
   };
 
+  const alertMessage = (icon: any, title: any) => {
+      Toast.fire({
+        icon: icon,
+        title: title,
+      });
+    }
+  const checkCaseSaveError = (field: string) => {
+    switch(field) {
+      case 'IDEmployee':
+        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 4 หลัก");
+        return;
+      case 'IDNumber':
+        alertMessage("error","กรุณากรอกเลขบัตรประชาชน 13 หลักให้ถูกต้อง");
+        return;
+      case 'Wages':
+        alertMessage("error","กรุณาใส่เป็นตัวเลขและไม่ติดลบ");
+        return;
+      default:
+        alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
+        return;
+    }
+  }
 
 
   const alertMessage = (icon: any, title: any) => {
@@ -196,8 +218,17 @@ const EmployeeWorkingHours: FC<{}> = () => {
 }
   console.log(EmployeeWorkingHourss)
   // function save data
+<<<<<<< HEAD
   function Save() {
     const apiUrl = 'http://localhost:8080/api/v1/EmployeeWorkingHourss';
+=======
+  const save = async () => {
+    if(EmployeeWorkingHourss.Wages){
+      var wages: number = +EmployeeWorkingHourss.Wages;
+      EmployeeWorkingHourss.Wages = wages;
+    }
+    const apiUrl = 'http://localhost:8080/api/v1/employeeworkinghourss';
+>>>>>>> 34bbbee30742c30ef1d395a4876cc33961a21592
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -207,6 +238,7 @@ const EmployeeWorkingHours: FC<{}> = () => {
     console.log(EmployeeWorkingHours);
 
     fetch(apiUrl, requestOptions)
+<<<<<<< HEAD
     .then(response => response.json())
     .then(data => {
       console.log(data);
@@ -222,6 +254,22 @@ const EmployeeWorkingHours: FC<{}> = () => {
       }
     });
   };
+=======
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.status === true) {
+          clear();
+          Toast.fire({
+            icon: 'success',
+            title: 'บันทึกข้อมูลสำเร็จ',
+          });
+        } else {
+          checkCaseSaveError(data.error.Name)
+        }
+      });
+    }
+>>>>>>> 34bbbee30742c30ef1d395a4876cc33961a21592
 
   return (
     <Page theme={pageTheme.home}>
@@ -232,7 +280,39 @@ const EmployeeWorkingHours: FC<{}> = () => {
         <Container maxWidth="sm">
 
           <Grid container spacing={3}>
-            <Grid item xs={12}></Grid>
+            <Grid item xs={3}>
+              <div className={classes.paper}>รหัสพนักงาน</div>
+            </Grid>
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <TextField 
+                  name ="IDEmployee"
+                  label = "ใส่รหัสพนักงาน"
+                  InputLabelProps={{shrink: true,}} 
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={EmployeeWorkingHourss.IDEmployee || ''}
+                  
+              />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={3}>
+              <div className={classes.paper}>เลขบัตรประชาชน</div>
+            </Grid>
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <TextField  
+                  name = "IDNumber"
+                  label = "ใส่เลขบัตรประชาชน"
+                  InputLabelProps={{shrink: true,}} 
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={EmployeeWorkingHourss.IDNumber || ''}   
+              />
+              </FormControl>
+            </Grid>
+
             <Grid item xs={3}>
               <div className={classes.paper}>รหัสพนักงาน</div>
             </Grid>
@@ -358,20 +438,30 @@ const EmployeeWorkingHours: FC<{}> = () => {
               </FormControl>
             </Grid>
 
+<<<<<<< HEAD
             <Grid item xs={12}></Grid>
+=======
+>>>>>>> 34bbbee30742c30ef1d395a4876cc33961a21592
             <Grid item xs={3}>
               <div className={classes.paper}>ค่าจ้าง</div>
             </Grid>
             <Grid item xs={9}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <TextField 
+<<<<<<< HEAD
                   id="Wages" 
+=======
+>>>>>>> 34bbbee30742c30ef1d395a4876cc33961a21592
                   name = "Wages"
                   label = "ใส่ค่าจ้าง"
                   InputLabelProps={{shrink: true,}} 
                   variant="outlined"
                   onChange={handleChange}
+<<<<<<< HEAD
                   value={EmployeeWorkingHourss.Role || ''}
+=======
+                  value={EmployeeWorkingHourss.Wages || ''}
+>>>>>>> 34bbbee30742c30ef1d395a4876cc33961a21592
               />
               </FormControl>
             </Grid>
