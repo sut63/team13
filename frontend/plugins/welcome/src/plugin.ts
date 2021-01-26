@@ -44,7 +44,7 @@ export const plugin = createPlugin({
     router.registerRoute('/Promotiontable', Promotiontable);
     router.registerRoute('/LoginEmployee', LoginEmployee);
     router.registerRoute('/ManagerPage', ManagerPage);
-    //router.registerRoute('/EmployeeWorkingHours', EmployeeWorkingHours);
+    router.registerRoute('/EmployeeWorkingHours', EmployeeWorkingHours);
     router.registerRoute('/TableEmployeeWorkingHours', TableEmployeeWorkingHours);
     router.registerRoute('/STable', STable);
   },
