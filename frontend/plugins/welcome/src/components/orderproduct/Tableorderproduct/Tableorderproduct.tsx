@@ -51,8 +51,9 @@ export default function ComponentsTable() {
             <TableCell align="center">Company</TableCell>
             <TableCell align="center">Stock</TableCell>
             <TableCell align="center">Date</TableCell>
-            <TableCell align="center">shipment</TableCell>
-            <TableCell align="center">detail</TableCell>
+            <TableCell align="center">Shipment</TableCell>
+            <TableCell align="center">Detail</TableCell>
+            <TableCell align="center">Manage</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

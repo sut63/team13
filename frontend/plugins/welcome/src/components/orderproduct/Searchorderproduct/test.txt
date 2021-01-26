@@ -14,20 +14,18 @@ import Avatar from '@material-ui/core/Avatar';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import SvgIcon from '@material-ui/core/SvgIcon';
-import SaveIcon from '@material-ui/icons/Save';
-import { DefaultApi } from '../../api/apis';
+import { DefaultApi } from '../../../api/apis';
 import Select from '@material-ui/core/Select';
-import { EntProduct } from '../../api/models/EntProduct';
-import { EntCompany } from '../../api/models/EntCompany';
-import { EntTypeproduct } from '../../api/models/EntTypeproduct';
-//import { EntManager } from '../../api/models/EntManager';
+import { EntProduct } from '../../../api/models/EntProduct';
+import { EntCompany } from '../../../api/models/EntCompany';
+import { EntTypeproduct } from '../../../api/models/EntTypeproduct';
 import TextField from '@material-ui/core/TextField';
-import ComponanceTable from './Tableorderproduct';
+import ComponanceTable from '../Tableorderproduct';
 import Swal from 'sweetalert2';
 //cookie
-import { Cookies } from './SignInOrderproduct/Cookie'
-
+import { Cookies } from '../SignInOrderproduct/Cookie'
 import SearchIcon from '@material-ui/icons/Search';
+
 
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
@@ -171,7 +169,6 @@ export default function MenuAppBar() {
     stock,
     shipment,
     detail,
-    //Addedtime :datetime   + ":00+07:00"
   }
 
   const alertMessage = (icon: any, title: any) => {
@@ -213,49 +210,22 @@ export default function MenuAppBar() {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        //if (data.id != null) {
           if (data.status == true) {
-          //clear();
           Toast.fire({
             icon: 'success',
             title: 'บันทึกข้อมูลสำเร็จ',
 
           }); window.setTimeout(function () { location.reload() }, 3000);
         } else {
-         // Toast.fire({
-           // icon: 'error',
-           // title: '<h2>บันทึกข้อมูลไม่สำเร็จ</h2>',
-         // });
           checkCaseSaveError(data.error.Name)
         }
       });
   }
-  /*const manager_id_handleChange = (event: any) => {
-    setManagerid(event.target.value);
-  };*/
 
-  const Typeproduct_id_handleChange = (event: any) => {
-    setTypeproductid(event.target.value);
-  };
 
   const Product_id_handleChange = (event: any) => {
     setProductid(event.target.value);
   }
-  const Company_id_handleChange = (event: any) => {
-    setCompanyid(event.target.value);
-  };
-  const Orderstock_id_handleChange = (event: any) => {
-    setOrderstockid(event.target.value);
-  };
-  const Ordershipment_id_handleChange = (event: any) => {
-    setOrdershipment(event.target.value);
-  };
-  const Orderdetail_id_handleChange = (event: any) => {
-    setOrderdetail(event.target.value);
-  };
-  /*const handleDatetimeChange = (event: any) => {
-    setDatetime(event.target.value as string);
-  }; */
 
 
   function HomeIcon(props: any) {
@@ -278,13 +248,7 @@ export default function MenuAppBar() {
             </Hidden>
             <Grid item xs />
             <Grid item>
-            <IconButton
-                style={{ marginLeft: 20 }}
-                component={RouterLink}
-                to="/searchorderproduct"
-              >
-                <SearchIcon color="inherit" />
-              </IconButton>
+
             </Grid>
 
             <Grid item>
@@ -299,8 +263,8 @@ export default function MenuAppBar() {
             <Grid item>
               <Button className={classes.button} variant="outlined" color="inherit"
                 size="small" component={RouterLink}
-                to="/signinorderproduct">
-                logout
+                to="/orderproduct">
+                Back
               </Button>
             </Grid>
             <Grid item>
@@ -325,7 +289,7 @@ export default function MenuAppBar() {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h2" component="h2">
-                ระบบสั่งซื้อสินค้าเข้ามาในคลัง
+                ระบบค้นหารายการสั่งซื้อสินค้าเข้ามาในคลัง
               </Typography>
             </Grid>
             <Grid item>
@@ -347,7 +311,7 @@ export default function MenuAppBar() {
         elevation={0}
       >
         <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="ADD Data" />
+          <Tab textColor="inherit" label="Search Data" />
         </Tabs>
 
       </AppBar>
@@ -368,21 +332,11 @@ export default function MenuAppBar() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
-                ชื่อผู้จัดการ
+                ชื่อผู้ใช้ระบบค้นหา
               </Typography>
             </Grid>
             <Grid item xs={2}>
 
-              {/*<Select
-               labelId="manager_id-label"
-               label="manager"
-               id="manager_id"
-               onChange={manager_id_handleChange}
-               style = {{width: 200}}
-               >{cookieID}
-               {managers.map((item:EntManager)=>
-               <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-               </Select>*/}
               <div style={{ marginLeft: 10, marginRight: 20 }}>{cookieName}</div>
             </Grid>
             <Grid item xs={2}></Grid>
@@ -392,7 +346,7 @@ export default function MenuAppBar() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
               <Typography color="primary" variant="h6" component="h1">
-                ชื่อสินค้า
+                ชื่อสินค้าที่ต้องการค้นหา
               </Typography>
             </Grid>
             <Grid item xs={2}>
@@ -411,147 +365,8 @@ export default function MenuAppBar() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
-                ประเภทของสินค้า
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-
-              <Select
-                labelId="medicalType_id-label"
-                label="medicalType"
-                id="medicalType_id"
-                onChange={Typeproduct_id_handleChange}
-                style={{ width: 200 }}
-              >
-                {typeproducts.map((item: EntTypeproduct) =>
-                  <MenuItem key={item.id} value={item.id}>{item.typeproduct}</MenuItem>)}
-              </Select>
-
-
-
-            </Grid>
-
-
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}> </Grid>
-
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
-                บริษัท
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-
-              <Select
-                labelId="Equipment_id-label"
-                label="Equipment"
-                id="Equipment_id"
-                onChange={Company_id_handleChange}
-                style={{ width: 200 }}
-              >
-                {companys.map((item: EntCompany) =>
-                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-              </Select>
-            </Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}> </Grid>
-
-
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
-                จำนวน/ชิ้น
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-
-              <TextField id="outlined-number" type='number' InputLabelProps={{
-                shrink: true,
-              }} label="กรุณาใส่จำนวน" variant="outlined"
-                onChange={Orderstock_id_handleChange}
-              />
-
-
-            </Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}> </Grid>
-
-
-
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
-                จัดส่งแบบ
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-
-              <TextField InputLabelProps={{
-                shrink: true,
-              }} 
-                onChange={Ordershipment_id_handleChange}
-              />
-
-
-            </Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}> </Grid>
-
-
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
-                หมายเหตุ
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-
-            <TextField InputLabelProps={{
-                shrink: true,
-              }} 
-                onChange={Orderdetail_id_handleChange}
-              />
-            </Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}> </Grid>
-
-            {/* <Grid item xs={2}></Grid>
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
-                วันที่/เวลาที่บันทึก
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-               <form  noValidate>
-               <TextField
-                      id="date"
-                      label="DateTime"
-                      type="datetime-local"
-                      value={datetime}
-                      onChange={handleDatetimeChange}
-                      //defaultValue="2017-05-24"
-                      className={classes.textField}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-              </form>
-              
-                  
-            </Grid>
-            <Grid item xs={2}></Grid>
-                    <Grid item xs={2}> </Grid>*/}
-
+           
+            
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
             <Grid item xs={2}></Grid>
@@ -566,10 +381,10 @@ export default function MenuAppBar() {
                   save();
                 }}
 
-                startIcon={<SaveIcon
+                startIcon={<SearchIcon
                 />}
               >
-                Save
+                Search
               </Button>
             </Grid>
             <Grid item xs={2}></Grid>
