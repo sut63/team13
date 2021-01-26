@@ -512,6 +512,11 @@ export interface UpdateShiftRequest {
     shift: EntShift;
 }
 
+export interface UpdateStockRequest {
+    id: number;
+    stock: EntStock;
+}
+
 export interface UpdateTypeproductRequest {
     id: number;
     typeproduct: EntTypeproduct;
@@ -3802,6 +3807,45 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async updateShift(requestParameters: UpdateShiftRequest): Promise<EntShift> {
         const response = await this.updateShiftRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * update stock by ID
+     * Update a stock entity by ID
+     */
+    async updateStockRaw(requestParameters: UpdateStockRequest): Promise<runtime.ApiResponse<EntStock>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateStock.');
+        }
+
+        if (requestParameters.stock === null || requestParameters.stock === undefined) {
+            throw new runtime.RequiredError('stock','Required parameter requestParameters.stock was null or undefined when calling updateStock.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/stock/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: EntStockToJSON(requestParameters.stock),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EntStockFromJSON(jsonValue));
+    }
+
+    /**
+     * update stock by ID
+     * Update a stock entity by ID
+     */
+    async updateStock(requestParameters: UpdateStockRequest): Promise<EntStock> {
+        const response = await this.updateStockRaw(requestParameters);
         return await response.value();
     }
 

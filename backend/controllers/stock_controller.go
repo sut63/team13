@@ -152,9 +152,13 @@ func (ctl *StockController) GetStock(c *gin.Context) {
 		})
 		return
 	}
-	pa, err := ctl.client.Stock.
+	u, err := ctl.client.Stock.
 		Query().
-		Where(stock.IDEQ(int(id))).
+		WithProduct().
+		WithZoneproduct().
+		WithTypeproduct().
+		WithEmployee().
+		Where(stock.HasProductWith(product.IDEQ(int(id)))).
 		Only(context.Background())
 	if err != nil {
 		c.JSON(404, gin.H{
@@ -162,7 +166,7 @@ func (ctl *StockController) GetStock(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(200, pa)
+	c.JSON(200, u)
  }
 // ListStock handles request to get a list of stock entities
 // @Summary List stock entities
@@ -244,6 +248,48 @@ func (ctl *StockController) DeleteStock(c *gin.Context) {
 	c.JSON(200, gin.H{"result": fmt.Sprintf("ok deleted %v", id)})
 }
 
+// UpdateStock handles PUT requests to update a stock entity
+// @Summary Update a stock entity by ID
+// @Description update stock by ID
+// @ID update-stock
+// @Accept   json
+// @Produce  json
+// @Param id path int true "stock ID"
+// @Param stock body ent.Stock true "Stock entity"
+// @Success 200 {object} ent.Stock
+// @Failure 400 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /stock/{id} [put]
+func (ctl *StockController) UpdateStock(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	obj := ent.Stock{}
+	if err := c.ShouldBind(&obj); err != nil {
+		c.JSON(400, gin.H{
+			"error": "stock binding failed",
+		})
+		return
+	}
+	obj.ID = int(id)
+	u, err := ctl.client.Stock.
+		UpdateOne(&obj).
+		Save(context.Background())
+	if err != nil {
+		c.JSON(400, gin.H{"error": "update failed"})
+		return
+	}
+
+	c.JSON(200, u)
+}
+
+
+
 // NewStockController creates and registers handles for the stock controller
 func NewStockController(router gin.IRouter, client *ent.Client) *StockController {
 	drc := &StockController{
@@ -263,4 +309,6 @@ func (ctl *StockController) register() {
 	// CRUD
 	stocks.POST("", ctl.CreateStock)
 	stocks.DELETE(":id", ctl.DeleteStock)
+	stocks.PUT(":id", ctl.UpdateStock)
+	stocks.GET(":id", ctl.GetStock)
 }

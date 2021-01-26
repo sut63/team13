@@ -3280,6 +3280,40 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a shift entity by ID
+  /stock/{id}:
+    put:
+      consumes:
+      - application/json
+      description: update stock by ID
+      operationId: update-stock
+      parameters:
+      - description: stock ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Stock entity
+        in: body
+        name: stock
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Stock'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Stock'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a stock entity by ID
   /stocks:
     get:
       description: list stock entities
