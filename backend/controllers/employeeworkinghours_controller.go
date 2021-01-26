@@ -14,11 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-<<<<<<< HEAD
 // EmployeeWorkingHoursController defines the struct for the employeeWorkingHours controller
-=======
-// EmployeeWorkingHoursController defines the struct for the employeeworkinghours 
->>>>>>> 34bbbee30742c30ef1d395a4876cc33961a21592
 type EmployeeWorkingHours struct {
 	IDEmployee	string
 	IDNumber	string
