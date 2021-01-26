@@ -1,5 +1,22 @@
 basePath: /api/v1
 definitions:
+  controllers.EmployeeWorkingHours:
+    properties:
+      day:
+        type: integer
+      employee:
+        type: integer
+      idemployee:
+        type: string
+      idnumber:
+        type: string
+      role:
+        type: integer
+      shift:
+        type: integer
+      wages:
+        type: number
+    type: object
   controllers.Orderonline:
     properties:
       accountnumber:
@@ -254,6 +271,15 @@ definitions:
     type: object
   ent.EmployeeWorkingHours:
     properties:
+      IDEmployee:
+        description: IDEmployee holds the value of the "IDEmployee" field.
+        type: string
+      IDNumber:
+        description: IDNumber holds the value of the "IDNumber" field.
+        type: string
+      Wages:
+        description: Wages holds the value of the "Wages" field.
+        type: number
       edges:
         $ref: '#/definitions/ent.EmployeeWorkingHoursEdges'
         description: |-
@@ -1643,7 +1669,7 @@ paths:
         name: employeeworkinghours
         required: true
         schema:
-          $ref: '#/definitions/ent.EmployeeWorkingHours'
+          $ref: '#/definitions/controllers.EmployeeWorkingHours'
       produces:
       - application/json
       responses:

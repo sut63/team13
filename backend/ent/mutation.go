@@ -2842,6 +2842,10 @@ type EmployeeWorkingHoursMutation struct {
 	op              Op
 	typ             string
 	id              *int
+	_IDEmployee     *string
+	_IDNumber       *string
+	_Wages          *float64
+	add_Wages       *float64
 	clearedFields   map[string]struct{}
 	employee        *int
 	clearedemployee bool
@@ -2932,6 +2936,137 @@ func (m *EmployeeWorkingHoursMutation) ID() (id int, exists bool) {
 		return
 	}
 	return *m.id, true
+}
+
+// SetIDEmployee sets the IDEmployee field.
+func (m *EmployeeWorkingHoursMutation) SetIDEmployee(s string) {
+	m._IDEmployee = &s
+}
+
+// IDEmployee returns the IDEmployee value in the mutation.
+func (m *EmployeeWorkingHoursMutation) IDEmployee() (r string, exists bool) {
+	v := m._IDEmployee
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIDEmployee returns the old IDEmployee value of the EmployeeWorkingHours.
+// If the EmployeeWorkingHours object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *EmployeeWorkingHoursMutation) OldIDEmployee(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldIDEmployee is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldIDEmployee requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIDEmployee: %w", err)
+	}
+	return oldValue.IDEmployee, nil
+}
+
+// ResetIDEmployee reset all changes of the "IDEmployee" field.
+func (m *EmployeeWorkingHoursMutation) ResetIDEmployee() {
+	m._IDEmployee = nil
+}
+
+// SetIDNumber sets the IDNumber field.
+func (m *EmployeeWorkingHoursMutation) SetIDNumber(s string) {
+	m._IDNumber = &s
+}
+
+// IDNumber returns the IDNumber value in the mutation.
+func (m *EmployeeWorkingHoursMutation) IDNumber() (r string, exists bool) {
+	v := m._IDNumber
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIDNumber returns the old IDNumber value of the EmployeeWorkingHours.
+// If the EmployeeWorkingHours object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *EmployeeWorkingHoursMutation) OldIDNumber(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldIDNumber is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldIDNumber requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIDNumber: %w", err)
+	}
+	return oldValue.IDNumber, nil
+}
+
+// ResetIDNumber reset all changes of the "IDNumber" field.
+func (m *EmployeeWorkingHoursMutation) ResetIDNumber() {
+	m._IDNumber = nil
+}
+
+// SetWages sets the Wages field.
+func (m *EmployeeWorkingHoursMutation) SetWages(f float64) {
+	m._Wages = &f
+	m.add_Wages = nil
+}
+
+// Wages returns the Wages value in the mutation.
+func (m *EmployeeWorkingHoursMutation) Wages() (r float64, exists bool) {
+	v := m._Wages
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWages returns the old Wages value of the EmployeeWorkingHours.
+// If the EmployeeWorkingHours object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *EmployeeWorkingHoursMutation) OldWages(ctx context.Context) (v float64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldWages is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldWages requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWages: %w", err)
+	}
+	return oldValue.Wages, nil
+}
+
+// AddWages adds f to Wages.
+func (m *EmployeeWorkingHoursMutation) AddWages(f float64) {
+	if m.add_Wages != nil {
+		*m.add_Wages += f
+	} else {
+		m.add_Wages = &f
+	}
+}
+
+// AddedWages returns the value that was added to the Wages field in this mutation.
+func (m *EmployeeWorkingHoursMutation) AddedWages() (r float64, exists bool) {
+	v := m.add_Wages
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetWages reset all changes of the "Wages" field.
+func (m *EmployeeWorkingHoursMutation) ResetWages() {
+	m._Wages = nil
+	m.add_Wages = nil
 }
 
 // SetEmployeeID sets the employee edge to Employee by id.
@@ -3104,7 +3239,16 @@ func (m *EmployeeWorkingHoursMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *EmployeeWorkingHoursMutation) Fields() []string {
-	fields := make([]string, 0, 0)
+	fields := make([]string, 0, 3)
+	if m._IDEmployee != nil {
+		fields = append(fields, employeeworkinghours.FieldIDEmployee)
+	}
+	if m._IDNumber != nil {
+		fields = append(fields, employeeworkinghours.FieldIDNumber)
+	}
+	if m._Wages != nil {
+		fields = append(fields, employeeworkinghours.FieldWages)
+	}
 	return fields
 }
 
@@ -3112,6 +3256,14 @@ func (m *EmployeeWorkingHoursMutation) Fields() []string {
 // The second boolean value indicates that this field was
 // not set, or was not define in the schema.
 func (m *EmployeeWorkingHoursMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case employeeworkinghours.FieldIDEmployee:
+		return m.IDEmployee()
+	case employeeworkinghours.FieldIDNumber:
+		return m.IDNumber()
+	case employeeworkinghours.FieldWages:
+		return m.Wages()
+	}
 	return nil, false
 }
 
@@ -3119,6 +3271,14 @@ func (m *EmployeeWorkingHoursMutation) Field(name string) (ent.Value, bool) {
 // An error is returned if the mutation operation is not UpdateOne,
 // or the query to the database was failed.
 func (m *EmployeeWorkingHoursMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case employeeworkinghours.FieldIDEmployee:
+		return m.OldIDEmployee(ctx)
+	case employeeworkinghours.FieldIDNumber:
+		return m.OldIDNumber(ctx)
+	case employeeworkinghours.FieldWages:
+		return m.OldWages(ctx)
+	}
 	return nil, fmt.Errorf("unknown EmployeeWorkingHours field %s", name)
 }
 
@@ -3127,6 +3287,27 @@ func (m *EmployeeWorkingHoursMutation) OldField(ctx context.Context, name string
 // type mismatch the field type.
 func (m *EmployeeWorkingHoursMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case employeeworkinghours.FieldIDEmployee:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIDEmployee(v)
+		return nil
+	case employeeworkinghours.FieldIDNumber:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIDNumber(v)
+		return nil
+	case employeeworkinghours.FieldWages:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWages(v)
+		return nil
 	}
 	return fmt.Errorf("unknown EmployeeWorkingHours field %s", name)
 }
@@ -3134,13 +3315,21 @@ func (m *EmployeeWorkingHoursMutation) SetField(name string, value ent.Value) er
 // AddedFields returns all numeric fields that were incremented
 // or decremented during this mutation.
 func (m *EmployeeWorkingHoursMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.add_Wages != nil {
+		fields = append(fields, employeeworkinghours.FieldWages)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was in/decremented
 // from a field with the given name. The second value indicates
 // that this field was not set, or was not define in the schema.
 func (m *EmployeeWorkingHoursMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case employeeworkinghours.FieldWages:
+		return m.AddedWages()
+	}
 	return nil, false
 }
 
@@ -3148,6 +3337,15 @@ func (m *EmployeeWorkingHoursMutation) AddedField(name string) (ent.Value, bool)
 // error if the field is not defined in the schema, or if the
 // type mismatch the field type.
 func (m *EmployeeWorkingHoursMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case employeeworkinghours.FieldWages:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddWages(v)
+		return nil
+	}
 	return fmt.Errorf("unknown EmployeeWorkingHours numeric field %s", name)
 }
 
@@ -3174,6 +3372,17 @@ func (m *EmployeeWorkingHoursMutation) ClearField(name string) error {
 // given field name. It returns an error if the field is not
 // defined in the schema.
 func (m *EmployeeWorkingHoursMutation) ResetField(name string) error {
+	switch name {
+	case employeeworkinghours.FieldIDEmployee:
+		m.ResetIDEmployee()
+		return nil
+	case employeeworkinghours.FieldIDNumber:
+		m.ResetIDNumber()
+		return nil
+	case employeeworkinghours.FieldWages:
+		m.ResetWages()
+		return nil
+	}
 	return fmt.Errorf("unknown EmployeeWorkingHours field %s", name)
 }
 

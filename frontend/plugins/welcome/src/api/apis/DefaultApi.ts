@@ -15,6 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
+    ControllersEmployeeWorkingHours,
+    ControllersEmployeeWorkingHoursFromJSON,
+    ControllersEmployeeWorkingHoursToJSON,
     ControllersOrderonline,
     ControllersOrderonlineFromJSON,
     ControllersOrderonlineToJSON,
@@ -120,7 +123,7 @@ export interface CreateEmployeeRequest {
 }
 
 export interface CreateEmployeeworkinghoursRequest {
-    employeeworkinghours: EntEmployeeWorkingHours;
+    employeeworkinghours: ControllersEmployeeWorkingHours;
 }
 
 export interface CreateGiveawayRequest {
@@ -754,7 +757,7 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: EntEmployeeWorkingHoursToJSON(requestParameters.employeeworkinghours),
+            body: ControllersEmployeeWorkingHoursToJSON(requestParameters.employeeworkinghours),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EntEmployeeWorkingHoursFromJSON(jsonValue));

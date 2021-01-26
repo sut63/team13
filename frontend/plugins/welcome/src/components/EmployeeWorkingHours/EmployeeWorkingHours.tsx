@@ -15,6 +15,7 @@ import {
   MenuItem,
   Avatar,
   Button,
+  TextField,
 } from '@material-ui/core';
 import { DefaultApi } from '../../api/apis'; // Api Gennerate From Command
 import { EntEmployee } from '../../api/models/EntEmployee'; // import interface Employee
@@ -59,10 +60,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface EmployeeWorkingHours {
-  Employee: number;
-  Day: number;
-  Role: number;
-  Shift: number;
+  IDEmployee: string;
+  IDNumber:   string;
+  Employee:   number;
+  Day:        number;
+  Role:       number;
+  Shift:      number;
+  Wages:      number;
   // create_by: number;
 }
 
@@ -78,6 +82,7 @@ const EmployeeWorkingHours: FC<{}> = () => {
   const [Roles, setRoles] = React.useState<EntRole[]>([]);
   const [Employees, setEmployees] = React.useState<EntEmployee[]>([]);
   const [Shifts, setShifts] = React.useState<EntShift[]>([]);
+
 
   //const [Day, SetDayid] = useState(Number);
   //const [Role, SetRolesid] = useState(Number);
@@ -139,6 +144,17 @@ const EmployeeWorkingHours: FC<{}> = () => {
   //};
 
   // set data to object playlist_video
+
+  /*const IDEmployeehandleChange = (event: any) => {
+    SetIDEmployee(event.target.value as string);
+  };
+  const IDNumberhandleChange = (event: any) => {
+    SetIDNumber(event.target.value as string);
+  };
+  const WagesThandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    SetWages(event.target.value as number);
+  };*/
+
   const handleChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>,
   ) => {
@@ -149,50 +165,110 @@ const EmployeeWorkingHours: FC<{}> = () => {
   };
 
 
+
+  const alertMessage = (icon: any, title: any) => {
+      Toast.fire({
+        icon: icon,
+        title: title,
+      });
+    }
+  const checkCaseSaveError = (field: string) => {
+    switch(field) {
+      case 'IDEmployee':
+        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 7 หลัก");
+        return;
+      case 'IDNumber':
+        alertMessage("error","กรุณากรอกเลขบัตรประชาชน 13 หลักให้ถูกต้อง");
+        return;
+      case 'Wages':
+        alertMessage("error","กรุณาระบุระยะเวลาโปรโมชั่นให้ถูกต้อง");
+        return;
+      default:
+        alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
+        return;
+    }
+  
+
   // clear input form
   function clear() {
     setEmployeeWorkingHourss({});
   }
-
+}
+  console.log(EmployeeWorkingHourss)
   // function save data
-  function save() {
-    const apiUrl = 'http://localhost:8080/api/v1/employeeworkinghourss';
+  function Save() {
+    const apiUrl = 'http://localhost:8080/api/v1/EmployeeWorkingHourss';
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(EmployeeWorkingHourss),
+      body: JSON.stringify(EmployeeWorkingHours),
     };
 
-    console.log(EmployeeWorkingHourss); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
+    console.log(EmployeeWorkingHours);
 
     fetch(apiUrl, requestOptions)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        if (data.status === true) {
-          clear();
-          Toast.fire({
-            icon: 'success',
-            title: 'บันทึกข้อมูลสำเร็จ',
-          });
-        } else {
-          Toast.fire({
-            icon: 'error',
-            title: 'บันทึกข้อมูลไม่สำเร็จ',
-          });
-        }
-      });
-  }
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (data.status == true) {
+        //clear();
+        Toast.fire({
+          icon: 'success',
+          title: 'บันทึกข้อมูลสำเร็จ',
+
+        });//window.setTimeout(function(){location.reload()},8000);
+      } else {
+        checkCaseSaveError(data.error.Name)
+      }
+    });
+  };
 
   return (
     <Page theme={pageTheme.home}>
       <Header style={HeaderCustom} title={`Employee Working Hours`}>
-        <Avatar alt="Remy Sharp" src="../../image/account.jpg" />
-        <div style={{ marginLeft: 10 }}>Thanabodee Petchrey</div>
+        
       </Header>
       <Content>
         <Container maxWidth="sm">
+
           <Grid container spacing={3}>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={3}>
+              <div className={classes.paper}>รหัสพนักงาน</div>
+            </Grid>
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <TextField 
+                  id="IDEmployee"
+                  name ="IDEmployee"
+                  label = "ใส่รหัสพนักงาน"
+                  InputLabelProps={{shrink: true,}} 
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={EmployeeWorkingHourss.IDEmployee || ''}
+                  
+              />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12}></Grid>
+            <Grid item xs={3}>
+              <div className={classes.paper}>เลขบัตรประชาชน</div>
+            </Grid>
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <TextField 
+                  id="IDNumber" 
+                  name = "IDNumber"
+                  label = "ใส่เลขบัตรประชาชน"
+                  InputLabelProps={{shrink: true,}} 
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={EmployeeWorkingHourss.IDNumber || ''}   
+              />
+              </FormControl>
+            </Grid>
+
             <Grid item xs={12}></Grid>
             <Grid item xs={3}>
               <div className={classes.paper}>พนักงาน</div>
@@ -282,6 +358,24 @@ const EmployeeWorkingHours: FC<{}> = () => {
               </FormControl>
             </Grid>
 
+            <Grid item xs={12}></Grid>
+            <Grid item xs={3}>
+              <div className={classes.paper}>ค่าจ้าง</div>
+            </Grid>
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <TextField 
+                  id="Wages" 
+                  name = "Wages"
+                  label = "ใส่ค่าจ้าง"
+                  InputLabelProps={{shrink: true,}} 
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={EmployeeWorkingHourss.Role || ''}
+              />
+              </FormControl>
+            </Grid>
+
             <Grid item xs={3}></Grid>
             <Grid item xs={3}>
               <Button
@@ -289,7 +383,7 @@ const EmployeeWorkingHours: FC<{}> = () => {
                 color="primary"
                 size="large"
                 startIcon={<SaveIcon />}
-                onClick={save}
+                onClick={Save}
               >
                 Save
               </Button>

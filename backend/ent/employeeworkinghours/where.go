@@ -91,6 +91,325 @@ func IDLTE(id int) predicate.EmployeeWorkingHours {
 	})
 }
 
+// IDEmployee applies equality check predicate on the "IDEmployee" field. It's identical to IDEmployeeEQ.
+func IDEmployee(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDNumber applies equality check predicate on the "IDNumber" field. It's identical to IDNumberEQ.
+func IDNumber(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIDNumber), v))
+	})
+}
+
+// Wages applies equality check predicate on the "Wages" field. It's identical to WagesEQ.
+func Wages(v float64) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWages), v))
+	})
+}
+
+// IDEmployeeEQ applies the EQ predicate on the "IDEmployee" field.
+func IDEmployeeEQ(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDEmployeeNEQ applies the NEQ predicate on the "IDEmployee" field.
+func IDEmployeeNEQ(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDEmployeeIn applies the In predicate on the "IDEmployee" field.
+func IDEmployeeIn(vs ...string) predicate.EmployeeWorkingHours {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldIDEmployee), v...))
+	})
+}
+
+// IDEmployeeNotIn applies the NotIn predicate on the "IDEmployee" field.
+func IDEmployeeNotIn(vs ...string) predicate.EmployeeWorkingHours {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldIDEmployee), v...))
+	})
+}
+
+// IDEmployeeGT applies the GT predicate on the "IDEmployee" field.
+func IDEmployeeGT(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDEmployeeGTE applies the GTE predicate on the "IDEmployee" field.
+func IDEmployeeGTE(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDEmployeeLT applies the LT predicate on the "IDEmployee" field.
+func IDEmployeeLT(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDEmployeeLTE applies the LTE predicate on the "IDEmployee" field.
+func IDEmployeeLTE(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDEmployeeContains applies the Contains predicate on the "IDEmployee" field.
+func IDEmployeeContains(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDEmployeeHasPrefix applies the HasPrefix predicate on the "IDEmployee" field.
+func IDEmployeeHasPrefix(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDEmployeeHasSuffix applies the HasSuffix predicate on the "IDEmployee" field.
+func IDEmployeeHasSuffix(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDEmployeeEqualFold applies the EqualFold predicate on the "IDEmployee" field.
+func IDEmployeeEqualFold(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDEmployeeContainsFold applies the ContainsFold predicate on the "IDEmployee" field.
+func IDEmployeeContainsFold(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldIDEmployee), v))
+	})
+}
+
+// IDNumberEQ applies the EQ predicate on the "IDNumber" field.
+func IDNumberEQ(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldIDNumber), v))
+	})
+}
+
+// IDNumberNEQ applies the NEQ predicate on the "IDNumber" field.
+func IDNumberNEQ(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldIDNumber), v))
+	})
+}
+
+// IDNumberIn applies the In predicate on the "IDNumber" field.
+func IDNumberIn(vs ...string) predicate.EmployeeWorkingHours {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldIDNumber), v...))
+	})
+}
+
+// IDNumberNotIn applies the NotIn predicate on the "IDNumber" field.
+func IDNumberNotIn(vs ...string) predicate.EmployeeWorkingHours {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldIDNumber), v...))
+	})
+}
+
+// IDNumberGT applies the GT predicate on the "IDNumber" field.
+func IDNumberGT(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldIDNumber), v))
+	})
+}
+
+// IDNumberGTE applies the GTE predicate on the "IDNumber" field.
+func IDNumberGTE(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldIDNumber), v))
+	})
+}
+
+// IDNumberLT applies the LT predicate on the "IDNumber" field.
+func IDNumberLT(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldIDNumber), v))
+	})
+}
+
+// IDNumberLTE applies the LTE predicate on the "IDNumber" field.
+func IDNumberLTE(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldIDNumber), v))
+	})
+}
+
+// IDNumberContains applies the Contains predicate on the "IDNumber" field.
+func IDNumberContains(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldIDNumber), v))
+	})
+}
+
+// IDNumberHasPrefix applies the HasPrefix predicate on the "IDNumber" field.
+func IDNumberHasPrefix(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldIDNumber), v))
+	})
+}
+
+// IDNumberHasSuffix applies the HasSuffix predicate on the "IDNumber" field.
+func IDNumberHasSuffix(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldIDNumber), v))
+	})
+}
+
+// IDNumberEqualFold applies the EqualFold predicate on the "IDNumber" field.
+func IDNumberEqualFold(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldIDNumber), v))
+	})
+}
+
+// IDNumberContainsFold applies the ContainsFold predicate on the "IDNumber" field.
+func IDNumberContainsFold(v string) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldIDNumber), v))
+	})
+}
+
+// WagesEQ applies the EQ predicate on the "Wages" field.
+func WagesEQ(v float64) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldWages), v))
+	})
+}
+
+// WagesNEQ applies the NEQ predicate on the "Wages" field.
+func WagesNEQ(v float64) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldWages), v))
+	})
+}
+
+// WagesIn applies the In predicate on the "Wages" field.
+func WagesIn(vs ...float64) predicate.EmployeeWorkingHours {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldWages), v...))
+	})
+}
+
+// WagesNotIn applies the NotIn predicate on the "Wages" field.
+func WagesNotIn(vs ...float64) predicate.EmployeeWorkingHours {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldWages), v...))
+	})
+}
+
+// WagesGT applies the GT predicate on the "Wages" field.
+func WagesGT(v float64) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldWages), v))
+	})
+}
+
+// WagesGTE applies the GTE predicate on the "Wages" field.
+func WagesGTE(v float64) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldWages), v))
+	})
+}
+
+// WagesLT applies the LT predicate on the "Wages" field.
+func WagesLT(v float64) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldWages), v))
+	})
+}
+
+// WagesLTE applies the LTE predicate on the "Wages" field.
+func WagesLTE(v float64) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldWages), v))
+	})
+}
+
 // HasEmployee applies the HasEdge predicate on the "employee" edge.
 func HasEmployee() predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
