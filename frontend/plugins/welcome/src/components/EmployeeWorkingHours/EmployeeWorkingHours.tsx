@@ -70,7 +70,7 @@ interface EmployeeWorkingHours {
   // create_by: number;
 }
 
-const EmployeeWorkingHourss: FC<{}> = () => {
+const EmployeeWorkingHours: FC<{}> = () => {
   const classes = useStyles();
   const http = new DefaultApi();
 
@@ -191,35 +191,39 @@ const EmployeeWorkingHourss: FC<{}> = () => {
   function clear() {
     setEmployeeWorkingHourss({});
   }
-}
-  console.log(EmployeeWorkingHourss)
-  // function save data
-  function Save() {
-    const apiUrl = 'http://localhost:8080/api/v1/EmployeeWorkingHourss';
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(EmployeeWorkingHourss),
-    };
 
-    console.log(EmployeeWorkingHourss);
+  // function save data
+
+  console.log(EmployeeWorkingHourss)
+  const save = async () => {
+      if(EmployeeWorkingHourss.Wages){
+          var Wages : number = +EmployeeWorkingHourss.Wages;
+          EmployeeWorkingHourss.Wages = Wages;        
+      }
+      const apiUrl = 'http://localhost:8080/api/v1/employeeworkinghourss';
+      const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(EmployeeWorkingHourss),
+      };
+
+    console.log(EmployeeWorkingHourss); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 
     fetch(apiUrl, requestOptions)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      if (data.status == true) {
-        //clear();
-        Toast.fire({
-          icon: 'success',
-          title: 'บันทึกข้อมูลสำเร็จ',
-
-        });//window.setTimeout(function(){location.reload()},8000);
-      } else {
-        checkCaseSaveError(data.error.Name)
-      }
-    });
-  };
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.status === true) {
+          clear();
+          Toast.fire({
+            icon: 'success',
+            title: 'บันทึกข้อมูลสำเร็จ',
+          });
+        } else {
+          checkCaseSaveError(data.error.Name)
+        }
+      });
+    }
 
   return (
     <Page theme={pageTheme.home}>
@@ -369,8 +373,7 @@ const EmployeeWorkingHourss: FC<{}> = () => {
                   InputLabelProps={{shrink: true,}} 
                   variant="outlined"
                   onChange={handleChange}
-                  value={EmployeeWorkingHourss.Role || ''}
-                  //value={EmployeeWorkingHourss.Wages || ''}
+                  value={EmployeeWorkingHourss.Wages || ''}
               />
               </FormControl>
             </Grid>
@@ -382,7 +385,7 @@ const EmployeeWorkingHourss: FC<{}> = () => {
                 color="primary"
                 size="large"
                 startIcon={<SaveIcon />}
-                onClick={Save}
+                onClick={save}
               >
                 Save
               </Button>
