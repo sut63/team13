@@ -70,7 +70,7 @@ interface EmployeeWorkingHours {
   // create_by: number;
 }
 
-const EmployeeWorkingHours: FC<{}> = () => {
+const EmployeeWorkingHourss: FC<{}> = () => {
   const classes = useStyles();
   const http = new DefaultApi();
 
@@ -170,30 +170,10 @@ const EmployeeWorkingHours: FC<{}> = () => {
         title: title,
       });
     }
-  const checkCaseSaveError = (field: string) => {
-    switch(field) {
-      case 'IDEmployee':
-        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 4 หลัก");
-        return;
-      case 'IDNumber':
-        alertMessage("error","กรุณากรอกเลขบัตรประชาชน 13 หลักให้ถูกต้อง");
-        return;
-      case 'Wages':
-        alertMessage("error","กรุณาใส่เป็นตัวเลขและไม่ติดลบ");
-        return;
-      default:
-        alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
-        return;
-    }
-  }
 
 
-  const alertMessage = (icon: any, title: any) => {
-      Toast.fire({
-        icon: icon,
-        title: title,
-      });
-    }
+
+ 
   const checkCaseSaveError = (field: string) => {
     switch(field) {
       case 'IDEmployee':
@@ -209,6 +189,7 @@ const EmployeeWorkingHours: FC<{}> = () => {
         alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
         return;
     }
+  }
   
 
   // clear input form
@@ -223,10 +204,10 @@ const EmployeeWorkingHours: FC<{}> = () => {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(EmployeeWorkingHours),
+      body: JSON.stringify(EmployeeWorkingHourss),
     };
 
-    console.log(EmployeeWorkingHours);
+    console.log(EmployeeWorkingHourss);
 
     fetch(apiUrl, requestOptions)
     .then(response => response.json())
@@ -426,9 +407,7 @@ const EmployeeWorkingHours: FC<{}> = () => {
                   variant="outlined"
                   onChange={handleChange}
                   value={EmployeeWorkingHourss.Role || ''}
-=======
-                  value={EmployeeWorkingHourss.Wages || ''}
->>>>>>> 34bbbee30742c30ef1d395a4876cc33961a21592
+                  //value={EmployeeWorkingHourss.Wages || ''}
               />
               </FormControl>
             </Grid>
