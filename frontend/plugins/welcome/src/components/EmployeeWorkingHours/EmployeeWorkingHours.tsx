@@ -170,10 +170,6 @@ const EmployeeWorkingHourss: FC<{}> = () => {
         title: title,
       });
     }
-
-
-
- 
   const checkCaseSaveError = (field: string) => {
     switch(field) {
       case 'IDEmployee':
@@ -190,7 +186,6 @@ const EmployeeWorkingHourss: FC<{}> = () => {
         return;
     }
   }
-  
 
   // clear input form
   function clear() {
@@ -235,39 +230,7 @@ const EmployeeWorkingHourss: FC<{}> = () => {
         <Container maxWidth="sm">
 
           <Grid container spacing={3}>
-            <Grid item xs={3}>
-              <div className={classes.paper}>รหัสพนักงาน</div>
-            </Grid>
-            <Grid item xs={9}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <TextField 
-                  name ="IDEmployee"
-                  label = "ใส่รหัสพนักงาน"
-                  InputLabelProps={{shrink: true,}} 
-                  variant="outlined"
-                  onChange={handleChange}
-                  value={EmployeeWorkingHourss.IDEmployee || ''}
-                  
-              />
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={3}>
-              <div className={classes.paper}>เลขบัตรประชาชน</div>
-            </Grid>
-            <Grid item xs={9}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <TextField  
-                  name = "IDNumber"
-                  label = "ใส่เลขบัตรประชาชน"
-                  InputLabelProps={{shrink: true,}} 
-                  variant="outlined"
-                  onChange={handleChange}
-                  value={EmployeeWorkingHourss.IDNumber || ''}   
-              />
-              </FormControl>
-            </Grid>
-
+            <Grid item xs={12}></Grid>
             <Grid item xs={3}>
               <div className={classes.paper}>รหัสพนักงาน</div>
             </Grid>
