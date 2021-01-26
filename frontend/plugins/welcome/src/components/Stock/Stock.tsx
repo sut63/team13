@@ -99,10 +99,7 @@ export default function Stock() {
   const [zoneproductid, setZoneproductid] = useState(Number);
   const [idcardemployee, setidcardemployee] = useState(String);
 
-  const [IdcardemployeeError, setIdcardemployeeError] = React.useState('');
-  const [PriceError, setPriceError] = React.useState('');
-  const [AmountError, setAmountError] = React.useState('');
-  const [errors, setError] = React.useState(String);
+  
 
   let productID = Number(productid)
   let employeeID = Number(cookieID)
@@ -175,6 +172,8 @@ export default function Stock() {
   }
 
 
+  //validate
+  /*const validateIdcardemployee = (val: string) => {
  /* //validate
   const validateIdcardemployee = (val: string) => {
     return val.match("[E]\\d{4}");
@@ -210,7 +209,7 @@ export default function Stock() {
   const checkCaseSaveError = (field: string) => {
     switch(field) {
       case 'IDcardemployee':
-        alertMessage("error","รูปแบบรหัสพนักงานไม่ถูกต้อง กรุณากรอกข้อมูลให้ถูกต้อง");
+        alertMessage("error","รหัสพนักงานต้องขึ้นต้นตัวอักษร E เท่านั้นและมีตัวเลข 4 ตัว กรุณากรอกข้อมูลให้ถูกต้อง");
         return;
       case 'Priceproduct':
         alertMessage("error","ราคาต้องเป็นตัวเลขและห้ามติดลบ กรุณากรอกราคาให้ถูกต้อง");
@@ -255,6 +254,7 @@ export default function Stock() {
       }
     });
   };
+  
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -284,18 +284,19 @@ export default function Stock() {
   };
 
   const amount_id_handleChange = (event: any) => {
+    setAmount(event.target.value);
     setAmount(event.target.value);  
     
   };
 
   const priceproduct_id_handleChange = (event: any) => {
     setPriceproduct(event.target.value);
-    //checkPattern(data.error.Name);
+    
   };
 
   const idcardemployee_id_handleChange = (event: any) => {
     setidcardemployee(event.target.value);
-    //checkPattern(data.error.Name);
+    
 
   };
 
@@ -557,10 +558,12 @@ export default function Stock() {
               <FormControl
                 fullWidth
                 className={classes.margin}
+                
                 variant="outlined"
                 style={{ marginRight: 300, width: 300 }}
               >
-                <TextField id="outlined-number" type='number' InputLabelProps={{
+                <TextField id="outlined-number" 
+                    type='string' InputLabelProps={{
                   shrink: true,
                 }} label="Amount" variant="outlined"
                   onChange={amount_id_handleChange}

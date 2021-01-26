@@ -16,7 +16,7 @@ type EmployeeWorkingHours struct {
 // Fields of the EmployeeWorkingHours.
 func (EmployeeWorkingHours) Fields() []ent.Field {
 	return []ent.Field{
-        field.String("IDEmployee").Match(regexp.MustCompile("[ABC]\\d{4}")),
+        field.String("IDEmployee").Match(regexp.MustCompile("[ABC]\\d{5}")),
         field.String("IDNumber").MinLen(13).MaxLen(13),
         field.Float("Wages").Min(0).Positive(),
     }

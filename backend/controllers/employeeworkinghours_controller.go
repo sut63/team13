@@ -14,7 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// EmployeeWorkingHoursController defines the struct for the employeeworkinghours 
+// EmployeeWorkingHoursController defines the struct for the employeeWorkingHours controller
 type EmployeeWorkingHours struct {
 	IDEmployee	string
 	IDNumber	string
@@ -121,7 +121,7 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 
 	c.JSON(200, gin.H{
 		"status": true,
-		"data"  :   e,
+		"data"  :  e,
 	})
  }
  
