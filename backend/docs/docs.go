@@ -2262,7 +2262,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.Orderproduct"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Orderproduct"
+                            }
                         }
                     },
                     "400": {

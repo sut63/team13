@@ -138,7 +138,7 @@ func (ctl *OrderproductController) CreateOrderproduct(c *gin.Context) {
 // @ID get-orderproduct
 // @Produce  json
 // @Param id path int true "Orderproduct ID"
-// @Success 200 {object} ent.Orderproduct
+// @Success 200 {array} ent.Orderproduct
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -155,6 +155,9 @@ func (ctl *OrderproductController) GetOrderproduct(c *gin.Context) {
 	u, err := ctl.client.Orderproduct.
 		Query().
 		WithProduct().
+		WithCompany().
+		WithManagers().
+		WithTypeproduct().
 		Where(orderproduct.HasProductWith(product.IDEQ(int(id)))).
 		All(context.Background())
 	if err != nil {
