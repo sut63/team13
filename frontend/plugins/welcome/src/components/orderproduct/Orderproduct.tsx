@@ -1,4 +1,4 @@
-import React, { useState, Component, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -27,7 +27,7 @@ import Swal from 'sweetalert2';
 //cookie
 import { Cookies } from './SignInOrderproduct/Cookie'
 
-
+import SearchIcon from '@material-ui/icons/Search';
 
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
@@ -278,7 +278,13 @@ export default function MenuAppBar() {
             </Hidden>
             <Grid item xs />
             <Grid item>
-
+            <IconButton
+                style={{ marginLeft: 20 }}
+                component={RouterLink}
+                to="/searchorderproduct"
+              >
+                <SearchIcon color="inherit" />
+              </IconButton>
             </Grid>
 
             <Grid item>

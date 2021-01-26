@@ -154,8 +154,9 @@ func (ctl *OrderproductController) GetOrderproduct(c *gin.Context) {
 
 	u, err := ctl.client.Orderproduct.
 		Query().
-		Where(orderproduct.IDEQ(int(id))).
-		Only(context.Background())
+		WithProduct().
+		Where(orderproduct.HasProductWith(product.IDEQ(int(id)))).
+		All(context.Background())
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": err.Error(),
