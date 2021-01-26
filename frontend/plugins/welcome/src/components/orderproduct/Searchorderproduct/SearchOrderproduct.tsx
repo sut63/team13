@@ -30,10 +30,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 
-
-
 const lightColor = 'rgba(255, 255, 255, 0.7)';
-
 const Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
@@ -79,8 +76,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-
-
 function Copyright() {
   return (
     <Typography variant="body2" color="inherit" align="center">
@@ -106,8 +101,6 @@ export default function MenuAppBar() {
 
   const [products, setProducts] = useState<EntProduct[]>([]);
   const [loading, setLoading] = useState(true);
-
-
   const [productid, setProductid] = useState(Number);
 
   let managerID = Number(cookieID)
