@@ -149,7 +149,7 @@ export default function MenuAppBar() {
       //setFail(true)
       Toast.fire({
         icon: 'error',
-        title: 'ค้นหาข้อมูลไม่สำเร็จ',
+        title: 'ค้นหาข้อมูลไม่พบ',
       })
     }
   }
