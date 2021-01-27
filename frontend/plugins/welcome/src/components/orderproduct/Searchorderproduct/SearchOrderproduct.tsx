@@ -135,8 +135,8 @@ export default function MenuAppBar() {
     setProductid(event.target.value);
   }
   var lenOrderproduct: number
+  const getsorder = async () => {
   
-  const getCheckinsorder = async () => {
     const res = await api.getOrderproduct({ id: productid })
     setOrderproducts(res)
     lenOrderproduct = res.length
@@ -307,7 +307,7 @@ export default function MenuAppBar() {
                 size="large"
                 className={classes.button}
                 onClick={() => {
-                  getCheckinsorder();
+                  getsorder();
                 }}
 
                 startIcon={<SearchIcon
