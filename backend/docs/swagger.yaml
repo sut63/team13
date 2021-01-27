@@ -2184,7 +2184,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.Orderonline'
+            items:
+              $ref: '#/definitions/ent.Orderonline'
+            type: array
         "400":
           description: Bad Request
           schema:

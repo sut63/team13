@@ -2167,7 +2167,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get orderonline by ID
      * Get a orderonline entity by ID
      */
-    async getOrderonlineRaw(requestParameters: GetOrderonlineRequest): Promise<runtime.ApiResponse<EntOrderonline>> {
+    async getOrderonlineRaw(requestParameters: GetOrderonlineRequest): Promise<runtime.ApiResponse<Array<EntOrderonline>>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getOrderonline.');
         }
@@ -2183,14 +2183,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntOrderonlineFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntOrderonlineFromJSON));
     }
 
     /**
      * get orderonline by ID
      * Get a orderonline entity by ID
      */
-    async getOrderonline(requestParameters: GetOrderonlineRequest): Promise<EntOrderonline> {
+    async getOrderonline(requestParameters: GetOrderonlineRequest): Promise<Array<EntOrderonline>> {
         const response = await this.getOrderonlineRaw(requestParameters);
         return await response.value();
     }
