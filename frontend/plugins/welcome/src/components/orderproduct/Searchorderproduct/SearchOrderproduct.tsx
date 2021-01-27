@@ -30,10 +30,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 
-
-
 const lightColor = 'rgba(255, 255, 255, 0.7)';
-
 const Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
@@ -79,8 +76,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-
-
 function Copyright() {
   return (
     <Typography variant="body2" color="inherit" align="center">
@@ -106,8 +101,6 @@ export default function MenuAppBar() {
 
   const [products, setProducts] = useState<EntProduct[]>([]);
   const [loading, setLoading] = useState(true);
-
-
   const [productid, setProductid] = useState(Number);
 
   let managerID = Number(cookieID)
@@ -142,7 +135,7 @@ export default function MenuAppBar() {
     setProductid(event.target.value);
   }
   var lenOrderproduct: number
-  const getCheckinsorder = async () => {
+  const getsorder = async () => {
     const res = await api.getOrderproduct({ id: productid })
     setOrderproducts(res)
     lenOrderproduct = res.length
@@ -156,7 +149,7 @@ export default function MenuAppBar() {
       //setFail(true)
       Toast.fire({
         icon: 'error',
-        title: 'ค้นหาข้อมูลไม่สำเร็จ',
+        title: 'ค้นหาข้อมูลไม่พบ',
       })
     }
   }
@@ -313,7 +306,7 @@ export default function MenuAppBar() {
                 size="large"
                 className={classes.button}
                 onClick={() => {
-                  getCheckinsorder();
+                  getsorder();
                 }}
 
                 startIcon={<SearchIcon
