@@ -16,13 +16,24 @@ import {
   Avatar,
   Button,
   TextField,
+  Typography,
+  Link,
+  SvgIcon,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Hidden,
 } from '@material-ui/core';
 import { DefaultApi } from '../../api/apis'; // Api Gennerate From Command
 import { EntEmployee } from '../../api/models/EntEmployee'; // import interface Employee
 import { EntDay } from '../../api/models/EntDay'; // import interface Day
 import { EntRole } from '../../api/models/EntRole'; // import interface Role
 import { EntShift } from '../../api/models/EntShift'; // import interface Shift
+//import { Cookies } from './orderproduct/SignInOrderproduct/Cookie';
+import SearchIcon from '@material-ui/icons/Search';
 
+
+const lightColor = 'rgba(255, 255, 255, 0.7)';
 // header css
 const HeaderCustom = {
   minHeight: '50px',
@@ -57,6 +68,16 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  button: {
+    borderColor: lightColor,
+  },
+  iconButtonAvatar: {
+    padding: 4,
+  },
+  secondaryBar: {
+    zIndex: 0,
+  },
+
 }));
 
 interface EmployeeWorkingHours {
@@ -70,7 +91,13 @@ interface EmployeeWorkingHours {
   // create_by: number;
 }
 
-const EmployeeWorkingHourss: FC<{}> = () => {
+const EmployeeWorkingHours: FC<{}> = () => {
+
+  //var ck = new Cookies()
+  //var cookieEmail = ck.GetCookie()
+  //var cookieID = ck.GetID()
+  //var cookieName = ck.GetName()
+
   const classes = useStyles();
   const http = new DefaultApi();
 
@@ -78,11 +105,11 @@ const EmployeeWorkingHourss: FC<{}> = () => {
     Partial<EmployeeWorkingHours>
   >({});
 
+  const [loading, setLoading] = useState(true);
   const [Days, setDays] = React.useState<EntDay[]>([]);
   const [Roles, setRoles] = React.useState<EntRole[]>([]);
   const [Employees, setEmployees] = React.useState<EntEmployee[]>([]);
   const [Shifts, setShifts] = React.useState<EntShift[]>([]);
-
 
   //const [Day, SetDayid] = useState(Number);
   //const [Role, SetRolesid] = useState(Number);
@@ -102,23 +129,40 @@ const EmployeeWorkingHourss: FC<{}> = () => {
     },
   });
 
+  function Copyright() {
+    return (
+      <Typography variant="body2" color="inherit" align="center">
+        {'Copyright © '}
+        <Link color="inherit" href="https://material-ui.com/">
+          Thanabodee Website
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+  }
+
   const getEmployee = async () => {
     const res = await http.listEmployee({ limit: 10, offset: 0 });
+    setLoading(false);
     setEmployees(res);
   };
 
   const getDay = async () => {
     const res = await http.listDay({ limit: 10, offset: 0 });
+    setLoading(false);
     setDays(res);
   };
 
   const getRole = async () => {
     const res = await http.listRole({ limit: 10, offset: 0 });
+    setLoading(false);
     setRoles(res);
   };
 
   const getShift = async () => {
     const res = await http.listShift({ limit: 10, offset: 0 });
+    setLoading(false);
     setShifts(res);
   };
 
@@ -128,7 +172,7 @@ const EmployeeWorkingHourss: FC<{}> = () => {
     getDay();
     getRole();
     getShift();
-  }, []);
+  }, [loading]);
 
   //const EmployeehandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
   //  SetEmployeeid(event.target.value as number);
@@ -171,9 +215,6 @@ const EmployeeWorkingHourss: FC<{}> = () => {
       });
     }
 
-
-
- 
   const checkCaseSaveError = (field: string) => {
     switch(field) {
       case 'IDEmployee':
@@ -190,84 +231,118 @@ const EmployeeWorkingHourss: FC<{}> = () => {
         return;
     }
   }
-  
 
   // clear input form
   function clear() {
     setEmployeeWorkingHourss({});
   }
-}
-  console.log(EmployeeWorkingHourss)
-  // function save data
-  function Save() {
-    const apiUrl = 'http://localhost:8080/api/v1/EmployeeWorkingHourss';
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(EmployeeWorkingHourss),
-    };
 
-    console.log(EmployeeWorkingHourss);
+  // function save data
+
+  console.log(EmployeeWorkingHourss)
+  const save = async () => {
+      if(EmployeeWorkingHourss.Wages){
+          var Wages : number = +EmployeeWorkingHourss.Wages;
+          EmployeeWorkingHourss.Wages = Wages;        
+      }
+      const apiUrl = 'http://localhost:8080/api/v1/employeeworkinghourss';
+      const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(EmployeeWorkingHourss),
+      };
+
+    console.log(EmployeeWorkingHourss); // log ดูข้อมูล สามารถ Inspect ดูข้อมูลได้ F12 เลือก Tab Console
 
     fetch(apiUrl, requestOptions)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      if (data.status == true) {
-        //clear();
-        Toast.fire({
-          icon: 'success',
-          title: 'บันทึกข้อมูลสำเร็จ',
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.status === true) {
+          clear();
+          Toast.fire({
+            icon: 'success',
+            title: 'บันทึกข้อมูลสำเร็จ',
+          });
+        } else {
+          checkCaseSaveError(data.error.Name)
+        }
+      });
+    }
 
-        });//window.setTimeout(function(){location.reload()},8000);
-      } else {
-        checkCaseSaveError(data.error.Name)
-      }
-    });
-  };
-
+    function HomeIcon(props: any) {
+      return (
+        <SvgIcon {...props}>
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+        </SvgIcon>
+      );
+    }
+    
   return (
-    <Page theme={pageTheme.home}>
-      <Header style={HeaderCustom} title={`Employee Working Hours`}>
-        
-      </Header>
-      <Content>
+    <div className={classes.root}>
+      <AppBar color="primary" position="sticky" elevation={0}>
+        <Toolbar>
+          <Grid container spacing={1} alignItems="center">
+            <Hidden smUp>
+              <Grid item>
+
+              </Grid>
+            </Hidden>
+            <Grid item xs />
+              <Grid item>
+                <Typography color="inherit" variant="h3" component="h3">
+                  ระบบตารางเวลาทำงานของพนักงาน
+                </Typography>
+              </Grid>
+
+              <Grid item>
+                <IconButton
+                  style={{ marginLeft: 20 }}
+                  component={RouterLink}
+                  to="/SearchEmployeeWorkingHours"
+                >
+                  <SearchIcon color="inherit" />
+                </IconButton>
+              </Grid>
+
+              <Grid item>
+                <IconButton
+                  style={{ marginLeft: 20 }}
+                  component={RouterLink}
+                  to="/"
+                >
+                  <HomeIcon color="inherit" />
+                </IconButton>
+              </Grid>
+
+              <Grid item>
+                <Button className={classes.button} variant="outlined" color="inherit"
+                  size="small" component={RouterLink}
+                  to="/signinorderproduct">
+                  logout
+                </Button>
+              </Grid>
+            
+              <Grid item>
+                <IconButton color="inherit" className={classes.iconButtonAvatar}>
+                  <Avatar src='o' />
+              </IconButton>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+
+      <AppBar
+        component="div"
+        color="inherit"
+        className={classes.secondaryBar}
+        position="static"
+        elevation={1}
+      >
+        <Toolbar>
         <Container maxWidth="sm">
-
           <Grid container spacing={3}>
-            <Grid item xs={3}>
-              <div className={classes.paper}>รหัสพนักงาน</div>
-            </Grid>
-            <Grid item xs={9}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <TextField 
-                  name ="IDEmployee"
-                  label = "ใส่รหัสพนักงาน"
-                  InputLabelProps={{shrink: true,}} 
-                  variant="outlined"
-                  onChange={handleChange}
-                  value={EmployeeWorkingHourss.IDEmployee || ''}
-                  
-              />
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={3}>
-              <div className={classes.paper}>เลขบัตรประชาชน</div>
-            </Grid>
-            <Grid item xs={9}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <TextField  
-                  name = "IDNumber"
-                  label = "ใส่เลขบัตรประชาชน"
-                  InputLabelProps={{shrink: true,}} 
-                  variant="outlined"
-                  onChange={handleChange}
-                  value={EmployeeWorkingHourss.IDNumber || ''}   
-              />
-              </FormControl>
-            </Grid>
-
+            <Grid item xs={12}></Grid>
             <Grid item xs={3}>
               <div className={classes.paper}>รหัสพนักงาน</div>
             </Grid>
@@ -406,8 +481,7 @@ const EmployeeWorkingHourss: FC<{}> = () => {
                   InputLabelProps={{shrink: true,}} 
                   variant="outlined"
                   onChange={handleChange}
-                  value={EmployeeWorkingHourss.Role || ''}
-                  //value={EmployeeWorkingHourss.Wages || ''}
+                  value={EmployeeWorkingHourss.Wages || ''}
               />
               </FormControl>
             </Grid>
@@ -419,7 +493,7 @@ const EmployeeWorkingHourss: FC<{}> = () => {
                 color="primary"
                 size="large"
                 startIcon={<SaveIcon />}
-                onClick={Save}
+                onClick={save}
               >
                 Save
               </Button>
@@ -438,7 +512,7 @@ const EmployeeWorkingHourss: FC<{}> = () => {
             <Grid item xs={2}>
               <Button
                 component={RouterLink}
-                to="/TableEmployeeWorkingHours"
+                to="/SearchEmployeeWorkingHours"
                 variant="contained"
                 color="secondary"
                 size="large"
@@ -448,8 +522,9 @@ const EmployeeWorkingHourss: FC<{}> = () => {
             </Grid>
           </Grid>
         </Container>
-      </Content>
-    </Page>
+      </Toolbar>
+      </AppBar>
+    </div>
   );
 };
 

@@ -268,11 +268,16 @@ func main() {
 
 	products := Products{
 		Product: []Product{
-			Product{"A", "001", "01-01-2018", "01-01-2024"},
-			Product{"B", "002", "02-01-2018", "02-01-2024"},
-			Product{"C", "003", "03-01-2018", "03-01-2024"},
-			Product{"D", "004", "04-01-2018", "04-01-2024"},
-			Product{"E", "005", "05-01-2018", "05-01-2024"},
+			Product{"สบู่", "001", "01-01-2018", "01-01-2024"},
+			Product{"แชมพู", "002", "02-01-2018", "02-01-2024"},
+			Product{"อาหารหมา", "003", "03-01-2018", "03-01-2024"},
+			Product{"อาหารแมว", "004", "04-01-2018", "04-01-2024"},
+			Product{"เนื้อหมัก", "005", "05-01-2018", "05-01-2024"},
+			Product{"ผักกาดขาว", "006", "06-01-2018", "06-01-2024"},
+			Product{"สายชาร์จแบต", "007", "07-01-2018", "07-01-2024"},
+			Product{"ปลั๊กไฟ", "008", "08-01-2018", "08-01-2024"},
+			Product{"ขนมเลย์", "009", "09-01-2018", "09-01-2024"},
+			Product{"ป๊อกกี้", "010", "10-01-2018", "10-01-2024"},
 		},
 	}
 
@@ -288,10 +293,12 @@ func main() {
 
 	typeproducts := Typeproducts{
 		Typeproduct: []Typeproduct{
-			Typeproduct{"ของใช้"},
-			Typeproduct{"อาหารหมา"},
-			Typeproduct{"เครื่องครัว"},
-			Typeproduct{"ผักสด"},
+			Typeproduct{"ของใช้ทั่วไป"},
+			Typeproduct{"อาหารสัตว"},
+			Typeproduct{"ของสด"},
+			Typeproduct{"เครื่องใช้ไฟฟ้า"},
+			Typeproduct{"ขนมขบเคี้ยว"},
+
 		},
 	}
 
@@ -308,6 +315,12 @@ func main() {
 			Zoneproduct{"B"},
 			Zoneproduct{"C"},
 			Zoneproduct{"D"},
+			Zoneproduct{"E"},
+			Zoneproduct{"F"},
+			Zoneproduct{"G"},
+			Zoneproduct{"H"},
+			Zoneproduct{"I"},
+			Zoneproduct{"J"},
 		},
 	}
 

@@ -135,7 +135,12 @@ export default function MenuAppBar() {
     setProductid(event.target.value);
   }
   var lenOrderproduct: number
+<<<<<<< HEAD
   const getsorder = async () => {
+=======
+  
+  const getCheckinsorder = async () => {
+>>>>>>> 850fb3e336c84b3bb86276cbfc95b8e8725c2dee
     const res = await api.getOrderproduct({ id: productid })
     setOrderproducts(res)
     lenOrderproduct = res.length
