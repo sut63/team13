@@ -135,6 +135,7 @@ export default function MenuAppBar() {
     setProductid(event.target.value);
   }
   var lenOrderproduct: number
+  
   const getCheckinsorder = async () => {
     const res = await api.getOrderproduct({ id: productid })
     setOrderproducts(res)
@@ -149,7 +150,7 @@ export default function MenuAppBar() {
       //setFail(true)
       Toast.fire({
         icon: 'error',
-        title: 'ค้นหาข้อมูลไม่สำเร็จ',
+        title: 'ค้นหาข้อมูลไม่พบ',
       })
     }
   }
