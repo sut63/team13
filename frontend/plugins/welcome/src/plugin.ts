@@ -21,7 +21,11 @@ import EmployeeWorkingHours from './components/EmployeeWorkingHours'
 import SearchEmployeeWorkingHours from './components/SearchEmployeeWorkingHours'
 import STable from './components/STable'
 import SearchOrderproduct from './components/orderproduct/Searchorderproduct'
+<<<<<<< HEAD
 import Table from './components/Stock/Table'
+=======
+import SearchOrderonline from './components/Orderonline/Searchorderonline'
+>>>>>>> f218fb7a6e56d32c5bca9776d7f061b49b82d166
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -33,6 +37,7 @@ export const plugin = createPlugin({
     router.registerRoute('/Orderonline', Orderonline);
     router.registerRoute('/Orderonlinetable', Orderonlinetable);
     router.registerRoute('/SignInOrderonline', SignInOrderonline);
+    router.registerRoute('/SearchOrderonline', SearchOrderonline);
     router.registerRoute('/Orderproduct', Orderproduct);
     router.registerRoute('/SearchOrderproduct', SearchOrderproduct);
     router.registerRoute('/Stock', Stock);

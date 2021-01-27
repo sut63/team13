@@ -2085,7 +2085,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.Orderonline"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Orderonline"
+                            }
                         }
                     },
                     "400": {
