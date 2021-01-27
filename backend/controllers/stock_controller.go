@@ -41,7 +41,7 @@ type Stock struct {
 // @Accept   json
 // @Produce  json
 // @Param stock body Stock true "Stock entity"
-// @Success 200 {object} ent.Stock
+// @Success 200 {object} Stock
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
 // @Router /stocks [post]
@@ -139,7 +139,7 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 // @ID get-stock
 // @Produce  json
 // @Param id path int true "Stock ID"
-// @Success 200 {object} ent.Stock
+// @Success 200 {array} ent.Stock
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -159,7 +159,7 @@ func (ctl *StockController) GetStock(c *gin.Context) {
 		WithTypeproduct().
 		WithEmployee().
 		Where(stock.HasProductWith(product.IDEQ(int(id)))).
-		Only(context.Background())
+		All(context.Background())
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": err.Error(),
@@ -254,12 +254,12 @@ func (ctl *StockController) DeleteStock(c *gin.Context) {
 // @ID update-stock
 // @Accept   json
 // @Produce  json
-// @Param id path int true "stock ID"
+// @Param id path int true "Stock ID"
 // @Param stock body ent.Stock true "Stock entity"
 // @Success 200 {object} ent.Stock
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /stock/{id} [put]
+// @Router /stocks/{id} [put]
 func (ctl *StockController) UpdateStock(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -300,7 +300,7 @@ func NewStockController(router gin.IRouter, client *ent.Client) *StockController
 	return drc
 }
 
-// InitUserController registers routes to the main engine
+// InitStockController registers routes to the main engine
 func (ctl *StockController) register() {
 	stocks := ctl.router.Group("/stocks")
 

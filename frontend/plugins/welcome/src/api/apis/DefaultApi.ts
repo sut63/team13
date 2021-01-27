@@ -1166,7 +1166,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * Create stock
      * Create stock
      */
-    async createStockRaw(requestParameters: CreateStockRequest): Promise<runtime.ApiResponse<EntStock>> {
+    async createStockRaw(requestParameters: CreateStockRequest): Promise<runtime.ApiResponse<ControllersStock>> {
         if (requestParameters.stock === null || requestParameters.stock === undefined) {
             throw new runtime.RequiredError('stock','Required parameter requestParameters.stock was null or undefined when calling createStock.');
         }
@@ -1185,14 +1185,14 @@ export class DefaultApi extends runtime.BaseAPI {
             body: ControllersStockToJSON(requestParameters.stock),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntStockFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ControllersStockFromJSON(jsonValue));
     }
 
     /**
      * Create stock
      * Create stock
      */
-    async createStock(requestParameters: CreateStockRequest): Promise<EntStock> {
+    async createStock(requestParameters: CreateStockRequest): Promise<ControllersStock> {
         const response = await this.createStockRaw(requestParameters);
         return await response.value();
     }
@@ -2455,7 +2455,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get stock by ID
      * Get a stock entity by ID
      */
-    async getStockRaw(requestParameters: GetStockRequest): Promise<runtime.ApiResponse<EntStock>> {
+    async getStockRaw(requestParameters: GetStockRequest): Promise<runtime.ApiResponse<Array<EntStock>>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getStock.');
         }
@@ -2471,14 +2471,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntStockFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntStockFromJSON));
     }
 
     /**
      * get stock by ID
      * Get a stock entity by ID
      */
-    async getStock(requestParameters: GetStockRequest): Promise<EntStock> {
+    async getStock(requestParameters: GetStockRequest): Promise<Array<EntStock>> {
         const response = await this.getStockRaw(requestParameters);
         return await response.value();
     }
@@ -3830,7 +3830,7 @@ export class DefaultApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/stock/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/stocks/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

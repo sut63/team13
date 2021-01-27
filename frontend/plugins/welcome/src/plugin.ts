@@ -21,6 +21,7 @@ import EmployeeWorkingHours from './components/EmployeeWorkingHours'
 import SearchEmployeeWorkingHours from './components/SearchEmployeeWorkingHours'
 import STable from './components/STable'
 import SearchOrderproduct from './components/orderproduct/Searchorderproduct'
+import Table from './components/Stock/Table'
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -47,6 +48,8 @@ export const plugin = createPlugin({
     router.registerRoute('/EmployeeWorkingHours', EmployeeWorkingHours);
     router.registerRoute('/SearchEmployeeWorkingHours', SearchEmployeeWorkingHours);
     router.registerRoute('/STable', STable);
+    router.registerRoute('/Table', Table);
+
     
   },
 });

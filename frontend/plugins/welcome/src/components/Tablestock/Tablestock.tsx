@@ -11,18 +11,25 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Link as RouterLink } from 'react-router-dom';
 import { DefaultApi } from '../../api/apis';
 import { EntStock } from '../../api/models/EntStock';
-import { AppBar, IconButton, Menu, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, FormControl, Grid, IconButton, InputLabel, Menu, Select, SvgIcon, TextField, Toolbar, Typography } from '@material-ui/core';
 import {
   MenuItem, 
   Button, 
 } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import { Alert } from '@material-ui/lab';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Swal from 'sweetalert2';
 import { Cookies } from '../Stock/LoginEmployee/Cookie';
 import { EntProduct } from '../../api';
+import { Content, ContentHeader, Header, Page, pageTheme } from '@backstage/core';
+
 
 const useStyles = makeStyles((theme: Theme) =>
 createStyles({
+  table: {
+    minWidth :650,
+  },
   root: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -39,6 +46,9 @@ createStyles({
   },
 }),
 );
+
+
+
 /*const useStyles = makeStyles({
  table: {
    minWidth: 650,
@@ -67,6 +77,8 @@ export default function ComponentsTable() {
  const [products, setProducts] = useState<EntProduct[]>([]);
  const [loading, setLoading] = useState(true);
  const [productid, setProductid] = useState(Number);
+ const [alert, setAlert] = useState(true);
+ const profile = { givenName: '' };
 
  const [stocks, setStocks] = useState<EntStock[]>();
  
@@ -75,50 +87,251 @@ export default function ComponentsTable() {
  console.log(employeeID)
  
  useEffect(() => {
-   const getStocks = async () => {
-     const res = await api.listStock({ limit: 10, offset: 0 });
+   const getProducts = async () => {
+     const pr = await api.listProduct({ limit: 10, offset: 0 });
      setLoading(false);
-     setStocks(res);
+     setProducts(pr);
    };
-   getStocks();
+   getProducts();
  }, [loading]);
  
  const deleteStocks = async (id: number) => {
    const res = await api.deleteStock({ id: id });
    setLoading(true);
  };
- const orderproduct = {
-  managerID,
+
+ const stock = {
+  employeeID,
   productID,
 }
-console.log(orderproduct)
+console.log(stock)
 
 const Product_id_handleChange = (event: any) => {
   setProductid(event.target.value);
 }
 var lenstock: number
 
-const getCheckinsorder = async () => {
+const getCheckstock = async () => {
   const res = await api.getStock({ id: productid })
-  setProducts(res)
+  setStocks(res)
   lenstock = res.length
   if (lenstock > 0) {
     //setOpen(true)
     Toast.fire({
       icon: 'success',
-      title: 'ค้นหาข้อมูลสำเร็จ',
+      title: 'มีสินค้าใน Stock ค้นหาสำเร็จ',
     })
   } else {
     //setFail(true)
     Toast.fire({
       icon: 'error',
-      title: 'ค้นหาข้อมูลไม่สำเร็จ',
+      title: 'ไม่มีสินค้าใน Stock ค้นหาไม่สำเร็จ',
     })
   }
 }
+
+const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  function HomeIcon(props) {
+    return (
+      <SvgIcon {...props}>
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </SvgIcon>
+    );
+  }
  
  return (
  
+<Page theme={pageTheme.home}>
+      <Header
+        title={`ระบบค้นหา  ${profile.givenName || 'Stock สินค้าหน้าร้าน'}`}
+        //subtitle="ทำการค้นหา Stock โดยใส่ชื่อสินค้าลงไป"
+
+        
+      >
+        <div style={{ marginLeft: 300 }}><h3>{cookieName}</h3></div>
+   <IconButton
+                aria-label="account of current patientofphysician"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+              >
+                <AccountCircle />
+              </IconButton>
+              
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <Button className={classes.button} variant="outlined" color="inherit"
+                  size="small" component={RouterLink}
+                  to="/LoginEmployee">
+                  logout
+              </Button>
+              </Menu>
+              <Button
+           
+           variant="outlined"
+           color="inherit"
+           size="small"
+           className={classes.button}
+           startIcon={<HomeIcon  />}
+           component={RouterLink}
+             to="/Stock"
+         >
+           AddStock
+         </Button>
+
+
+      </Header>
+      <Content>
+
+        
+
+        <div className={classes.root}>
+          <form noValidate autoComplete="off"></form>
+
+
+
+
+
+
+
+          <Grid container alignItems="center" spacing={4}>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid>
+
+
+
+
+            <Grid item xs={4}>   <center>
+              <h3 align='right'>ชื่อพนักงาน</h3></center>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+              ><InputLabel></InputLabel>
+
+                {/*} <Select
+                labelId="employee_id-label"
+                label="employee"
+                id="eployee_id"
+                value={employeeid}
+                onChange={employee_id_handleChange}
+                style={{ marginRight : 300 ,width: 300 }}
+              >
+                {employees.map((item: EntEmployee) =>
+                  <MenuItem value={item.id}>{item.name}</MenuItem>)}
+                </Select>*/}
+                <div style={{ marginRight: 300 }}><h4>{cookieName}</h4></div>
+
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+            </Grid>
+
+
+
+
+
+            
+            <Grid item xs={4}><center>
+              <h3 align='right'>สินค้า</h3></center>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl
+                fullWidth
+                className={classes.margin}
+                variant="outlined"
+              ><InputLabel>Product</InputLabel>
+                <Select
+                  labelId="product_id-label"
+                  label="product"
+                  id="product_id"
+                  value={productid}
+                  onChange={Product_id_handleChange}
+                  style={{ marginRight: 300, width: 300 }}
+                >
+                  {products.map((item: EntProduct) =>
+                    <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+            </Grid>
+
+
+
+            
+
+
+
+
+            <Grid item xs={4}>
+
+
+
+
+            </Grid>
+            <Grid item xs={4}>
+
+              
+
+             <Button
+              onClick={() => {
+                getCheckstock();
+              }}
+        variant="outlined"
+        color="inherit"
+        size="large"
+        className={classes.button}
+        startIcon={<SearchIcon />}
+      >
+        Search
+      </Button>
+              
+             
+             
+
+
+            </Grid>
+
+            <Grid item xs={4}></Grid>
+
+
+           
+
+
+
+
+
+
+
+
+
    
   
    <TableContainer component={Paper}>
@@ -134,14 +347,7 @@ const getCheckinsorder = async () => {
            <TableCell align="center">Priceproduct</TableCell>
            <TableCell align="center">Amount</TableCell>
            <TableCell align="center">Time</TableCell>
-           <Button
-              style={{ marginLeft: 20 ,width : 100 }}
-              component={RouterLink}
-              to="/Stock"
-              variant="contained"
-            >
-              Back
-             </Button>
+           
          </TableRow>
        </TableHead>
        <TableBody>
@@ -164,17 +370,6 @@ const getCheckinsorder = async () => {
 
              <TableCell align="center">
 
-             <Button
-              onClick={() => {
-                deleteStocks(item.id);
-              }}
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        startIcon={<DeleteIcon />}
-      >
-        Delete
-      </Button>
 
 
 
@@ -187,5 +382,16 @@ const getCheckinsorder = async () => {
        </TableBody>
      </Table>
    </TableContainer>
+
+   <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid>
+          </Grid>
+
+        </div>
+
+
+      </Content>
+    </Page>
+
  );
 }
