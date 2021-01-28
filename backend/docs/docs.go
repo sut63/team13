@@ -3486,7 +3486,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.Salary"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Salary"
+                            }
                         }
                     },
                     "400": {
@@ -4572,6 +4575,9 @@ var doc = `{
         "controllers.Salary": {
             "type": "object",
             "properties": {
+                "accountNumber": {
+                    "type": "string"
+                },
                 "assessmentID": {
                     "type": "integer"
                 },
@@ -4580,6 +4586,9 @@ var doc = `{
                 },
                 "employeeID": {
                     "type": "integer"
+                },
+                "idemployee": {
+                    "type": "string"
                 },
                 "positionID": {
                     "type": "integer"
@@ -4825,8 +4834,10 @@ var doc = `{
                 },
                 "formemployee": {
                     "description": "Formemployee holds the value of the formemployee edge.",
-                    "type": "object",
-                    "$ref": "#/definitions/ent.Salary"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.Salary"
+                    }
                 },
                 "whose": {
                     "description": "Whose holds the value of the whose edge.",
@@ -5268,9 +5279,17 @@ var doc = `{
         "ent.Salary": {
             "type": "object",
             "properties": {
+                "AccountNumber": {
+                    "description": "AccountNumber holds the value of the \"AccountNumber\" field.",
+                    "type": "string"
+                },
                 "Bonus": {
                     "description": "Bonus holds the value of the \"Bonus\" field.",
                     "type": "number"
+                },
+                "IDEmployee": {
+                    "description": "IDEmployee holds the value of the \"IDEmployee\" field.",
+                    "type": "string"
                 },
                 "Salary": {
                     "description": "Salary holds the value of the \"Salary\" field.",

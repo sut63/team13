@@ -106,7 +106,7 @@ func (eq *EmployeeQuery) QueryFormemployee() *SalaryQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(employee.Table, employee.FieldID, eq.sqlQuery()),
 			sqlgraph.To(salary.Table, salary.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, employee.FormemployeeTable, employee.FormemployeeColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, employee.FormemployeeTable, employee.FormemployeeColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(eq.driver.Dialect(), step)
 		return fromU, nil
@@ -499,7 +499,7 @@ func (eq *EmployeeQuery) sqlAll(ctx context.Context) ([]*Employee, error) {
 			if !ok {
 				return nil, fmt.Errorf(`unexpected foreign-key "employee_formemployee" returned %v for node %v`, *fk, n.ID)
 			}
-			node.Edges.Formemployee = n
+			node.Edges.Formemployee = append(node.Edges.Formemployee, n)
 		}
 	}
 

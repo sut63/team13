@@ -258,11 +258,61 @@ func init() {
 	// salaryDescSalary is the schema descriptor for Salary field.
 	salaryDescSalary := salaryFields[0].Descriptor()
 	// salary.SalaryValidator is a validator for the "Salary" field. It is called by the builders before save.
-	salary.SalaryValidator = salaryDescSalary.Validators[0].(func(float64) error)
+	salary.SalaryValidator = func() func(float64) error {
+		validators := salaryDescSalary.Validators
+		fns := [...]func(float64) error{
+			validators[0].(func(float64) error),
+			validators[1].(func(float64) error),
+		}
+		return func(_Salary float64) error {
+			for _, fn := range fns {
+				if err := fn(_Salary); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	// salaryDescBonus is the schema descriptor for Bonus field.
 	salaryDescBonus := salaryFields[1].Descriptor()
 	// salary.BonusValidator is a validator for the "Bonus" field. It is called by the builders before save.
-	salary.BonusValidator = salaryDescBonus.Validators[0].(func(float64) error)
+	salary.BonusValidator = func() func(float64) error {
+		validators := salaryDescBonus.Validators
+		fns := [...]func(float64) error{
+			validators[0].(func(float64) error),
+			validators[1].(func(float64) error),
+		}
+		return func(_Bonus float64) error {
+			for _, fn := range fns {
+				if err := fn(_Bonus); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// salaryDescIDEmployee is the schema descriptor for IDEmployee field.
+	salaryDescIDEmployee := salaryFields[3].Descriptor()
+	// salary.IDEmployeeValidator is a validator for the "IDEmployee" field. It is called by the builders before save.
+	salary.IDEmployeeValidator = salaryDescIDEmployee.Validators[0].(func(string) error)
+	// salaryDescAccountNumber is the schema descriptor for AccountNumber field.
+	salaryDescAccountNumber := salaryFields[4].Descriptor()
+	// salary.AccountNumberValidator is a validator for the "AccountNumber" field. It is called by the builders before save.
+	salary.AccountNumberValidator = func() func(string) error {
+		validators := salaryDescAccountNumber.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(_AccountNumber string) error {
+			for _, fn := range fns {
+				if err := fn(_AccountNumber); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	stockFields := schema.Stock{}.Fields()
 	_ = stockFields
 	// stockDescIDcardemployee is the schema descriptor for IDcardemployee field.

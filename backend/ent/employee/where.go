@@ -590,7 +590,7 @@ func HasFormemployee() predicate.Employee {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.To(FormemployeeTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, FormemployeeTable, FormemployeeColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, FormemployeeTable, FormemployeeColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
@@ -602,7 +602,7 @@ func HasFormemployeeWith(preds ...predicate.Salary) predicate.Employee {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.To(FormemployeeInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, FormemployeeTable, FormemployeeColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, FormemployeeTable, FormemployeeColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
