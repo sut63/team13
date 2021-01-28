@@ -2846,7 +2846,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.Promotion'
+            items:
+              $ref: '#/definitions/ent.Promotion'
+            type: array
         "400":
           description: Bad Request
           schema:

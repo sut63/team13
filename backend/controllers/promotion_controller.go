@@ -117,7 +117,7 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 // @ID get-promotion
 // @Produce  json
 // @Param id path int true "Promotion ID"
-// @Success 200 {object} ent.Promotion
+// @Success 200 {array} ent.Promotion
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -132,8 +132,12 @@ func (ctl *PromotionController) GetPromotion(c *gin.Context) {
 	}
 	pa, err := ctl.client.Promotion.
 		Query().
-		Where(promotion.IDEQ(int(id))).
-		Only(context.Background())
+		WithGive().
+		WithProduct().
+		WithSale().
+		Where(promotion.HasProductWith(product.IDEQ(int(id)))).
+		All(context.Background())
+
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": err.Error(),
