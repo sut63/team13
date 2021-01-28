@@ -26,6 +26,7 @@ import { EntZoneproduct } from '../../api/models/EntZoneproduct';
 import { Content, ContentHeader, Header, Page, pageTheme } from '@backstage/core';
 import Swal from 'sweetalert2';
 import { Cookies } from '../Stock/LoginEmployee/Cookie';
+import SearchIcon from '@material-ui/icons/Search';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,6 +34,15 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: 'flex',
       flexWrap: 'wrap',
+      justifyContent: 'center',
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
       justifyContent: 'center',
     },
     margin: {
@@ -79,7 +89,7 @@ interface order {
 
 export default function Stock() {
   const classes = useStyles();
-  const profile = { givenName: 'Your Stock' };
+  const profile = { givenName: '' };
 
   const api = new DefaultApi();
   const [products, setProducts] = useState<EntProduct[]>([]);
@@ -109,6 +119,7 @@ export default function Stock() {
   let priceproduct = Number(priceproducts)
   let iDcardemployee = String(idcardemployee)
 
+  
 
 
 
@@ -308,20 +319,27 @@ export default function Stock() {
   return (
     <Page theme={pageTheme.home}>
       <Header
-        title={`Welcome ${profile.givenName || 'to Stock Product'}`}
-        subtitle="Add Product in your stock."
-
-        
+        title={`ระบบ Stock สินค้าหน้าร้าน ${profile.givenName || ''}`}
+        //subtitle="เพิ่มสินค้าเข้าไปใน Stock"
       >
-        <div style={{ marginLeft: 300 }}>{cookieName}</div>
-   <IconButton
+         
+        
+     
+     
+    
+              <div style={{ marginLeft: 300 }} ><h3>{cookieName}</h3></div>
+              
+              <div/>
+              <IconButton
                 aria-label="account of current patientofphysician"
                 aria-controls="menu-appbar"
+                
                 aria-haspopup="true"
                 onClick={handleMenu}
               >
                 <AccountCircle />
               </IconButton>
+
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -343,26 +361,23 @@ export default function Stock() {
                   logout
               </Button>
               </Menu>
-
+              <Button
+           
+           variant="outlined"
+           color="inherit"
+           size="small"
+           className={classes.button}
+           startIcon={<SearchIcon  />}
+           component={RouterLink}
+             to="/Tablestock"
+         >
+           Search
+         </Button>
 
       </Header>
       <Content>
 
-        <ContentHeader title="Add Your Product here">
-          {status ? (
-            <div>
-              {alert ? (
-                <Alert severity="success">
-                  This is a success alert — check it out!
-                </Alert>
-              ) : (
-                  <Alert severity="warning" style={{ marginTop: 20 }}>
-                    This is a warning alert — check it out!
-                  </Alert>
-                )}
-            </div>
-          ) : null}
-        </ContentHeader>
+        
 
         <div className={classes.root}>
           <form noValidate autoComplete="off"></form>
@@ -401,7 +416,7 @@ export default function Stock() {
                 {employees.map((item: EntEmployee) =>
                   <MenuItem value={item.id}>{item.name}</MenuItem>)}
                 </Select>*/}
-                <div style={{ marginRight: 300 }}>{cookieName}</div>
+                <div style={{ marginRight: 300 }}><h4>{cookieName}</h4></div>
 
               </FormControl>
             </Grid>
@@ -422,7 +437,7 @@ export default function Stock() {
 
               ><TextField
                   id="Idcardemployee"
-                  label="Idcardemployee"
+                  label="Id-employee"
                   variant="outlined"
                   type="string"
                   size="medium"
@@ -627,8 +642,8 @@ export default function Stock() {
               onClick={() => {
                 CreateStock();
               }}
-        variant="contained"
-        color="primary"
+        variant="outlined"
+        color="inherit"
         size="large"
         className={classes.button}
         startIcon={<SaveIcon />}
@@ -636,9 +651,9 @@ export default function Stock() {
         Save
       </Button>
               
-             <Button variant="contained" size="large" color="primary" className={classes.margin}
+             <Button variant="outlined" size="large" color="inherit" className={classes.margin}
              component={RouterLink}
-             to="/Tablestock">
+             to="/Table">
           Showstock
         </Button>
              

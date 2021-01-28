@@ -17,8 +17,10 @@ import {
 import { DefaultApi } from '../../../api/apis';
 import { EntOrderonline } from '../../../api/models/EntOrderonline';
 import {
-  Button,
+  Avatar,
+  Button, IconButton,
 } from '@material-ui/core';
+import { Cookiesonline } from '../SignInOrderonline/Cookie'
 
 
 
@@ -26,9 +28,16 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  iconButtonAvatar: {
+    padding: 4,
+  },
 });
 
 export default function Orderonlinetable() {
+  var ck = new Cookiesonline()
+  var cookieEmail = ck.GetCookie()
+  var cookieID = ck.GetID()
+  var cookieName = ck.GetName()
   const classes = useStyles();
   const api = new DefaultApi();
 
@@ -67,6 +76,10 @@ export default function Orderonlinetable() {
             Back
              </Button>
         </TableCell>
+
+        <IconButton color="inherit" className={classes.iconButtonAvatar}>
+                <Avatar src='o' alt={cookieEmail} />
+        </IconButton>
 
       </Header>
 
