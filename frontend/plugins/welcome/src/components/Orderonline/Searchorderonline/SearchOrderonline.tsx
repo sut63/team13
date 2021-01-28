@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import { DefaultApi } from '../../../api/apis';
-import Select from '@material-ui/core/Select';
-import { EntProduct } from '../../../api/models/EntProduct';
 import Swal from 'sweetalert2';
 import { Cookiesonline } from '../SignInOrderonline/Cookie'
 import SearchIcon from '@material-ui/icons/Search';
@@ -207,7 +204,6 @@ export default function MenuAppBar() {
                     <TableCell align="center">Accountnumber</TableCell>
                     <TableCell align="center">CVV</TableCell>
                     <TableCell align="center">Time</TableCell>
-
                   </TableRow>
                 </TableHead>
                 <TableBody>

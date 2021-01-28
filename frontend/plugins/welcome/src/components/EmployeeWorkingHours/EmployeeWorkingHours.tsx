@@ -32,6 +32,18 @@ import { EntShift } from '../../api/models/EntShift'; // import interface Shift
 //import { Cookies } from './orderproduct/SignInOrderproduct/Cookie';
 import SearchIcon from '@material-ui/icons/Search';
 
+  // alert setting
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: toast => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 // header css
@@ -115,19 +127,6 @@ const EmployeeWorkingHours: FC<{}> = () => {
   //const [Role, SetRolesid] = useState(Number);
   //const [Employee, SetEmployeeid] = useState(Number);
   //const [Shift, SetShiftid] = useState(Number);
-
-  // alert setting
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: toast => {
-      toast.addEventListener('mouseenter', Swal.stopTimer);
-      toast.addEventListener('mouseleave', Swal.resumeTimer);
-    },
-  });
 
   function Copyright() {
     return (
@@ -218,13 +217,13 @@ const EmployeeWorkingHours: FC<{}> = () => {
   const checkCaseSaveError = (field: string) => {
     switch(field) {
       case 'IDEmployee':
-        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 7 หลัก");
+        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 5 หลัก");
         return;
       case 'IDNumber':
         alertMessage("error","กรุณากรอกเลขบัตรประชาชน 13 หลักให้ถูกต้อง");
         return;
       case 'Wages':
-        alertMessage("error","กรุณาระบุระยะเวลาโปรโมชั่นให้ถูกต้อง");
+        alertMessage("error","กรุณาระบุค่าจ้างให้เป็นตัวเลขและไม่ติดลบ");
         return;
       default:
         alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
@@ -280,20 +279,21 @@ const EmployeeWorkingHours: FC<{}> = () => {
     
   return (
     <div className={classes.root}>
-      <AppBar color="primary" position="sticky" elevation={0}>
+      <AppBar component="div" color="primary" position="sticky" elevation={0}>
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
+            <Grid item>
+                <Typography color="inherit" variant="h3" component="h3">
+                  ระบบตารางเวลาทำงานของพนักงาน
+                </Typography>
+            </Grid>
             <Hidden smUp>
               <Grid item>
 
               </Grid>
             </Hidden>
             <Grid item xs />
-              <Grid item>
-                <Typography color="inherit" variant="h3" component="h3">
-                  ระบบตารางเวลาทำงานของพนักงาน
-                </Typography>
-              </Grid>
+              
 
               <Grid item>
                 <IconButton
@@ -512,7 +512,7 @@ const EmployeeWorkingHours: FC<{}> = () => {
             <Grid item xs={2}>
               <Button
                 component={RouterLink}
-                to="/SearchEmployeeWorkingHours"
+                to="/TableEmployeeWorkingHours"
                 variant="contained"
                 color="secondary"
                 size="large"
