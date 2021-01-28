@@ -91,23 +91,19 @@ func (eu *EmployeeUpdate) AddEmployeestock(s ...*Stock) *EmployeeUpdate {
 	return eu.AddEmployeestockIDs(ids...)
 }
 
-// SetFormemployeeID sets the formemployee edge to Salary by id.
-func (eu *EmployeeUpdate) SetFormemployeeID(id int) *EmployeeUpdate {
-	eu.mutation.SetFormemployeeID(id)
+// AddFormemployeeIDs adds the formemployee edge to Salary by ids.
+func (eu *EmployeeUpdate) AddFormemployeeIDs(ids ...int) *EmployeeUpdate {
+	eu.mutation.AddFormemployeeIDs(ids...)
 	return eu
 }
 
-// SetNillableFormemployeeID sets the formemployee edge to Salary by id if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableFormemployeeID(id *int) *EmployeeUpdate {
-	if id != nil {
-		eu = eu.SetFormemployeeID(*id)
+// AddFormemployee adds the formemployee edges to Salary.
+func (eu *EmployeeUpdate) AddFormemployee(s ...*Salary) *EmployeeUpdate {
+	ids := make([]int, len(s))
+	for i := range s {
+		ids[i] = s[i].ID
 	}
-	return eu
-}
-
-// SetFormemployee sets the formemployee edge to Salary.
-func (eu *EmployeeUpdate) SetFormemployee(s *Salary) *EmployeeUpdate {
-	return eu.SetFormemployeeID(s.ID)
+	return eu.AddFormemployeeIDs(ids...)
 }
 
 // Mutation returns the EmployeeMutation object of the builder.
@@ -145,10 +141,19 @@ func (eu *EmployeeUpdate) RemoveEmployeestock(s ...*Stock) *EmployeeUpdate {
 	return eu.RemoveEmployeestockIDs(ids...)
 }
 
-// ClearFormemployee clears the formemployee edge to Salary.
-func (eu *EmployeeUpdate) ClearFormemployee() *EmployeeUpdate {
-	eu.mutation.ClearFormemployee()
+// RemoveFormemployeeIDs removes the formemployee edge to Salary by ids.
+func (eu *EmployeeUpdate) RemoveFormemployeeIDs(ids ...int) *EmployeeUpdate {
+	eu.mutation.RemoveFormemployeeIDs(ids...)
 	return eu
+}
+
+// RemoveFormemployee removes formemployee edges to Salary.
+func (eu *EmployeeUpdate) RemoveFormemployee(s ...*Salary) *EmployeeUpdate {
+	ids := make([]int, len(s))
+	for i := range s {
+		ids[i] = s[i].ID
+	}
+	return eu.RemoveFormemployeeIDs(ids...)
 }
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
@@ -352,9 +357,9 @@ func (eu *EmployeeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if eu.mutation.FormemployeeCleared() {
+	if nodes := eu.mutation.RemovedFormemployeeIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   employee.FormemployeeTable,
 			Columns: []string{employee.FormemployeeColumn},
@@ -366,11 +371,14 @@ func (eu *EmployeeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				},
 			},
 		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := eu.mutation.FormemployeeIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   employee.FormemployeeTable,
 			Columns: []string{employee.FormemployeeColumn},
@@ -466,23 +474,19 @@ func (euo *EmployeeUpdateOne) AddEmployeestock(s ...*Stock) *EmployeeUpdateOne {
 	return euo.AddEmployeestockIDs(ids...)
 }
 
-// SetFormemployeeID sets the formemployee edge to Salary by id.
-func (euo *EmployeeUpdateOne) SetFormemployeeID(id int) *EmployeeUpdateOne {
-	euo.mutation.SetFormemployeeID(id)
+// AddFormemployeeIDs adds the formemployee edge to Salary by ids.
+func (euo *EmployeeUpdateOne) AddFormemployeeIDs(ids ...int) *EmployeeUpdateOne {
+	euo.mutation.AddFormemployeeIDs(ids...)
 	return euo
 }
 
-// SetNillableFormemployeeID sets the formemployee edge to Salary by id if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableFormemployeeID(id *int) *EmployeeUpdateOne {
-	if id != nil {
-		euo = euo.SetFormemployeeID(*id)
+// AddFormemployee adds the formemployee edges to Salary.
+func (euo *EmployeeUpdateOne) AddFormemployee(s ...*Salary) *EmployeeUpdateOne {
+	ids := make([]int, len(s))
+	for i := range s {
+		ids[i] = s[i].ID
 	}
-	return euo
-}
-
-// SetFormemployee sets the formemployee edge to Salary.
-func (euo *EmployeeUpdateOne) SetFormemployee(s *Salary) *EmployeeUpdateOne {
-	return euo.SetFormemployeeID(s.ID)
+	return euo.AddFormemployeeIDs(ids...)
 }
 
 // Mutation returns the EmployeeMutation object of the builder.
@@ -520,10 +524,19 @@ func (euo *EmployeeUpdateOne) RemoveEmployeestock(s ...*Stock) *EmployeeUpdateOn
 	return euo.RemoveEmployeestockIDs(ids...)
 }
 
-// ClearFormemployee clears the formemployee edge to Salary.
-func (euo *EmployeeUpdateOne) ClearFormemployee() *EmployeeUpdateOne {
-	euo.mutation.ClearFormemployee()
+// RemoveFormemployeeIDs removes the formemployee edge to Salary by ids.
+func (euo *EmployeeUpdateOne) RemoveFormemployeeIDs(ids ...int) *EmployeeUpdateOne {
+	euo.mutation.RemoveFormemployeeIDs(ids...)
 	return euo
+}
+
+// RemoveFormemployee removes formemployee edges to Salary.
+func (euo *EmployeeUpdateOne) RemoveFormemployee(s ...*Salary) *EmployeeUpdateOne {
+	ids := make([]int, len(s))
+	for i := range s {
+		ids[i] = s[i].ID
+	}
+	return euo.RemoveFormemployeeIDs(ids...)
 }
 
 // Save executes the query and returns the updated entity.
@@ -725,9 +738,9 @@ func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (e *Employee, err err
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if euo.mutation.FormemployeeCleared() {
+	if nodes := euo.mutation.RemovedFormemployeeIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   employee.FormemployeeTable,
 			Columns: []string{employee.FormemployeeColumn},
@@ -739,11 +752,14 @@ func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (e *Employee, err err
 				},
 			},
 		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
 	if nodes := euo.mutation.FormemployeeIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   employee.FormemployeeTable,
 			Columns: []string{employee.FormemployeeColumn},

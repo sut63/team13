@@ -26,6 +26,6 @@ func (Employee) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("whose", EmployeeWorkingHours.Type),
 		edge.To("employeestock", Stock.Type),
-		edge.To("formemployee", Salary.Type).Unique(),
+		edge.To("formemployee", Salary.Type),
 	}
 }

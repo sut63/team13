@@ -72,12 +72,16 @@ definitions:
     type: object
   controllers.Salary:
     properties:
+      accountNumber:
+        type: string
       assessmentID:
         type: integer
       bonus:
         type: number
       employeeID:
         type: integer
+      idemployee:
+        type: string
       positionID:
         type: integer
       salaryDate:
@@ -260,9 +264,10 @@ definitions:
           $ref: '#/definitions/ent.Stock'
         type: array
       formemployee:
-        $ref: '#/definitions/ent.Salary'
         description: Formemployee holds the value of the formemployee edge.
-        type: object
+        items:
+          $ref: '#/definitions/ent.Salary'
+        type: array
       whose:
         description: Whose holds the value of the whose edge.
         items:
@@ -603,9 +608,15 @@ definitions:
     type: object
   ent.Salary:
     properties:
+      AccountNumber:
+        description: AccountNumber holds the value of the "AccountNumber" field.
+        type: string
       Bonus:
         description: Bonus holds the value of the "Bonus" field.
         type: number
+      IDEmployee:
+        description: IDEmployee holds the value of the "IDEmployee" field.
+        type: string
       Salary:
         description: Salary holds the value of the "Salary" field.
         type: number
@@ -2850,7 +2861,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.Promotion'
+            items:
+              $ref: '#/definitions/ent.Promotion'
+            type: array
         "400":
           description: Bad Request
           schema:
@@ -3119,7 +3132,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.Salary'
+            items:
+              $ref: '#/definitions/ent.Salary'
+            type: array
         "400":
           description: Bad Request
           schema:

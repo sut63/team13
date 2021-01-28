@@ -2327,7 +2327,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get promotion by ID
      * Get a promotion entity by ID
      */
-    async getPromotionRaw(requestParameters: GetPromotionRequest): Promise<runtime.ApiResponse<EntPromotion>> {
+    async getPromotionRaw(requestParameters: GetPromotionRequest): Promise<runtime.ApiResponse<Array<EntPromotion>>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getPromotion.');
         }
@@ -2343,14 +2343,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntPromotionFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntPromotionFromJSON));
     }
 
     /**
      * get promotion by ID
      * Get a promotion entity by ID
      */
-    async getPromotion(requestParameters: GetPromotionRequest): Promise<EntPromotion> {
+    async getPromotion(requestParameters: GetPromotionRequest): Promise<Array<EntPromotion>> {
         const response = await this.getPromotionRaw(requestParameters);
         return await response.value();
     }
@@ -2391,7 +2391,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get salary by ID
      * Get a salary entity by ID
      */
-    async getSalaryRaw(requestParameters: GetSalaryRequest): Promise<runtime.ApiResponse<EntSalary>> {
+    async getSalaryRaw(requestParameters: GetSalaryRequest): Promise<runtime.ApiResponse<Array<EntSalary>>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getSalary.');
         }
@@ -2407,14 +2407,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntSalaryFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntSalaryFromJSON));
     }
 
     /**
      * get salary by ID
      * Get a salary entity by ID
      */
-    async getSalary(requestParameters: GetSalaryRequest): Promise<EntSalary> {
+    async getSalary(requestParameters: GetSalaryRequest): Promise<Array<EntSalary>> {
         const response = await this.getSalaryRaw(requestParameters);
         return await response.value();
     }

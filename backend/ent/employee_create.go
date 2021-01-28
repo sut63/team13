@@ -76,23 +76,19 @@ func (ec *EmployeeCreate) AddEmployeestock(s ...*Stock) *EmployeeCreate {
 	return ec.AddEmployeestockIDs(ids...)
 }
 
-// SetFormemployeeID sets the formemployee edge to Salary by id.
-func (ec *EmployeeCreate) SetFormemployeeID(id int) *EmployeeCreate {
-	ec.mutation.SetFormemployeeID(id)
+// AddFormemployeeIDs adds the formemployee edge to Salary by ids.
+func (ec *EmployeeCreate) AddFormemployeeIDs(ids ...int) *EmployeeCreate {
+	ec.mutation.AddFormemployeeIDs(ids...)
 	return ec
 }
 
-// SetNillableFormemployeeID sets the formemployee edge to Salary by id if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableFormemployeeID(id *int) *EmployeeCreate {
-	if id != nil {
-		ec = ec.SetFormemployeeID(*id)
+// AddFormemployee adds the formemployee edges to Salary.
+func (ec *EmployeeCreate) AddFormemployee(s ...*Salary) *EmployeeCreate {
+	ids := make([]int, len(s))
+	for i := range s {
+		ids[i] = s[i].ID
 	}
-	return ec
-}
-
-// SetFormemployee sets the formemployee edge to Salary.
-func (ec *EmployeeCreate) SetFormemployee(s *Salary) *EmployeeCreate {
-	return ec.SetFormemployeeID(s.ID)
+	return ec.AddFormemployeeIDs(ids...)
 }
 
 // Mutation returns the EmployeeMutation object of the builder.
@@ -266,7 +262,7 @@ func (ec *EmployeeCreate) createSpec() (*Employee, *sqlgraph.CreateSpec) {
 	}
 	if nodes := ec.mutation.FormemployeeIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.O2M,
 			Inverse: false,
 			Table:   employee.FormemployeeTable,
 			Columns: []string{employee.FormemployeeColumn},

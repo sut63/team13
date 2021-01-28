@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Link as RouterLink } from 'react-router-dom';
+import SearchIcon from '@material-ui/icons/Search';
 import {
   Header,
   Page,
@@ -17,14 +18,14 @@ import {
 import { DefaultApi } from '../../../api/apis';
 import { EntPromotion } from '../../../api/models/EntPromotion';
 import {
-  Button,
+  Button, IconButton,
 } from '@material-ui/core';
 
 
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    minWidth: 1400,
   },
 });
 
@@ -68,6 +69,12 @@ export default function Promotiontable() {
             Back
              </Button>
         </TableCell>
+        <IconButton
+              style={{ marginLeft: 20 }}
+              component={RouterLink}
+              to="/SearchPromotion">
+            <SearchIcon color="inherit" />
+        </IconButton>
 
       </Header>
 
