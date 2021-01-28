@@ -57,5 +57,10 @@ export const plugin = createPlugin({
     router.registerRoute('/STable', STable);
     router.registerRoute('/Table', Table);
     router.registerRoute('/Salary/Search', SearchSalary);
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 61574a4ac14f55959ad5190d04b4822355868d5a
   },
 });
