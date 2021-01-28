@@ -1742,7 +1742,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.EmployeeWorkingHours'
+            items:
+              $ref: '#/definitions/ent.EmployeeWorkingHours'
+            type: array
         "400":
           description: Bad Request
           schema:

@@ -2071,7 +2071,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get employeeworkinghours by ID
      * Get a employeeworkinghours entity by ID
      */
-    async getEmployeeworkinghoursRaw(requestParameters: GetEmployeeworkinghoursRequest): Promise<runtime.ApiResponse<EntEmployeeWorkingHours>> {
+    async getEmployeeworkinghoursRaw(requestParameters: GetEmployeeworkinghoursRequest): Promise<runtime.ApiResponse<Array<EntEmployeeWorkingHours>>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getEmployeeworkinghours.');
         }
@@ -2087,14 +2087,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntEmployeeWorkingHoursFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntEmployeeWorkingHoursFromJSON));
     }
 
     /**
      * get employeeworkinghours by ID
      * Get a employeeworkinghours entity by ID
      */
-    async getEmployeeworkinghours(requestParameters: GetEmployeeworkinghoursRequest): Promise<EntEmployeeWorkingHours> {
+    async getEmployeeworkinghours(requestParameters: GetEmployeeworkinghoursRequest): Promise<Array<EntEmployeeWorkingHours>> {
         const response = await this.getEmployeeworkinghoursRaw(requestParameters);
         return await response.value();
     }
