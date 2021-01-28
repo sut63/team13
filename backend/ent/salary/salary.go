@@ -13,6 +13,10 @@ const (
 	FieldBonus = "bonus"
 	// FieldSalaryDatetime holds the string denoting the salarydatetime field in the database.
 	FieldSalaryDatetime = "salary_datetime"
+	// FieldIDEmployee holds the string denoting the idemployee field in the database.
+	FieldIDEmployee = "id_employee"
+	// FieldAccountNumber holds the string denoting the accountnumber field in the database.
+	FieldAccountNumber = "account_number"
 
 	// EdgeAssessment holds the string denoting the assessment edge name in mutations.
 	EdgeAssessment = "assessment"
@@ -52,6 +56,8 @@ var Columns = []string{
 	FieldSalary,
 	FieldBonus,
 	FieldSalaryDatetime,
+	FieldIDEmployee,
+	FieldAccountNumber,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the Salary type.
@@ -66,4 +72,8 @@ var (
 	SalaryValidator func(float64) error
 	// BonusValidator is a validator for the "Bonus" field. It is called by the builders before save.
 	BonusValidator func(float64) error
+	// IDEmployeeValidator is a validator for the "IDEmployee" field. It is called by the builders before save.
+	IDEmployeeValidator func(string) error
+	// AccountNumberValidator is a validator for the "AccountNumber" field. It is called by the builders before save.
+	AccountNumberValidator func(string) error
 )

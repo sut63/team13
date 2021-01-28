@@ -2159,8 +2159,8 @@ type EmployeeMutation struct {
 	removedwhose         map[int]struct{}
 	employeestock        map[int]struct{}
 	removedemployeestock map[int]struct{}
-	formemployee         *int
-	clearedformemployee  bool
+	formemployee         map[int]struct{}
+	removedformemployee  map[int]struct{}
 	done                 bool
 	oldValue             func(context.Context) (*Employee, error)
 }
@@ -2496,35 +2496,38 @@ func (m *EmployeeMutation) ResetEmployeestock() {
 	m.removedemployeestock = nil
 }
 
-// SetFormemployeeID sets the formemployee edge to Salary by id.
-func (m *EmployeeMutation) SetFormemployeeID(id int) {
-	m.formemployee = &id
+// AddFormemployeeIDs adds the formemployee edge to Salary by ids.
+func (m *EmployeeMutation) AddFormemployeeIDs(ids ...int) {
+	if m.formemployee == nil {
+		m.formemployee = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.formemployee[ids[i]] = struct{}{}
+	}
 }
 
-// ClearFormemployee clears the formemployee edge to Salary.
-func (m *EmployeeMutation) ClearFormemployee() {
-	m.clearedformemployee = true
+// RemoveFormemployeeIDs removes the formemployee edge to Salary by ids.
+func (m *EmployeeMutation) RemoveFormemployeeIDs(ids ...int) {
+	if m.removedformemployee == nil {
+		m.removedformemployee = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removedformemployee[ids[i]] = struct{}{}
+	}
 }
 
-// FormemployeeCleared returns if the edge formemployee was cleared.
-func (m *EmployeeMutation) FormemployeeCleared() bool {
-	return m.clearedformemployee
-}
-
-// FormemployeeID returns the formemployee id in the mutation.
-func (m *EmployeeMutation) FormemployeeID() (id int, exists bool) {
-	if m.formemployee != nil {
-		return *m.formemployee, true
+// RemovedFormemployee returns the removed ids of formemployee.
+func (m *EmployeeMutation) RemovedFormemployeeIDs() (ids []int) {
+	for id := range m.removedformemployee {
+		ids = append(ids, id)
 	}
 	return
 }
 
 // FormemployeeIDs returns the formemployee ids in the mutation.
-// Note that ids always returns len(ids) <= 1 for unique edges, and you should use
-// FormemployeeID instead. It exists only for internal usage by the builders.
 func (m *EmployeeMutation) FormemployeeIDs() (ids []int) {
-	if id := m.formemployee; id != nil {
-		ids = append(ids, *id)
+	for id := range m.formemployee {
+		ids = append(ids, id)
 	}
 	return
 }
@@ -2532,7 +2535,7 @@ func (m *EmployeeMutation) FormemployeeIDs() (ids []int) {
 // ResetFormemployee reset all changes of the "formemployee" edge.
 func (m *EmployeeMutation) ResetFormemployee() {
 	m.formemployee = nil
-	m.clearedformemployee = false
+	m.removedformemployee = nil
 }
 
 // Op returns the operation name.
@@ -2746,9 +2749,11 @@ func (m *EmployeeMutation) AddedIDs(name string) []ent.Value {
 		}
 		return ids
 	case employee.EdgeFormemployee:
-		if id := m.formemployee; id != nil {
-			return []ent.Value{*id}
+		ids := make([]ent.Value, 0, len(m.formemployee))
+		for id := range m.formemployee {
+			ids = append(ids, id)
 		}
+		return ids
 	}
 	return nil
 }
@@ -2762,6 +2767,9 @@ func (m *EmployeeMutation) RemovedEdges() []string {
 	}
 	if m.removedemployeestock != nil {
 		edges = append(edges, employee.EdgeEmployeestock)
+	}
+	if m.removedformemployee != nil {
+		edges = append(edges, employee.EdgeFormemployee)
 	}
 	return edges
 }
@@ -2782,6 +2790,12 @@ func (m *EmployeeMutation) RemovedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
+	case employee.EdgeFormemployee:
+		ids := make([]ent.Value, 0, len(m.removedformemployee))
+		for id := range m.removedformemployee {
+			ids = append(ids, id)
+		}
+		return ids
 	}
 	return nil
 }
@@ -2790,9 +2804,6 @@ func (m *EmployeeMutation) RemovedIDs(name string) []ent.Value {
 // mutation.
 func (m *EmployeeMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 3)
-	if m.clearedformemployee {
-		edges = append(edges, employee.EdgeFormemployee)
-	}
 	return edges
 }
 
@@ -2800,8 +2811,6 @@ func (m *EmployeeMutation) ClearedEdges() []string {
 // cleared in this mutation.
 func (m *EmployeeMutation) EdgeCleared(name string) bool {
 	switch name {
-	case employee.EdgeFormemployee:
-		return m.clearedformemployee
 	}
 	return false
 }
@@ -2810,9 +2819,6 @@ func (m *EmployeeMutation) EdgeCleared(name string) bool {
 // error if the edge name is not defined in the schema.
 func (m *EmployeeMutation) ClearEdge(name string) error {
 	switch name {
-	case employee.EdgeFormemployee:
-		m.ClearFormemployee()
-		return nil
 	}
 	return fmt.Errorf("unknown Employee unique edge %s", name)
 }
@@ -8316,6 +8322,8 @@ type SalaryMutation struct {
 	_Bonus            *float64
 	add_Bonus         *float64
 	_SalaryDatetime   *time.Time
+	_IDEmployee       *string
+	_AccountNumber    *string
 	clearedFields     map[string]struct{}
 	assessment        *int
 	clearedassessment bool
@@ -8557,6 +8565,80 @@ func (m *SalaryMutation) ResetSalaryDatetime() {
 	m._SalaryDatetime = nil
 }
 
+// SetIDEmployee sets the IDEmployee field.
+func (m *SalaryMutation) SetIDEmployee(s string) {
+	m._IDEmployee = &s
+}
+
+// IDEmployee returns the IDEmployee value in the mutation.
+func (m *SalaryMutation) IDEmployee() (r string, exists bool) {
+	v := m._IDEmployee
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIDEmployee returns the old IDEmployee value of the Salary.
+// If the Salary object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *SalaryMutation) OldIDEmployee(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldIDEmployee is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldIDEmployee requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIDEmployee: %w", err)
+	}
+	return oldValue.IDEmployee, nil
+}
+
+// ResetIDEmployee reset all changes of the "IDEmployee" field.
+func (m *SalaryMutation) ResetIDEmployee() {
+	m._IDEmployee = nil
+}
+
+// SetAccountNumber sets the AccountNumber field.
+func (m *SalaryMutation) SetAccountNumber(s string) {
+	m._AccountNumber = &s
+}
+
+// AccountNumber returns the AccountNumber value in the mutation.
+func (m *SalaryMutation) AccountNumber() (r string, exists bool) {
+	v := m._AccountNumber
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAccountNumber returns the old AccountNumber value of the Salary.
+// If the Salary object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *SalaryMutation) OldAccountNumber(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldAccountNumber is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldAccountNumber requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAccountNumber: %w", err)
+	}
+	return oldValue.AccountNumber, nil
+}
+
+// ResetAccountNumber reset all changes of the "AccountNumber" field.
+func (m *SalaryMutation) ResetAccountNumber() {
+	m._AccountNumber = nil
+}
+
 // SetAssessmentID sets the assessment edge to Assessment by id.
 func (m *SalaryMutation) SetAssessmentID(id int) {
 	m.assessment = &id
@@ -8688,7 +8770,7 @@ func (m *SalaryMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *SalaryMutation) Fields() []string {
-	fields := make([]string, 0, 3)
+	fields := make([]string, 0, 5)
 	if m._Salary != nil {
 		fields = append(fields, salary.FieldSalary)
 	}
@@ -8697,6 +8779,12 @@ func (m *SalaryMutation) Fields() []string {
 	}
 	if m._SalaryDatetime != nil {
 		fields = append(fields, salary.FieldSalaryDatetime)
+	}
+	if m._IDEmployee != nil {
+		fields = append(fields, salary.FieldIDEmployee)
+	}
+	if m._AccountNumber != nil {
+		fields = append(fields, salary.FieldAccountNumber)
 	}
 	return fields
 }
@@ -8712,6 +8800,10 @@ func (m *SalaryMutation) Field(name string) (ent.Value, bool) {
 		return m.Bonus()
 	case salary.FieldSalaryDatetime:
 		return m.SalaryDatetime()
+	case salary.FieldIDEmployee:
+		return m.IDEmployee()
+	case salary.FieldAccountNumber:
+		return m.AccountNumber()
 	}
 	return nil, false
 }
@@ -8727,6 +8819,10 @@ func (m *SalaryMutation) OldField(ctx context.Context, name string) (ent.Value, 
 		return m.OldBonus(ctx)
 	case salary.FieldSalaryDatetime:
 		return m.OldSalaryDatetime(ctx)
+	case salary.FieldIDEmployee:
+		return m.OldIDEmployee(ctx)
+	case salary.FieldAccountNumber:
+		return m.OldAccountNumber(ctx)
 	}
 	return nil, fmt.Errorf("unknown Salary field %s", name)
 }
@@ -8756,6 +8852,20 @@ func (m *SalaryMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetSalaryDatetime(v)
+		return nil
+	case salary.FieldIDEmployee:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIDEmployee(v)
+		return nil
+	case salary.FieldAccountNumber:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAccountNumber(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Salary field %s", name)
@@ -8842,6 +8952,12 @@ func (m *SalaryMutation) ResetField(name string) error {
 		return nil
 	case salary.FieldSalaryDatetime:
 		m.ResetSalaryDatetime()
+		return nil
+	case salary.FieldIDEmployee:
+		m.ResetIDEmployee()
+		return nil
+	case salary.FieldAccountNumber:
+		m.ResetAccountNumber()
 		return nil
 	}
 	return fmt.Errorf("unknown Salary field %s", name)

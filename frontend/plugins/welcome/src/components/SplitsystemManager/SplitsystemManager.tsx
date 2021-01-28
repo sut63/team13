@@ -138,6 +138,25 @@ const tiers = [
     buttinLink: "/Promotion",
     buttonVariant: 'contained',
   },
+<<<<<<< HEAD
+
+  {
+    image: "https://cutt.ly/cjQK0LR",
+    title: 'ระบบค้นหาบันทึกเงินเดือนพนักงาน',
+    description: [/*'ระบบย่อย', 'บันทึกเงินเดือนพนักงาน', 'ตารางเวลาทำงานพนักงาน'*/],
+    buttonText: 'Contineus',
+    buttinLink: "/Salary/Search",
+    buttonVariant: 'contained',
+  },
+  
+];
+const footers = [
+  {
+    title: 'Company',
+    description: ['Team', 'History', 'Contact us', 'Locations'],
+  },
+=======
+>>>>>>> 69971812af6a58b58a3c624d80686d74e6dd9bbe
   {
     image: "https://cutt.ly/Xj5Ak9X",
     title: 'ระบบค้นหารายการสั่งซื้อสินค้าเข้ามาในคลัง',

@@ -8,7 +8,6 @@ import (
 
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/team13/app/ent/employee"
-	"github.com/team13/app/ent/salary"
 )
 
 // Employee is the model entity for the Employee schema.
@@ -36,7 +35,7 @@ type EmployeeEdges struct {
 	// Employeestock holds the value of the employeestock edge.
 	Employeestock []*Stock
 	// Formemployee holds the value of the formemployee edge.
-	Formemployee *Salary
+	Formemployee []*Salary
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [3]bool
@@ -61,14 +60,9 @@ func (e EmployeeEdges) EmployeestockOrErr() ([]*Stock, error) {
 }
 
 // FormemployeeOrErr returns the Formemployee value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e EmployeeEdges) FormemployeeOrErr() (*Salary, error) {
+// was not loaded in eager-loading.
+func (e EmployeeEdges) FormemployeeOrErr() ([]*Salary, error) {
 	if e.loadedTypes[2] {
-		if e.Formemployee == nil {
-			// The edge formemployee was loaded in eager-loading,
-			// but was not found.
-			return nil, &NotFoundError{label: salary.Label}
-		}
 		return e.Formemployee, nil
 	}
 	return nil, &NotLoadedError{edge: "formemployee"}

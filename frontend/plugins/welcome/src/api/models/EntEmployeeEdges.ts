@@ -41,11 +41,11 @@ export interface EntEmployeeEdges {
      */
     employeestock?: Array<EntStock>;
     /**
-     * 
-     * @type {EntSalary}
+     * Formemployee holds the value of the formemployee edge.
+     * @type {Array<EntSalary>}
      * @memberof EntEmployeeEdges
      */
-    formemployee?: EntSalary;
+    formemployee?: Array<EntSalary>;
     /**
      * Whose holds the value of the whose edge.
      * @type {Array<EntEmployeeWorkingHours>}
@@ -65,7 +65,7 @@ export function EntEmployeeEdgesFromJSONTyped(json: any, ignoreDiscriminator: bo
     return {
         
         'employeestock': !exists(json, 'employeestock') ? undefined : ((json['employeestock'] as Array<any>).map(EntStockFromJSON)),
-        'formemployee': !exists(json, 'formemployee') ? undefined : EntSalaryFromJSON(json['formemployee']),
+        'formemployee': !exists(json, 'formemployee') ? undefined : ((json['formemployee'] as Array<any>).map(EntSalaryFromJSON)),
         'whose': !exists(json, 'whose') ? undefined : ((json['whose'] as Array<any>).map(EntEmployeeWorkingHoursFromJSON)),
     };
 }
@@ -80,7 +80,7 @@ export function EntEmployeeEdgesToJSON(value?: EntEmployeeEdges | null): any {
     return {
         
         'employeestock': value.employeestock === undefined ? undefined : ((value.employeestock as Array<any>).map(EntStockToJSON)),
-        'formemployee': EntSalaryToJSON(value.formemployee),
+        'formemployee': value.formemployee === undefined ? undefined : ((value.formemployee as Array<any>).map(EntSalaryToJSON)),
         'whose': value.whose === undefined ? undefined : ((value.whose as Array<any>).map(EntEmployeeWorkingHoursToJSON)),
     };
 }
