@@ -138,26 +138,18 @@ const tiers = [
     buttinLink: "/Promotion",
     buttonVariant: 'contained',
   },
+  {
+    image: "https://cutt.ly/Xj5Ak9X",
+    title: 'ระบบค้นหารายการสั่งซื้อสินค้าเข้ามาในคลัง',
+
+    description: [],
+    buttonText: 'Contineus',
+    buttinLink: "/searchorderproduct",
+    buttonVariant: 'contained',
+  },
   
 ];
-const footers = [
-  {
-    title: 'Company',
-    description: ['Team', 'History', 'Contact us', 'Locations'],
-  },
-  {
-    title: 'Features',
-    description: ['Cool stuff', 'Random feature', 'Team feature', 'Developer stuff', 'Another one'],
-  },
-  {
-    title: 'Resources',
-    description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
-  },
-  {
-    title: 'Legal',
-    description: ['Privacy policy', 'Terms of use'],
-  },
-];
+
 
 
 export default function Pricing() {

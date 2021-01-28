@@ -21,11 +21,8 @@ import EmployeeWorkingHours from './components/EmployeeWorkingHours'
 import SearchEmployeeWorkingHours from './components/SearchEmployeeWorkingHours'
 import STable from './components/STable'
 import SearchOrderproduct from './components/orderproduct/Searchorderproduct'
-<<<<<<< HEAD
 import Table from './components/Stock/Table'
-=======
 import SearchOrderonline from './components/Orderonline/Searchorderonline'
->>>>>>> f218fb7a6e56d32c5bca9776d7f061b49b82d166
 
 export const plugin = createPlugin({
   id: 'welcome',
