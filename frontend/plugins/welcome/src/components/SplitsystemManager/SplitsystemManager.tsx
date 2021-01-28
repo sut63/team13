@@ -138,10 +138,6 @@ const tiers = [
     buttinLink: "/Promotion",
     buttonVariant: 'contained',
   },
-<<<<<<< HEAD
-
-=======
->>>>>>> 61574a4ac14f55959ad5190d04b4822355868d5a
 
   {
     image: "https://cutt.ly/cjQK0LR",
@@ -161,10 +157,7 @@ const tiers = [
   },
 ];
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 61574a4ac14f55959ad5190d04b4822355868d5a
 export default function Pricing() {
   const classes = useStyles();
   var ck = new Cookies()
