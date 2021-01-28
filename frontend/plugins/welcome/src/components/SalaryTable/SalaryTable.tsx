@@ -31,6 +31,7 @@ import TextField from '@material-ui/core/TextField';
 import { createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 
 const useStyles = makeStyles({
   table: {
@@ -67,6 +68,8 @@ export default function ComponentsTable() {
        <TableHead>
          <TableRow>
            <TableCell align="center">หมายเลข</TableCell>
+           <TableCell align="center">รหัสพนักงาน</TableCell>
+           <TableCell align="center">เลขบัญชีธนาคาร</TableCell>
            <TableCell align="center">รายชื่อพนักงาน</TableCell>
            <TableCell align="center">ตำแหน่ง</TableCell>
            <TableCell align="center">ผลการประเมิน</TableCell>
@@ -79,12 +82,14 @@ export default function ComponentsTable() {
          {salarys.map((item:any) => (
            <TableRow key={item.id}>
              <TableCell align="center">{item.id}</TableCell>
+             <TableCell align="center">{item.iDEmployee}</TableCell>
+             <TableCell align="center">{item.accountNumber}</TableCell>
              <TableCell align="center">{item.edges?.employee?.name}</TableCell>
              <TableCell align="center">{item.edges?.position?.position}</TableCell>
              <TableCell align="center">{item.edges?.assessment?.assessment}</TableCell>
              <TableCell align="center">{item.bonus}</TableCell>
              <TableCell align="center">{item.salary}</TableCell>
-             <TableCell align="center">{item.salaryDatetime}</TableCell>
+             <TableCell align="center">{moment(item.salaryDatetime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
              <TableCell align="center">
                <Button
                  onClick={() => {

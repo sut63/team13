@@ -870,7 +870,7 @@ func (c *EmployeeClient) QueryFormemployee(e *Employee) *SalaryQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(employee.Table, employee.FieldID, id),
 			sqlgraph.To(salary.Table, salary.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, employee.FormemployeeTable, employee.FormemployeeColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, employee.FormemployeeTable, employee.FormemployeeColumn),
 		)
 		fromV = sqlgraph.Neighbors(e.driver.Dialect(), step)
 		return fromV, nil
@@ -2215,7 +2215,7 @@ func (c *SalaryClient) QueryEmployee(s *Salary) *EmployeeQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(salary.Table, salary.FieldID, id),
 			sqlgraph.To(employee.Table, employee.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, true, salary.EmployeeTable, salary.EmployeeColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, salary.EmployeeTable, salary.EmployeeColumn),
 		)
 		fromV = sqlgraph.Neighbors(s.driver.Dialect(), step)
 		return fromV, nil

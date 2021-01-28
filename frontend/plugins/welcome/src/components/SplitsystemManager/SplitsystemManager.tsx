@@ -138,6 +138,15 @@ const tiers = [
     buttinLink: "/Promotion",
     buttonVariant: 'contained',
   },
+
+  {
+    image: "https://cutt.ly/cjQK0LR",
+    title: 'ระบบค้นหาบันทึกเงินเดือนพนักงาน',
+    description: [/*'ระบบย่อย', 'บันทึกเงินเดือนพนักงาน', 'ตารางเวลาทำงานพนักงาน'*/],
+    buttonText: 'Contineus',
+    buttinLink: "/Salary/Search",
+    buttonVariant: 'contained',
+  },
   
 ];
 const footers = [
