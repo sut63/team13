@@ -17,6 +17,7 @@ import LoginEmployee from './components/Stock/LoginEmployee'
 import ManagerPage from './components/ManagerPage'
 import Promotion from './components/Promotion'
 import Promotiontable from './components/Promotion/Promotiontable'
+import SearchPromotion from './components/Promotion/SearchPromotion'
 import EmployeeWorkingHours from './components/EmployeeWorkingHours'
 import SearchEmployeeWorkingHours from './components/SearchEmployeeWorkingHours'
 import TableEmployeeWorkingHours from './components/TableEmployeeWorkingHours'
@@ -47,6 +48,7 @@ export const plugin = createPlugin({
     router.registerRoute('/Tableorderproduct', Tableorderproduct);
     router.registerRoute('/Promotion', Promotion);
     router.registerRoute('/Promotiontable', Promotiontable);
+    router.registerRoute('/SearchPromotion', SearchPromotion);
     router.registerRoute('/LoginEmployee', LoginEmployee);
     router.registerRoute('/ManagerPage', ManagerPage);
     router.registerRoute('/EmployeeWorkingHours', EmployeeWorkingHours);

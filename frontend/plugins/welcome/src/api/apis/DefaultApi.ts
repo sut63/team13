@@ -2327,7 +2327,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get promotion by ID
      * Get a promotion entity by ID
      */
-    async getPromotionRaw(requestParameters: GetPromotionRequest): Promise<runtime.ApiResponse<EntPromotion>> {
+    async getPromotionRaw(requestParameters: GetPromotionRequest): Promise<runtime.ApiResponse<Array<EntPromotion>>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getPromotion.');
         }
@@ -2343,14 +2343,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntPromotionFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntPromotionFromJSON));
     }
 
     /**
      * get promotion by ID
      * Get a promotion entity by ID
      */
-    async getPromotion(requestParameters: GetPromotionRequest): Promise<EntPromotion> {
+    async getPromotion(requestParameters: GetPromotionRequest): Promise<Array<EntPromotion>> {
         const response = await this.getPromotionRaw(requestParameters);
         return await response.value();
     }
