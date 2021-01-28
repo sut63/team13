@@ -19,6 +19,7 @@ import Promotion from './components/Promotion'
 import Promotiontable from './components/Promotion/Promotiontable'
 import EmployeeWorkingHours from './components/EmployeeWorkingHours'
 import SearchEmployeeWorkingHours from './components/SearchEmployeeWorkingHours'
+import TableEmployeeWorkingHours from './components/TableEmployeeWorkingHours'
 import STable from './components/STable'
 import SearchOrderproduct from './components/orderproduct/Searchorderproduct'
 
@@ -47,6 +48,7 @@ export const plugin = createPlugin({
     router.registerRoute('/ManagerPage', ManagerPage);
     router.registerRoute('/EmployeeWorkingHours', EmployeeWorkingHours);
     router.registerRoute('/SearchEmployeeWorkingHours', SearchEmployeeWorkingHours);
+    router.registerRoute('/TableEmployeeWorkingHours', TableEmployeeWorkingHours);
     router.registerRoute('/STable', STable);
     
   },

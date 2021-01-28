@@ -1407,7 +1407,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.EmployeeWorkingHours"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.EmployeeWorkingHours"
+                            }
                         }
                     },
                     "400": {
