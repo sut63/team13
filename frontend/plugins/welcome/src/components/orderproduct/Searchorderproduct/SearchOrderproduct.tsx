@@ -135,8 +135,8 @@ export default function MenuAppBar() {
     setProductid(event.target.value);
   }
   var lenOrderproduct: number
+  const getsorder = async () => {
   
-  const getCheckinsorder = async () => {
     const res = await api.getOrderproduct({ id: productid })
     setOrderproducts(res)
     lenOrderproduct = res.length
@@ -163,6 +163,14 @@ export default function MenuAppBar() {
     );
   }
 
+  function BackIcon() {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 18 18">
+        <path d="M15 8.25H5.87l4.19-4.19L9 3 3 9l6 6 1.06-1.06-4.19-4.19H15v-1.5z"/>
+        </svg>
+    );
+  }
+
   return (
     <div className={classes.root}>
       <AppBar color="primary" position="sticky" elevation={0}>
@@ -177,7 +185,15 @@ export default function MenuAppBar() {
             <Grid item>
 
             </Grid>
-
+            <Grid item >
+            <IconButton
+                style={{ marginLeft: 20 }}
+                component={RouterLink}
+                to="/SplitsystemManager"
+              >
+                <BackIcon/>
+              </IconButton>
+            </Grid>
             <Grid item>
               <IconButton
                 style={{ marginLeft: 20 }}
@@ -187,11 +203,12 @@ export default function MenuAppBar() {
                 <HomeIcon color="inherit" />
               </IconButton>
             </Grid>
+            
             <Grid item>
               <Button className={classes.button} variant="outlined" color="inherit"
                 size="small" component={RouterLink}
                 to="/orderproduct">
-                Back
+                ADD DATA
               </Button>
             </Grid>
             <Grid item>
@@ -307,7 +324,7 @@ export default function MenuAppBar() {
                 size="large"
                 className={classes.button}
                 onClick={() => {
-                  getCheckinsorder();
+                  getsorder();
                 }}
 
                 startIcon={<SearchIcon

@@ -1407,7 +1407,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.EmployeeWorkingHours"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.EmployeeWorkingHours"
+                            }
                         }
                     },
                     "400": {
@@ -2085,7 +2088,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.Orderonline"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Orderonline"
+                            }
                         }
                     },
                     "400": {
@@ -3776,57 +3782,6 @@ var doc = `{
                 }
             }
         },
-        "/stock/{id}": {
-            "put": {
-                "description": "update stock by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Update a stock entity by ID",
-                "operationId": "update-stock",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "stock ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Stock entity",
-                        "name": "stock",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.Stock"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.Stock"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
         "/stocks": {
             "get": {
                 "description": "list stock entities",
@@ -3898,7 +3853,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.Stock"
+                            "$ref": "#/definitions/controllers.Stock"
                         }
                     },
                     "400": {
@@ -3937,7 +3892,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.Stock"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Stock"
+                            }
                         }
                     },
                     "400": {
@@ -3948,6 +3906,55 @@ var doc = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update stock by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update a stock entity by ID",
+                "operationId": "update-stock",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Stock ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Stock entity",
+                        "name": "stock",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.Stock"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.Stock"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/gin.H"
                         }

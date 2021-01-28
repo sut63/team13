@@ -154,7 +154,7 @@ export default function Orderonline() {
   const checkCaseSaveError = (field: string) => {
     switch(field) {
       case 'stock':
-        alertMessage("error","กรุณาจำนวนสินค้าที่ต้องการ");
+        alertMessage("error","กรอกจำนวนสินค้าที่ต้องการ");
         return;
       case 'accountnumber':
         alertMessage("error","กรอกเลขบัญชีของคุณ");
@@ -458,10 +458,21 @@ export default function Orderonline() {
                 <Button
                   style={{ marginLeft: 1 }}
                   component={RouterLink}
+                  to="/SearchOrderonline"
+                  variant="contained"
+                >
+                  Search
+             </Button>
+              </TableCell>
+
+              <TableCell align="right">
+                <Button
+                  style={{ marginLeft: 1 }}
+                  component={RouterLink}
                   to="/Orderonlinetable"
                   variant="contained"
                 >
-                  Show
+                  Show ALL
              </Button>
               </TableCell>
 
