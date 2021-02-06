@@ -101,7 +101,7 @@ const tiers = [
   
   {
     image: "https://cutt.ly/sjQV5Lt",
-    title: 'ระบบตารางเวลาทำงานพนักงาน',
+    title: 'ระบบค้นหาช่วงทำงานของพนักงาน',
     description: [
       /*'20 users included',
       '10 GB of storage',
@@ -109,7 +109,7 @@ const tiers = [
       'Priority email support',*/
     ],
     buttonText: 'Contineus',
-    buttinLink: "/EmployeeWorkingHours",
+    buttinLink: "/SearchEmployeeWorkingHours",
     buttonVariant: 'contained',
   },
   /*{
