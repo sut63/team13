@@ -21,7 +21,7 @@ import {
   Button, IconButton,
 } from '@material-ui/core';
 import { Cookiesonline } from '../SignInOrderonline/Cookie'
-
+import moment from 'moment';
 
 
 const useStyles = makeStyles({
@@ -113,7 +113,7 @@ export default function Orderonlinetable() {
                   <TableCell align="center">{item.edges?.paymentchannel?.bank}</TableCell>
                   <TableCell align="center">{item.accountnumber}</TableCell>
                   <TableCell align="center">{item.cvv}</TableCell>
-                  <TableCell align="center">{item.addedtime}</TableCell>
+                  <TableCell align="center">{moment(item.addedtime).format('DD/MM/YYYY HH:mm')}</TableCell>
                   <TableCell align="center">{item.amount}</TableCell>
 
                   <TableCell align="center">
