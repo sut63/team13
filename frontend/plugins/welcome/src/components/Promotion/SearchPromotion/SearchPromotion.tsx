@@ -18,9 +18,8 @@ import { DefaultApi } from '../../../api/apis';
 import Select from '@material-ui/core/Select';
 import { EntProduct } from '../../../api/models/EntProduct';
 import Swal from 'sweetalert2';
-import { Cookies } from '../SignInOrderproduct/Cookie'
 import SearchIcon from '@material-ui/icons/Search';
-import { EntOrderproduct } from '../../../api';
+import { EntPromotion } from '../../../api';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -29,6 +28,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
+import { Cookies } from '../../orderproduct/SignInOrderproduct/Cookie';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 const Toast = Swal.mixin({
@@ -107,15 +107,9 @@ export default function MenuAppBar() {
   let productID = Number(productid)
   console.log(managerID)
 
+  const [promotion, setPromotion] = useState<EntPromotion[]>();
 
 
-  const [orderproducts, setOrderproducts] = useState<EntOrderproduct[]>();
-
-
-  const deleteSystemequipments = async (id: number) => {
-    const res = await api.deleteOrderproduct({ id: id });
-    setLoading(true);
-  };
   useEffect(() => {
     const getproducts = async () => {
       const pr = await api.listProduct({ limit: 10, offset: 0 });
@@ -125,22 +119,22 @@ export default function MenuAppBar() {
     getproducts();
   }, [loading]);
 
-  const orderproduct = {
+  const Promotion = {
     managerID,
     productID,
   }
-  console.log(orderproduct)
+  console.log(Promotion)
 
   const Product_id_handleChange = (event: any) => {
     setProductid(event.target.value);
   }
-  var lenOrderproduct: number
-  const getsorder = async () => {
+  var lenPromotion: number
   
-    const res = await api.getOrderproduct({ id: productid })
-    setOrderproducts(res)
-    lenOrderproduct = res.length
-    if (lenOrderproduct > 0) {
+  const getCheckinsorder = async () => {
+    const res = await api.getPromotion({ id: productid })
+    setPromotion(res)
+    lenPromotion = res.length
+    if (lenPromotion > 0) {
       //setOpen(true)
       Toast.fire({
         icon: 'success',
@@ -163,16 +157,9 @@ export default function MenuAppBar() {
     );
   }
 
-  function BackIcon() {
-    return (
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 18 18">
-        <path d="M15 8.25H5.87l4.19-4.19L9 3 3 9l6 6 1.06-1.06-4.19-4.19H15v-1.5z"/>
-        </svg>
-    );
-  }
-
   return (
-    <div className={classes.root}>
+    <div className={classes.root}>      
+
       <AppBar color="primary" position="sticky" elevation={0}>
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
@@ -185,15 +172,7 @@ export default function MenuAppBar() {
             <Grid item>
 
             </Grid>
-            <Grid item >
-            <IconButton
-                style={{ marginLeft: 20 }}
-                component={RouterLink}
-                to="/SplitsystemManager"
-              >
-                <BackIcon/>
-              </IconButton>
-            </Grid>
+
             <Grid item>
               <IconButton
                 style={{ marginLeft: 20 }}
@@ -203,12 +182,11 @@ export default function MenuAppBar() {
                 <HomeIcon color="inherit" />
               </IconButton>
             </Grid>
-            
             <Grid item>
               <Button className={classes.button} variant="outlined" color="inherit"
                 size="small" component={RouterLink}
-                to="/orderproduct">
-                ADD DATA
+                to="/Promotiontable">
+                Back
               </Button>
             </Grid>
             <Grid item>
@@ -233,7 +211,7 @@ export default function MenuAppBar() {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h2" component="h2">
-                ระบบค้นหารายการสั่งซื้อสินค้าเข้ามาในคลัง
+                ระบบค้นหาโปรโมชั่นของสินค้า
               </Typography>
             </Grid>
             <Grid item>
@@ -247,18 +225,7 @@ export default function MenuAppBar() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="static"
-        elevation={0}
-      >
-        <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="Search Data" />
-        </Tabs>
 
-      </AppBar>
 
 
       <AppBar
@@ -324,7 +291,7 @@ export default function MenuAppBar() {
                 size="large"
                 className={classes.button}
                 onClick={() => {
-                  getsorder();
+                  getCheckinsorder();
                 }}
 
                 startIcon={<SearchIcon
@@ -361,44 +328,30 @@ export default function MenuAppBar() {
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">No.</TableCell>
-              <TableCell align="center">Manager</TableCell>
-              <TableCell align="center">Product</TableCell>
-              <TableCell align="center">Typeproduct</TableCell>
-              <TableCell align="center">Company</TableCell>
-              <TableCell align="center">Stock</TableCell>
-              <TableCell align="center">Date</TableCell>
-              <TableCell align="center">Shipment</TableCell>
-              <TableCell align="center">Detail</TableCell>
-              <TableCell align="center">Manage</TableCell>
+            <TableCell align="center">No.</TableCell>
+              <TableCell align="center">ชื่อโปรโมชั่น</TableCell>
+              <TableCell align="center">สินค้า</TableCell>
+              <TableCell align="center">Barcode</TableCell>
+              <TableCell align="center">วันหมดอายุ</TableCell>
+              <TableCell align="center">ของแถม</TableCell>
+              <TableCell align="center">ส่วนลด</TableCell>
+              <TableCell align="center">ราคา</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {orderproducts === undefined
+            {promotion === undefined
               ? null
-              : orderproducts.map((item: any) => (
+              : promotion.map((item: any) => (
                 <TableRow key={item.id}>
                   <TableCell align="center">{item.id}</TableCell>
-                  <TableCell align="center">{item.edges?.managers.name}</TableCell>
-                  <TableCell align="center">{item.edges?.product.nameProduct}</TableCell>
-                  <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
-                  <TableCell align="center">{item.edges?.company?.name}</TableCell>
-                  <TableCell align="center">{item.stock}</TableCell>
-                  <TableCell align="center">{moment(item.addedtime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
-                  <TableCell align="center">{item.shipment}</TableCell>
-                  <TableCell align="center">{item.detail}</TableCell>
-
+                  <TableCell align="center">{item.promotionName}</TableCell>
+                  <TableCell align="center">{item.edges?.product?.nameProduct}</TableCell>
+                  <TableCell align="center">{item.edges?.product?.barcodeProduct}</TableCell>
+                  <TableCell align="center">{item.edges?.product?.eXP}</TableCell>
+                  <TableCell align="center">{item.edges?.give?.giveawayName}</TableCell>
+                  <TableCell align="center">{item.edges?.sale?.sale}</TableCell>
+                  <TableCell align="center">{item.price}</TableCell>
                   <TableCell align="center">
-                    <Button
-                      onClick={() => {
-                        deleteSystemequipments(item.id);
-                      }}
-                      style={{ marginLeft: 10 }}
-                      variant="contained"
-                      color="secondary"
-                    >
-                      Delete
-               </Button>
                   </TableCell>
                 </TableRow>
               ))}

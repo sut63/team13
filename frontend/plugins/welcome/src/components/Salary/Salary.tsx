@@ -27,6 +27,7 @@ import TextField from '@material-ui/core/TextField';
 import { createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
 import Swal from 'sweetalert2';
+import SearchIcon from '@material-ui/icons/Search';
 
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
@@ -123,6 +124,8 @@ export default function MenuAppBar() {
   const [salaryNumber, setSalaryNumber] = useState(Number);
   const [bonusNumber, setBonus] = useState(Number);
   const [datetime, setDatetime] = useState(String);
+  const [idemployee, setIDEmployee] = useState(String);
+  const [accountNumber, setAccountNumber] = useState(String);
   //const [datetime, setDatetime] = useState(String);
 
   let assessmentID = Number(assessmentid) 
@@ -166,7 +169,34 @@ const salary = {
     employeeID , 
     positionID ,
     salarys ,
-    salaryDate :datetime   + ":00+07:00"
+    salaryDate :datetime   + ":00+07:00",
+    idemployee,
+    accountNumber,
+}
+const alertMessage = (icon: any, title: any) => {
+  Toast.fire({
+    icon: icon,
+    title: title,
+  });
+}
+const checkCaseSaveError = (field: string) => {
+  switch(field) {
+    case 'IDEmployee':
+      alertMessage("error","กรุณาระบุรหัสพนักงานที่ขึ้นต้นด้วย E ตามด้วยเลข 6 หลัก");
+      return;
+    case 'AccountNumber':
+      alertMessage("error","กรุณาระบุเป็นเลขบัญชีธนาคาร 10 หลักให้ถูกต้อง");
+      return;
+    case 'Salary':
+      alertMessage("error","กรุณาเป็นตัวเลขและไม่ติดลบ");
+      return;
+    case 'Bonus':
+      alertMessage("error","กรุณาเป็นตัวเลขและไม่ติดลบ");
+      return;
+    default:
+      alertMessage("error","<h2>บันทึกข้อมูลไม่สำเร็จ</h2>");
+      return;
+  }
 }
 console.log(salary)
 function save() {
@@ -183,7 +213,7 @@ function save() {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      if (data.id != null) {
+      if (data.status == true) {
         //clear();
         Toast.fire({
           icon: 'success',
@@ -191,10 +221,11 @@ function save() {
         });
         window.setTimeout(function(){location.reload()},1000);
       } else {
-        Toast.fire({
+        /*Toast.fire({
           icon: 'error',
           title: 'บันทึกข้อมูลไม่สำเร็จ',
-        });
+        });*/
+        checkCaseSaveError(data.error.Name)
         
       }
     });
@@ -216,6 +247,14 @@ function save() {
 
   const handleBonusChange = (event: any) => {
     setBonus(event.target.value as number);
+  };
+
+  const handleIDEmployee = (event: any) => {
+    setIDEmployee(event.target.value as string);
+  };
+
+  const handleAccountNumber = (event: any) => {
+    setAccountNumber(event.target.value as string);
   };
 
   const handleDatetimeChange = (event: any) => {
@@ -287,7 +326,51 @@ function save() {
             <Grid item xs={12}></Grid>
             <Grid item xs={12}></Grid>
         
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="secondary" variant="h6" component="h1">
+                รหัสพนักงาน
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
             
+                <TextField 
+                id="idemployee-string" 
+                type='string'  
+                InputLabelProps={{shrink: true,}}
+                label="รหัสพนักงาน" 
+                variant="outlined"
+                onChange = {handleIDEmployee}
+                  />
+                  
+                  
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
+
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}>
+              <Typography color="secondary" variant="h6" component="h1">
+                เลขบัญชีธนาคาร
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+            
+                <TextField 
+                id="accountnumber-string" 
+                type='string'  
+                InputLabelProps={{shrink: true,}}
+                label="เลขบัญชีธนาคาร" 
+                variant="outlined"
+                onChange = {handleAccountNumber}
+                  />
+                  
+                  
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={2}> </Grid>
             
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
@@ -375,7 +458,7 @@ function save() {
               
             <TextField
                 id="salary-number" 
-                type='number'  
+                type='string'  
                 InputLabelProps={{shrink: true,}}
                 label="เงินเดือน" 
                 variant="outlined"
@@ -398,7 +481,7 @@ function save() {
             
                 <TextField 
                 id="bonus-number" 
-                type='number'  
+                type='string'  
                 InputLabelProps={{shrink: true,}}
                 label="โบนัส" 
                 variant="outlined"

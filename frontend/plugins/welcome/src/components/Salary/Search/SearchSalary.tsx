@@ -16,11 +16,10 @@ import Tabs from '@material-ui/core/Tabs';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { DefaultApi } from '../../../api/apis';
 import Select from '@material-ui/core/Select';
-import { EntProduct } from '../../../api/models/EntProduct';
+import { EntEmployee } from '../../../api/models/EntEmployee';
 import Swal from 'sweetalert2';
-import { Cookies } from '../SignInOrderproduct/Cookie'
 import SearchIcon from '@material-ui/icons/Search';
-import { EntOrderproduct } from '../../../api';
+import { EntSalary } from '../../../api/models/EntSalary';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -34,8 +33,6 @@ const lightColor = 'rgba(255, 255, 255, 0.7)';
 const Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
-  width: '400px',
-  padding: '100px',
   showConfirmButton: false,
   timer: 3000,
   timerProgressBar: true,
@@ -76,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-function Copyright() {
+/*function Copyright() {
   return (
     <Typography variant="body2" color="inherit" align="center">
       {'Copyright © '}
@@ -87,60 +84,58 @@ function Copyright() {
       {'.'}
     </Typography>
   );
-}
+}*/
 //testupgithub
 
 export default function MenuAppBar() {
 
-  var ck = new Cookies()
+  /*var ck = new Cookies()
   var cookieEmail = ck.GetCookie()
   var cookieID = ck.GetID()
-  var cookieName = ck.GetName()
+  var cookieName = ck.GetName()*/
   const classes = useStyles();
   const api = new DefaultApi();
 
-  const [products, setProducts] = useState<EntProduct[]>([]);
+  const [employees, setEmployees] = useState<EntEmployee[]>([]);
   const [loading, setLoading] = useState(true);
-  const [productid, setProductid] = useState(Number);
+  const [employeeid, setEmployeeid] = useState(Number);
 
-  let managerID = Number(cookieID)
-  let productID = Number(productid)
-  console.log(managerID)
-
+  /*let employeeID = Number(cookieID)*/
+  let employeeID = Number(employeeid)
 
 
-  const [orderproducts, setOrderproducts] = useState<EntOrderproduct[]>();
+
+  const [salarys, setSalarys] = useState<EntSalary[]>();
 
 
   const deleteSystemequipments = async (id: number) => {
-    const res = await api.deleteOrderproduct({ id: id });
+    const res = await api.deleteSalary({ id: id });
     setLoading(true);
   };
   useEffect(() => {
-    const getproducts = async () => {
-      const pr = await api.listProduct({ limit: 10, offset: 0 });
+    const getEmployees = async () => {
+      const em = await api.listEmployee({ limit: 10, offset: 0 });
       setLoading(false);
-      setProducts(pr);
+      setEmployees(em);
     };
-    getproducts();
+    getEmployees();
   }, [loading]);
 
-  const orderproduct = {
-    managerID,
-    productID,
+  const salary = {
+    employeeID,
   }
-  console.log(orderproduct)
+  console.log(salary)
 
-  const Product_id_handleChange = (event: any) => {
-    setProductid(event.target.value);
+  const Employee_id_handleChange = (event: any) => {
+    setEmployeeid(event.target.value);
   }
-  var lenOrderproduct: number
-  const getsorder = async () => {
+  var lenSalary: number
   
-    const res = await api.getOrderproduct({ id: productid })
-    setOrderproducts(res)
-    lenOrderproduct = res.length
-    if (lenOrderproduct > 0) {
+  const getCheckinsorder = async () => {
+    const res = await api.getSalary({ id: employeeid })
+    setSalarys(res)
+    lenSalary = res.length
+    if (lenSalary > 0) {
       //setOpen(true)
       Toast.fire({
         icon: 'success',
@@ -163,101 +158,42 @@ export default function MenuAppBar() {
     );
   }
 
-  function BackIcon() {
-    return (
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 18 18">
-        <path d="M15 8.25H5.87l4.19-4.19L9 3 3 9l6 6 1.06-1.06-4.19-4.19H15v-1.5z"/>
-        </svg>
-    );
-  }
-
   return (
     <div className={classes.root}>
-      <AppBar color="primary" position="sticky" elevation={0}>
-        <Toolbar>
-          <Grid container spacing={1} alignItems="center">
-            <Hidden smUp>
-              <Grid item>
-
-              </Grid>
-            </Hidden>
-            <Grid item xs />
-            <Grid item>
-
-            </Grid>
-            <Grid item >
-            <IconButton
-                style={{ marginLeft: 20 }}
-                component={RouterLink}
-                to="/SplitsystemManager"
-              >
-                <BackIcon/>
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <IconButton
-                style={{ marginLeft: 20 }}
-                component={RouterLink}
-                to="/"
-              >
-                <HomeIcon color="inherit" />
-              </IconButton>
-            </Grid>
-            
-            <Grid item>
-              <Button className={classes.button} variant="outlined" color="inherit"
-                size="small" component={RouterLink}
-                to="/orderproduct">
-                ADD DATA
-              </Button>
-            </Grid>
-            <Grid item>
-
-            </Grid>
-            <Grid item>
-              <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src='o' alt={cookieEmail} />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-
       <AppBar
         component="div"
-        color="primary"
+        color= 'secondary'
         position="static"
         elevation={0}
       >
         <Toolbar>
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
-              <Typography color="inherit" variant="h2" component="h2">
-                ระบบค้นหารายการสั่งซื้อสินค้าเข้ามาในคลัง
+              <Typography color="inherit" variant="h3" component="h2">
+                ระบบค้นหาบันทึกเงินเดือนพนักงาน
               </Typography>
             </Grid>
             <Grid item>
-
-            </Grid>
-
-            <Grid item>
-
-            </Grid>
-
+                <IconButton 
+                style={{ marginLeft: 20 }}
+                component={RouterLink}
+                to="/SplitsystemManager"
+                >    
+                <HomeIcon color="inherit" />
+                </IconButton>
+                </Grid>
+                <Grid item>
+                  
+            <Button className={classes.button} variant="outlined" color="inherit" 
+            size="small" component={RouterLink}
+            to="/">
+                logout
+              </Button>
+                </Grid>  
+            
+            
           </Grid>
         </Toolbar>
-      </AppBar>
-      <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="static"
-        elevation={0}
-      >
-        <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="Search Data" />
-        </Tabs>
-
       </AppBar>
 
 
@@ -276,14 +212,10 @@ export default function MenuAppBar() {
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
-            <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
-                ชื่อผู้ใช้ระบบค้นหา
-              </Typography>
-            </Grid>
+            <Grid item xs={2}></Grid>
             <Grid item xs={2}>
 
-              <div style={{ marginLeft: 10, marginRight: 20 }}>{cookieName}</div>
+            
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -291,8 +223,8 @@ export default function MenuAppBar() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
-              <Typography color="primary" variant="h6" component="h1">
-                ชื่อสินค้าที่ต้องการค้นหา
+              <Typography color="secondary" variant="h6" component="h1">
+                ชื่อพนักงาน
               </Typography>
             </Grid>
             <Grid item xs={2}>
@@ -301,16 +233,15 @@ export default function MenuAppBar() {
                 labelId="Equipment_id-label"
                 label="Equipment"
                 id="Equipment_id"
-                onChange={Product_id_handleChange}
+                onChange={Employee_id_handleChange}
                 style={{ width: 200 }}
               >
-                {products.map((item: EntProduct) =>
-                  <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
+                {employees.map((item: EntEmployee) =>
+                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
               </Select>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
-
 
 
             <Grid item xs={2}></Grid>
@@ -320,11 +251,11 @@ export default function MenuAppBar() {
               <Button
 
                 variant="contained"
-                color="primary"
+                color="secondary"
                 size="large"
                 className={classes.button}
                 onClick={() => {
-                  getsorder();
+                  getCheckinsorder();
                 }}
 
                 startIcon={<SearchIcon
@@ -341,52 +272,36 @@ export default function MenuAppBar() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="static"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container alignItems="center" spacing={1}>
-            <Grid item xs>
-              <Copyright />
 
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">No.</TableCell>
-              <TableCell align="center">Manager</TableCell>
-              <TableCell align="center">Product</TableCell>
-              <TableCell align="center">Typeproduct</TableCell>
-              <TableCell align="center">Company</TableCell>
-              <TableCell align="center">Stock</TableCell>
-              <TableCell align="center">Date</TableCell>
-              <TableCell align="center">Shipment</TableCell>
-              <TableCell align="center">Detail</TableCell>
-              <TableCell align="center">Manage</TableCell>
+              <TableCell align="center">หมายเลข</TableCell>
+              <TableCell align="center">รหัสพนักงาน</TableCell>
+              <TableCell align="center">เลขบัญชีธนาคาร</TableCell>
+              <TableCell align="center">รายชื่อพนักงาน</TableCell>
+              <TableCell align="center">ตำแหน่ง</TableCell>
+              <TableCell align="center">ผลการประเมิน</TableCell>
+              <TableCell align="center">เงินเดือน</TableCell>
+              <TableCell align="center">โบนัส</TableCell>
+              <TableCell align="center">วันที่เงินเดือนออก</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {orderproducts === undefined
+            {salarys === undefined
               ? null
-              : orderproducts.map((item: any) => (
+              : salarys.map((item: any) => (
                 <TableRow key={item.id}>
                   <TableCell align="center">{item.id}</TableCell>
-                  <TableCell align="center">{item.edges?.managers.name}</TableCell>
-                  <TableCell align="center">{item.edges?.product.nameProduct}</TableCell>
-                  <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
-                  <TableCell align="center">{item.edges?.company?.name}</TableCell>
-                  <TableCell align="center">{item.stock}</TableCell>
-                  <TableCell align="center">{moment(item.addedtime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
-                  <TableCell align="center">{item.shipment}</TableCell>
-                  <TableCell align="center">{item.detail}</TableCell>
+                  <TableCell align="center">{item.iDEmployee}</TableCell>
+                  <TableCell align="center">{item.accountNumber}</TableCell>
+                  <TableCell align="center">{item.edges?.employee?.name}</TableCell>
+                  <TableCell align="center">{item.edges?.position?.position}</TableCell>
+                  <TableCell align="center">{item.edges?.assessment?.assessment}</TableCell>
+                  <TableCell align="center">{item.bonus}</TableCell>
+                  <TableCell align="center">{item.salary}</TableCell>
+                  <TableCell align="center">{moment(item.salaryDatetime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
 
                   <TableCell align="center">
                     <Button

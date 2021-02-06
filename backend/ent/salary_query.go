@@ -106,7 +106,7 @@ func (sq *SalaryQuery) QueryEmployee() *EmployeeQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(salary.Table, salary.FieldID, sq.sqlQuery()),
 			sqlgraph.To(employee.Table, employee.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, true, salary.EmployeeTable, salary.EmployeeColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, salary.EmployeeTable, salary.EmployeeColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(sq.driver.Dialect(), step)
 		return fromU, nil

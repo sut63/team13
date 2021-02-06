@@ -28,6 +28,9 @@ type Salary struct {
 	Salarys		   float64
 	Bonus          float64
 	SalaryDate     string
+	IDEmployee	   string
+	AccountNumber  string
+		
 
 }
 
@@ -98,15 +101,21 @@ func (ctl *SalaryController) CreateSalary(c *gin.Context) {
 		SetBonus(obj.Bonus).
 		SetSalary(obj.Salarys).
 		SetSalaryDatetime(salaryDatetime).
+		SetIDEmployee(obj.IDEmployee).
+		SetAccountNumber(obj.AccountNumber).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "saving failed",
+				"status" : false,
+				"error": err,
 		})
 		return
 	}
 
-	c.JSON(200, se)
+		c.JSON(200, gin.H{
+			"status" : true,
+			"data": se,
+	})
 }
 
 // GetSalary handles GET requests to retrieve a salary entity
@@ -115,7 +124,7 @@ func (ctl *SalaryController) CreateSalary(c *gin.Context) {
 // @ID get-salary
 // @Produce  json
 // @Param id path int true "Salary ID"
-// @Success 200 {object} ent.Salary
+// @Success 200 {array} ent.Salary
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -128,17 +137,20 @@ func (ctl *SalaryController) GetSalary(c *gin.Context) {
 		})
 		return
 	}
-	pa, err := ctl.client.Salary.
+	sa, err := ctl.client.Salary.
 		Query().
-		Where(salary.IDEQ(int(id))).
-		Only(context.Background())
+		WithAssessment().
+		WithEmployee().
+		WithPosition().
+		Where(salary.HasEmployeeWith(employee.IDEQ(int(id)))).
+		All(context.Background())
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	c.JSON(200, pa)
+	c.JSON(200, sa)
  }
 // ListSalary handles request to get a list of salary entities
 // @Summary List salary entities
@@ -237,5 +249,6 @@ func (ctl *SalaryController) register() {
 
 	// CRUD
 	salarys.POST("", ctl.CreateSalary)
+	salarys.GET(":id", ctl.GetSalary)
 	salarys.DELETE(":id", ctl.DeleteSalary)
 }

@@ -131,7 +131,7 @@ func (ctl *OrderonlineController) CreateOrderonline(c *gin.Context) {
 // @ID get-orderonline
 // @Produce  json
 // @Param id path int true "Orderonline ID"
-// @Success 200 {object} ent.Orderonline
+// @Success 200 {array} ent.Orderonline
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
@@ -146,8 +146,12 @@ func (ctl *OrderonlineController) GetOrderonline(c *gin.Context) {
 	}
 	pa, err := ctl.client.Orderonline.
 		Query().
-		Where(orderonline.IDEQ(int(id))).
-		Only(context.Background())
+		WithCustomer().
+		WithPaymentchannel().
+		WithTypeproduct().
+		WithProduct().
+		Where(orderonline.HasCustomerWith(customer.IDEQ(int(id)))).
+		All(context.Background())
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": err.Error(),

@@ -28,7 +28,7 @@ import Swal from 'sweetalert2';
 import { Cookies } from './SignInOrderproduct/Cookie'
 
 import SearchIcon from '@material-ui/icons/Search';
-
+import { FaBeer } from 'react-icons/fa';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -266,6 +266,14 @@ export default function MenuAppBar() {
     );
   }
 
+  function BackIcon() {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 18 18">
+        <path d="M15 8.25H5.87l4.19-4.19L9 3 3 9l6 6 1.06-1.06-4.19-4.19H15v-1.5z"/>
+        </svg>
+    );
+  }
+
   return (
     <div className={classes.root}>
       <AppBar color="primary" position="sticky" elevation={0}>
@@ -277,7 +285,18 @@ export default function MenuAppBar() {
               </Grid>
             </Hidden>
             <Grid item xs />
-            <Grid item>
+
+            <Grid item >
+            <IconButton
+                style={{ marginLeft: 20 }}
+                component={RouterLink}
+                to="/SplitsystemManager"
+              >
+                <BackIcon/>
+              </IconButton>
+            </Grid>
+
+            <Grid item >
             <IconButton
                 style={{ marginLeft: 20 }}
                 component={RouterLink}
@@ -286,6 +305,9 @@ export default function MenuAppBar() {
                 <SearchIcon color="inherit" />
               </IconButton>
             </Grid>
+
+
+            
 
             <Grid item>
               <IconButton
@@ -308,7 +330,8 @@ export default function MenuAppBar() {
             </Grid>
             <Grid item>
               <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src='o' alt={cookieEmail} />
+              
+              <Avatar src='o' alt={cookieEmail} size="150" />
               </IconButton>
             </Grid>
           </Grid>

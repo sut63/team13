@@ -41,6 +41,18 @@ func (sc *SalaryCreate) SetSalaryDatetime(t time.Time) *SalaryCreate {
 	return sc
 }
 
+// SetIDEmployee sets the IDEmployee field.
+func (sc *SalaryCreate) SetIDEmployee(s string) *SalaryCreate {
+	sc.mutation.SetIDEmployee(s)
+	return sc
+}
+
+// SetAccountNumber sets the AccountNumber field.
+func (sc *SalaryCreate) SetAccountNumber(s string) *SalaryCreate {
+	sc.mutation.SetAccountNumber(s)
+	return sc
+}
+
 // SetAssessmentID sets the assessment edge to Assessment by id.
 func (sc *SalaryCreate) SetAssessmentID(id int) *SalaryCreate {
 	sc.mutation.SetAssessmentID(id)
@@ -123,6 +135,22 @@ func (sc *SalaryCreate) Save(ctx context.Context) (*Salary, error) {
 	}
 	if _, ok := sc.mutation.SalaryDatetime(); !ok {
 		return nil, &ValidationError{Name: "SalaryDatetime", err: errors.New("ent: missing required field \"SalaryDatetime\"")}
+	}
+	if _, ok := sc.mutation.IDEmployee(); !ok {
+		return nil, &ValidationError{Name: "IDEmployee", err: errors.New("ent: missing required field \"IDEmployee\"")}
+	}
+	if v, ok := sc.mutation.IDEmployee(); ok {
+		if err := salary.IDEmployeeValidator(v); err != nil {
+			return nil, &ValidationError{Name: "IDEmployee", err: fmt.Errorf("ent: validator failed for field \"IDEmployee\": %w", err)}
+		}
+	}
+	if _, ok := sc.mutation.AccountNumber(); !ok {
+		return nil, &ValidationError{Name: "AccountNumber", err: errors.New("ent: missing required field \"AccountNumber\"")}
+	}
+	if v, ok := sc.mutation.AccountNumber(); ok {
+		if err := salary.AccountNumberValidator(v); err != nil {
+			return nil, &ValidationError{Name: "AccountNumber", err: fmt.Errorf("ent: validator failed for field \"AccountNumber\": %w", err)}
+		}
 	}
 	var (
 		err  error
@@ -208,6 +236,22 @@ func (sc *SalaryCreate) createSpec() (*Salary, *sqlgraph.CreateSpec) {
 		})
 		s.SalaryDatetime = value
 	}
+	if value, ok := sc.mutation.IDEmployee(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: salary.FieldIDEmployee,
+		})
+		s.IDEmployee = value
+	}
+	if value, ok := sc.mutation.AccountNumber(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: salary.FieldAccountNumber,
+		})
+		s.AccountNumber = value
+	}
 	if nodes := sc.mutation.AssessmentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
@@ -248,7 +292,7 @@ func (sc *SalaryCreate) createSpec() (*Salary, *sqlgraph.CreateSpec) {
 	}
 	if nodes := sc.mutation.EmployeeIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
+			Rel:     sqlgraph.M2O,
 			Inverse: true,
 			Table:   salary.EmployeeTable,
 			Columns: []string{salary.EmployeeColumn},

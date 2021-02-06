@@ -21,6 +21,12 @@ import { exists, mapValues } from '../runtime';
 export interface ControllersSalary {
     /**
      * 
+     * @type {string}
+     * @memberof ControllersSalary
+     */
+    accountNumber?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ControllersSalary
      */
@@ -37,6 +43,12 @@ export interface ControllersSalary {
      * @memberof ControllersSalary
      */
     employeeID?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ControllersSalary
+     */
+    idemployee?: string;
     /**
      * 
      * @type {number}
@@ -67,9 +79,11 @@ export function ControllersSalaryFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
+        'accountNumber': !exists(json, 'accountNumber') ? undefined : json['accountNumber'],
         'assessmentID': !exists(json, 'assessmentID') ? undefined : json['assessmentID'],
         'bonus': !exists(json, 'bonus') ? undefined : json['bonus'],
         'employeeID': !exists(json, 'employeeID') ? undefined : json['employeeID'],
+        'idemployee': !exists(json, 'idemployee') ? undefined : json['idemployee'],
         'positionID': !exists(json, 'positionID') ? undefined : json['positionID'],
         'salaryDate': !exists(json, 'salaryDate') ? undefined : json['salaryDate'],
         'salarys': !exists(json, 'salarys') ? undefined : json['salarys'],
@@ -85,9 +99,11 @@ export function ControllersSalaryToJSON(value?: ControllersSalary | null): any {
     }
     return {
         
+        'accountNumber': value.accountNumber,
         'assessmentID': value.assessmentID,
         'bonus': value.bonus,
         'employeeID': value.employeeID,
+        'idemployee': value.idemployee,
         'positionID': value.positionID,
         'salaryDate': value.salaryDate,
         'salarys': value.salarys,
