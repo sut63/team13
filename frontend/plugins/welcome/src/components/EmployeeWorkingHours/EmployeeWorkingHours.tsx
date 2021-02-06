@@ -306,17 +306,6 @@ const EmployeeWorkingHours: FC<{}> = () => {
               </Grid>
             </Hidden>
             <Grid item xs />
-              
-
-              <Grid item>
-                <IconButton
-                  style={{ marginLeft: 20 }}
-                  component={RouterLink}
-                  to="/SearchEmployeeWorkingHours"
-                >
-                  <SearchIcon color="inherit" />
-                </IconButton>
-              </Grid>
 
               <Grid item>
                 <IconButton

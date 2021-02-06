@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+	<title>Seach test Suite</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">SeachOK</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Salary/Search<datalist><option>http://localhost:3000/Salary/Search</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=Equipment_id<datalist><option>//body</option><option>css=body</option><option>id=Equipment_id</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li<datalist><option>id=Equipment_id</option><option>//div[@id='Equipment_id']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div</option><option>//div[12]/div/div</option><option>css=#Equipment_id</option><option>//div[@id='menu-']/div[3]/ul/li</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/div/div[2]/div/div/div[18]/button/span<datalist><option>//div[@id='root']/div/div/div[2]/div/div/div[18]/button/span</option><option>//button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.makeStyles-button-8.MuiButton-containedSecondary.MuiButton-containedSizeLarge.MuiButton-sizeLarge &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//div[2]/div/div/h2</option><option>css=#swal2-title</option></datalist></td><td>ค้นหาข้อมูลสำเร็จ</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">SeachFailure</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Salary/Search<datalist><option>http://localhost:3000/Salary/Search</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=Equipment_id<datalist><option>id=Equipment_id</option><option>//body</option><option>css=body</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li[2]<datalist><option>//div[@id='menu-']/div[3]/ul/li</option><option>id=Equipment_id</option><option>//div[@id='Equipment_id']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div</option><option>//div[12]/div/div</option><option>css=#Equipment_id</option><option>//div[@id='menu-']/div[3]/ul/li[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/div/div[2]/div/div/div[18]/button/span<datalist><option>//div[@id='root']/div/div/div[2]/div/div/div[18]/button/span</option><option>//button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.makeStyles-button-8.MuiButton-containedSecondary.MuiButton-containedSizeLarge.MuiButton-sizeLarge &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//div[2]/div/div/h2</option><option>css=#swal2-title</option></datalist></td><td>ค้นหาข้อมูลไม่พบ</td>
+</tr>
+</tbody></table>
+</body>
+</html>
