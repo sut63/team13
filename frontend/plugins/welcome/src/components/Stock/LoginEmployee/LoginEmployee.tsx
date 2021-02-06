@@ -74,7 +74,7 @@ const LoginEmployee: FC<{}> = () => {
     console.log("check => "+check)
     if(check === true){
       setAlert(true);
-      history.pushState('', '', '/Stock');
+      history.pushState('', '', '/Employeepage');
       ck.SetCookie("email",email,30)
       ck.SetCookie("id",ck.SetID(employee,email,password),30)
       ck.SetCookie("name",ck.SetName(employee,email,password),30)

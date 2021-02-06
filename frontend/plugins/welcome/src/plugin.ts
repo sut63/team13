@@ -26,6 +26,7 @@ import SearchOrderproduct from './components/orderproduct/Searchorderproduct'
 import Table from './components/Stock/Table'
 import SearchOrderonline from './components/Orderonline/Searchorderonline'
 import SearchSalary from './components/Salary/Search'
+import Employeepage from './components/Employeepage'
 
 export const plugin = createPlugin({
   id: 'welcome',
@@ -57,6 +58,7 @@ export const plugin = createPlugin({
     router.registerRoute('/STable', STable);
     router.registerRoute('/Table', Table);
     router.registerRoute('/Salary/Search', SearchSalary);
+    router.registerRoute('/Employeepage', Employeepage);
 
 
   },
