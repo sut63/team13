@@ -21,6 +21,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Content, Header, Page, pageTheme } from '@backstage/core';
+import moment from 'moment';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 const Toast = Swal.mixin({
@@ -219,7 +220,7 @@ export default function MenuAppBar() {
                         <TableCell align="center">{item.edges?.paymentchannel?.bank}</TableCell>
                         <TableCell align="center">{item.accountnumber}</TableCell>
                         <TableCell align="center">{item.cvv}</TableCell>
-                        <TableCell align="center">{item.addedtime}</TableCell>
+                        <TableCell align="center">{moment(item.addedtime).format('DD/MM/YYYY HH:mm')}</TableCell>
                       </TableRow>
                     ))}
                 </TableBody>
