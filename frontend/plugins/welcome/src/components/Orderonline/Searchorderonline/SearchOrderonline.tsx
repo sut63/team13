@@ -113,7 +113,7 @@ export default function MenuAppBar() {
   var lenOrderonline: number
   
   const getCheckinsorder = async () => {
-    const res = await api.getOrderonline({ id: productID })
+    const res = await api.listOrderonline({ limit: customerID, offset: productID })
     setOrderonlines(res)
     console.log(res)
     lenOrderonline = res.length
@@ -144,24 +144,12 @@ export default function MenuAppBar() {
           <Button
             style={{ marginLeft: 1 }}
             component={RouterLink}
-            to="/SplitsystemManager"
+            to="/Orderonline"
             variant="contained"
           >
             Back
              </Button>
-        </TableCell>        
-
-            <TableCell align="right">
-                <Button
-                  style={{ marginLeft: 1 }}
-                  component={RouterLink}
-                  to="/Orderonlinetable"
-                  variant="contained"
-                >
-                  Show ALL
-             </Button>
-              </TableCell>
-
+        </TableCell>    
 
         <IconButton color="inherit" className={classes.iconButtonAvatar}>
           <Avatar src='o' alt={cookieEmail} />
@@ -242,6 +230,7 @@ export default function MenuAppBar() {
                   <Grid item xs={2}> </Grid>
                   <Grid item xs={12}></Grid>
                   <Grid item xs={12}></Grid>
+                  
 
                 </Grid>
               </Toolbar>

@@ -452,7 +452,18 @@ export default function Orderonline() {
                 >
                   Back
              </Button>
-              </TableCell>            
+              </TableCell> 
+
+              <TableCell align="right">
+                <Button
+                  style={{ marginLeft: 1 }}
+                  component={RouterLink}
+                  to="/SearchOrderonline"
+                  variant="contained"
+                >
+                  ค้นหา
+             </Button>
+              </TableCell>              
 
             </div>
           </form>

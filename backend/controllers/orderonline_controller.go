@@ -186,12 +186,16 @@ func (ctl *OrderonlineController) ListOrderonline(c *gin.Context) {
 	}
 	orderonlines, err := ctl.client.Orderonline.
 		Query().
+		Where(orderonline.And(
+			orderonline.HasProductWith(product.IDEQ(int(offset))),
+			orderonline.HasCustomerWith(customer.IDEQ(int(limit))),
+			)).
 		WithCustomer().
 		WithPaymentchannel().
 		WithTypeproduct().
 		WithProduct().
-		Limit(limit).
-		Offset(offset).
+		Limit(10).
+		Offset(0).
 		All(context.Background())
 		if err != nil {
 		c.JSON(400, gin.H{"error": err.Error(),})

@@ -155,14 +155,6 @@ const tiers = [
     buttinLink: "/searchorderproduct",
     buttonVariant: 'contained',
   },
-  {
-    image: "https://cutt.ly/Xj5Ak9X",
-    title: 'ระบบค้นหารายการสั่งซื้อสินค้าของลูกค้า',
-    description: [],
-    buttonText: 'Contineus',
-    buttinLink: "/SearchOrderonline",
-    buttonVariant: 'contained',
-  },
 ];
 
 
