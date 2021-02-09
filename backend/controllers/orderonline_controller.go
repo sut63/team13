@@ -145,12 +145,12 @@ func (ctl *OrderonlineController) GetOrderonline(c *gin.Context) {
 		return
 	}
 	pa, err := ctl.client.Orderonline.
-		Query().
+		Query().			
 		WithCustomer().
 		WithPaymentchannel().
 		WithTypeproduct().
 		WithProduct().
-		Where(orderonline.HasCustomerWith(customer.IDEQ(int(id)))).
+		Where(orderonline.HasProductWith(product.IDEQ(int(id)))).
 		All(context.Background())
 	if err != nil {
 		c.JSON(404, gin.H{

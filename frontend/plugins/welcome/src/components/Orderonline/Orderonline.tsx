@@ -452,29 +452,7 @@ export default function Orderonline() {
                 >
                   Back
              </Button>
-              </TableCell>
-
-              <TableCell align="right">
-                <Button
-                  style={{ marginLeft: 1 }}
-                  component={RouterLink}
-                  to="/SearchOrderonline"
-                  variant="contained"
-                >
-                  Search
-             </Button>
-              </TableCell>
-
-              <TableCell align="right">
-                <Button
-                  style={{ marginLeft: 1 }}
-                  component={RouterLink}
-                  to="/Orderonlinetable"
-                  variant="contained"
-                >
-                  Show ALL
-             </Button>
-              </TableCell>
+              </TableCell>            
 
             </div>
           </form>

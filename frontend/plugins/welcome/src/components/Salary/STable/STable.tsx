@@ -16,11 +16,11 @@ import Tabs from '@material-ui/core/Tabs';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import SaveIcon from '@material-ui/icons/Save';
 import Select from '@material-ui/core/Select';
-import { DefaultApi } from '../../api/apis'; // Api Gennerate From Command
-import { EntAssessment } from '../../api/models/EntAssessment';
-import { EntEmployee } from '../../api/models/EntEmployee';
-import { EntPosition } from '../../api/models/EntPosition';
-import { EntSalary } from '../../api/models/EntSalary';
+import { DefaultApi } from '../../../api/apis'; // Api Gennerate From Command
+import { EntAssessment } from '../../../api/models/EntAssessment';
+import { EntEmployee } from '../../../api/models/EntEmployee';
+import { EntPosition } from '../../../api/models/EntPosition';
+import { EntSalary } from '../../../api/models/EntSalary';
 //import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 //import { ContentHeader } from '@backstage/core';

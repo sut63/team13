@@ -18,7 +18,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
-import { Cookies } from '../orderproduct/SignInOrderproduct/Cookie'
+import { Cookies } from '../SignInOrderproduct/Cookie'
 
 
 function Copyright() {
@@ -91,17 +91,29 @@ const useStyles = makeStyles((theme) => ({
 
 const tiers = [
   {
-    //image: "https://cutt.ly/cjQK0LR",
-    title: 'ระบบ Stock สินค้าหน้าร้านและระบบค้นหน้า Stock',
+    image: "https://cutt.ly/cjQK0LR",
+    title: 'ระบบบันทึกเงินเดือนพนักงาน',
     description: [/*'ระบบย่อย', 'บันทึกเงินเดือนพนักงาน', 'ตารางเวลาทำงานพนักงาน'*/],
     buttonText: 'Contineus',
-    buttinLink: "/Stock",
+    buttinLink: "/Salary",
     buttonVariant: 'contained',
   },
-  
+  {
+    image: "https://cutt.ly/jjvZWom",
+    title: 'ระบบสั่งซื้อสินค้าเข้ามาในคลัง',
+    description: [
+     /* '50 users included',
+      '30 GB of storage',
+      'Help center access',
+      'Phone & email support',*/
+    ],
+    buttonText: 'Contineus',
+    buttinLink: "/orderproduct",
+    buttonVariant: 'contained',
+  },
   {
     image: "https://cutt.ly/sjQV5Lt",
-    title: 'ระบบค้นหาช่วงทำงานของพนักงาน',
+    title: 'ระบบตารางเวลาทำงานพนักงาน',
     description: [
       /*'20 users included',
       '10 GB of storage',
@@ -109,10 +121,10 @@ const tiers = [
       'Priority email support',*/
     ],
     buttonText: 'Contineus',
-    buttinLink: "/SearchEmployeeWorkingHours",
+    buttinLink: "/EmployeeWorkingHours",
     buttonVariant: 'contained',
   },
-  /*{
+  {
     image: "https://cutt.ly/jjQV9IZ",
     title: 'ระบบPromotion',
 
@@ -120,14 +132,37 @@ const tiers = [
      /* '50 users included',
       '30 GB of storage',
       'Help center access',
-      'Phone & email support',
+      'Phone & email support',*/
     ],
     buttonText: 'Contineus',
     buttinLink: "/Promotion",
     buttonVariant: 'contained',
-  }, */
+  },
 
-  
+  {
+    image: "https://cutt.ly/cjQK0LR",
+    title: 'ระบบค้นหาบันทึกเงินเดือนพนักงาน',
+    description: [/*'ระบบย่อย', 'บันทึกเงินเดือนพนักงาน', 'ตารางเวลาทำงานพนักงาน'*/],
+    buttonText: 'Contineus',
+    buttinLink: "/Salary/Search",
+    buttonVariant: 'contained',
+  },
+  {
+    image: "https://cutt.ly/Xj5Ak9X",
+    title: 'ระบบค้นหารายการสั่งซื้อสินค้าเข้ามาในคลัง',
+    description: [],
+    buttonText: 'Contineus',
+    buttinLink: "/searchorderproduct",
+    buttonVariant: 'contained',
+  },
+  {
+    image: "https://cutt.ly/Xj5Ak9X",
+    title: 'ระบบค้นหารายการสั่งซื้อสินค้าของลูกค้า',
+    description: [],
+    buttonText: 'Contineus',
+    buttinLink: "/SearchOrderonline",
+    buttonVariant: 'contained',
+  },
 ];
 
 
@@ -144,7 +179,7 @@ export default function Pricing() {
       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h3" color="inherit" noWrap className={classes.toolbarTitle}>
-            ยินดีต้อนรับเข้าสู่ระบบสำหรับพนักงาน
+            ยินดีต้อนรับเข้าสู่ระบบผู้จัดการ
           </Typography>
           <nav>
             <Link variant="button" color="textPrimary" href="https://github.com/sut63/team13" className={classes.link}>
@@ -154,7 +189,7 @@ export default function Pricing() {
           </nav>
           <Button href="#" color="primary" variant="outlined" className={classes.link}
           component={RouterLink}
-          to="/LoginEmployee">
+          to="/signinorderproduct">
             Logout
           </Button>
         </Toolbar>
