@@ -28,6 +28,8 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
 import Swal from 'sweetalert2';
 import SearchIcon from '@material-ui/icons/Search';
+import { Cookies } from '../orderproduct/SignInOrderproduct/Cookie'
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
@@ -273,6 +275,11 @@ function save() {
     );
   }
 
+  var ck = new Cookies()
+  //var cookieEmail = ck.GetCookie()
+  //var cookieID = ck.GetID()
+  var cookieName = ck.GetName()
+
   return (
     <div className={classes.root}>
       
@@ -289,6 +296,22 @@ function save() {
                 ระบบบันทึกเงินเดือนพนักงาน
               </Typography>
             </Grid>
+            <Grid item>
+            <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+                </Grid>
+            <Grid item>
+              
+            <Typography color="inherit" variant="h6" component="h2">
+                {cookieName}
+              </Typography>
+                </Grid>
             <Grid item>
                 <IconButton 
                 style={{ marginLeft: 20 }}

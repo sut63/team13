@@ -28,6 +28,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
+import { Cookies } from '../../orderproduct/SignInOrderproduct/Cookie'
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 const Toast = Swal.mixin({
@@ -158,6 +160,11 @@ export default function MenuAppBar() {
     );
   }
 
+  var ck = new Cookies()
+  //var cookieEmail = ck.GetCookie()
+  //var cookieID = ck.GetID()
+  var cookieName = ck.GetName()
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -173,6 +180,22 @@ export default function MenuAppBar() {
                 ระบบค้นหาบันทึกเงินเดือนพนักงาน
               </Typography>
             </Grid>
+            <Grid item>
+            <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+                </Grid>
+            <Grid item>
+              
+            <Typography color="inherit" variant="h6" component="h2">
+                {cookieName}
+              </Typography>
+                </Grid>
             <Grid item>
                 <IconButton 
                 style={{ marginLeft: 20 }}
