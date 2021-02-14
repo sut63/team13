@@ -9,8 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link as RouterLink } from 'react-router-dom';
-import { DefaultApi } from '../../api/apis';
-import { EntStock } from '../../api/models/EntStock';
+import { DefaultApi } from '../../../api/apis';
+import { EntStock } from '../../../api/models/EntStock';
 import { AppBar, FormControl, Grid, IconButton, InputLabel, Menu, Select, SvgIcon, TextField, Toolbar, Typography } from '@material-ui/core';
 import {
   MenuItem, 
@@ -20,8 +20,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import { Alert } from '@material-ui/lab';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Swal from 'sweetalert2';
-import { Cookies } from '../Stock/LoginEmployee/Cookie';
-import { EntProduct } from '../../api';
+import { Cookies } from '../LoginEmployee/Cookie';
+import { EntProduct } from '../../../api';
 import { Content, ContentHeader, Header, Page, pageTheme } from '@backstage/core';
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,7 +12,7 @@ import { DefaultApi } from '../../../api/apis';
 import Swal from 'sweetalert2';
 import { Cookiesonline } from '../SignInOrderonline/Cookie'
 import SearchIcon from '@material-ui/icons/Search';
-import { EntOrderonline } from '../../../api';;
+import { EntOrderonline, EntProduct } from '../../../api';;
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -22,6 +22,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Content, Header, Page, pageTheme } from '@backstage/core';
 import moment from 'moment';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 const Toast = Swal.mixin({
@@ -75,19 +77,45 @@ export default function MenuAppBar() {
   const classes = useStyles();
   const api = new DefaultApi();
 
+
+  
+  const [products, setProducts] = useState<EntProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [productid, setProductid] = useState(Number);
+
+  let productID = Number(productid)
   let customerID = Number(cookieID)
   console.log(customerID)
 
   const [orderonlines, setOrderonlines] = useState<EntOrderonline[]>();
+
   const orderonline = {
-    customerID
+    customerID,
+    productID,
   }
   console.log(orderonline)
 
+  const Product_id_handleChange = (event: any) => {
+    setProductid(event.target.value);
+  }
+
+  useEffect(() => {
+    const getproducts = async () => {
+      const pr = await api.listProduct({ limit: 10, offset: 0 });
+      setLoading(false);
+      setProducts(pr);
+    };
+    getproducts();
+
+    
+  }, [loading]);
+
   var lenOrderonline: number
+  
   const getCheckinsorder = async () => {
-    const res = await api.getOrderonline({ id: customerID })
+    const res = await api.listOrderonline({ limit: customerID, offset: productID })
     setOrderonlines(res)
+    console.log(res)
     lenOrderonline = res.length
     if (lenOrderonline > 0) {
       //setOpen(true)
@@ -121,7 +149,7 @@ export default function MenuAppBar() {
           >
             Back
              </Button>
-        </TableCell>
+        </TableCell>    
 
         <IconButton color="inherit" className={classes.iconButtonAvatar}>
           <Avatar src='o' alt={cookieEmail} />
@@ -152,16 +180,38 @@ export default function MenuAppBar() {
                   <Grid item xs={2}>
                     <Typography color="primary" variant="h6" component="h1">
                       ชื่อผู้ใช้ระบบค้นหา
-              </Typography>
-                  </Grid>
+                    </Typography>
+                  </Grid>      
                   <Grid item xs={2}>
                     <div style={{ marginLeft: 10, marginRight: 20 }}>{cookieName}</div>
                   </Grid>
                   <Grid item xs={12}></Grid>
                   <Grid item xs={2}></Grid>
+
+                  <Grid item xs={2}></Grid>
+                  
+                  <Grid item xs={2}>
+                  <Typography color="primary" variant="h6" component="h1">
+                     ชื่อสินค้าที่ต้องการค้นหา
+                  </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+
+              <Select
+                labelId="Equipment_id-label"
+                label="Equipment"
+                id="Equipment_id"
+                onChange={Product_id_handleChange}
+                style={{ width: 200 }}
+              >
+                {products.map((item: EntProduct) =>
+                  <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
+              </Select>
+            </Grid>
+
                   <TableCell align="center">
                     <Button
-                      style={{ marginLeft: 315 }}
+                      style={{ marginLeft: 500 }}
                       variant="contained"
                       color="primary"
                       size="large"
@@ -180,6 +230,7 @@ export default function MenuAppBar() {
                   <Grid item xs={2}> </Grid>
                   <Grid item xs={12}></Grid>
                   <Grid item xs={12}></Grid>
+                  
 
                 </Grid>
               </Toolbar>
@@ -196,7 +247,7 @@ export default function MenuAppBar() {
               <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">No.</TableCell>
+                    
                     <TableCell align="center">Customer</TableCell>
                     <TableCell align="center">Typeproduct</TableCell>
                     <TableCell align="center">Product</TableCell>
@@ -211,8 +262,8 @@ export default function MenuAppBar() {
                   {orderonlines === undefined
                     ? null
                     : orderonlines.map((item: any) => (
-                      <TableRow key={item.id}>
-                        <TableCell align="center">{item.id}</TableCell>
+                      <TableRow key={item.productid}>
+                     
                         <TableCell align="center">{item.edges?.customer?.name}</TableCell>
                         <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
                         <TableCell align="center">{item.edges?.product?.nameProduct}</TableCell>

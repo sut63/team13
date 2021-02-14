@@ -194,6 +194,7 @@ export default function MenuAppBar() {
         return;
       default:
         alertMessage("error","<h2>บันทึกข้อมูลไม่สำเร็จ</h2>");
+        window.setTimeout(function () { location.reload() }, 3000);
         return;
     }
   }
@@ -227,6 +228,7 @@ export default function MenuAppBar() {
            // title: '<h2>บันทึกข้อมูลไม่สำเร็จ</h2>',
          // });
           checkCaseSaveError(data.error.Name)
+          
         }
       });
   }

@@ -8,8 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import { DefaultApi } from '../../api/apis';
-import { EntEmployeeWorkingHours } from '../../api/models/EntEmployeeWorkingHours';
+import { DefaultApi } from '../../../api/apis';
+import { EntEmployeeWorkingHours } from '../../../api/models/EntEmployeeWorkingHours';
 import moment from "moment";
 import { 
   SvgIcon, 
