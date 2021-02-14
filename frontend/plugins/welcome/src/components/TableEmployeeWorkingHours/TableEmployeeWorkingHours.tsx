@@ -145,8 +145,7 @@ export default function ComponentsTable() {
             <TableCell align="center">เลขบัตรประชาชน</TableCell>
             <TableCell align="center">ชื่อพนักงาน</TableCell>
             <TableCell align="center">วันที่เข้าทำงาน</TableCell>
-            <TableCell align="center">เวลาเริ่มทำงาน</TableCell>
-            <TableCell align="center">เวลาเลิกงาน</TableCell>
+            <TableCell align="center">เวลาทำงาน</TableCell>
             <TableCell align="center">หน้าที่ที่รับผิดชอบ</TableCell>
             <TableCell align="center">ค่าจ้าง</TableCell>
             <TableCell align="center">Manage</TableCell>
@@ -162,8 +161,7 @@ export default function ComponentsTable() {
                 <TableCell align="center">{item.iDNumber}</TableCell>
                 <TableCell align="center">{item.edges?.employee?.name}</TableCell>
                 <TableCell align="center">{item.edges?.day?.day}</TableCell>
-                <TableCell align="center">{moment(item.edges?.shift?.timeStart).format("LT")}</TableCell>
-                <TableCell align="center">{moment(item.edges?.shift?.timeEnd).format("LT")}</TableCell>
+                <TableCell align="center">{item.edges?.shift?.name}</TableCell>
                 <TableCell align="center">{item.edges?.role?.role}</TableCell>
                 <TableCell align="center">{item.wages}</TableCell>
                 <TableCell align="center">
