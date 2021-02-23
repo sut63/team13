@@ -89,6 +89,7 @@ func init() {
 		fns := [...]func(string) error{
 			validators[0].(func(string) error),
 			validators[1].(func(string) error),
+			validators[2].(func(string) error),
 		}
 		return func(_IDNumber string) error {
 			for _, fn := range fns {
