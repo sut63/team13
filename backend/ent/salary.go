@@ -25,8 +25,6 @@ type Salary struct {
 	Bonus float64 `json:"Bonus,omitempty"`
 	// SalaryDatetime holds the value of the "SalaryDatetime" field.
 	SalaryDatetime time.Time `json:"SalaryDatetime,omitempty"`
-	// IDEmployee holds the value of the "IDEmployee" field.
-	IDEmployee string `json:"IDEmployee,omitempty"`
 	// AccountNumber holds the value of the "AccountNumber" field.
 	AccountNumber string `json:"AccountNumber,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -99,7 +97,6 @@ func (*Salary) scanValues() []interface{} {
 		&sql.NullFloat64{}, // Salary
 		&sql.NullFloat64{}, // Bonus
 		&sql.NullTime{},    // SalaryDatetime
-		&sql.NullString{},  // IDEmployee
 		&sql.NullString{},  // AccountNumber
 	}
 }
@@ -141,16 +138,11 @@ func (s *Salary) assignValues(values ...interface{}) error {
 		s.SalaryDatetime = value.Time
 	}
 	if value, ok := values[3].(*sql.NullString); !ok {
-		return fmt.Errorf("unexpected type %T for field IDEmployee", values[3])
-	} else if value.Valid {
-		s.IDEmployee = value.String
-	}
-	if value, ok := values[4].(*sql.NullString); !ok {
-		return fmt.Errorf("unexpected type %T for field AccountNumber", values[4])
+		return fmt.Errorf("unexpected type %T for field AccountNumber", values[3])
 	} else if value.Valid {
 		s.AccountNumber = value.String
 	}
-	values = values[5:]
+	values = values[4:]
 	if len(values) == len(salary.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field assessment_formassessment", value)
@@ -218,8 +210,6 @@ func (s *Salary) String() string {
 	builder.WriteString(fmt.Sprintf("%v", s.Bonus))
 	builder.WriteString(", SalaryDatetime=")
 	builder.WriteString(s.SalaryDatetime.Format(time.ANSIC))
-	builder.WriteString(", IDEmployee=")
-	builder.WriteString(s.IDEmployee)
 	builder.WriteString(", AccountNumber=")
 	builder.WriteString(s.AccountNumber)
 	builder.WriteByte(')')

@@ -351,7 +351,6 @@ var (
 		{Name: "salary", Type: field.TypeFloat64},
 		{Name: "bonus", Type: field.TypeFloat64},
 		{Name: "salary_datetime", Type: field.TypeTime},
-		{Name: "id_employee", Type: field.TypeString},
 		{Name: "account_number", Type: field.TypeString, Size: 10},
 		{Name: "assessment_formassessment", Type: field.TypeInt, Nullable: true},
 		{Name: "employee_formemployee", Type: field.TypeInt, Nullable: true},
@@ -365,21 +364,21 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "salaries_assessments_formassessment",
-				Columns: []*schema.Column{SalariesColumns[6]},
+				Columns: []*schema.Column{SalariesColumns[5]},
 
 				RefColumns: []*schema.Column{AssessmentsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "salaries_employees_formemployee",
-				Columns: []*schema.Column{SalariesColumns[7]},
+				Columns: []*schema.Column{SalariesColumns[6]},
 
 				RefColumns: []*schema.Column{EmployeesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "salaries_positions_formposition",
-				Columns: []*schema.Column{SalariesColumns[8]},
+				Columns: []*schema.Column{SalariesColumns[7]},
 
 				RefColumns: []*schema.Column{PositionsColumns[0]},
 				OnDelete:   schema.SetNull,

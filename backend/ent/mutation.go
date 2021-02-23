@@ -8322,7 +8322,6 @@ type SalaryMutation struct {
 	_Bonus            *float64
 	add_Bonus         *float64
 	_SalaryDatetime   *time.Time
-	_IDEmployee       *string
 	_AccountNumber    *string
 	clearedFields     map[string]struct{}
 	assessment        *int
@@ -8565,43 +8564,6 @@ func (m *SalaryMutation) ResetSalaryDatetime() {
 	m._SalaryDatetime = nil
 }
 
-// SetIDEmployee sets the IDEmployee field.
-func (m *SalaryMutation) SetIDEmployee(s string) {
-	m._IDEmployee = &s
-}
-
-// IDEmployee returns the IDEmployee value in the mutation.
-func (m *SalaryMutation) IDEmployee() (r string, exists bool) {
-	v := m._IDEmployee
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldIDEmployee returns the old IDEmployee value of the Salary.
-// If the Salary object wasn't provided to the builder, the object is fetched
-// from the database.
-// An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *SalaryMutation) OldIDEmployee(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldIDEmployee is allowed only on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldIDEmployee requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldIDEmployee: %w", err)
-	}
-	return oldValue.IDEmployee, nil
-}
-
-// ResetIDEmployee reset all changes of the "IDEmployee" field.
-func (m *SalaryMutation) ResetIDEmployee() {
-	m._IDEmployee = nil
-}
-
 // SetAccountNumber sets the AccountNumber field.
 func (m *SalaryMutation) SetAccountNumber(s string) {
 	m._AccountNumber = &s
@@ -8770,7 +8732,7 @@ func (m *SalaryMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *SalaryMutation) Fields() []string {
-	fields := make([]string, 0, 5)
+	fields := make([]string, 0, 4)
 	if m._Salary != nil {
 		fields = append(fields, salary.FieldSalary)
 	}
@@ -8779,9 +8741,6 @@ func (m *SalaryMutation) Fields() []string {
 	}
 	if m._SalaryDatetime != nil {
 		fields = append(fields, salary.FieldSalaryDatetime)
-	}
-	if m._IDEmployee != nil {
-		fields = append(fields, salary.FieldIDEmployee)
 	}
 	if m._AccountNumber != nil {
 		fields = append(fields, salary.FieldAccountNumber)
@@ -8800,8 +8759,6 @@ func (m *SalaryMutation) Field(name string) (ent.Value, bool) {
 		return m.Bonus()
 	case salary.FieldSalaryDatetime:
 		return m.SalaryDatetime()
-	case salary.FieldIDEmployee:
-		return m.IDEmployee()
 	case salary.FieldAccountNumber:
 		return m.AccountNumber()
 	}
@@ -8819,8 +8776,6 @@ func (m *SalaryMutation) OldField(ctx context.Context, name string) (ent.Value, 
 		return m.OldBonus(ctx)
 	case salary.FieldSalaryDatetime:
 		return m.OldSalaryDatetime(ctx)
-	case salary.FieldIDEmployee:
-		return m.OldIDEmployee(ctx)
 	case salary.FieldAccountNumber:
 		return m.OldAccountNumber(ctx)
 	}
@@ -8852,13 +8807,6 @@ func (m *SalaryMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetSalaryDatetime(v)
-		return nil
-	case salary.FieldIDEmployee:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetIDEmployee(v)
 		return nil
 	case salary.FieldAccountNumber:
 		v, ok := value.(string)
@@ -8952,9 +8900,6 @@ func (m *SalaryMutation) ResetField(name string) error {
 		return nil
 	case salary.FieldSalaryDatetime:
 		m.ResetSalaryDatetime()
-		return nil
-	case salary.FieldIDEmployee:
-		m.ResetIDEmployee()
 		return nil
 	case salary.FieldAccountNumber:
 		m.ResetAccountNumber()

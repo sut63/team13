@@ -30,6 +30,7 @@ import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 import { Cookies } from '../../orderproduct/SignInOrderproduct/Cookie'
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import TextField from '@material-ui/core/TextField';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 const Toast = Swal.mixin({
@@ -100,10 +101,12 @@ export default function MenuAppBar() {
 
   const [employees, setEmployees] = useState<EntEmployee[]>([]);
   const [loading, setLoading] = useState(true);
-  const [employeeid, setEmployeeid] = useState(Number);
+  const [employeeid, setEmployeeid] = useState(String);
+  const [search, setSearch] = useState(false);
+  const [checkEmployeeName, setEmployeeNames] = useState(false);
 
   /*let employeeID = Number(cookieID)*/
-  let employeeID = Number(employeeid)
+  let employeeID = String(employeeid)
 
 
 
@@ -116,11 +119,18 @@ export default function MenuAppBar() {
   };
   useEffect(() => {
     const getEmployees = async () => {
-      const em = await api.listEmployee({ limit: 10, offset: 0 });
+      const em = await api.listEmployee({ offset: 0 });
       setLoading(false);
       setEmployees(em);
     };
     getEmployees();
+
+    const getSalary = async () => {
+      const sa = await api.listSalary({ offset: 0 });
+      setLoading(false);
+      setSalarys(sa);
+    };
+    getSalary();
   }, [loading]);
 
   const salary = {
@@ -128,28 +138,39 @@ export default function MenuAppBar() {
   }
   console.log(salary)
 
-  const Employee_id_handleChange = (event: any) => {
-    setEmployeeid(event.target.value);
+  const Employee_id_handleChange = (event: React.ChangeEvent<{ value : unknown }>) => {
+    setEmployeeid(event.target.value as string);
+    setEmployeeNames(false);
+    setSearch(false);
   }
   var lenSalary: number
-  
+
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+    setSearch(false);
+  }
+
   const getCheckinsorder = async () => {
-    const res = await api.getSalary({ id: employeeid })
-    setSalarys(res)
-    lenSalary = res.length
-    if (lenSalary > 0) {
-      //setOpen(true)
-      Toast.fire({
-        icon: 'success',
-        title: 'ค้นหาข้อมูลสำเร็จ',
-      })
-    } else {
-      //setFail(true)
-      Toast.fire({
-        icon: 'error',
-        title: 'ค้นหาข้อมูลไม่พบ',
-      })
-    }
+    var check = false;
+    salarys.map(item => {
+      if(employeeid != "") {
+        if(item.edges?.employee?.name?.startsWith(employeeid)){
+          setEmployeeNames(true);
+          alertMessage("success", "ค้นหาข้อมูลสำเร็จ");
+          check = true;
+        }
+      }
+    })
+    if (!check ){
+      alertMessage("error", "ไม่พบข้อมูลที่ค้นหา");
+      }
+      console.log(checkEmployeeName)
+      if (employeeid == "") {
+        alertMessage("info", "กรอกชื่อพนักงาน");
+      }
   }
 
   function HomeIcon(props: any) {
@@ -252,16 +273,18 @@ export default function MenuAppBar() {
             </Grid>
             <Grid item xs={2}>
 
-              <Select
-                labelId="Equipment_id-label"
-                label="Equipment"
-                id="Equipment_id"
-                onChange={Employee_id_handleChange}
-                style={{ width: 200 }}
-              >
-                {employees.map((item: EntEmployee) =>
-                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-              </Select>
+         
+              <TextField
+                  id="employee"
+                  label="employee"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
+                  value={employeeid}
+                  onChange={Employee_id_handleChange}
+                  style={{ marginRight: 300, width: 300 }}
+                />
+              
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -301,7 +324,7 @@ export default function MenuAppBar() {
           <TableHead>
             <TableRow>
               <TableCell align="center">หมายเลข</TableCell>
-              <TableCell align="center">รหัสพนักงาน</TableCell>
+              {/*<TableCell align="center">รหัสพนักงาน</TableCell>*/}
               <TableCell align="center">เลขบัญชีธนาคาร</TableCell>
               <TableCell align="center">รายชื่อพนักงาน</TableCell>
               <TableCell align="center">ตำแหน่ง</TableCell>
@@ -317,7 +340,7 @@ export default function MenuAppBar() {
               : salarys.map((item: any) => (
                 <TableRow key={item.id}>
                   <TableCell align="center">{item.id}</TableCell>
-                  <TableCell align="center">{item.iDEmployee}</TableCell>
+                  {/*<TableCell align="center">{item.iDEmployee}</TableCell>*/}
                   <TableCell align="center">{item.accountNumber}</TableCell>
                   <TableCell align="center">{item.edges?.employee?.name}</TableCell>
                   <TableCell align="center">{item.edges?.position?.position}</TableCell>

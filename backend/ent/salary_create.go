@@ -41,12 +41,6 @@ func (sc *SalaryCreate) SetSalaryDatetime(t time.Time) *SalaryCreate {
 	return sc
 }
 
-// SetIDEmployee sets the IDEmployee field.
-func (sc *SalaryCreate) SetIDEmployee(s string) *SalaryCreate {
-	sc.mutation.SetIDEmployee(s)
-	return sc
-}
-
 // SetAccountNumber sets the AccountNumber field.
 func (sc *SalaryCreate) SetAccountNumber(s string) *SalaryCreate {
 	sc.mutation.SetAccountNumber(s)
@@ -135,14 +129,6 @@ func (sc *SalaryCreate) Save(ctx context.Context) (*Salary, error) {
 	}
 	if _, ok := sc.mutation.SalaryDatetime(); !ok {
 		return nil, &ValidationError{Name: "SalaryDatetime", err: errors.New("ent: missing required field \"SalaryDatetime\"")}
-	}
-	if _, ok := sc.mutation.IDEmployee(); !ok {
-		return nil, &ValidationError{Name: "IDEmployee", err: errors.New("ent: missing required field \"IDEmployee\"")}
-	}
-	if v, ok := sc.mutation.IDEmployee(); ok {
-		if err := salary.IDEmployeeValidator(v); err != nil {
-			return nil, &ValidationError{Name: "IDEmployee", err: fmt.Errorf("ent: validator failed for field \"IDEmployee\": %w", err)}
-		}
 	}
 	if _, ok := sc.mutation.AccountNumber(); !ok {
 		return nil, &ValidationError{Name: "AccountNumber", err: errors.New("ent: missing required field \"AccountNumber\"")}
@@ -235,14 +221,6 @@ func (sc *SalaryCreate) createSpec() (*Salary, *sqlgraph.CreateSpec) {
 			Column: salary.FieldSalaryDatetime,
 		})
 		s.SalaryDatetime = value
-	}
-	if value, ok := sc.mutation.IDEmployee(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: salary.FieldIDEmployee,
-		})
-		s.IDEmployee = value
 	}
 	if value, ok := sc.mutation.AccountNumber(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{

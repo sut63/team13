@@ -4564,6 +4564,7 @@
             "type": "object",
             "properties": {
                 "accountNumber": {
+                    "description": "IDEmployee\t   string",
                     "type": "string"
                 },
                 "assessmentID": {
@@ -4574,9 +4575,6 @@
                 },
                 "employeeID": {
                     "type": "integer"
-                },
-                "idemployee": {
-                    "type": "string"
                 },
                 "positionID": {
                     "type": "integer"
@@ -5274,10 +5272,6 @@
                 "Bonus": {
                     "description": "Bonus holds the value of the \"Bonus\" field.",
                     "type": "number"
-                },
-                "IDEmployee": {
-                    "description": "IDEmployee holds the value of the \"IDEmployee\" field.",
-                    "type": "string"
                 },
                 "Salary": {
                     "description": "Salary holds the value of the \"Salary\" field.",
