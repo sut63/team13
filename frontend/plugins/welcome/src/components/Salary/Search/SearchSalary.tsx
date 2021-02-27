@@ -28,9 +28,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
-import { Cookies } from '../../orderproduct/SignInOrderproduct/Cookie'
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import TextField from '@material-ui/core/TextField';
+import { FormControl, InputLabel, TextField } from '@material-ui/core';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 const Toast = Swal.mixin({
@@ -103,14 +101,21 @@ export default function MenuAppBar() {
   const [loading, setLoading] = useState(true);
   const [employeeid, setEmployeeid] = useState(String);
   const [search, setSearch] = useState(false);
-  const [checkEmployeeName, setEmployeeNames] = useState(false);
+  const [checkSalaryName, setSalaryNames] = useState(false);
 
   /*let employeeID = Number(cookieID)*/
-  let employeeID = String(employeeid)
+  //let employeeID = String(employeeid)
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+    setSearch(false);
+  }
 
 
 
-  const [salarys, setSalarys] = useState<EntSalary[]>();
+  const [salarys, setSalarys] = useState<EntSalary[]>([]);
 
 
   const deleteSystemequipments = async (id: number) => {
@@ -133,45 +138,32 @@ export default function MenuAppBar() {
     getSalary();
   }, [loading]);
 
-  const salary = {
-    employeeID,
-  }
-  console.log(salary)
-
-  const Employee_id_handleChange = (event: React.ChangeEvent<{ value : unknown }>) => {
+  const Employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setEmployeeid(event.target.value as string);
-    setEmployeeNames(false);
+    setSalaryNames(false);
     setSearch(false);
   }
-  var lenSalary: number
-
-  const alertMessage = (icon: any, title: any) => {
-    Toast.fire({
-      icon: icon,
-      title: title,
-    });
-    setSearch(false);
-  }
-
-  const getCheckinsorder = async () => {
+  
+  const getCheckSalary = async () => {
     var check = false;
     salarys.map(item => {
-      if(employeeid != "") {
-        if(item.edges?.employee?.name?.startsWith(employeeid)){
-          setEmployeeNames(true);
+      if (employeeid != "") {
+        if (item.edges?.employee?.name?.startsWith(employeeid)) {
+          setSalaryNames(true);
           alertMessage("success", "ค้นหาข้อมูลสำเร็จ");
           check = true;
         }
-      }
+      }     
     })
-    if (!check ){
+    if (!check) {
       alertMessage("error", "ไม่พบข้อมูลที่ค้นหา");
-      }
-      console.log(checkEmployeeName)
-      if (employeeid == "") {
-        alertMessage("info", "กรอกชื่อพนักงาน");
-      }
-  }
+    }
+    console.log(checkSalaryName)
+    if (employeeid == "") {
+      alertMessage("info", "กรอกชื่อพนักงาน");
+      window.setTimeout(function(){location.reload()},1000);
+    }
+  };
 
   function HomeIcon(props: any) {
     return (
@@ -180,11 +172,6 @@ export default function MenuAppBar() {
       </SvgIcon>
     );
   }
-
-  var ck = new Cookies()
-  //var cookieEmail = ck.GetCookie()
-  //var cookieID = ck.GetID()
-  var cookieName = ck.GetName()
 
   return (
     <div className={classes.root}>
@@ -201,22 +188,6 @@ export default function MenuAppBar() {
                 ระบบค้นหาบันทึกเงินเดือนพนักงาน
               </Typography>
             </Grid>
-            <Grid item>
-            <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-                </Grid>
-            <Grid item>
-              
-            <Typography color="inherit" variant="h6" component="h2">
-                {cookieName}
-              </Typography>
-                </Grid>
             <Grid item>
                 <IconButton 
                 style={{ marginLeft: 20 }}
@@ -264,19 +235,22 @@ export default function MenuAppBar() {
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 
-            <Grid item xs={2}></Grid>
-            <Grid item xs={2}></Grid>
+            <Grid item xs={3}></Grid>
+            
             <Grid item xs={2}>
               <Typography color="secondary" variant="h6" component="h1">
                 ชื่อพนักงาน
               </Typography>
+              
             </Grid>
             <Grid item xs={2}>
+            <FormControl
+                fullWidth
+                variant="outlined"
 
-         
-              <TextField
+              ><TextField
                   id="employee"
-                  label="employee"
+                  label="กรอกชื่อพนักงาน"
                   variant="outlined"
                   type="string"
                   size="medium"
@@ -284,7 +258,7 @@ export default function MenuAppBar() {
                   onChange={Employee_id_handleChange}
                   style={{ marginRight: 300, width: 300 }}
                 />
-              
+              </FormControl>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -301,7 +275,8 @@ export default function MenuAppBar() {
                 size="large"
                 className={classes.button}
                 onClick={() => {
-                  getCheckinsorder();
+                  getCheckSalary();
+                  setSearch(true);
                 }}
 
                 startIcon={<SearchIcon
@@ -319,53 +294,108 @@ export default function MenuAppBar() {
         </Toolbar>
       </AppBar>
 
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">หมายเลข</TableCell>
-              {/*<TableCell align="center">รหัสพนักงาน</TableCell>*/}
-              <TableCell align="center">เลขบัญชีธนาคาร</TableCell>
-              <TableCell align="center">รายชื่อพนักงาน</TableCell>
-              <TableCell align="center">ตำแหน่ง</TableCell>
-              <TableCell align="center">ผลการประเมิน</TableCell>
-              <TableCell align="center">เงินเดือน</TableCell>
-              <TableCell align="center">โบนัส</TableCell>
-              <TableCell align="center">วันที่เงินเดือนออก</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {salarys === undefined
-              ? null
-              : salarys.map((item: any) => (
-                <TableRow key={item.id}>
-                  <TableCell align="center">{item.id}</TableCell>
-                  {/*<TableCell align="center">{item.iDEmployee}</TableCell>*/}
-                  <TableCell align="center">{item.accountNumber}</TableCell>
-                  <TableCell align="center">{item.edges?.employee?.name}</TableCell>
-                  <TableCell align="center">{item.edges?.position?.position}</TableCell>
-                  <TableCell align="center">{item.edges?.assessment?.assessment}</TableCell>
-                  <TableCell align="center">{item.bonus}</TableCell>
-                  <TableCell align="center">{item.salary}</TableCell>
-                  <TableCell align="center">{moment(item.salaryDatetime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
+      <Grid item xs={12}>
+        <Paper>
+          {search ? (
+            <div>
+              {  checkSalaryName ? (
+                <TableContainer component={Paper}>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center">หมายเลข</TableCell>
+                        <TableCell align="center">เลขบัญชีธนาคาร</TableCell>
+                        <TableCell align="center">รายชื่อพนักงาน</TableCell>
+                        <TableCell align="center">ตำแหน่ง</TableCell>
+                        <TableCell align="center">ผลการประเมิน</TableCell>
+                        <TableCell align="center">เงินเดือน</TableCell>
+                        <TableCell align="center">โบนัส</TableCell>
+                        <TableCell align="center">วันที่เงินเดือนออก</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {salarys.filter((filter: any) =>
+                        filter.edges?.employee?.name.startsWith(employeeid)).map((item: any) => (
+                          <TableRow key={item.id}>
+                            <TableCell align="center">{item.id}</TableCell>
+                            <TableCell align="center">{item.accountNumber}</TableCell>
+                            <TableCell align="center">{item.edges?.employee?.name}</TableCell>
+                            <TableCell align="center">{item.edges?.position?.position}</TableCell>
+                            <TableCell align="center">{item.edges?.assessment?.assessment}</TableCell>
+                            <TableCell align="center">{item.bonus}</TableCell>
+                            <TableCell align="center">{item.salary}</TableCell>
+                            <TableCell align="center">{moment(item.salaryDatetime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
 
-                  <TableCell align="center">
-                    <Button
-                      onClick={() => {
-                        deleteSystemequipments(item.id);
-                      }}
-                      style={{ marginLeft: 10 }}
-                      variant="contained"
-                      color="secondary"
-                    >
-                      Delete
+                            <TableCell align="center">
+                              <Button
+                                onClick={() => {
+                                  deleteSystemequipments(item.id);
+                                }}
+                                style={{ marginLeft: 10 }}
+                                variant="contained"
+                                color="secondary"
+                              >
+                                Delete
                </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )
+                : employeeid == "" ? (
+                  <div>
+                    <TableContainer component={Paper}>
+                      <Table className={classes.table} aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center">หมายเลข</TableCell>
+                            <TableCell align="center">เลขบัญชีธนาคาร</TableCell>
+                            <TableCell align="center">รายชื่อพนักงาน</TableCell>
+                            <TableCell align="center">ตำแหน่ง</TableCell>
+                            <TableCell align="center">ผลการประเมิน</TableCell>
+                            <TableCell align="center">เงินเดือน</TableCell>
+                            <TableCell align="center">โบนัส</TableCell>
+                            <TableCell align="center">วันที่เงินเดือนออก</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {salarys.filter((filter: any) =>
+                            filter.edges?.employee?.nameProduct.startsWith(employeeid)).map((item: any) => (
+                              <TableRow key={item.id}>
+                                <TableCell align="center">{item.id}</TableCell>
+                                <TableCell align="center">{item.accountNumber}</TableCell>
+                                <TableCell align="center">{item.edges?.employee?.name}</TableCell>
+                                <TableCell align="center">{item.edges?.position?.position}</TableCell>
+                                <TableCell align="center">{item.edges?.assessment?.assessment}</TableCell>
+                                <TableCell align="center">{item.bonus}</TableCell>
+                                <TableCell align="center">{item.salary}</TableCell>
+                                <TableCell align="center">{moment(item.salaryDatetime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
+
+                                <TableCell align="center">
+                                  <Button
+                                    onClick={() => {
+                                      deleteSystemequipments(item.id);
+                                    }}
+                                    style={{ marginLeft: 10 }}
+                                    variant="contained"
+                                    color="secondary"
+                                  >
+                                    Delete
+               </Button>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </div>
+                ) : null}
+            </div>
+          ) : null}
+        </Paper>
+      </Grid>
 
     </div>
   );

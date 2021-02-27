@@ -190,10 +190,10 @@ const checkCaseSaveError = (field: string) => {
       alertMessage("error","กรุณาระบุเป็นเลขบัญชีธนาคาร 10 หลักให้ถูกต้อง");
       return;
     case 'Salary':
-      alertMessage("error","กรุณาเป็นตัวเลขและไม่ติดลบ");
+      alertMessage("error","กรุณาระบุเงินเดือนเป็นตัวเลขและไม่ติดลบ");
       return;
     case 'Bonus':
-      alertMessage("error","กรุณาเป็นตัวเลขและไม่ติดลบ");
+      alertMessage("error","กรุณาระบบโบนัสเป็นตัวเลขและไม่ติดลบ");
       return;
     default:
       alertMessage("error","<h2>บันทึกข้อมูลไม่สำเร็จ</h2>");
