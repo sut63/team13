@@ -8743,7 +8743,7 @@ func (m *PromotionMutation) ResetEdge(name string) error {
 // nodes in the graph.
 type RoleMutation struct {
 	config
-<<<<<<< HEAD
+
 	op            Op
 	typ           string
 	id            *int
@@ -8753,7 +8753,7 @@ type RoleMutation struct {
 	removedtodo   map[int]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Role, error)
-=======
+
 	op                Op
 	typ               string
 	id                *int
@@ -8772,7 +8772,7 @@ type RoleMutation struct {
 	clearedemployee   bool
 	done              bool
 	oldValue          func(context.Context) (*Salary, error)
->>>>>>> 55e1957dee73e118a41a4ab78d8fed5428e5ae74
+
 }
 
 var _ ent.Mutation = (*RoleMutation)(nil)
@@ -8826,7 +8826,7 @@ func withRole(node *Role) roleOption {
 	}
 }
 
-<<<<<<< HEAD
+
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
 func (m RoleMutation) Client() *Client {
@@ -8858,11 +8858,10 @@ func (m *RoleMutation) ID() (id int, exists bool) {
 // SetRole sets the Role field.
 func (m *RoleMutation) SetRole(s string) {
 	m._Role = &s
-=======
+
 // SetAccountNumber sets the AccountNumber field.
 func (m *SalaryMutation) SetAccountNumber(s string) {
 	m._AccountNumber = &s
->>>>>>> 55e1957dee73e118a41a4ab78d8fed5428e5ae74
 }
 
 // Role returns the Role value in the mutation.
@@ -8952,12 +8951,12 @@ func (m *RoleMutation) Type() string {
 // Fields returns all fields that were changed during
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
-<<<<<<< HEAD
+
 func (m *RoleMutation) Fields() []string {
 	fields := make([]string, 0, 1)
 	if m._Role != nil {
 		fields = append(fields, role.FieldRole)
-=======
+
 func (m *SalaryMutation) Fields() []string {
 	fields := make([]string, 0, 4)
 	if m._Salary != nil {
@@ -8971,7 +8970,7 @@ func (m *SalaryMutation) Fields() []string {
 	}
 	if m._AccountNumber != nil {
 		fields = append(fields, salary.FieldAccountNumber)
->>>>>>> 55e1957dee73e118a41a4ab78d8fed5428e5ae74
+
 	}
 	return fields
 }
@@ -8979,12 +8978,12 @@ func (m *SalaryMutation) Fields() []string {
 // Field returns the value of a field with the given name.
 // The second boolean value indicates that this field was
 // not set, or was not define in the schema.
-<<<<<<< HEAD
+
 func (m *RoleMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case role.FieldRole:
 		return m.Role()
-=======
+
 func (m *SalaryMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case salary.FieldSalary:
@@ -8995,7 +8994,7 @@ func (m *SalaryMutation) Field(name string) (ent.Value, bool) {
 		return m.SalaryDatetime()
 	case salary.FieldAccountNumber:
 		return m.AccountNumber()
->>>>>>> 55e1957dee73e118a41a4ab78d8fed5428e5ae74
+
 	}
 	return nil, false
 }
@@ -9005,10 +9004,10 @@ func (m *SalaryMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-<<<<<<< HEAD
+
 	case role.FieldRole:
 		return m.OldRole(ctx)
-=======
+
 	case salary.FieldSalary:
 		return m.OldSalary(ctx)
 	case salary.FieldBonus:
@@ -9017,7 +9016,7 @@ func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldSalaryDatetime(ctx)
 	case salary.FieldAccountNumber:
 		return m.OldAccountNumber(ctx)
->>>>>>> 55e1957dee73e118a41a4ab78d8fed5428e5ae74
+
 	}
 	return nil, fmt.Errorf("unknown Role field %s", name)
 }
@@ -9027,9 +9026,9 @@ func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, er
 // type mismatch the field type.
 func (m *RoleMutation) SetField(name string, value ent.Value) error {
 	switch name {
-<<<<<<< HEAD
+
 	case role.FieldRole:
-=======
+
 	case salary.FieldSalary:
 		v, ok := value.(float64)
 		if !ok {
@@ -9052,7 +9051,7 @@ func (m *RoleMutation) SetField(name string, value ent.Value) error {
 		m.SetSalaryDatetime(v)
 		return nil
 	case salary.FieldAccountNumber:
->>>>>>> 55e1957dee73e118a41a4ab78d8fed5428e5ae74
+
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -9109,10 +9108,10 @@ func (m *RoleMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *RoleMutation) ResetField(name string) error {
 	switch name {
-<<<<<<< HEAD
+
 	case role.FieldRole:
 		m.ResetRole()
-=======
+
 	case salary.FieldSalary:
 		m.ResetSalary()
 		return nil
@@ -9124,7 +9123,7 @@ func (m *RoleMutation) ResetField(name string) error {
 		return nil
 	case salary.FieldAccountNumber:
 		m.ResetAccountNumber()
->>>>>>> 55e1957dee73e118a41a4ab78d8fed5428e5ae74
+
 		return nil
 	}
 	return fmt.Errorf("unknown Role field %s", name)
