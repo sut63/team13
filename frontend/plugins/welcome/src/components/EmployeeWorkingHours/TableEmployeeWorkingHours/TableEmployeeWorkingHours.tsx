@@ -141,11 +141,12 @@ export default function ComponentsTable() {
         <TableHead>
           <TableRow>
             <TableCell align="center">No.</TableCell>
-            <TableCell align="center">รหัสพนักงาน</TableCell>
-            <TableCell align="center">เลขบัตรประชาชน</TableCell>
             <TableCell align="center">ชื่อพนักงาน</TableCell>
+            <TableCell align="center">เลขบัตรประชาชน</TableCell>
+            <TableCell align="center">รหัสพนักงาน</TableCell>
             <TableCell align="center">วันที่เข้าทำงาน</TableCell>
-            <TableCell align="center">เวลาทำงาน</TableCell>
+            <TableCell align="center">เวลาเริ่มงาน</TableCell>
+            <TableCell align="center">เวลาเลิกงาน</TableCell>
             <TableCell align="center">หน้าที่ที่รับผิดชอบ</TableCell>
             <TableCell align="center">ค่าจ้าง</TableCell>
             <TableCell align="center">Manage</TableCell>
@@ -157,11 +158,12 @@ export default function ComponentsTable() {
             : EmployeeWorkingHourss.map((item:any) => (
               <TableRow key={item.id}>
                 <TableCell align="center">{item.id}</TableCell>
-                <TableCell align="center">{item.iDEmployee}</TableCell>
-                <TableCell align="center">{item.iDNumber}</TableCell>
                 <TableCell align="center">{item.edges?.employee?.name}</TableCell>
+                <TableCell align="center">{item.iDNumber}</TableCell>
+                <TableCell align="center">{item.codeWork}</TableCell>
                 <TableCell align="center">{item.edges?.day?.day}</TableCell>
-                <TableCell align="center">{item.edges?.shift?.name}</TableCell>
+                <TableCell align="center">{moment(item.edges?.beginWork?.beginWork).format("LT")}</TableCell>
+                <TableCell align="center">{moment(item.edges?.getOffWork?.getOffWork).format("LT")}</TableCell>
                 <TableCell align="center">{item.edges?.role?.role}</TableCell>
                 <TableCell align="center">{item.wages}</TableCell>
                 <TableCell align="center">

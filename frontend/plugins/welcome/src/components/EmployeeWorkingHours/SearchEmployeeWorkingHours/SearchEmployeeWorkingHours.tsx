@@ -32,6 +32,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -114,59 +115,63 @@ export default function MenuAppBar() {
   //var cookieName = ck.GetName()
   const classes = useStyles();
   const api = new DefaultApi();
-
+  const [search, setSearch] = useState(false);
+  const [checkEmployeeName, setEmployeeName] = useState(false);
   const [Employees, setEmployees] = useState<EntEmployee[]>([]);
   const [loading, setLoading] = useState(true);
-  const [Employeeid, setEmployeeid] = useState(Number);
+  const [Employeeid, setEmployeeid] = useState(String);
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+    setSearch(false);
+  }
 
-  //let managerID = Number(cookieID)
-  let EmployeeID = Number(Employeeid)
-  //console.log(managerID)
 
-  const [EmployeeWorkingHourss, setEmployeeWorkingHours] = useState<EntEmployeeWorkingHours[]>();
+  const [EmployeeWorkingHourss, setEmployeeWorkingHourss] = useState<EntEmployeeWorkingHours[]>([]);
 
-  const deleteSystemequipments = async (id: number) => {
-    const res = await api.deleteEmployeeworkinghours({ id: id });
-    setLoading(true);
-  };
+
   useEffect(() => {
     const getEmployees = async () => {
-      const pr = await api.listEmployee({ limit: 10, offset: 0 });
+      const em = await api.listEmployee({ limit: 10, offset: 0 });
       setLoading(false);
-      setEmployees(pr);
+      setEmployees(em);
     };
     getEmployees();
+    const getEmployeeWorkingHours = async () => {
+      const ewh = await api.listEmployeeworkinghours({ limit: 10, offset: 0 });
+      setLoading(false);
+      setEmployeeWorkingHourss(ewh);
+    };
+    getEmployeeWorkingHours();
   }, [loading]);
 
-  const employeeworkinghours = {
-    //managerID,
-    EmployeeID,
+  const Employee_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setEmployeeid(event.target.value as string);
+    setEmployeeName(false);
+    setSearch(false);
   }
-  console.log(employeeworkinghours)
-
-  const Employee_id_handleChange = (event: any) => {
-    setEmployeeid(event.target.value);
-  }
-  var lenEmployeeWorkingHours: number
-
-  const getCheckinsWorkingHours = async () => {
-    const res = await api.getEmployeeworkinghours({ id: Employeeid })
-    setEmployeeWorkingHours(res)
-    lenEmployeeWorkingHours = res.length
-    if (lenEmployeeWorkingHours > 0) {
-      //setOpen(true)
-      Toast.fire({
-        icon: 'success',
-        title: 'ค้นหาข้อมูลสำเร็จ',
-      })
-    } else {
-      //setFail(true)
-      Toast.fire({
-        icon: 'error',
-        title: 'ไม่พบข้อมูลในระบบ',
-      })
+  
+  const getCheckEmployeeWorkingHours = async () => {
+    var check = false;
+    EmployeeWorkingHourss.map(item => {
+      if (Employeeid != "") {
+        if (item.edges?.employee?.name?.startsWith(Employeeid)) {
+          setEmployeeName(true);
+          alertMessage("success", "ค้นหาข้อมูลสำเร็จ");
+          check = true;
+        }
+      }
+    })
+    if (!check) {
+      alertMessage("error", "ไม่พบข้อมูลที่ค้นหา");
     }
-  }
+    console.log(checkEmployeeName)
+    if (Employeeid == "") {
+      alertMessage("info", "กรอกชื่อพนักงาน");
+    }
+  };
 
  function HomeIcon(props:any) {
     return (
@@ -240,16 +245,16 @@ export default function MenuAppBar() {
             </Grid>
             <Grid item xs={2}>
 
-              <Select
-                labelId="Employee_id-label"
-                label="Employee"
-                id="Employee_id"
-                onChange={Employee_id_handleChange}
-                style={{ width: 200 }}
-              >
-                {Employees.map((item: EntEmployee) =>
-                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)}
-              </Select>
+              <TextField
+                  id="Employee_id"
+                  label="Employee"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
+                  value={Employeeid}
+                  onChange={Employee_id_handleChange}
+                  style={{ marginRight: 300, width: 300 }}
+                />
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -267,7 +272,8 @@ export default function MenuAppBar() {
                 size="large"
                 className={classes.button}
                 onClick={() => {
-                  getCheckinsWorkingHours();
+                  getCheckEmployeeWorkingHours();
+                  setSearch(true);
                 }}
 
                 startIcon={<SearchIcon
@@ -300,31 +306,35 @@ export default function MenuAppBar() {
           </Grid>
         </Toolbar>
       </AppBar>
+      {search ? (
+        <div>
+          {  checkEmployeeName ? (
       <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
+        <Table className={classes.table} aria-label="EmployeeWorkingHours Table">
           <TableHead>
             <TableRow>
               <TableCell align="center">No.</TableCell>
               <TableCell align="center">ชื่อพนักงาน</TableCell>
-              <TableCell align="center">รหัสพนักงาน</TableCell>
               <TableCell align="center">เลขบัตรประชาชน</TableCell>
+              <TableCell align="center">รหัสพนักงาน</TableCell>
               <TableCell align="center">วันที่เข้าทำงาน</TableCell>
-              <TableCell align="center">เวลาทำงาน</TableCell>
+              <TableCell align="center">เวลาเริ่มงาน</TableCell>
+              <TableCell align="center">เวลาเลิกงาน</TableCell>
               <TableCell align="center">หน้าที่ที่รับผิดชอบ</TableCell>
               <TableCell align="center">ค่าจ้าง</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {EmployeeWorkingHourss === undefined
-              ? null
-              : EmployeeWorkingHourss.map((item: any) => (
+            {EmployeeWorkingHourss.filter((filter: any) =>
+              filter.edges?.employee?.name.startsWith(Employeeid)).map((item: any) => (
                 <TableRow key={item.id}>
                   <TableCell align="center">{item.id}</TableCell>
                   <TableCell align="center">{item.edges?.employee?.name}</TableCell>
-                  <TableCell align="center">{item.iDEmployee}</TableCell>
                   <TableCell align="center">{item.iDNumber}</TableCell>
+                  <TableCell align="center">{item.codeWork}</TableCell>
                   <TableCell align="center">{item.edges?.day?.day}</TableCell>
-                  <TableCell align="center">{item.edges?.shift?.name}</TableCell>
+                  <TableCell align="center">{moment(item.edges?.beginWork?.beginWork).format("LT")}</TableCell>
+                  <TableCell align="center">{moment(item.edges?.getOffWork?.getOffWork).format("LT")}</TableCell>
                   <TableCell align="center">{item.edges?.role?.role}</TableCell>
                   <TableCell align="center">{item.wages}</TableCell>
                 </TableRow>
@@ -332,7 +342,9 @@ export default function MenuAppBar() {
           </TableBody>
         </Table>
       </TableContainer>
-        
+         ) : null}
+         </div>
+       ) : null}
         
       </AppBar>
       

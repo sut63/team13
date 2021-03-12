@@ -5,6 +5,7 @@ import SaveIcon from '@material-ui/icons/Save'; // icon save
 import Swal from 'sweetalert2'; // alert
 //import ComponanceTable from '../EmployeeWorkingHours';
 import { Link as RouterLink } from 'react-router-dom';
+import moment from "moment";
 
 import {
   Container,
@@ -28,22 +29,12 @@ import { DefaultApi } from '../../api/apis'; // Api Gennerate From Command
 import { EntEmployee } from '../../api/models/EntEmployee'; // import interface Employee
 import { EntDay } from '../../api/models/EntDay'; // import interface Day
 import { EntRole } from '../../api/models/EntRole'; // import interface Role
-import { EntShift } from '../../api/models/EntShift'; // import interface Shift
+import { EntBeginWork } from '../../api/models/EntBeginWork'; // import interface EntBeginWork
+import { EntGetOffWork } from '../../api/models/EntGetOffWork'; // import interface EntBeginWork
+
 //import { Cookies } from './orderproduct/SignInOrderproduct/Cookie';
 import SearchIcon from '@material-ui/icons/Search';
 
-  // alert setting
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: toast => {
-      toast.addEventListener('mouseenter', Swal.stopTimer);
-      toast.addEventListener('mouseleave', Swal.resumeTimer);
-    },
-  });
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 // header css
@@ -93,12 +84,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface EmployeeWorkingHours {
-  IDEmployee: string;
+  CodeWork:   string;
   IDNumber:   string;
   Employee:   number;
   Day:        number;
   Role:       number;
-  Shift:      number;
+  BeginWork:  number;
+  GetOffWork: number;
   Wages:      number;
   // create_by: number;
 }
@@ -121,7 +113,8 @@ const EmployeeWorkingHours: FC<{}> = () => {
   const [Days, setDays] = React.useState<EntDay[]>([]);
   const [Roles, setRoles] = React.useState<EntRole[]>([]);
   const [Employees, setEmployees] = React.useState<EntEmployee[]>([]);
-  const [Shifts, setShifts] = React.useState<EntShift[]>([]);
+  const [BeginWorks, setBeginWorks] = React.useState<EntBeginWork[]>([]);
+  const [GetOffWorks, setGetOffWorks] = React.useState<EntGetOffWork[]>([]);
 
   //const [Day, SetDayid] = useState(Number);
   //const [Role, SetRolesid] = useState(Number);
@@ -172,10 +165,16 @@ const EmployeeWorkingHours: FC<{}> = () => {
     setRoles(res);
   };
 
-  const getShift = async () => {
-    const res = await http.listShift({ limit: 10, offset: 0 });
+  const getBeginWork = async () => {
+    const res = await http.listBeginwork({ limit: 10, offset: 0 });
     setLoading(false);
-    setShifts(res);
+    setBeginWorks(res);
+  };
+
+  const getGetOffWork = async () => {
+    const res = await http.listGetoffwork({ limit: 10, offset: 0 });
+    setLoading(false);
+    setGetOffWorks(res);
   };
 
   // Lifecycle Hooks
@@ -183,7 +182,8 @@ const EmployeeWorkingHours: FC<{}> = () => {
     getEmployee();
     getDay();
     getRole();
-    getShift();
+    getBeginWork();
+    getGetOffWork();
   }, [loading]);
 
   //const EmployeehandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -346,20 +346,24 @@ const EmployeeWorkingHours: FC<{}> = () => {
           <Grid container spacing={3}>
             <Grid item xs={12}></Grid>
             <Grid item xs={3}>
-              <div className={classes.paper}>รหัสพนักงาน</div>
+              <div className={classes.paper}>พนักงาน</div>
             </Grid>
             <Grid item xs={9}>
               <FormControl variant="outlined" className={classes.formControl}>
-                <TextField 
-                  id="IDEmployee"
-                  name ="IDEmployee"
-                  label = "ใส่รหัสพนักงาน"
-                  InputLabelProps={{shrink: true,}} 
-                  variant="outlined"
+                <InputLabel>เลือกพนักงาน</InputLabel>
+                <Select
+                  name="Employee"
+                  value={EmployeeWorkingHourss.Employee || ''} // (undefined || '') = ''
                   onChange={handleChange}
-                  value={EmployeeWorkingHourss.IDEmployee || ''}
-                  
-              />
+                >
+                  {Employees.map(item => {
+                    return (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
               </FormControl>
             </Grid>
 
@@ -383,24 +387,20 @@ const EmployeeWorkingHours: FC<{}> = () => {
 
             <Grid item xs={12}></Grid>
             <Grid item xs={3}>
-              <div className={classes.paper}>พนักงาน</div>
+              <div className={classes.paper}>รหัสพนักงาน</div>
             </Grid>
             <Grid item xs={9}>
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>เลือกพนักงาน</InputLabel>
-                <Select
-                  name="Employee"
-                  value={EmployeeWorkingHourss.Employee || ''} // (undefined || '') = ''
+                <TextField 
+                  id="CodeWork"
+                  name ="CodeWork"
+                  label = "ใส่โค๊ดทำงาน"
+                  InputLabelProps={{shrink: true,}} 
+                  variant="outlined"
                   onChange={handleChange}
-                >
-                  {Employees.map(item => {
-                    return (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
+                  value={EmployeeWorkingHourss.CodeWork || ''}
+                  
+              />
               </FormControl>
             </Grid>
 
@@ -427,20 +427,41 @@ const EmployeeWorkingHours: FC<{}> = () => {
             </Grid>
 
             <Grid item xs={3}>
-              <div className={classes.paper}>เวลา</div>
+              <div className={classes.paper}>เวลาเริ่มงาน</div>
             </Grid>
             <Grid item xs={9}>
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>เลือกเวลา</InputLabel>
+                <InputLabel>เลือกเวลา เริ่มงาน</InputLabel>
                 <Select
-                  name="Shift"
-                  value={EmployeeWorkingHourss.Shift || ''} // (undefined || '') = ''
+                  name="BeginWork"
+                  value={EmployeeWorkingHourss.BeginWork || ''} // (undefined || '') = ''
                   onChange={handleChange}
                 >
-                  {Shifts.map(item => {
+                  {BeginWorks.map(item => {
                     return (
                       <MenuItem key={item.id} value={item.id}>
-                        {item.name}
+                        {moment(item.beginWork).format("LT")}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={3}>
+              <div className={classes.paper}>เวลาเลิกงาน</div>
+            </Grid>
+            <Grid item xs={9}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel>เลือกเวลา เลิกงาน</InputLabel>
+                <Select
+                  name="GetOffWork"
+                  value={EmployeeWorkingHourss.GetOffWork || ''} // (undefined || '') = ''
+                  onChange={handleChange}
+                >
+                  {GetOffWorks.map(item => {
+                    return (
+                      <MenuItem key={item.id} value={item.id}>
+                        {moment(item.getOffWork).format("LT")}
                       </MenuItem>
                     );
                   })}

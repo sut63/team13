@@ -77,10 +77,10 @@ func init() {
 	employee.AgeValidator = employeeDescAge.Validators[0].(func(int) error)
 	employeeworkinghoursFields := schema.EmployeeWorkingHours{}.Fields()
 	_ = employeeworkinghoursFields
-	// employeeworkinghoursDescIDEmployee is the schema descriptor for IDEmployee field.
-	employeeworkinghoursDescIDEmployee := employeeworkinghoursFields[0].Descriptor()
-	// employeeworkinghours.IDEmployeeValidator is a validator for the "IDEmployee" field. It is called by the builders before save.
-	employeeworkinghours.IDEmployeeValidator = employeeworkinghoursDescIDEmployee.Validators[0].(func(string) error)
+	// employeeworkinghoursDescCodeWork is the schema descriptor for CodeWork field.
+	employeeworkinghoursDescCodeWork := employeeworkinghoursFields[0].Descriptor()
+	// employeeworkinghours.CodeWorkValidator is a validator for the "CodeWork" field. It is called by the builders before save.
+	employeeworkinghours.CodeWorkValidator = employeeworkinghoursDescCodeWork.Validators[0].(func(string) error)
 	// employeeworkinghoursDescIDNumber is the schema descriptor for IDNumber field.
 	employeeworkinghoursDescIDNumber := employeeworkinghoursFields[1].Descriptor()
 	// employeeworkinghours.IDNumberValidator is a validator for the "IDNumber" field. It is called by the builders before save.

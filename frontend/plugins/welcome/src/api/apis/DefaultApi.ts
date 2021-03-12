@@ -36,6 +36,9 @@ import {
     EntAssessment,
     EntAssessmentFromJSON,
     EntAssessmentToJSON,
+    EntBeginWork,
+    EntBeginWorkFromJSON,
+    EntBeginWorkToJSON,
     EntCompany,
     EntCompanyFromJSON,
     EntCompanyToJSON,
@@ -54,6 +57,9 @@ import {
     EntEmployeeWorkingHours,
     EntEmployeeWorkingHoursFromJSON,
     EntEmployeeWorkingHoursToJSON,
+    EntGetOffWork,
+    EntGetOffWorkFromJSON,
+    EntGetOffWorkToJSON,
     EntGiveaway,
     EntGiveawayFromJSON,
     EntGiveawayToJSON,
@@ -84,9 +90,6 @@ import {
     EntSalary,
     EntSalaryFromJSON,
     EntSalaryToJSON,
-    EntShift,
-    EntShiftFromJSON,
-    EntShiftToJSON,
     EntStock,
     EntStockFromJSON,
     EntStockToJSON,
@@ -100,6 +103,10 @@ import {
 
 export interface CreateAssessmentRequest {
     assessment: EntAssessment;
+}
+
+export interface CreateBeginworkRequest {
+    beginwork: EntBeginWork;
 }
 
 export interface CreateCompanyRequest {
@@ -124,6 +131,10 @@ export interface CreateEmployeeRequest {
 
 export interface CreateEmployeeworkinghoursRequest {
     employeeworkinghours: ControllersEmployeeWorkingHours;
+}
+
+export interface CreateGetoffworkRequest {
+    getoffwork: EntGetOffWork;
 }
 
 export interface CreateGiveawayRequest {
@@ -166,10 +177,6 @@ export interface CreateSalaryRequest {
     salary: ControllersSalary;
 }
 
-export interface CreateShiftRequest {
-    shift: EntShift;
-}
-
 export interface CreateStockRequest {
     stock: ControllersStock;
 }
@@ -183,6 +190,10 @@ export interface CreateZoneproductRequest {
 }
 
 export interface DeleteAssessmentRequest {
+    id: number;
+}
+
+export interface DeleteBeginworkRequest {
     id: number;
 }
 
@@ -203,6 +214,10 @@ export interface DeleteEmployeeRequest {
 }
 
 export interface DeleteEmployeeworkinghoursRequest {
+    id: number;
+}
+
+export interface DeleteGetoffworkRequest {
     id: number;
 }
 
@@ -242,10 +257,6 @@ export interface DeleteSalaryRequest {
     id: number;
 }
 
-export interface DeleteShiftRequest {
-    id: number;
-}
-
 export interface DeleteStockRequest {
     id: number;
 }
@@ -259,6 +270,10 @@ export interface DeleteZoneproductRequest {
 }
 
 export interface GetAssessmentRequest {
+    id: number;
+}
+
+export interface GetBeginworkRequest {
     id: number;
 }
 
@@ -283,6 +298,10 @@ export interface GetEmployeeRequest {
 }
 
 export interface GetEmployeeworkinghoursRequest {
+    id: number;
+}
+
+export interface GetGetoffworkRequest {
     id: number;
 }
 
@@ -326,10 +345,6 @@ export interface GetSalaryRequest {
     id: number;
 }
 
-export interface GetShiftRequest {
-    id: number;
-}
-
 export interface GetStockRequest {
     id: number;
 }
@@ -343,6 +358,11 @@ export interface GetZoneproductRequest {
 }
 
 export interface ListAssessmentRequest {
+    limit?: number;
+    offset?: number;
+}
+
+export interface ListBeginworkRequest {
     limit?: number;
     offset?: number;
 }
@@ -373,6 +393,11 @@ export interface ListEmployeeRequest {
 }
 
 export interface ListEmployeeworkinghoursRequest {
+    limit?: number;
+    offset?: number;
+}
+
+export interface ListGetoffworkRequest {
     limit?: number;
     offset?: number;
 }
@@ -427,11 +452,6 @@ export interface ListSalaryRequest {
     offset?: number;
 }
 
-export interface ListShiftRequest {
-    limit?: number;
-    offset?: number;
-}
-
 export interface ListStockRequest {
     limit?: number;
     offset?: number;
@@ -450,6 +470,11 @@ export interface ListZoneproductRequest {
 export interface UpdateAssessmentRequest {
     id: number;
     assessment: EntAssessment;
+}
+
+export interface UpdateBeginworkRequest {
+    id: number;
+    beginwork: EntBeginWork;
 }
 
 export interface UpdateCompanyRequest {
@@ -475,6 +500,11 @@ export interface UpdateEmployeeRequest {
 export interface UpdateEmployeeworkinghoursRequest {
     id: number;
     employeeworkinghours: EntEmployeeWorkingHours;
+}
+
+export interface UpdateGetoffworkRequest {
+    id: number;
+    getoffwork: EntGetOffWork;
 }
 
 export interface UpdateGiveawayRequest {
@@ -505,11 +535,6 @@ export interface UpdateProductRequest {
 export interface UpdateRoleRequest {
     id: number;
     role: EntRole;
-}
-
-export interface UpdateShiftRequest {
-    id: number;
-    shift: EntShift;
 }
 
 export interface UpdateStockRequest {
@@ -564,6 +589,41 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async createAssessment(requestParameters: CreateAssessmentRequest): Promise<EntAssessment> {
         const response = await this.createAssessmentRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Create beginwork
+     * Create beginwork
+     */
+    async createBeginworkRaw(requestParameters: CreateBeginworkRequest): Promise<runtime.ApiResponse<EntBeginWork>> {
+        if (requestParameters.beginwork === null || requestParameters.beginwork === undefined) {
+            throw new runtime.RequiredError('beginwork','Required parameter requestParameters.beginwork was null or undefined when calling createBeginwork.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/beginworks`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: EntBeginWorkToJSON(requestParameters.beginwork),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EntBeginWorkFromJSON(jsonValue));
+    }
+
+    /**
+     * Create beginwork
+     * Create beginwork
+     */
+    async createBeginwork(requestParameters: CreateBeginworkRequest): Promise<EntBeginWork> {
+        const response = await this.createBeginworkRaw(requestParameters);
         return await response.value();
     }
 
@@ -774,6 +834,41 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async createEmployeeworkinghours(requestParameters: CreateEmployeeworkinghoursRequest): Promise<EntEmployeeWorkingHours> {
         const response = await this.createEmployeeworkinghoursRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Create getoffwork
+     * Create getoffwork
+     */
+    async createGetoffworkRaw(requestParameters: CreateGetoffworkRequest): Promise<runtime.ApiResponse<EntGetOffWork>> {
+        if (requestParameters.getoffwork === null || requestParameters.getoffwork === undefined) {
+            throw new runtime.RequiredError('getoffwork','Required parameter requestParameters.getoffwork was null or undefined when calling createGetoffwork.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/getoffworks`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: EntGetOffWorkToJSON(requestParameters.getoffwork),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EntGetOffWorkFromJSON(jsonValue));
+    }
+
+    /**
+     * Create getoffwork
+     * Create getoffwork
+     */
+    async createGetoffwork(requestParameters: CreateGetoffworkRequest): Promise<EntGetOffWork> {
+        const response = await this.createGetoffworkRaw(requestParameters);
         return await response.value();
     }
 
@@ -1128,41 +1223,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create shift
-     * Create shift
-     */
-    async createShiftRaw(requestParameters: CreateShiftRequest): Promise<runtime.ApiResponse<EntShift>> {
-        if (requestParameters.shift === null || requestParameters.shift === undefined) {
-            throw new runtime.RequiredError('shift','Required parameter requestParameters.shift was null or undefined when calling createShift.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/shifts`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: EntShiftToJSON(requestParameters.shift),
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntShiftFromJSON(jsonValue));
-    }
-
-    /**
-     * Create shift
-     * Create shift
-     */
-    async createShift(requestParameters: CreateShiftRequest): Promise<EntShift> {
-        const response = await this.createShiftRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
      * Create stock
      * Create stock
      */
@@ -1296,6 +1356,38 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async deleteAssessment(requestParameters: DeleteAssessmentRequest): Promise<object> {
         const response = await this.deleteAssessmentRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * get beginwork by ID
+     * Delete a beginwork entity by ID
+     */
+    async deleteBeginworkRaw(requestParameters: DeleteBeginworkRequest): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteBeginwork.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/beginworks/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * get beginwork by ID
+     * Delete a beginwork entity by ID
+     */
+    async deleteBeginwork(requestParameters: DeleteBeginworkRequest): Promise<object> {
+        const response = await this.deleteBeginworkRaw(requestParameters);
         return await response.value();
     }
 
@@ -1456,6 +1548,38 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async deleteEmployeeworkinghours(requestParameters: DeleteEmployeeworkinghoursRequest): Promise<object> {
         const response = await this.deleteEmployeeworkinghoursRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * get getoffwork by ID
+     * Delete a getoffwork entity by ID
+     */
+    async deleteGetoffworkRaw(requestParameters: DeleteGetoffworkRequest): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteGetoffwork.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/getoffworks/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * get getoffwork by ID
+     * Delete a getoffwork entity by ID
+     */
+    async deleteGetoffwork(requestParameters: DeleteGetoffworkRequest): Promise<object> {
+        const response = await this.deleteGetoffworkRaw(requestParameters);
         return await response.value();
     }
 
@@ -1748,38 +1872,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * get shift by ID
-     * Delete a shift entity by ID
-     */
-    async deleteShiftRaw(requestParameters: DeleteShiftRequest): Promise<runtime.ApiResponse<object>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteShift.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/shifts/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse<any>(response);
-    }
-
-    /**
-     * get shift by ID
-     * Delete a shift entity by ID
-     */
-    async deleteShift(requestParameters: DeleteShiftRequest): Promise<object> {
-        const response = await this.deleteShiftRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
      * get stock by ID
      * Delete a stock entity by ID
      */
@@ -1904,6 +1996,38 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getAssessment(requestParameters: GetAssessmentRequest): Promise<EntAssessment> {
         const response = await this.getAssessmentRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * get beginwork by ID
+     * Get a beginwork entity by ID
+     */
+    async getBeginworkRaw(requestParameters: GetBeginworkRequest): Promise<runtime.ApiResponse<EntBeginWork>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getBeginwork.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/beginworks/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EntBeginWorkFromJSON(jsonValue));
+    }
+
+    /**
+     * get beginwork by ID
+     * Get a beginwork entity by ID
+     */
+    async getBeginwork(requestParameters: GetBeginworkRequest): Promise<EntBeginWork> {
+        const response = await this.getBeginworkRaw(requestParameters);
         return await response.value();
     }
 
@@ -2096,6 +2220,38 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getEmployeeworkinghours(requestParameters: GetEmployeeworkinghoursRequest): Promise<Array<EntEmployeeWorkingHours>> {
         const response = await this.getEmployeeworkinghoursRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * get getoffwork by ID
+     * Get a getoffwork entity by ID
+     */
+    async getGetoffworkRaw(requestParameters: GetGetoffworkRequest): Promise<runtime.ApiResponse<EntGetOffWork>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getGetoffwork.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/getoffworks/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EntGetOffWorkFromJSON(jsonValue));
+    }
+
+    /**
+     * get getoffwork by ID
+     * Get a getoffwork entity by ID
+     */
+    async getGetoffwork(requestParameters: GetGetoffworkRequest): Promise<EntGetOffWork> {
+        const response = await this.getGetoffworkRaw(requestParameters);
         return await response.value();
     }
 
@@ -2420,38 +2576,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * get shift by ID
-     * Get a shift entity by ID
-     */
-    async getShiftRaw(requestParameters: GetShiftRequest): Promise<runtime.ApiResponse<EntShift>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getShift.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/shifts/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntShiftFromJSON(jsonValue));
-    }
-
-    /**
-     * get shift by ID
-     * Get a shift entity by ID
-     */
-    async getShift(requestParameters: GetShiftRequest): Promise<EntShift> {
-        const response = await this.getShiftRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
      * get stock by ID
      * Get a stock entity by ID
      */
@@ -2580,6 +2704,42 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async listAssessment(requestParameters: ListAssessmentRequest): Promise<Array<EntAssessment>> {
         const response = await this.listAssessmentRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * list beginwork entities
+     * List beginwork entities
+     */
+    async listBeginworkRaw(requestParameters: ListBeginworkRequest): Promise<runtime.ApiResponse<Array<EntBeginWork>>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.offset !== undefined) {
+            queryParameters['offset'] = requestParameters.offset;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/beginworks`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntBeginWorkFromJSON));
+    }
+
+    /**
+     * list beginwork entities
+     * List beginwork entities
+     */
+    async listBeginwork(requestParameters: ListBeginworkRequest): Promise<Array<EntBeginWork>> {
+        const response = await this.listBeginworkRaw(requestParameters);
         return await response.value();
     }
 
@@ -2796,6 +2956,42 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async listEmployeeworkinghours(requestParameters: ListEmployeeworkinghoursRequest): Promise<Array<EntEmployeeWorkingHours>> {
         const response = await this.listEmployeeworkinghoursRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * list getoffwork entities
+     * List getoffwork entities
+     */
+    async listGetoffworkRaw(requestParameters: ListGetoffworkRequest): Promise<runtime.ApiResponse<Array<EntGetOffWork>>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.offset !== undefined) {
+            queryParameters['offset'] = requestParameters.offset;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/getoffworks`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntGetOffWorkFromJSON));
+    }
+
+    /**
+     * list getoffwork entities
+     * List getoffwork entities
+     */
+    async listGetoffwork(requestParameters: ListGetoffworkRequest): Promise<Array<EntGetOffWork>> {
+        const response = await this.listGetoffworkRaw(requestParameters);
         return await response.value();
     }
 
@@ -3160,42 +3356,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * list shift entities
-     * List shift entities
-     */
-    async listShiftRaw(requestParameters: ListShiftRequest): Promise<runtime.ApiResponse<Array<EntShift>>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        if (requestParameters.limit !== undefined) {
-            queryParameters['limit'] = requestParameters.limit;
-        }
-
-        if (requestParameters.offset !== undefined) {
-            queryParameters['offset'] = requestParameters.offset;
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/shifts`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntShiftFromJSON));
-    }
-
-    /**
-     * list shift entities
-     * List shift entities
-     */
-    async listShift(requestParameters: ListShiftRequest): Promise<Array<EntShift>> {
-        const response = await this.listShiftRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
      * list stock entities
      * List stock entities
      */
@@ -3339,6 +3499,45 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async updateAssessment(requestParameters: UpdateAssessmentRequest): Promise<EntAssessment> {
         const response = await this.updateAssessmentRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * update beginwork by ID
+     * Update a beginwork entity by ID
+     */
+    async updateBeginworkRaw(requestParameters: UpdateBeginworkRequest): Promise<runtime.ApiResponse<EntBeginWork>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateBeginwork.');
+        }
+
+        if (requestParameters.beginwork === null || requestParameters.beginwork === undefined) {
+            throw new runtime.RequiredError('beginwork','Required parameter requestParameters.beginwork was null or undefined when calling updateBeginwork.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/beginworks/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: EntBeginWorkToJSON(requestParameters.beginwork),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EntBeginWorkFromJSON(jsonValue));
+    }
+
+    /**
+     * update beginwork by ID
+     * Update a beginwork entity by ID
+     */
+    async updateBeginwork(requestParameters: UpdateBeginworkRequest): Promise<EntBeginWork> {
+        const response = await this.updateBeginworkRaw(requestParameters);
         return await response.value();
     }
 
@@ -3534,6 +3733,45 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async updateEmployeeworkinghours(requestParameters: UpdateEmployeeworkinghoursRequest): Promise<EntEmployeeWorkingHours> {
         const response = await this.updateEmployeeworkinghoursRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * update getoffwork by ID
+     * Update a getoffwork entity by ID
+     */
+    async updateGetoffworkRaw(requestParameters: UpdateGetoffworkRequest): Promise<runtime.ApiResponse<EntGetOffWork>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateGetoffwork.');
+        }
+
+        if (requestParameters.getoffwork === null || requestParameters.getoffwork === undefined) {
+            throw new runtime.RequiredError('getoffwork','Required parameter requestParameters.getoffwork was null or undefined when calling updateGetoffwork.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/getoffworks/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: EntGetOffWorkToJSON(requestParameters.getoffwork),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EntGetOffWorkFromJSON(jsonValue));
+    }
+
+    /**
+     * update getoffwork by ID
+     * Update a getoffwork entity by ID
+     */
+    async updateGetoffwork(requestParameters: UpdateGetoffworkRequest): Promise<EntGetOffWork> {
+        const response = await this.updateGetoffworkRaw(requestParameters);
         return await response.value();
     }
 
@@ -3768,45 +4006,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async updateRole(requestParameters: UpdateRoleRequest): Promise<EntRole> {
         const response = await this.updateRoleRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * update shift by ID
-     * Update a shift entity by ID
-     */
-    async updateShiftRaw(requestParameters: UpdateShiftRequest): Promise<runtime.ApiResponse<EntShift>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateShift.');
-        }
-
-        if (requestParameters.shift === null || requestParameters.shift === undefined) {
-            throw new runtime.RequiredError('shift','Required parameter requestParameters.shift was null or undefined when calling updateShift.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/shifts/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
-            body: EntShiftToJSON(requestParameters.shift),
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntShiftFromJSON(jsonValue));
-    }
-
-    /**
-     * update shift by ID
-     * Update a shift entity by ID
-     */
-    async updateShift(requestParameters: UpdateShiftRequest): Promise<EntShift> {
-        const response = await this.updateShiftRaw(requestParameters);
         return await response.value();
     }
 

@@ -9,6 +9,9 @@ import (
 // Assessment is the predicate function for assessment builders.
 type Assessment func(*sql.Selector)
 
+// BeginWork is the predicate function for beginwork builders.
+type BeginWork func(*sql.Selector)
+
 // Company is the predicate function for company builders.
 type Company func(*sql.Selector)
 
@@ -26,6 +29,9 @@ type Employee func(*sql.Selector)
 
 // EmployeeWorkingHours is the predicate function for employeeworkinghours builders.
 type EmployeeWorkingHours func(*sql.Selector)
+
+// GetOffWork is the predicate function for getoffwork builders.
+type GetOffWork func(*sql.Selector)
 
 // Giveaway is the predicate function for giveaway builders.
 type Giveaway func(*sql.Selector)
@@ -56,9 +62,6 @@ type Role func(*sql.Selector)
 
 // Salary is the predicate function for salary builders.
 type Salary func(*sql.Selector)
-
-// Shift is the predicate function for shift builders.
-type Shift func(*sql.Selector)
 
 // Stock is the predicate function for stock builders.
 type Stock func(*sql.Selector)

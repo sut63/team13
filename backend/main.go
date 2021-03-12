@@ -106,14 +106,20 @@ type Role struct {
 	Role string
 }
 
-type Shifts struct {
-	Shift []Shift
+type BeginWorks struct {
+	BeginWork []BeginWork
 }
 
-type Shift struct {
-	Name      string
-	TimeStart time.Time
-	TimeEnd   time.Time
+type BeginWork struct {
+	BeginWork time.Time
+}
+
+type GetOffWorks struct {
+	GetOffWork []GetOffWork
+}
+
+type GetOffWork struct {
+	GetOffWork time.Time
 }
 
 type Assessments struct {
@@ -221,7 +227,8 @@ func main() {
 	controllers.NewEmployeeController(v1, client)
 	controllers.NewEmployeeWorkingHoursController(v1, client)
 	controllers.NewRoleController(v1, client)
-	controllers.NewShiftController(v1, client)
+	controllers.NewBeginWorkController(v1, client)
+	controllers.NewGetOffWorkController(v1, client)
 
 	controllers.NewAssessmentController(v1, client)
 	controllers.NewPositionController(v1, client)
@@ -422,20 +429,33 @@ func main() {
 			Save(context.Background())
 	}
 
-	Shifts := Shifts{
-		Shift: []Shift{
-			{"เวลา 06:30 – 14:00",time.Date(0, 0, 0, 6, 30, 0, 0, time.Local), time.Date(0, 0, 0, 14, 0, 0, 0, time.Local)},
-			{"เวลา 13:30 – 22:00",time.Date(0, 0, 0, 13, 0, 0, 0, time.Local), time.Date(0, 0, 0, 22, 0, 0, 0, time.Local)},
-			{"เวลา 22:00 – 07:00",time.Date(0, 0, 0, 22, 0, 0, 0, time.Local), time.Date(0, 0, 0, 7, 0, 0, 0, time.Local)},
+	BeginWorks := BeginWorks{
+		BeginWork: []BeginWork{
+			{time.Date(0, 0, 0, 6, 30, 0, 0, time.Local)},
+			{time.Date(0, 0, 0, 13, 0, 0, 0, time.Local)},
+			{time.Date(0, 0, 0, 22, 0, 0, 0, time.Local)},
 		},
 	}
 
-	for _, sh := range Shifts.Shift {
-		client.Shift.
+	for _, bw := range BeginWorks.BeginWork {
+		client.BeginWork.
 			Create().
-			SetName(sh.Name).
-			SetTimeStart(sh.TimeStart).
-			SetTimeEnd(sh.TimeEnd).
+			SetBeginWork(bw.BeginWork).
+			Save(context.Background())
+	}
+
+	GetOffWorks := GetOffWorks{
+		GetOffWork: []GetOffWork{
+			{time.Date(0, 0, 0, 14, 0, 0, 0, time.Local)},
+			{time.Date(0, 0, 0, 22, 0, 0, 0, time.Local)},
+			{time.Date(0, 0, 0, 7, 0, 0, 0, time.Local)},
+		},
+	}
+
+	for _, bw := range GetOffWorks.GetOffWork {
+		client.GetOffWork.
+			Create().
+			SetGetOffWork(bw.GetOffWork).
 			Save(context.Background())
 	}
 

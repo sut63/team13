@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    EntBeginWork,
+    EntBeginWorkFromJSON,
+    EntBeginWorkFromJSONTyped,
+    EntBeginWorkToJSON,
     EntDay,
     EntDayFromJSON,
     EntDayFromJSONTyped,
@@ -22,14 +26,14 @@ import {
     EntEmployeeFromJSON,
     EntEmployeeFromJSONTyped,
     EntEmployeeToJSON,
+    EntGetOffWork,
+    EntGetOffWorkFromJSON,
+    EntGetOffWorkFromJSONTyped,
+    EntGetOffWorkToJSON,
     EntRole,
     EntRoleFromJSON,
     EntRoleFromJSONTyped,
     EntRoleToJSON,
-    EntShift,
-    EntShiftFromJSON,
-    EntShiftFromJSONTyped,
-    EntShiftToJSON,
 } from './';
 
 /**
@@ -38,6 +42,12 @@ import {
  * @interface EntEmployeeWorkingHoursEdges
  */
 export interface EntEmployeeWorkingHoursEdges {
+    /**
+     * 
+     * @type {EntBeginWork}
+     * @memberof EntEmployeeWorkingHoursEdges
+     */
+    beginwork?: EntBeginWork;
     /**
      * 
      * @type {EntDay}
@@ -52,16 +62,16 @@ export interface EntEmployeeWorkingHoursEdges {
     employee?: EntEmployee;
     /**
      * 
+     * @type {EntGetOffWork}
+     * @memberof EntEmployeeWorkingHoursEdges
+     */
+    getoffwork?: EntGetOffWork;
+    /**
+     * 
      * @type {EntRole}
      * @memberof EntEmployeeWorkingHoursEdges
      */
     role?: EntRole;
-    /**
-     * 
-     * @type {EntShift}
-     * @memberof EntEmployeeWorkingHoursEdges
-     */
-    shift?: EntShift;
 }
 
 export function EntEmployeeWorkingHoursEdgesFromJSON(json: any): EntEmployeeWorkingHoursEdges {
@@ -74,10 +84,11 @@ export function EntEmployeeWorkingHoursEdgesFromJSONTyped(json: any, ignoreDiscr
     }
     return {
         
+        'beginwork': !exists(json, 'Beginwork') ? undefined : EntBeginWorkFromJSON(json['Beginwork']),
         'day': !exists(json, 'Day') ? undefined : EntDayFromJSON(json['Day']),
         'employee': !exists(json, 'Employee') ? undefined : EntEmployeeFromJSON(json['Employee']),
+        'getoffwork': !exists(json, 'Getoffwork') ? undefined : EntGetOffWorkFromJSON(json['Getoffwork']),
         'role': !exists(json, 'Role') ? undefined : EntRoleFromJSON(json['Role']),
-        'shift': !exists(json, 'Shift') ? undefined : EntShiftFromJSON(json['Shift']),
     };
 }
 
@@ -90,10 +101,11 @@ export function EntEmployeeWorkingHoursEdgesToJSON(value?: EntEmployeeWorkingHou
     }
     return {
         
+        'beginwork': EntBeginWorkToJSON(value.beginwork),
         'day': EntDayToJSON(value.day),
         'employee': EntEmployeeToJSON(value.employee),
+        'getoffwork': EntGetOffWorkToJSON(value.getoffwork),
         'role': EntRoleToJSON(value.role),
-        'shift': EntShiftToJSON(value.shift),
     };
 }
 

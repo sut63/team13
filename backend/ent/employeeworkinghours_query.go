@@ -11,12 +11,13 @@ import (
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
+	"github.com/team13/app/ent/beginwork"
 	"github.com/team13/app/ent/day"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/employeeworkinghours"
+	"github.com/team13/app/ent/getoffwork"
 	"github.com/team13/app/ent/predicate"
 	"github.com/team13/app/ent/role"
-	"github.com/team13/app/ent/shift"
 )
 
 // EmployeeWorkingHoursQuery is the builder for querying EmployeeWorkingHours entities.
@@ -28,11 +29,12 @@ type EmployeeWorkingHoursQuery struct {
 	unique     []string
 	predicates []predicate.EmployeeWorkingHours
 	// eager-loading edges.
-	withEmployee *EmployeeQuery
-	withDay      *DayQuery
-	withShift    *ShiftQuery
-	withRole     *RoleQuery
-	withFKs      bool
+	withEmployee   *EmployeeQuery
+	withDay        *DayQuery
+	withBeginwork  *BeginWorkQuery
+	withGetoffwork *GetOffWorkQuery
+	withRole       *RoleQuery
+	withFKs        bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -98,17 +100,35 @@ func (ewhq *EmployeeWorkingHoursQuery) QueryDay() *DayQuery {
 	return query
 }
 
-// QueryShift chains the current query on the shift edge.
-func (ewhq *EmployeeWorkingHoursQuery) QueryShift() *ShiftQuery {
-	query := &ShiftQuery{config: ewhq.config}
+// QueryBeginwork chains the current query on the beginwork edge.
+func (ewhq *EmployeeWorkingHoursQuery) QueryBeginwork() *BeginWorkQuery {
+	query := &BeginWorkQuery{config: ewhq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := ewhq.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(employeeworkinghours.Table, employeeworkinghours.FieldID, ewhq.sqlQuery()),
-			sqlgraph.To(shift.Table, shift.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.ShiftTable, employeeworkinghours.ShiftColumn),
+			sqlgraph.To(beginwork.Table, beginwork.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.BeginworkTable, employeeworkinghours.BeginworkColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(ewhq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryGetoffwork chains the current query on the getoffwork edge.
+func (ewhq *EmployeeWorkingHoursQuery) QueryGetoffwork() *GetOffWorkQuery {
+	query := &GetOffWorkQuery{config: ewhq.config}
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := ewhq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(employeeworkinghours.Table, employeeworkinghours.FieldID, ewhq.sqlQuery()),
+			sqlgraph.To(getoffwork.Table, getoffwork.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.GetoffworkTable, employeeworkinghours.GetoffworkColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(ewhq.driver.Dialect(), step)
 		return fromU, nil
@@ -335,14 +355,25 @@ func (ewhq *EmployeeWorkingHoursQuery) WithDay(opts ...func(*DayQuery)) *Employe
 	return ewhq
 }
 
-//  WithShift tells the query-builder to eager-loads the nodes that are connected to
-// the "shift" edge. The optional arguments used to configure the query builder of the edge.
-func (ewhq *EmployeeWorkingHoursQuery) WithShift(opts ...func(*ShiftQuery)) *EmployeeWorkingHoursQuery {
-	query := &ShiftQuery{config: ewhq.config}
+//  WithBeginwork tells the query-builder to eager-loads the nodes that are connected to
+// the "beginwork" edge. The optional arguments used to configure the query builder of the edge.
+func (ewhq *EmployeeWorkingHoursQuery) WithBeginwork(opts ...func(*BeginWorkQuery)) *EmployeeWorkingHoursQuery {
+	query := &BeginWorkQuery{config: ewhq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	ewhq.withShift = query
+	ewhq.withBeginwork = query
+	return ewhq
+}
+
+//  WithGetoffwork tells the query-builder to eager-loads the nodes that are connected to
+// the "getoffwork" edge. The optional arguments used to configure the query builder of the edge.
+func (ewhq *EmployeeWorkingHoursQuery) WithGetoffwork(opts ...func(*GetOffWorkQuery)) *EmployeeWorkingHoursQuery {
+	query := &GetOffWorkQuery{config: ewhq.config}
+	for _, opt := range opts {
+		opt(query)
+	}
+	ewhq.withGetoffwork = query
 	return ewhq
 }
 
@@ -363,12 +394,12 @@ func (ewhq *EmployeeWorkingHoursQuery) WithRole(opts ...func(*RoleQuery)) *Emplo
 // Example:
 //
 //	var v []struct {
-//		IDEmployee string `json:"IDEmployee,omitempty"`
+//		CodeWork string `json:"CodeWork,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.EmployeeWorkingHours.Query().
-//		GroupBy(employeeworkinghours.FieldIDEmployee).
+//		GroupBy(employeeworkinghours.FieldCodeWork).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -389,11 +420,11 @@ func (ewhq *EmployeeWorkingHoursQuery) GroupBy(field string, fields ...string) *
 // Example:
 //
 //	var v []struct {
-//		IDEmployee string `json:"IDEmployee,omitempty"`
+//		CodeWork string `json:"CodeWork,omitempty"`
 //	}
 //
 //	client.EmployeeWorkingHours.Query().
-//		Select(employeeworkinghours.FieldIDEmployee).
+//		Select(employeeworkinghours.FieldCodeWork).
 //		Scan(ctx, &v)
 //
 func (ewhq *EmployeeWorkingHoursQuery) Select(field string, fields ...string) *EmployeeWorkingHoursSelect {
@@ -424,14 +455,15 @@ func (ewhq *EmployeeWorkingHoursQuery) sqlAll(ctx context.Context) ([]*EmployeeW
 		nodes       = []*EmployeeWorkingHours{}
 		withFKs     = ewhq.withFKs
 		_spec       = ewhq.querySpec()
-		loadedTypes = [4]bool{
+		loadedTypes = [5]bool{
 			ewhq.withEmployee != nil,
 			ewhq.withDay != nil,
-			ewhq.withShift != nil,
+			ewhq.withBeginwork != nil,
+			ewhq.withGetoffwork != nil,
 			ewhq.withRole != nil,
 		}
 	)
-	if ewhq.withEmployee != nil || ewhq.withDay != nil || ewhq.withShift != nil || ewhq.withRole != nil {
+	if ewhq.withEmployee != nil || ewhq.withDay != nil || ewhq.withBeginwork != nil || ewhq.withGetoffwork != nil || ewhq.withRole != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -511,16 +543,16 @@ func (ewhq *EmployeeWorkingHoursQuery) sqlAll(ctx context.Context) ([]*EmployeeW
 		}
 	}
 
-	if query := ewhq.withShift; query != nil {
+	if query := ewhq.withBeginwork; query != nil {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*EmployeeWorkingHours)
 		for i := range nodes {
-			if fk := nodes[i].shift_when; fk != nil {
+			if fk := nodes[i].begin_work_whenwork; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
 		}
-		query.Where(shift.IDIn(ids...))
+		query.Where(beginwork.IDIn(ids...))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
@@ -528,10 +560,35 @@ func (ewhq *EmployeeWorkingHoursQuery) sqlAll(ctx context.Context) ([]*EmployeeW
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "shift_when" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "begin_work_whenwork" returned %v`, n.ID)
 			}
 			for i := range nodes {
-				nodes[i].Edges.Shift = n
+				nodes[i].Edges.Beginwork = n
+			}
+		}
+	}
+
+	if query := ewhq.withGetoffwork; query != nil {
+		ids := make([]int, 0, len(nodes))
+		nodeids := make(map[int][]*EmployeeWorkingHours)
+		for i := range nodes {
+			if fk := nodes[i].get_off_work_whenendwork; fk != nil {
+				ids = append(ids, *fk)
+				nodeids[*fk] = append(nodeids[*fk], nodes[i])
+			}
+		}
+		query.Where(getoffwork.IDIn(ids...))
+		neighbors, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, n := range neighbors {
+			nodes, ok := nodeids[n.ID]
+			if !ok {
+				return nil, fmt.Errorf(`unexpected foreign-key "get_off_work_whenendwork" returned %v`, n.ID)
+			}
+			for i := range nodes {
+				nodes[i].Edges.Getoffwork = n
 			}
 		}
 	}

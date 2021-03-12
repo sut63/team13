@@ -2,17 +2,21 @@ basePath: /api/v1
 definitions:
   controllers.EmployeeWorkingHours:
     properties:
+      beginWork:
+        type: integer
+      codeWork:
+        type: string
       day:
         type: integer
       employee:
+        type: integer
+      getOffWork:
         type: integer
       idemployee:
         type: string
       idnumber:
         type: string
       role:
-        type: integer
-      shift:
         type: integer
       wages:
         type: number
@@ -129,6 +133,29 @@ definitions:
         description: Formassessment holds the value of the formassessment edge.
         items:
           $ref: '#/definitions/ent.Salary'
+        type: array
+    type: object
+  ent.BeginWork:
+    properties:
+      BeginWork:
+        description: BeginWork holds the value of the "BeginWork" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.BeginWorkEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the BeginWorkQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.BeginWorkEdges:
+    properties:
+      whenwork:
+        description: Whenwork holds the value of the whenwork edge.
+        items:
+          $ref: '#/definitions/ent.EmployeeWorkingHours'
         type: array
     type: object
   ent.Company:
@@ -276,8 +303,8 @@ definitions:
     type: object
   ent.EmployeeWorkingHours:
     properties:
-      IDEmployee:
-        description: IDEmployee holds the value of the "IDEmployee" field.
+      CodeWork:
+        description: CodeWork holds the value of the "CodeWork" field.
         type: string
       IDNumber:
         description: IDNumber holds the value of the "IDNumber" field.
@@ -297,6 +324,10 @@ definitions:
     type: object
   ent.EmployeeWorkingHoursEdges:
     properties:
+      beginwork:
+        $ref: '#/definitions/ent.BeginWork'
+        description: Beginwork holds the value of the beginwork edge.
+        type: object
       day:
         $ref: '#/definitions/ent.Day'
         description: Day holds the value of the day edge.
@@ -305,14 +336,37 @@ definitions:
         $ref: '#/definitions/ent.Employee'
         description: Employee holds the value of the employee edge.
         type: object
+      getoffwork:
+        $ref: '#/definitions/ent.GetOffWork'
+        description: Getoffwork holds the value of the getoffwork edge.
+        type: object
       role:
         $ref: '#/definitions/ent.Role'
         description: Role holds the value of the role edge.
         type: object
-      shift:
-        $ref: '#/definitions/ent.Shift'
-        description: Shift holds the value of the shift edge.
+    type: object
+  ent.GetOffWork:
+    properties:
+      GetOffWork:
+        description: GetOffWork holds the value of the "GetOffWork" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.GetOffWorkEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the GetOffWorkQuery when eager-loading is set.
         type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.GetOffWorkEdges:
+    properties:
+      whenendwork:
+        description: Whenendwork holds the value of the whenendwork edge.
+        items:
+          $ref: '#/definitions/ent.EmployeeWorkingHours'
+        type: array
     type: object
   ent.Giveaway:
     properties:
@@ -648,35 +702,6 @@ definitions:
         description: Position holds the value of the position edge.
         type: object
     type: object
-  ent.Shift:
-    properties:
-      Name:
-        description: Name holds the value of the "Name" field.
-        type: string
-      TimeEnd:
-        description: TimeEnd holds the value of the "TimeEnd" field.
-        type: string
-      TimeStart:
-        description: TimeStart holds the value of the "TimeStart" field.
-        type: string
-      edges:
-        $ref: '#/definitions/ent.ShiftEdges'
-        description: |-
-          Edges holds the relations/edges for other nodes in the graph.
-          The values are being populated by the ShiftQuery when eager-loading is set.
-        type: object
-      id:
-        description: ID of the ent.
-        type: integer
-    type: object
-  ent.ShiftEdges:
-    properties:
-      when:
-        description: When holds the value of the when edge.
-        items:
-          $ref: '#/definitions/ent.EmployeeWorkingHours'
-        type: array
-    type: object
   ent.Stock:
     properties:
       Amount:
@@ -945,6 +970,157 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a assessment entity by ID
+  /beginworks:
+    get:
+      description: list beginwork entities
+      operationId: list-beginwork
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.BeginWork'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List beginwork entities
+    post:
+      consumes:
+      - application/json
+      description: Create beginwork
+      operationId: create-beginwork
+      parameters:
+      - description: BeginWork entity
+        in: body
+        name: beginwork
+        required: true
+        schema:
+          $ref: '#/definitions/ent.BeginWork'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.BeginWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create beginwork
+  /beginworks/{id}:
+    delete:
+      description: get beginwork by ID
+      operationId: delete-beginwork
+      parameters:
+      - description: BeginWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a beginwork entity by ID
+    get:
+      description: get beginwork by ID
+      operationId: get-beginwork
+      parameters:
+      - description: BeginWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.BeginWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a beginwork entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update beginwork by ID
+      operationId: update-beginwork
+      parameters:
+      - description: BeginWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: BeginWork entity
+        in: body
+        name: beginwork
+        required: true
+        schema:
+          $ref: '#/definitions/ent.BeginWork'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.BeginWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a beginwork entity by ID
   /companys:
     get:
       description: list company entities
@@ -1791,6 +1967,157 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a employeeworkinghours entity by ID
+  /getoffworks:
+    get:
+      description: list getoffwork entities
+      operationId: list-getoffwork
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.GetOffWork'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List getoffwork entities
+    post:
+      consumes:
+      - application/json
+      description: Create getoffwork
+      operationId: create-getoffwork
+      parameters:
+      - description: GetOffWork entity
+        in: body
+        name: getoffwork
+        required: true
+        schema:
+          $ref: '#/definitions/ent.GetOffWork'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.GetOffWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create getoffwork
+  /getoffworks/{id}:
+    delete:
+      description: get getoffwork by ID
+      operationId: delete-getoffwork
+      parameters:
+      - description: GetOffWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a getoffwork entity by ID
+    get:
+      description: get getoffwork by ID
+      operationId: get-getoffwork
+      parameters:
+      - description: GetOffWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.GetOffWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a getoffwork entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update getoffwork by ID
+      operationId: update-getoffwork
+      parameters:
+      - description: GetOffWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: GetOffWork entity
+        in: body
+        name: getoffwork
+        required: true
+        schema:
+          $ref: '#/definitions/ent.GetOffWork'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.GetOffWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a getoffwork entity by ID
   /giveaways:
     get:
       description: list giveaway entities
@@ -3148,157 +3475,6 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Get a salary entity by ID
-  /shifts:
-    get:
-      description: list shift entities
-      operationId: list-shift
-      parameters:
-      - description: Limit
-        in: query
-        name: limit
-        type: integer
-      - description: Offset
-        in: query
-        name: offset
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/ent.Shift'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: List shift entities
-    post:
-      consumes:
-      - application/json
-      description: Create shift
-      operationId: create-shift
-      parameters:
-      - description: Shift entity
-        in: body
-        name: shift
-        required: true
-        schema:
-          $ref: '#/definitions/ent.Shift'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.Shift'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Create shift
-  /shifts/{id}:
-    delete:
-      description: get shift by ID
-      operationId: delete-shift
-      parameters:
-      - description: Shift ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/gin.H'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Delete a shift entity by ID
-    get:
-      description: get shift by ID
-      operationId: get-shift
-      parameters:
-      - description: Shift ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.Shift'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Get a shift entity by ID
-    put:
-      consumes:
-      - application/json
-      description: update shift by ID
-      operationId: update-shift
-      parameters:
-      - description: Shift ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Shift entity
-        in: body
-        name: shift
-        required: true
-        schema:
-          $ref: '#/definitions/ent.Shift'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.Shift'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Update a shift entity by ID
   /stocks:
     get:
       description: list stock entities
