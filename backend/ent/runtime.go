@@ -292,12 +292,8 @@ func init() {
 			return nil
 		}
 	}()
-	// salaryDescIDEmployee is the schema descriptor for IDEmployee field.
-	salaryDescIDEmployee := salaryFields[3].Descriptor()
-	// salary.IDEmployeeValidator is a validator for the "IDEmployee" field. It is called by the builders before save.
-	salary.IDEmployeeValidator = salaryDescIDEmployee.Validators[0].(func(string) error)
 	// salaryDescAccountNumber is the schema descriptor for AccountNumber field.
-	salaryDescAccountNumber := salaryFields[4].Descriptor()
+	salaryDescAccountNumber := salaryFields[3].Descriptor()
 	// salary.AccountNumberValidator is a validator for the "AccountNumber" field. It is called by the builders before save.
 	salary.AccountNumberValidator = func() func(string) error {
 		validators := salaryDescAccountNumber.Validators

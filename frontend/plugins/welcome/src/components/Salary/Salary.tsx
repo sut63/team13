@@ -126,7 +126,7 @@ export default function MenuAppBar() {
   const [salaryNumber, setSalaryNumber] = useState(Number);
   const [bonusNumber, setBonus] = useState(Number);
   const [datetime, setDatetime] = useState(String);
-  const [idemployee, setIDEmployee] = useState(String);
+  //const [idemployee, setIDEmployee] = useState(String);
   const [accountNumber, setAccountNumber] = useState(String);
   //const [datetime, setDatetime] = useState(String);
 
@@ -172,7 +172,7 @@ const salary = {
     positionID ,
     salarys ,
     salaryDate :datetime   + ":00+07:00",
-    idemployee,
+    //idemployee,
     accountNumber,
 }
 const alertMessage = (icon: any, title: any) => {
@@ -183,17 +183,17 @@ const alertMessage = (icon: any, title: any) => {
 }
 const checkCaseSaveError = (field: string) => {
   switch(field) {
-    case 'IDEmployee':
+    /*case 'IDEmployee':
       alertMessage("error","กรุณาระบุรหัสพนักงานที่ขึ้นต้นด้วย E ตามด้วยเลข 6 หลัก");
-      return;
+      return;*/
     case 'AccountNumber':
       alertMessage("error","กรุณาระบุเป็นเลขบัญชีธนาคาร 10 หลักให้ถูกต้อง");
       return;
     case 'Salary':
-      alertMessage("error","กรุณาเป็นตัวเลขและไม่ติดลบ");
+      alertMessage("error","กรุณาระบุเงินเดือนเป็นตัวเลขและไม่ติดลบ");
       return;
     case 'Bonus':
-      alertMessage("error","กรุณาเป็นตัวเลขและไม่ติดลบ");
+      alertMessage("error","กรุณาระบบโบนัสเป็นตัวเลขและไม่ติดลบ");
       return;
     default:
       alertMessage("error","<h2>บันทึกข้อมูลไม่สำเร็จ</h2>");
@@ -251,9 +251,9 @@ function save() {
     setBonus(event.target.value as number);
   };
 
-  const handleIDEmployee = (event: any) => {
+  /*const handleIDEmployee = (event: any) => {
     setIDEmployee(event.target.value as string);
-  };
+  };*/
 
   const handleAccountNumber = (event: any) => {
     setAccountNumber(event.target.value as string);
@@ -351,7 +351,8 @@ function save() {
         
             <Grid item xs={2}></Grid>
             <Grid item xs={2}></Grid>
-            <Grid item xs={2}>
+            
+            {/*<Grid item xs={2}>
               <Typography color="secondary" variant="h6" component="h1">
                 รหัสพนักงาน
               </Typography>
@@ -368,7 +369,10 @@ function save() {
                   />
                   
                   
-            </Grid>
+  </Grid>*/}
+        
+          
+            <Grid item xs={3}></Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 

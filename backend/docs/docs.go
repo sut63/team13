@@ -4811,6 +4811,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "accountNumber": {
+                    "description": "IDEmployee\t   string",
                     "type": "string"
                 },
                 "assessmentID": {
@@ -4821,9 +4822,6 @@ var doc = `{
                 },
                 "employeeID": {
                     "type": "integer"
-                },
-                "idemployee": {
-                    "type": "string"
                 },
                 "positionID": {
                     "type": "integer"
@@ -5586,10 +5584,6 @@ var doc = `{
                 "Bonus": {
                     "description": "Bonus holds the value of the \"Bonus\" field.",
                     "type": "number"
-                },
-                "IDEmployee": {
-                    "description": "IDEmployee holds the value of the \"IDEmployee\" field.",
-                    "type": "string"
                 },
                 "Salary": {
                     "description": "Salary holds the value of the \"Salary\" field.",

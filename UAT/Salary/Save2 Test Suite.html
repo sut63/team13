@@ -13,6 +13,10 @@
 <tbody>
 <tr><td>open</td><td>http://localhost:3000/Salary<datalist><option>http://localhost:3000/Salary</option></datalist></td><td></td>
 </tr>
+<tr><td>click</td><td>id=accountnumber-string<datalist><option>id=accountnumber-number</option><option>//input[@id='accountnumber-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div/div/input</option><option>//div[12]/div/div/div/input</option><option>css=#accountnumber-number</option><option>id=accountnumber-string</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=accountnumber-string<datalist><option>id=accountnumber-number</option><option>//input[@id='accountnumber-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div/div/input</option><option>//div[12]/div/div/div/input</option><option>css=#accountnumber-number</option><option>id=accountnumber-string</option></datalist></td><td>1234567890</td>
+</tr>
 <tr><td>click</td><td>id=employee_id<datalist><option>//body</option><option>css=body</option><option>id=employee_id</option></datalist></td><td></td>
 </tr>
 <tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li<datalist><option>//div[@id='menu-']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
@@ -37,25 +41,31 @@
 </tr>
 <tr><td>setText</td><td>id=date<datalist><option>id=date</option><option>//input[@id='date']</option><option>//div[@id='root']/div/div/div[3]/div/div/div[36]/form/div/div/input</option><option>//form/div/div/input</option><option>css=#date</option></datalist></td><td>2021-01-14T17:19</td>
 </tr>
-<tr><td>click</td><td>//div[@id='root']/div/div/div[2]/div/div<datalist><option>//div[@id='root']/div/div/div[2]/div/div</option><option>//div/div[2]/div/div</option><option>css=div.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-4.MuiGrid-align-items-xs-center</option></datalist></td><td></td>
-</tr>
-<tr><td>click</td><td>//div[@id='root']/div/div/div[2]/div/div/div[41]/button/span<datalist><option>//div[@id='root']/div/div/div[2]/div/div/div[41]/button/span</option><option>//button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.makeStyles-button-7.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge &gt; span.MuiButton-label</option></datalist></td><td></td>
+<tr><td>click</td><td>//div[@id='root']/div/div/div[2]/div/div/div[52]/button/span<datalist><option>//div[@id='root']/div/div/div[2]/div/div/div[52]/button/span</option><option>//div[52]/button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.makeStyles-button-7.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge &gt; span.MuiButton-label</option></datalist></td><td></td>
 </tr>
 <tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//div[2]/div/div/h2</option><option>css=#swal2-title</option></datalist></td><td>บันทึกข้อมูลสำเร็จ</td>
 </tr>
 </tbody></table>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">saveFailure</td></tr>
+<tr><td rowspan="1" colspan="3">saveFailure1</td></tr>
 </thead>
 <tbody>
 <tr><td>open</td><td>http://localhost:3000/Salary<datalist><option>http://localhost:3000/Salary</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=accountnumber-string<datalist><option>id=accountnumber-string</option><option>id=accountnumber-number</option><option>//input[@id='accountnumber-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div/div/input</option><option>//div[12]/div/div/div/input</option><option>css=#accountnumber-number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=accountnumber-string<datalist><option>id=accountnumber-string</option><option>id=accountnumber-number</option><option>//input[@id='accountnumber-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div/div/input</option><option>//div[12]/div/div/div/input</option><option>css=#accountnumber-number</option></datalist></td><td>123456789</td>
 </tr>
 <tr><td>click</td><td>id=employee_id<datalist><option>id=employee_id</option><option>//div[@id='employee_id']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[6]/div/div</option><option>//div[6]/div/div</option><option>css=#employee_id</option></datalist></td><td></td>
 </tr>
 <tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li<datalist><option>//div[@id='menu-']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
 </tr>
 <tr><td>click</td><td>id=position_id<datalist><option>id=position_id</option><option>//div[@id='position_id']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div</option><option>//div[12]/div/div</option><option>css=#position_id</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li<datalist><option>//div[@id='menu-']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=assessment_id<datalist><option>id=assessment_id</option><option>//div[@id='menu-']/div</option><option>//div[3]/div</option><option>css=#menu- &gt; div</option></datalist></td><td></td>
 </tr>
 <tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li<datalist><option>//div[@id='menu-']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
 </tr>
@@ -71,9 +81,89 @@
 </tr>
 <tr><td>setText</td><td>id=date<datalist><option>id=date</option><option>//input[@id='date']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[36]/form/div/div/input</option><option>//form/div/div/input</option><option>css=#date</option></datalist></td><td>2021-01-15T19:20</td>
 </tr>
-<tr><td>click</td><td>//div[@id='root']/div/div/div[2]/div/div/div[41]/button/span<datalist><option>//div[@id='root']/div/div/div[2]/div/div/div[41]/button/span</option><option>//button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.makeStyles-button-28.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge &gt; span.MuiButton-label</option></datalist></td><td></td>
+<tr><td>click</td><td>//div[@id='root']/div/div/div[2]/div/div/div[52]/button/span<datalist><option>//div[@id='root']/div/div/div[2]/div/div/div[52]/button/span</option><option>//div[52]/button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.makeStyles-button-7.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge &gt; span.MuiButton-label</option></datalist></td><td></td>
 </tr>
-<tr><td>assertText</td><td>//div[2]/div/div<datalist><option>//div[2]/div/div</option><option>css=div.swal2-header</option></datalist></td><td>บันทึกข้อมูลไม่สำเร็จ</td>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//div[2]/div/div/h2</option><option>css=#swal2-title</option></datalist></td><td>กรุณาระบุเป็นเลขบัญชีธนาคาร 10 หลักให้ถูกต้อง</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">saveFailure2</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Salary<datalist><option>http://localhost:3000/Salary</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=accountnumber-string<datalist><option>id=accountnumber-string</option><option>id=accountnumber-number</option><option>//input[@id='accountnumber-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div/div/input</option><option>//div[12]/div/div/div/input</option><option>css=#accountnumber-number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=accountnumber-string<datalist><option>id=accountnumber-string</option><option>id=accountnumber-number</option><option>//input[@id='accountnumber-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div/div/input</option><option>//div[12]/div/div/div/input</option><option>css=#accountnumber-number</option></datalist></td><td>1234567890</td>
+</tr>
+<tr><td>click</td><td>id=employee_id<datalist><option>id=employee_id</option><option>//div[@id='employee_id']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[6]/div/div</option><option>//div[6]/div/div</option><option>css=#employee_id</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li<datalist><option>//div[@id='menu-']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=position_id<datalist><option>id=position_id</option><option>//div[@id='position_id']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div</option><option>//div[12]/div/div</option><option>css=#position_id</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li<datalist><option>//div[@id='menu-']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=assessment_id<datalist><option>id=assessment_id</option><option>//div[@id='menu-']/div</option><option>//div[3]/div</option><option>css=#menu- &gt; div</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li<datalist><option>//div[@id='menu-']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=salary-number<datalist><option>id=salary-number</option><option>//input[@id='salary-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[24]/div/div/input</option><option>//div[24]/div/div/input</option><option>css=#salary-number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=salary-number<datalist><option>id=salary-number</option><option>//input[@id='salary-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[24]/div/div/input</option><option>//div[24]/div/div/input</option><option>css=#salary-number</option></datalist></td><td>aaaa</td>
+</tr>
+<tr><td>click</td><td>id=bonus-number<datalist><option>id=bonus-number</option><option>//input[@id='bonus-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[30]/div/div/input</option><option>//div[30]/div/div/input</option><option>css=#bonus-number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=bonus-number<datalist><option>id=bonus-number</option><option>//input[@id='bonus-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[30]/div/div/input</option><option>//div[30]/div/div/input</option><option>css=#bonus-number</option></datalist></td><td>30000</td>
+</tr>
+<tr><td>click</td><td>id=date<datalist><option>id=date</option><option>//input[@id='date']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[36]/form/div/div/input</option><option>//form/div/div/input</option><option>css=#date</option></datalist></td><td></td>
+</tr>
+<tr><td>setText</td><td>id=date<datalist><option>id=date</option><option>//input[@id='date']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[36]/form/div/div/input</option><option>//form/div/div/input</option><option>css=#date</option></datalist></td><td>2021-01-15T19:20</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/div/div[2]/div/div/div[52]/button/span<datalist><option>//div[@id='root']/div/div/div[2]/div/div/div[52]/button/span</option><option>//div[52]/button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.makeStyles-button-7.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//div[2]/div/div</option><option>css=div.swal2-header</option></datalist></td><td>กรุณาระบุเงินเดือนเป็นตัวเลขและไม่ติดลบ</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">saveFailure3</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Salary<datalist><option>http://localhost:3000/Salary</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=accountnumber-string<datalist><option>id=accountnumber-number</option><option>//input[@id='accountnumber-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div/div/input</option><option>//div[12]/div/div/div/input</option><option>css=#accountnumber-number</option><option>id=accountnumber-string</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=accountnumber-string<datalist><option>id=accountnumber-number</option><option>//input[@id='accountnumber-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div/div/input</option><option>//div[12]/div/div/div/input</option><option>css=#accountnumber-number</option><option>id=accountnumber-string</option></datalist></td><td>1234567890</td>
+</tr>
+<tr><td>click</td><td>id=employee_id<datalist><option>id=employee_id</option><option>//div[@id='employee_id']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[6]/div/div</option><option>//div[6]/div/div</option><option>css=#employee_id</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li<datalist><option>//div[@id='menu-']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=position_id<datalist><option>id=position_id</option><option>//div[@id='position_id']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[12]/div/div</option><option>//div[12]/div/div</option><option>css=#position_id</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li<datalist><option>//div[@id='menu-']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=assessment_id<datalist><option>id=assessment_id</option><option>//div[@id='menu-']/div</option><option>//div[3]/div</option><option>css=#menu- &gt; div</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='menu-']/div[3]/ul/li<datalist><option>//div[@id='menu-']/div[3]/ul/li</option><option>//li</option><option>css=li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=salary-number<datalist><option>id=salary-number</option><option>//input[@id='salary-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[24]/div/div/input</option><option>//div[24]/div/div/input</option><option>css=#salary-number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=salary-number<datalist><option>id=salary-number</option><option>//input[@id='salary-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[24]/div/div/input</option><option>//div[24]/div/div/input</option><option>css=#salary-number</option></datalist></td><td>30000</td>
+</tr>
+<tr><td>click</td><td>id=bonus-number<datalist><option>id=bonus-number</option><option>//input[@id='bonus-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[30]/div/div/input</option><option>//div[30]/div/div/input</option><option>css=#bonus-number</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=bonus-number<datalist><option>id=bonus-number</option><option>//input[@id='bonus-number']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[30]/div/div/input</option><option>//div[30]/div/div/input</option><option>css=#bonus-number</option></datalist></td><td>-30000</td>
+</tr>
+<tr><td>click</td><td>id=date<datalist><option>id=date</option><option>//input[@id='date']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[36]/form/div/div/input</option><option>//form/div/div/input</option><option>css=#date</option></datalist></td><td></td>
+</tr>
+<tr><td>setText</td><td>id=date<datalist><option>id=date</option><option>//input[@id='date']</option><option>//div[@id='root']/div/div/div[2]/div/div/div[36]/form/div/div/input</option><option>//form/div/div/input</option><option>css=#date</option></datalist></td><td>2021-01-15T19:20</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/div/div[2]/div/div/div[52]/button/span<datalist><option>//div[@id='root']/div/div/div[2]/div/div/div[52]/button/span</option><option>//div[52]/button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.makeStyles-button-7.MuiButton-containedPrimary.MuiButton-containedSizeLarge.MuiButton-sizeLarge &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>//div[2]/div/div</option><option>css=div.swal2-header</option><option>id=swal2-title</option></datalist></td><td>กรุณาระบบโบนัสเป็นตัวเลขและไม่ติดลบ</td>
 </tr>
 </tbody></table>
 </body>
