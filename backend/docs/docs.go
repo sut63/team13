@@ -1978,25 +1978,25 @@ var doc = `{
                 }
             }
         },
-        "/orderonlines": {
+        "/order": {
             "get": {
-                "description": "list orderonline entities",
+                "description": "Search orderonline entities",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "List orderonline entities",
-                "operationId": "list-orderonline",
+                "summary": "Search orderonline entities",
+                "operationId": "Search-orderonline",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Limit",
-                        "name": "limit",
+                        "type": "string",
+                        "description": "Name",
+                        "name": "name",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "Offset",
-                        "name": "offset",
+                        "description": "Userid",
+                        "name": "userid",
                         "in": "query"
                     }
                 ],
@@ -2023,7 +2023,9 @@ var doc = `{
                         }
                     }
                 }
-            },
+            }
+        },
+        "/orderonlines": {
             "post": {
                 "description": "Create orderonline",
                 "consumes": [

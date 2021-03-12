@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,7 +12,7 @@ import { DefaultApi } from '../../../api/apis';
 import Swal from 'sweetalert2';
 import { Cookiesonline } from '../SignInOrderonline/Cookie'
 import SearchIcon from '@material-ui/icons/Search';
-import { EntOrderonline, EntProduct } from '../../../api';;
+import { EntOrderonline } from '../../../api';;
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -22,8 +22,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Content, Header, Page, pageTheme } from '@backstage/core';
 import moment from 'moment';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import { TextField } from '@material-ui/core';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 const Toast = Swal.mixin({
@@ -77,43 +76,26 @@ export default function MenuAppBar() {
   const classes = useStyles();
   const api = new DefaultApi();
 
+  const [productid, setProductid] = useState(String);
 
-  
-  const [products, setProducts] = useState<EntProduct[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [productid, setProductid] = useState(Number);
-
-  let productID = Number(productid)
   let customerID = Number(cookieID)
   console.log(customerID)
 
   const [orderonlines, setOrderonlines] = useState<EntOrderonline[]>();
 
   const orderonline = {
-    customerID,
-    productID,
+    customerID
   }
   console.log(orderonline)
 
-  const Product_id_handleChange = (event: any) => {
-    setProductid(event.target.value);
-  }
-
-  useEffect(() => {
-    const getproducts = async () => {
-      const pr = await api.listProduct({ limit: 10, offset: 0 });
-      setLoading(false);
-      setProducts(pr);
-    };
-    getproducts();
-
-    
-  }, [loading]);
+  const Product_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setProductid(event.target.value as string);
+  };
 
   var lenOrderonline: number
   
   const getCheckinsorder = async () => {
-    const res = await api.listOrderonline({ limit: customerID, offset: productID })
+    const res = await api.searchOrderonline({ userid: customerID, name: productid })
     setOrderonlines(res)
     console.log(res)
     lenOrderonline = res.length
@@ -197,16 +179,16 @@ export default function MenuAppBar() {
                   </Grid>
                   <Grid item xs={2}>
 
-              <Select
-                labelId="Equipment_id-label"
-                label="Equipment"
-                id="Equipment_id"
-                onChange={Product_id_handleChange}
-                style={{ width: 200 }}
-              >
-                {products.map((item: EntProduct) =>
-                  <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
-              </Select>
+                  <TextField
+                  id="product"
+                  label="product"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
+                  value={productid}
+                  onChange={Product_id_handleChange}
+                  style={{ marginRight: 300, width: 300 }}
+                />
             </Grid>
 
                   <TableCell align="center">
