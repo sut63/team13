@@ -63,12 +63,6 @@ func (su *SalaryUpdate) SetSalaryDatetime(t time.Time) *SalaryUpdate {
 	return su
 }
 
-// SetIDEmployee sets the IDEmployee field.
-func (su *SalaryUpdate) SetIDEmployee(s string) *SalaryUpdate {
-	su.mutation.SetIDEmployee(s)
-	return su
-}
-
 // SetAccountNumber sets the AccountNumber field.
 func (su *SalaryUpdate) SetAccountNumber(s string) *SalaryUpdate {
 	su.mutation.SetAccountNumber(s)
@@ -165,11 +159,6 @@ func (su *SalaryUpdate) Save(ctx context.Context) (int, error) {
 	if v, ok := su.mutation.Bonus(); ok {
 		if err := salary.BonusValidator(v); err != nil {
 			return 0, &ValidationError{Name: "Bonus", err: fmt.Errorf("ent: validator failed for field \"Bonus\": %w", err)}
-		}
-	}
-	if v, ok := su.mutation.IDEmployee(); ok {
-		if err := salary.IDEmployeeValidator(v); err != nil {
-			return 0, &ValidationError{Name: "IDEmployee", err: fmt.Errorf("ent: validator failed for field \"IDEmployee\": %w", err)}
 		}
 	}
 	if v, ok := su.mutation.AccountNumber(); ok {
@@ -278,13 +267,6 @@ func (su *SalaryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: salary.FieldSalaryDatetime,
-		})
-	}
-	if value, ok := su.mutation.IDEmployee(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: salary.FieldIDEmployee,
 		})
 	}
 	if value, ok := su.mutation.AccountNumber(); ok {
@@ -449,12 +431,6 @@ func (suo *SalaryUpdateOne) SetSalaryDatetime(t time.Time) *SalaryUpdateOne {
 	return suo
 }
 
-// SetIDEmployee sets the IDEmployee field.
-func (suo *SalaryUpdateOne) SetIDEmployee(s string) *SalaryUpdateOne {
-	suo.mutation.SetIDEmployee(s)
-	return suo
-}
-
 // SetAccountNumber sets the AccountNumber field.
 func (suo *SalaryUpdateOne) SetAccountNumber(s string) *SalaryUpdateOne {
 	suo.mutation.SetAccountNumber(s)
@@ -551,11 +527,6 @@ func (suo *SalaryUpdateOne) Save(ctx context.Context) (*Salary, error) {
 	if v, ok := suo.mutation.Bonus(); ok {
 		if err := salary.BonusValidator(v); err != nil {
 			return nil, &ValidationError{Name: "Bonus", err: fmt.Errorf("ent: validator failed for field \"Bonus\": %w", err)}
-		}
-	}
-	if v, ok := suo.mutation.IDEmployee(); ok {
-		if err := salary.IDEmployeeValidator(v); err != nil {
-			return nil, &ValidationError{Name: "IDEmployee", err: fmt.Errorf("ent: validator failed for field \"IDEmployee\": %w", err)}
 		}
 	}
 	if v, ok := suo.mutation.AccountNumber(); ok {
@@ -662,13 +633,6 @@ func (suo *SalaryUpdateOne) sqlSave(ctx context.Context) (s *Salary, err error) 
 			Type:   field.TypeTime,
 			Value:  value,
 			Column: salary.FieldSalaryDatetime,
-		})
-	}
-	if value, ok := suo.mutation.IDEmployee(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: salary.FieldIDEmployee,
 		})
 	}
 	if value, ok := suo.mutation.AccountNumber(); ok {

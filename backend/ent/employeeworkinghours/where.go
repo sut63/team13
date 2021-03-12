@@ -91,10 +91,10 @@ func IDLTE(id int) predicate.EmployeeWorkingHours {
 	})
 }
 
-// IDEmployee applies equality check predicate on the "IDEmployee" field. It's identical to IDEmployeeEQ.
-func IDEmployee(v string) predicate.EmployeeWorkingHours {
+// CodeWork applies equality check predicate on the "CodeWork" field. It's identical to CodeWorkEQ.
+func CodeWork(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldIDEmployee), v))
+		s.Where(sql.EQ(s.C(FieldCodeWork), v))
 	})
 }
 
@@ -112,22 +112,22 @@ func Wages(v float64) predicate.EmployeeWorkingHours {
 	})
 }
 
-// IDEmployeeEQ applies the EQ predicate on the "IDEmployee" field.
-func IDEmployeeEQ(v string) predicate.EmployeeWorkingHours {
+// CodeWorkEQ applies the EQ predicate on the "CodeWork" field.
+func CodeWorkEQ(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldIDEmployee), v))
+		s.Where(sql.EQ(s.C(FieldCodeWork), v))
 	})
 }
 
-// IDEmployeeNEQ applies the NEQ predicate on the "IDEmployee" field.
-func IDEmployeeNEQ(v string) predicate.EmployeeWorkingHours {
+// CodeWorkNEQ applies the NEQ predicate on the "CodeWork" field.
+func CodeWorkNEQ(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldIDEmployee), v))
+		s.Where(sql.NEQ(s.C(FieldCodeWork), v))
 	})
 }
 
-// IDEmployeeIn applies the In predicate on the "IDEmployee" field.
-func IDEmployeeIn(vs ...string) predicate.EmployeeWorkingHours {
+// CodeWorkIn applies the In predicate on the "CodeWork" field.
+func CodeWorkIn(vs ...string) predicate.EmployeeWorkingHours {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -139,12 +139,12 @@ func IDEmployeeIn(vs ...string) predicate.EmployeeWorkingHours {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldIDEmployee), v...))
+		s.Where(sql.In(s.C(FieldCodeWork), v...))
 	})
 }
 
-// IDEmployeeNotIn applies the NotIn predicate on the "IDEmployee" field.
-func IDEmployeeNotIn(vs ...string) predicate.EmployeeWorkingHours {
+// CodeWorkNotIn applies the NotIn predicate on the "CodeWork" field.
+func CodeWorkNotIn(vs ...string) predicate.EmployeeWorkingHours {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -156,70 +156,70 @@ func IDEmployeeNotIn(vs ...string) predicate.EmployeeWorkingHours {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldIDEmployee), v...))
+		s.Where(sql.NotIn(s.C(FieldCodeWork), v...))
 	})
 }
 
-// IDEmployeeGT applies the GT predicate on the "IDEmployee" field.
-func IDEmployeeGT(v string) predicate.EmployeeWorkingHours {
+// CodeWorkGT applies the GT predicate on the "CodeWork" field.
+func CodeWorkGT(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldIDEmployee), v))
+		s.Where(sql.GT(s.C(FieldCodeWork), v))
 	})
 }
 
-// IDEmployeeGTE applies the GTE predicate on the "IDEmployee" field.
-func IDEmployeeGTE(v string) predicate.EmployeeWorkingHours {
+// CodeWorkGTE applies the GTE predicate on the "CodeWork" field.
+func CodeWorkGTE(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldIDEmployee), v))
+		s.Where(sql.GTE(s.C(FieldCodeWork), v))
 	})
 }
 
-// IDEmployeeLT applies the LT predicate on the "IDEmployee" field.
-func IDEmployeeLT(v string) predicate.EmployeeWorkingHours {
+// CodeWorkLT applies the LT predicate on the "CodeWork" field.
+func CodeWorkLT(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldIDEmployee), v))
+		s.Where(sql.LT(s.C(FieldCodeWork), v))
 	})
 }
 
-// IDEmployeeLTE applies the LTE predicate on the "IDEmployee" field.
-func IDEmployeeLTE(v string) predicate.EmployeeWorkingHours {
+// CodeWorkLTE applies the LTE predicate on the "CodeWork" field.
+func CodeWorkLTE(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldIDEmployee), v))
+		s.Where(sql.LTE(s.C(FieldCodeWork), v))
 	})
 }
 
-// IDEmployeeContains applies the Contains predicate on the "IDEmployee" field.
-func IDEmployeeContains(v string) predicate.EmployeeWorkingHours {
+// CodeWorkContains applies the Contains predicate on the "CodeWork" field.
+func CodeWorkContains(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldIDEmployee), v))
+		s.Where(sql.Contains(s.C(FieldCodeWork), v))
 	})
 }
 
-// IDEmployeeHasPrefix applies the HasPrefix predicate on the "IDEmployee" field.
-func IDEmployeeHasPrefix(v string) predicate.EmployeeWorkingHours {
+// CodeWorkHasPrefix applies the HasPrefix predicate on the "CodeWork" field.
+func CodeWorkHasPrefix(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldIDEmployee), v))
+		s.Where(sql.HasPrefix(s.C(FieldCodeWork), v))
 	})
 }
 
-// IDEmployeeHasSuffix applies the HasSuffix predicate on the "IDEmployee" field.
-func IDEmployeeHasSuffix(v string) predicate.EmployeeWorkingHours {
+// CodeWorkHasSuffix applies the HasSuffix predicate on the "CodeWork" field.
+func CodeWorkHasSuffix(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldIDEmployee), v))
+		s.Where(sql.HasSuffix(s.C(FieldCodeWork), v))
 	})
 }
 
-// IDEmployeeEqualFold applies the EqualFold predicate on the "IDEmployee" field.
-func IDEmployeeEqualFold(v string) predicate.EmployeeWorkingHours {
+// CodeWorkEqualFold applies the EqualFold predicate on the "CodeWork" field.
+func CodeWorkEqualFold(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldIDEmployee), v))
+		s.Where(sql.EqualFold(s.C(FieldCodeWork), v))
 	})
 }
 
-// IDEmployeeContainsFold applies the ContainsFold predicate on the "IDEmployee" field.
-func IDEmployeeContainsFold(v string) predicate.EmployeeWorkingHours {
+// CodeWorkContainsFold applies the ContainsFold predicate on the "CodeWork" field.
+func CodeWorkContainsFold(v string) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldIDEmployee), v))
+		s.Where(sql.ContainsFold(s.C(FieldCodeWork), v))
 	})
 }
 
@@ -466,25 +466,53 @@ func HasDayWith(preds ...predicate.Day) predicate.EmployeeWorkingHours {
 	})
 }
 
-// HasShift applies the HasEdge predicate on the "shift" edge.
-func HasShift() predicate.EmployeeWorkingHours {
+// HasBeginwork applies the HasEdge predicate on the "beginwork" edge.
+func HasBeginwork() predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(ShiftTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, ShiftTable, ShiftColumn),
+			sqlgraph.To(BeginworkTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, BeginworkTable, BeginworkColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasShiftWith applies the HasEdge predicate on the "shift" edge with a given conditions (other predicates).
-func HasShiftWith(preds ...predicate.Shift) predicate.EmployeeWorkingHours {
+// HasBeginworkWith applies the HasEdge predicate on the "beginwork" edge with a given conditions (other predicates).
+func HasBeginworkWith(preds ...predicate.BeginWork) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(ShiftInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, ShiftTable, ShiftColumn),
+			sqlgraph.To(BeginworkInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, BeginworkTable, BeginworkColumn),
+		)
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasGetoffwork applies the HasEdge predicate on the "getoffwork" edge.
+func HasGetoffwork() predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(GetoffworkTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, GetoffworkTable, GetoffworkColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasGetoffworkWith applies the HasEdge predicate on the "getoffwork" edge with a given conditions (other predicates).
+func HasGetoffworkWith(preds ...predicate.GetOffWork) predicate.EmployeeWorkingHours {
+	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(GetoffworkInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, GetoffworkTable, GetoffworkColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

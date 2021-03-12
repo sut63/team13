@@ -9,12 +9,14 @@ import (
 	"time"
 
 	"github.com/team13/app/ent/assessment"
+	"github.com/team13/app/ent/beginwork"
 	"github.com/team13/app/ent/company"
 	"github.com/team13/app/ent/customer"
 	"github.com/team13/app/ent/day"
 	"github.com/team13/app/ent/discount"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/employeeworkinghours"
+	"github.com/team13/app/ent/getoffwork"
 	"github.com/team13/app/ent/giveaway"
 	"github.com/team13/app/ent/manager"
 	"github.com/team13/app/ent/orderonline"
@@ -25,7 +27,6 @@ import (
 	"github.com/team13/app/ent/promotion"
 	"github.com/team13/app/ent/role"
 	"github.com/team13/app/ent/salary"
-	"github.com/team13/app/ent/shift"
 	"github.com/team13/app/ent/stock"
 	"github.com/team13/app/ent/typeproduct"
 	"github.com/team13/app/ent/zoneproduct"
@@ -43,12 +44,14 @@ const (
 
 	// Node types.
 	TypeAssessment           = "Assessment"
+	TypeBeginWork            = "BeginWork"
 	TypeCompany              = "Company"
 	TypeCustomer             = "Customer"
 	TypeDay                  = "Day"
 	TypeDiscount             = "Discount"
 	TypeEmployee             = "Employee"
 	TypeEmployeeWorkingHours = "EmployeeWorkingHours"
+	TypeGetOffWork           = "GetOffWork"
 	TypeGiveaway             = "Giveaway"
 	TypeManager              = "Manager"
 	TypeOrderonline          = "Orderonline"
@@ -59,7 +62,6 @@ const (
 	TypePromotion            = "Promotion"
 	TypeRole                 = "Role"
 	TypeSalary               = "Salary"
-	TypeShift                = "Shift"
 	TypeStock                = "Stock"
 	TypeTypeproduct          = "Typeproduct"
 	TypeZoneproduct          = "Zoneproduct"
@@ -431,6 +433,374 @@ func (m *AssessmentMutation) ResetEdge(name string) error {
 		return nil
 	}
 	return fmt.Errorf("unknown Assessment edge %s", name)
+}
+
+// BeginWorkMutation represents an operation that mutate the BeginWorks
+// nodes in the graph.
+type BeginWorkMutation struct {
+	config
+	op              Op
+	typ             string
+	id              *int
+	_BeginWork      *time.Time
+	clearedFields   map[string]struct{}
+	whenwork        map[int]struct{}
+	removedwhenwork map[int]struct{}
+	done            bool
+	oldValue        func(context.Context) (*BeginWork, error)
+}
+
+var _ ent.Mutation = (*BeginWorkMutation)(nil)
+
+// beginworkOption allows to manage the mutation configuration using functional options.
+type beginworkOption func(*BeginWorkMutation)
+
+// newBeginWorkMutation creates new mutation for $n.Name.
+func newBeginWorkMutation(c config, op Op, opts ...beginworkOption) *BeginWorkMutation {
+	m := &BeginWorkMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBeginWork,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBeginWorkID sets the id field of the mutation.
+func withBeginWorkID(id int) beginworkOption {
+	return func(m *BeginWorkMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BeginWork
+		)
+		m.oldValue = func(ctx context.Context) (*BeginWork, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BeginWork.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBeginWork sets the old BeginWork of the mutation.
+func withBeginWork(node *BeginWork) beginworkOption {
+	return func(m *BeginWorkMutation) {
+		m.oldValue = func(context.Context) (*BeginWork, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BeginWorkMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BeginWorkMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the id value in the mutation. Note that, the id
+// is available only if it was provided to the builder.
+func (m *BeginWorkMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// SetBeginWork sets the BeginWork field.
+func (m *BeginWorkMutation) SetBeginWork(t time.Time) {
+	m._BeginWork = &t
+}
+
+// BeginWork returns the BeginWork value in the mutation.
+func (m *BeginWorkMutation) BeginWork() (r time.Time, exists bool) {
+	v := m._BeginWork
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBeginWork returns the old BeginWork value of the BeginWork.
+// If the BeginWork object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *BeginWorkMutation) OldBeginWork(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldBeginWork is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldBeginWork requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBeginWork: %w", err)
+	}
+	return oldValue.BeginWork, nil
+}
+
+// ResetBeginWork reset all changes of the "BeginWork" field.
+func (m *BeginWorkMutation) ResetBeginWork() {
+	m._BeginWork = nil
+}
+
+// AddWhenworkIDs adds the whenwork edge to EmployeeWorkingHours by ids.
+func (m *BeginWorkMutation) AddWhenworkIDs(ids ...int) {
+	if m.whenwork == nil {
+		m.whenwork = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.whenwork[ids[i]] = struct{}{}
+	}
+}
+
+// RemoveWhenworkIDs removes the whenwork edge to EmployeeWorkingHours by ids.
+func (m *BeginWorkMutation) RemoveWhenworkIDs(ids ...int) {
+	if m.removedwhenwork == nil {
+		m.removedwhenwork = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removedwhenwork[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedWhenwork returns the removed ids of whenwork.
+func (m *BeginWorkMutation) RemovedWhenworkIDs() (ids []int) {
+	for id := range m.removedwhenwork {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// WhenworkIDs returns the whenwork ids in the mutation.
+func (m *BeginWorkMutation) WhenworkIDs() (ids []int) {
+	for id := range m.whenwork {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetWhenwork reset all changes of the "whenwork" edge.
+func (m *BeginWorkMutation) ResetWhenwork() {
+	m.whenwork = nil
+	m.removedwhenwork = nil
+}
+
+// Op returns the operation name.
+func (m *BeginWorkMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (BeginWork).
+func (m *BeginWorkMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during
+// this mutation. Note that, in order to get all numeric
+// fields that were in/decremented, call AddedFields().
+func (m *BeginWorkMutation) Fields() []string {
+	fields := make([]string, 0, 1)
+	if m._BeginWork != nil {
+		fields = append(fields, beginwork.FieldBeginWork)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name.
+// The second boolean value indicates that this field was
+// not set, or was not define in the schema.
+func (m *BeginWorkMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case beginwork.FieldBeginWork:
+		return m.BeginWork()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database.
+// An error is returned if the mutation operation is not UpdateOne,
+// or the query to the database was failed.
+func (m *BeginWorkMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case beginwork.FieldBeginWork:
+		return m.OldBeginWork(ctx)
+	}
+	return nil, fmt.Errorf("unknown BeginWork field %s", name)
+}
+
+// SetField sets the value for the given name. It returns an
+// error if the field is not defined in the schema, or if the
+// type mismatch the field type.
+func (m *BeginWorkMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case beginwork.FieldBeginWork:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBeginWork(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BeginWork field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented
+// or decremented during this mutation.
+func (m *BeginWorkMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was in/decremented
+// from a field with the given name. The second value indicates
+// that this field was not set, or was not define in the schema.
+func (m *BeginWorkMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value for the given name. It returns an
+// error if the field is not defined in the schema, or if the
+// type mismatch the field type.
+func (m *BeginWorkMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown BeginWork numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared
+// during this mutation.
+func (m *BeginWorkMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicates if this field was
+// cleared in this mutation.
+func (m *BeginWorkMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value for the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BeginWorkMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown BeginWork nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation regarding the
+// given field name. It returns an error if the field is not
+// defined in the schema.
+func (m *BeginWorkMutation) ResetField(name string) error {
+	switch name {
+	case beginwork.FieldBeginWork:
+		m.ResetBeginWork()
+		return nil
+	}
+	return fmt.Errorf("unknown BeginWork field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this
+// mutation.
+func (m *BeginWorkMutation) AddedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.whenwork != nil {
+		edges = append(edges, beginwork.EdgeWhenwork)
+	}
+	return edges
+}
+
+// AddedIDs returns all ids (to other nodes) that were added for
+// the given edge name.
+func (m *BeginWorkMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case beginwork.EdgeWhenwork:
+		ids := make([]ent.Value, 0, len(m.whenwork))
+		for id := range m.whenwork {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this
+// mutation.
+func (m *BeginWorkMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.removedwhenwork != nil {
+		edges = append(edges, beginwork.EdgeWhenwork)
+	}
+	return edges
+}
+
+// RemovedIDs returns all ids (to other nodes) that were removed for
+// the given edge name.
+func (m *BeginWorkMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case beginwork.EdgeWhenwork:
+		ids := make([]ent.Value, 0, len(m.removedwhenwork))
+		for id := range m.removedwhenwork {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this
+// mutation.
+func (m *BeginWorkMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 1)
+	return edges
+}
+
+// EdgeCleared returns a boolean indicates if this edge was
+// cleared in this mutation.
+func (m *BeginWorkMutation) EdgeCleared(name string) bool {
+	switch name {
+	}
+	return false
+}
+
+// ClearEdge clears the value for the given name. It returns an
+// error if the edge name is not defined in the schema.
+func (m *BeginWorkMutation) ClearEdge(name string) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown BeginWork unique edge %s", name)
+}
+
+// ResetEdge resets all changes in the mutation regarding the
+// given edge name. It returns an error if the edge is not
+// defined in the schema.
+func (m *BeginWorkMutation) ResetEdge(name string) error {
+	switch name {
+	case beginwork.EdgeWhenwork:
+		m.ResetWhenwork()
+		return nil
+	}
+	return fmt.Errorf("unknown BeginWork edge %s", name)
 }
 
 // CompanyMutation represents an operation that mutate the Companies
@@ -2845,24 +3215,26 @@ func (m *EmployeeMutation) ResetEdge(name string) error {
 // nodes in the graph.
 type EmployeeWorkingHoursMutation struct {
 	config
-	op              Op
-	typ             string
-	id              *int
-	_IDEmployee     *string
-	_IDNumber       *string
-	_Wages          *float64
-	add_Wages       *float64
-	clearedFields   map[string]struct{}
-	employee        *int
-	clearedemployee bool
-	day             *int
-	clearedday      bool
-	shift           *int
-	clearedshift    bool
-	role            *int
-	clearedrole     bool
-	done            bool
-	oldValue        func(context.Context) (*EmployeeWorkingHours, error)
+	op                Op
+	typ               string
+	id                *int
+	_CodeWork         *string
+	_IDNumber         *string
+	_Wages            *float64
+	add_Wages         *float64
+	clearedFields     map[string]struct{}
+	employee          *int
+	clearedemployee   bool
+	day               *int
+	clearedday        bool
+	beginwork         *int
+	clearedbeginwork  bool
+	getoffwork        *int
+	clearedgetoffwork bool
+	role              *int
+	clearedrole       bool
+	done              bool
+	oldValue          func(context.Context) (*EmployeeWorkingHours, error)
 }
 
 var _ ent.Mutation = (*EmployeeWorkingHoursMutation)(nil)
@@ -2944,41 +3316,41 @@ func (m *EmployeeWorkingHoursMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
-// SetIDEmployee sets the IDEmployee field.
-func (m *EmployeeWorkingHoursMutation) SetIDEmployee(s string) {
-	m._IDEmployee = &s
+// SetCodeWork sets the CodeWork field.
+func (m *EmployeeWorkingHoursMutation) SetCodeWork(s string) {
+	m._CodeWork = &s
 }
 
-// IDEmployee returns the IDEmployee value in the mutation.
-func (m *EmployeeWorkingHoursMutation) IDEmployee() (r string, exists bool) {
-	v := m._IDEmployee
+// CodeWork returns the CodeWork value in the mutation.
+func (m *EmployeeWorkingHoursMutation) CodeWork() (r string, exists bool) {
+	v := m._CodeWork
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldIDEmployee returns the old IDEmployee value of the EmployeeWorkingHours.
+// OldCodeWork returns the old CodeWork value of the EmployeeWorkingHours.
 // If the EmployeeWorkingHours object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *EmployeeWorkingHoursMutation) OldIDEmployee(ctx context.Context) (v string, err error) {
+func (m *EmployeeWorkingHoursMutation) OldCodeWork(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldIDEmployee is allowed only on UpdateOne operations")
+		return v, fmt.Errorf("OldCodeWork is allowed only on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldIDEmployee requires an ID field in the mutation")
+		return v, fmt.Errorf("OldCodeWork requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldIDEmployee: %w", err)
+		return v, fmt.Errorf("querying old value for OldCodeWork: %w", err)
 	}
-	return oldValue.IDEmployee, nil
+	return oldValue.CodeWork, nil
 }
 
-// ResetIDEmployee reset all changes of the "IDEmployee" field.
-func (m *EmployeeWorkingHoursMutation) ResetIDEmployee() {
-	m._IDEmployee = nil
+// ResetCodeWork reset all changes of the "CodeWork" field.
+func (m *EmployeeWorkingHoursMutation) ResetCodeWork() {
+	m._CodeWork = nil
 }
 
 // SetIDNumber sets the IDNumber field.
@@ -3153,43 +3525,82 @@ func (m *EmployeeWorkingHoursMutation) ResetDay() {
 	m.clearedday = false
 }
 
-// SetShiftID sets the shift edge to Shift by id.
-func (m *EmployeeWorkingHoursMutation) SetShiftID(id int) {
-	m.shift = &id
+// SetBeginworkID sets the beginwork edge to BeginWork by id.
+func (m *EmployeeWorkingHoursMutation) SetBeginworkID(id int) {
+	m.beginwork = &id
 }
 
-// ClearShift clears the shift edge to Shift.
-func (m *EmployeeWorkingHoursMutation) ClearShift() {
-	m.clearedshift = true
+// ClearBeginwork clears the beginwork edge to BeginWork.
+func (m *EmployeeWorkingHoursMutation) ClearBeginwork() {
+	m.clearedbeginwork = true
 }
 
-// ShiftCleared returns if the edge shift was cleared.
-func (m *EmployeeWorkingHoursMutation) ShiftCleared() bool {
-	return m.clearedshift
+// BeginworkCleared returns if the edge beginwork was cleared.
+func (m *EmployeeWorkingHoursMutation) BeginworkCleared() bool {
+	return m.clearedbeginwork
 }
 
-// ShiftID returns the shift id in the mutation.
-func (m *EmployeeWorkingHoursMutation) ShiftID() (id int, exists bool) {
-	if m.shift != nil {
-		return *m.shift, true
+// BeginworkID returns the beginwork id in the mutation.
+func (m *EmployeeWorkingHoursMutation) BeginworkID() (id int, exists bool) {
+	if m.beginwork != nil {
+		return *m.beginwork, true
 	}
 	return
 }
 
-// ShiftIDs returns the shift ids in the mutation.
+// BeginworkIDs returns the beginwork ids in the mutation.
 // Note that ids always returns len(ids) <= 1 for unique edges, and you should use
-// ShiftID instead. It exists only for internal usage by the builders.
-func (m *EmployeeWorkingHoursMutation) ShiftIDs() (ids []int) {
-	if id := m.shift; id != nil {
+// BeginworkID instead. It exists only for internal usage by the builders.
+func (m *EmployeeWorkingHoursMutation) BeginworkIDs() (ids []int) {
+	if id := m.beginwork; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetShift reset all changes of the "shift" edge.
-func (m *EmployeeWorkingHoursMutation) ResetShift() {
-	m.shift = nil
-	m.clearedshift = false
+// ResetBeginwork reset all changes of the "beginwork" edge.
+func (m *EmployeeWorkingHoursMutation) ResetBeginwork() {
+	m.beginwork = nil
+	m.clearedbeginwork = false
+}
+
+// SetGetoffworkID sets the getoffwork edge to GetOffWork by id.
+func (m *EmployeeWorkingHoursMutation) SetGetoffworkID(id int) {
+	m.getoffwork = &id
+}
+
+// ClearGetoffwork clears the getoffwork edge to GetOffWork.
+func (m *EmployeeWorkingHoursMutation) ClearGetoffwork() {
+	m.clearedgetoffwork = true
+}
+
+// GetoffworkCleared returns if the edge getoffwork was cleared.
+func (m *EmployeeWorkingHoursMutation) GetoffworkCleared() bool {
+	return m.clearedgetoffwork
+}
+
+// GetoffworkID returns the getoffwork id in the mutation.
+func (m *EmployeeWorkingHoursMutation) GetoffworkID() (id int, exists bool) {
+	if m.getoffwork != nil {
+		return *m.getoffwork, true
+	}
+	return
+}
+
+// GetoffworkIDs returns the getoffwork ids in the mutation.
+// Note that ids always returns len(ids) <= 1 for unique edges, and you should use
+// GetoffworkID instead. It exists only for internal usage by the builders.
+func (m *EmployeeWorkingHoursMutation) GetoffworkIDs() (ids []int) {
+	if id := m.getoffwork; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetGetoffwork reset all changes of the "getoffwork" edge.
+func (m *EmployeeWorkingHoursMutation) ResetGetoffwork() {
+	m.getoffwork = nil
+	m.clearedgetoffwork = false
 }
 
 // SetRoleID sets the role edge to Role by id.
@@ -3246,8 +3657,8 @@ func (m *EmployeeWorkingHoursMutation) Type() string {
 // fields that were in/decremented, call AddedFields().
 func (m *EmployeeWorkingHoursMutation) Fields() []string {
 	fields := make([]string, 0, 3)
-	if m._IDEmployee != nil {
-		fields = append(fields, employeeworkinghours.FieldIDEmployee)
+	if m._CodeWork != nil {
+		fields = append(fields, employeeworkinghours.FieldCodeWork)
 	}
 	if m._IDNumber != nil {
 		fields = append(fields, employeeworkinghours.FieldIDNumber)
@@ -3263,8 +3674,8 @@ func (m *EmployeeWorkingHoursMutation) Fields() []string {
 // not set, or was not define in the schema.
 func (m *EmployeeWorkingHoursMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case employeeworkinghours.FieldIDEmployee:
-		return m.IDEmployee()
+	case employeeworkinghours.FieldCodeWork:
+		return m.CodeWork()
 	case employeeworkinghours.FieldIDNumber:
 		return m.IDNumber()
 	case employeeworkinghours.FieldWages:
@@ -3278,8 +3689,8 @@ func (m *EmployeeWorkingHoursMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *EmployeeWorkingHoursMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case employeeworkinghours.FieldIDEmployee:
-		return m.OldIDEmployee(ctx)
+	case employeeworkinghours.FieldCodeWork:
+		return m.OldCodeWork(ctx)
 	case employeeworkinghours.FieldIDNumber:
 		return m.OldIDNumber(ctx)
 	case employeeworkinghours.FieldWages:
@@ -3293,12 +3704,12 @@ func (m *EmployeeWorkingHoursMutation) OldField(ctx context.Context, name string
 // type mismatch the field type.
 func (m *EmployeeWorkingHoursMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case employeeworkinghours.FieldIDEmployee:
+	case employeeworkinghours.FieldCodeWork:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetIDEmployee(v)
+		m.SetCodeWork(v)
 		return nil
 	case employeeworkinghours.FieldIDNumber:
 		v, ok := value.(string)
@@ -3379,8 +3790,8 @@ func (m *EmployeeWorkingHoursMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *EmployeeWorkingHoursMutation) ResetField(name string) error {
 	switch name {
-	case employeeworkinghours.FieldIDEmployee:
-		m.ResetIDEmployee()
+	case employeeworkinghours.FieldCodeWork:
+		m.ResetCodeWork()
 		return nil
 	case employeeworkinghours.FieldIDNumber:
 		m.ResetIDNumber()
@@ -3395,15 +3806,18 @@ func (m *EmployeeWorkingHoursMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this
 // mutation.
 func (m *EmployeeWorkingHoursMutation) AddedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 5)
 	if m.employee != nil {
 		edges = append(edges, employeeworkinghours.EdgeEmployee)
 	}
 	if m.day != nil {
 		edges = append(edges, employeeworkinghours.EdgeDay)
 	}
-	if m.shift != nil {
-		edges = append(edges, employeeworkinghours.EdgeShift)
+	if m.beginwork != nil {
+		edges = append(edges, employeeworkinghours.EdgeBeginwork)
+	}
+	if m.getoffwork != nil {
+		edges = append(edges, employeeworkinghours.EdgeGetoffwork)
 	}
 	if m.role != nil {
 		edges = append(edges, employeeworkinghours.EdgeRole)
@@ -3423,8 +3837,12 @@ func (m *EmployeeWorkingHoursMutation) AddedIDs(name string) []ent.Value {
 		if id := m.day; id != nil {
 			return []ent.Value{*id}
 		}
-	case employeeworkinghours.EdgeShift:
-		if id := m.shift; id != nil {
+	case employeeworkinghours.EdgeBeginwork:
+		if id := m.beginwork; id != nil {
+			return []ent.Value{*id}
+		}
+	case employeeworkinghours.EdgeGetoffwork:
+		if id := m.getoffwork; id != nil {
 			return []ent.Value{*id}
 		}
 	case employeeworkinghours.EdgeRole:
@@ -3438,7 +3856,7 @@ func (m *EmployeeWorkingHoursMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this
 // mutation.
 func (m *EmployeeWorkingHoursMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 5)
 	return edges
 }
 
@@ -3453,15 +3871,18 @@ func (m *EmployeeWorkingHoursMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this
 // mutation.
 func (m *EmployeeWorkingHoursMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 4)
+	edges := make([]string, 0, 5)
 	if m.clearedemployee {
 		edges = append(edges, employeeworkinghours.EdgeEmployee)
 	}
 	if m.clearedday {
 		edges = append(edges, employeeworkinghours.EdgeDay)
 	}
-	if m.clearedshift {
-		edges = append(edges, employeeworkinghours.EdgeShift)
+	if m.clearedbeginwork {
+		edges = append(edges, employeeworkinghours.EdgeBeginwork)
+	}
+	if m.clearedgetoffwork {
+		edges = append(edges, employeeworkinghours.EdgeGetoffwork)
 	}
 	if m.clearedrole {
 		edges = append(edges, employeeworkinghours.EdgeRole)
@@ -3477,8 +3898,10 @@ func (m *EmployeeWorkingHoursMutation) EdgeCleared(name string) bool {
 		return m.clearedemployee
 	case employeeworkinghours.EdgeDay:
 		return m.clearedday
-	case employeeworkinghours.EdgeShift:
-		return m.clearedshift
+	case employeeworkinghours.EdgeBeginwork:
+		return m.clearedbeginwork
+	case employeeworkinghours.EdgeGetoffwork:
+		return m.clearedgetoffwork
 	case employeeworkinghours.EdgeRole:
 		return m.clearedrole
 	}
@@ -3495,8 +3918,11 @@ func (m *EmployeeWorkingHoursMutation) ClearEdge(name string) error {
 	case employeeworkinghours.EdgeDay:
 		m.ClearDay()
 		return nil
-	case employeeworkinghours.EdgeShift:
-		m.ClearShift()
+	case employeeworkinghours.EdgeBeginwork:
+		m.ClearBeginwork()
+		return nil
+	case employeeworkinghours.EdgeGetoffwork:
+		m.ClearGetoffwork()
 		return nil
 	case employeeworkinghours.EdgeRole:
 		m.ClearRole()
@@ -3516,14 +3942,385 @@ func (m *EmployeeWorkingHoursMutation) ResetEdge(name string) error {
 	case employeeworkinghours.EdgeDay:
 		m.ResetDay()
 		return nil
-	case employeeworkinghours.EdgeShift:
-		m.ResetShift()
+	case employeeworkinghours.EdgeBeginwork:
+		m.ResetBeginwork()
+		return nil
+	case employeeworkinghours.EdgeGetoffwork:
+		m.ResetGetoffwork()
 		return nil
 	case employeeworkinghours.EdgeRole:
 		m.ResetRole()
 		return nil
 	}
 	return fmt.Errorf("unknown EmployeeWorkingHours edge %s", name)
+}
+
+// GetOffWorkMutation represents an operation that mutate the GetOffWorks
+// nodes in the graph.
+type GetOffWorkMutation struct {
+	config
+	op                 Op
+	typ                string
+	id                 *int
+	_GetOffWork        *time.Time
+	clearedFields      map[string]struct{}
+	whenendwork        map[int]struct{}
+	removedwhenendwork map[int]struct{}
+	done               bool
+	oldValue           func(context.Context) (*GetOffWork, error)
+}
+
+var _ ent.Mutation = (*GetOffWorkMutation)(nil)
+
+// getoffworkOption allows to manage the mutation configuration using functional options.
+type getoffworkOption func(*GetOffWorkMutation)
+
+// newGetOffWorkMutation creates new mutation for $n.Name.
+func newGetOffWorkMutation(c config, op Op, opts ...getoffworkOption) *GetOffWorkMutation {
+	m := &GetOffWorkMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeGetOffWork,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withGetOffWorkID sets the id field of the mutation.
+func withGetOffWorkID(id int) getoffworkOption {
+	return func(m *GetOffWorkMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *GetOffWork
+		)
+		m.oldValue = func(ctx context.Context) (*GetOffWork, error) {
+			once.Do(func() {
+				if m.done {
+					err = fmt.Errorf("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().GetOffWork.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withGetOffWork sets the old GetOffWork of the mutation.
+func withGetOffWork(node *GetOffWork) getoffworkOption {
+	return func(m *GetOffWorkMutation) {
+		m.oldValue = func(context.Context) (*GetOffWork, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m GetOffWorkMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m GetOffWorkMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// ID returns the id value in the mutation. Note that, the id
+// is available only if it was provided to the builder.
+func (m *GetOffWorkMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// SetGetOffWork sets the GetOffWork field.
+func (m *GetOffWorkMutation) SetGetOffWork(t time.Time) {
+	m._GetOffWork = &t
+}
+
+// GetOffWork returns the GetOffWork value in the mutation.
+func (m *GetOffWorkMutation) GetOffWork() (r time.Time, exists bool) {
+	v := m._GetOffWork
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGetOffWork returns the old GetOffWork value of the GetOffWork.
+// If the GetOffWork object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *GetOffWorkMutation) OldGetOffWork(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldGetOffWork is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldGetOffWork requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGetOffWork: %w", err)
+	}
+	return oldValue.GetOffWork, nil
+}
+
+// ResetGetOffWork reset all changes of the "GetOffWork" field.
+func (m *GetOffWorkMutation) ResetGetOffWork() {
+	m._GetOffWork = nil
+}
+
+// AddWhenendworkIDs adds the whenendwork edge to EmployeeWorkingHours by ids.
+func (m *GetOffWorkMutation) AddWhenendworkIDs(ids ...int) {
+	if m.whenendwork == nil {
+		m.whenendwork = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.whenendwork[ids[i]] = struct{}{}
+	}
+}
+
+// RemoveWhenendworkIDs removes the whenendwork edge to EmployeeWorkingHours by ids.
+func (m *GetOffWorkMutation) RemoveWhenendworkIDs(ids ...int) {
+	if m.removedwhenendwork == nil {
+		m.removedwhenendwork = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removedwhenendwork[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedWhenendwork returns the removed ids of whenendwork.
+func (m *GetOffWorkMutation) RemovedWhenendworkIDs() (ids []int) {
+	for id := range m.removedwhenendwork {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// WhenendworkIDs returns the whenendwork ids in the mutation.
+func (m *GetOffWorkMutation) WhenendworkIDs() (ids []int) {
+	for id := range m.whenendwork {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetWhenendwork reset all changes of the "whenendwork" edge.
+func (m *GetOffWorkMutation) ResetWhenendwork() {
+	m.whenendwork = nil
+	m.removedwhenendwork = nil
+}
+
+// Op returns the operation name.
+func (m *GetOffWorkMutation) Op() Op {
+	return m.op
+}
+
+// Type returns the node type of this mutation (GetOffWork).
+func (m *GetOffWorkMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during
+// this mutation. Note that, in order to get all numeric
+// fields that were in/decremented, call AddedFields().
+func (m *GetOffWorkMutation) Fields() []string {
+	fields := make([]string, 0, 1)
+	if m._GetOffWork != nil {
+		fields = append(fields, getoffwork.FieldGetOffWork)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name.
+// The second boolean value indicates that this field was
+// not set, or was not define in the schema.
+func (m *GetOffWorkMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case getoffwork.FieldGetOffWork:
+		return m.GetOffWork()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database.
+// An error is returned if the mutation operation is not UpdateOne,
+// or the query to the database was failed.
+func (m *GetOffWorkMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case getoffwork.FieldGetOffWork:
+		return m.OldGetOffWork(ctx)
+	}
+	return nil, fmt.Errorf("unknown GetOffWork field %s", name)
+}
+
+// SetField sets the value for the given name. It returns an
+// error if the field is not defined in the schema, or if the
+// type mismatch the field type.
+func (m *GetOffWorkMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case getoffwork.FieldGetOffWork:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGetOffWork(v)
+		return nil
+	}
+	return fmt.Errorf("unknown GetOffWork field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented
+// or decremented during this mutation.
+func (m *GetOffWorkMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was in/decremented
+// from a field with the given name. The second value indicates
+// that this field was not set, or was not define in the schema.
+func (m *GetOffWorkMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value for the given name. It returns an
+// error if the field is not defined in the schema, or if the
+// type mismatch the field type.
+func (m *GetOffWorkMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown GetOffWork numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared
+// during this mutation.
+func (m *GetOffWorkMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicates if this field was
+// cleared in this mutation.
+func (m *GetOffWorkMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value for the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *GetOffWorkMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown GetOffWork nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation regarding the
+// given field name. It returns an error if the field is not
+// defined in the schema.
+func (m *GetOffWorkMutation) ResetField(name string) error {
+	switch name {
+	case getoffwork.FieldGetOffWork:
+		m.ResetGetOffWork()
+		return nil
+	}
+	return fmt.Errorf("unknown GetOffWork field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this
+// mutation.
+func (m *GetOffWorkMutation) AddedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.whenendwork != nil {
+		edges = append(edges, getoffwork.EdgeWhenendwork)
+	}
+	return edges
+}
+
+// AddedIDs returns all ids (to other nodes) that were added for
+// the given edge name.
+func (m *GetOffWorkMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case getoffwork.EdgeWhenendwork:
+		ids := make([]ent.Value, 0, len(m.whenendwork))
+		for id := range m.whenendwork {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this
+// mutation.
+func (m *GetOffWorkMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.removedwhenendwork != nil {
+		edges = append(edges, getoffwork.EdgeWhenendwork)
+	}
+	return edges
+}
+
+// RemovedIDs returns all ids (to other nodes) that were removed for
+// the given edge name.
+func (m *GetOffWorkMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case getoffwork.EdgeWhenendwork:
+		ids := make([]ent.Value, 0, len(m.removedwhenendwork))
+		for id := range m.removedwhenendwork {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this
+// mutation.
+func (m *GetOffWorkMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 1)
+	return edges
+}
+
+// EdgeCleared returns a boolean indicates if this edge was
+// cleared in this mutation.
+func (m *GetOffWorkMutation) EdgeCleared(name string) bool {
+	switch name {
+	}
+	return false
+}
+
+// ClearEdge clears the value for the given name. It returns an
+// error if the edge name is not defined in the schema.
+func (m *GetOffWorkMutation) ClearEdge(name string) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown GetOffWork unique edge %s", name)
+}
+
+// ResetEdge resets all changes in the mutation regarding the
+// given edge name. It returns an error if the edge is not
+// defined in the schema.
+func (m *GetOffWorkMutation) ResetEdge(name string) error {
+	switch name {
+	case getoffwork.EdgeWhenendwork:
+		m.ResetWhenendwork()
+		return nil
+	}
+	return fmt.Errorf("unknown GetOffWork edge %s", name)
 }
 
 // GiveawayMutation represents an operation that mutate the Giveaways
@@ -7946,6 +8743,7 @@ func (m *PromotionMutation) ResetEdge(name string) error {
 // nodes in the graph.
 type RoleMutation struct {
 	config
+
 	op            Op
 	typ           string
 	id            *int
@@ -7955,6 +8753,26 @@ type RoleMutation struct {
 	removedtodo   map[int]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Role, error)
+
+	op                Op
+	typ               string
+	id                *int
+	_Salary           *float64
+	add_Salary        *float64
+	_Bonus            *float64
+	add_Bonus         *float64
+	_SalaryDatetime   *time.Time
+	_AccountNumber    *string
+	clearedFields     map[string]struct{}
+	assessment        *int
+	clearedassessment bool
+	position          *int
+	clearedposition   bool
+	employee          *int
+	clearedemployee   bool
+	done              bool
+	oldValue          func(context.Context) (*Salary, error)
+
 }
 
 var _ ent.Mutation = (*RoleMutation)(nil)
@@ -8008,6 +8826,7 @@ func withRole(node *Role) roleOption {
 	}
 }
 
+
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
 func (m RoleMutation) Client() *Client {
@@ -8039,6 +8858,10 @@ func (m *RoleMutation) ID() (id int, exists bool) {
 // SetRole sets the Role field.
 func (m *RoleMutation) SetRole(s string) {
 	m._Role = &s
+
+// SetAccountNumber sets the AccountNumber field.
+func (m *SalaryMutation) SetAccountNumber(s string) {
+	m._AccountNumber = &s
 }
 
 // Role returns the Role value in the mutation.
@@ -8128,10 +8951,26 @@ func (m *RoleMutation) Type() string {
 // Fields returns all fields that were changed during
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
+
 func (m *RoleMutation) Fields() []string {
 	fields := make([]string, 0, 1)
 	if m._Role != nil {
 		fields = append(fields, role.FieldRole)
+
+func (m *SalaryMutation) Fields() []string {
+	fields := make([]string, 0, 4)
+	if m._Salary != nil {
+		fields = append(fields, salary.FieldSalary)
+	}
+	if m._Bonus != nil {
+		fields = append(fields, salary.FieldBonus)
+	}
+	if m._SalaryDatetime != nil {
+		fields = append(fields, salary.FieldSalaryDatetime)
+	}
+	if m._AccountNumber != nil {
+		fields = append(fields, salary.FieldAccountNumber)
+
 	}
 	return fields
 }
@@ -8139,10 +8978,23 @@ func (m *RoleMutation) Fields() []string {
 // Field returns the value of a field with the given name.
 // The second boolean value indicates that this field was
 // not set, or was not define in the schema.
+
 func (m *RoleMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case role.FieldRole:
 		return m.Role()
+
+func (m *SalaryMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case salary.FieldSalary:
+		return m.Salary()
+	case salary.FieldBonus:
+		return m.Bonus()
+	case salary.FieldSalaryDatetime:
+		return m.SalaryDatetime()
+	case salary.FieldAccountNumber:
+		return m.AccountNumber()
+
 	}
 	return nil, false
 }
@@ -8152,8 +9004,19 @@ func (m *RoleMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+
 	case role.FieldRole:
 		return m.OldRole(ctx)
+
+	case salary.FieldSalary:
+		return m.OldSalary(ctx)
+	case salary.FieldBonus:
+		return m.OldBonus(ctx)
+	case salary.FieldSalaryDatetime:
+		return m.OldSalaryDatetime(ctx)
+	case salary.FieldAccountNumber:
+		return m.OldAccountNumber(ctx)
+
 	}
 	return nil, fmt.Errorf("unknown Role field %s", name)
 }
@@ -8163,7 +9026,32 @@ func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, er
 // type mismatch the field type.
 func (m *RoleMutation) SetField(name string, value ent.Value) error {
 	switch name {
+
 	case role.FieldRole:
+
+	case salary.FieldSalary:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSalary(v)
+		return nil
+	case salary.FieldBonus:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBonus(v)
+		return nil
+	case salary.FieldSalaryDatetime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSalaryDatetime(v)
+		return nil
+	case salary.FieldAccountNumber:
+
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -8220,8 +9108,22 @@ func (m *RoleMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *RoleMutation) ResetField(name string) error {
 	switch name {
+
 	case role.FieldRole:
 		m.ResetRole()
+
+	case salary.FieldSalary:
+		m.ResetSalary()
+		return nil
+	case salary.FieldBonus:
+		m.ResetBonus()
+		return nil
+	case salary.FieldSalaryDatetime:
+		m.ResetSalaryDatetime()
+		return nil
+	case salary.FieldAccountNumber:
+		m.ResetAccountNumber()
+
 		return nil
 	}
 	return fmt.Errorf("unknown Role field %s", name)
@@ -9077,484 +9979,6 @@ func (m *SalaryMutation) ResetEdge(name string) error {
 		return nil
 	}
 	return fmt.Errorf("unknown Salary edge %s", name)
-}
-
-// ShiftMutation represents an operation that mutate the Shifts
-// nodes in the graph.
-type ShiftMutation struct {
-	config
-	op            Op
-	typ           string
-	id            *int
-	_Name         *string
-	_TimeStart    *time.Time
-	_TimeEnd      *time.Time
-	clearedFields map[string]struct{}
-	when          map[int]struct{}
-	removedwhen   map[int]struct{}
-	done          bool
-	oldValue      func(context.Context) (*Shift, error)
-}
-
-var _ ent.Mutation = (*ShiftMutation)(nil)
-
-// shiftOption allows to manage the mutation configuration using functional options.
-type shiftOption func(*ShiftMutation)
-
-// newShiftMutation creates new mutation for $n.Name.
-func newShiftMutation(c config, op Op, opts ...shiftOption) *ShiftMutation {
-	m := &ShiftMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeShift,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withShiftID sets the id field of the mutation.
-func withShiftID(id int) shiftOption {
-	return func(m *ShiftMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *Shift
-		)
-		m.oldValue = func(ctx context.Context) (*Shift, error) {
-			once.Do(func() {
-				if m.done {
-					err = fmt.Errorf("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().Shift.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withShift sets the old Shift of the mutation.
-func withShift(node *Shift) shiftOption {
-	return func(m *ShiftMutation) {
-		m.oldValue = func(context.Context) (*Shift, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m ShiftMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m ShiftMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// ID returns the id value in the mutation. Note that, the id
-// is available only if it was provided to the builder.
-func (m *ShiftMutation) ID() (id int, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// SetName sets the Name field.
-func (m *ShiftMutation) SetName(s string) {
-	m._Name = &s
-}
-
-// Name returns the Name value in the mutation.
-func (m *ShiftMutation) Name() (r string, exists bool) {
-	v := m._Name
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldName returns the old Name value of the Shift.
-// If the Shift object wasn't provided to the builder, the object is fetched
-// from the database.
-// An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *ShiftMutation) OldName(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldName is allowed only on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldName requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldName: %w", err)
-	}
-	return oldValue.Name, nil
-}
-
-// ResetName reset all changes of the "Name" field.
-func (m *ShiftMutation) ResetName() {
-	m._Name = nil
-}
-
-// SetTimeStart sets the TimeStart field.
-func (m *ShiftMutation) SetTimeStart(t time.Time) {
-	m._TimeStart = &t
-}
-
-// TimeStart returns the TimeStart value in the mutation.
-func (m *ShiftMutation) TimeStart() (r time.Time, exists bool) {
-	v := m._TimeStart
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTimeStart returns the old TimeStart value of the Shift.
-// If the Shift object wasn't provided to the builder, the object is fetched
-// from the database.
-// An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *ShiftMutation) OldTimeStart(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldTimeStart is allowed only on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldTimeStart requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTimeStart: %w", err)
-	}
-	return oldValue.TimeStart, nil
-}
-
-// ResetTimeStart reset all changes of the "TimeStart" field.
-func (m *ShiftMutation) ResetTimeStart() {
-	m._TimeStart = nil
-}
-
-// SetTimeEnd sets the TimeEnd field.
-func (m *ShiftMutation) SetTimeEnd(t time.Time) {
-	m._TimeEnd = &t
-}
-
-// TimeEnd returns the TimeEnd value in the mutation.
-func (m *ShiftMutation) TimeEnd() (r time.Time, exists bool) {
-	v := m._TimeEnd
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTimeEnd returns the old TimeEnd value of the Shift.
-// If the Shift object wasn't provided to the builder, the object is fetched
-// from the database.
-// An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *ShiftMutation) OldTimeEnd(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldTimeEnd is allowed only on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldTimeEnd requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTimeEnd: %w", err)
-	}
-	return oldValue.TimeEnd, nil
-}
-
-// ResetTimeEnd reset all changes of the "TimeEnd" field.
-func (m *ShiftMutation) ResetTimeEnd() {
-	m._TimeEnd = nil
-}
-
-// AddWhenIDs adds the when edge to EmployeeWorkingHours by ids.
-func (m *ShiftMutation) AddWhenIDs(ids ...int) {
-	if m.when == nil {
-		m.when = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.when[ids[i]] = struct{}{}
-	}
-}
-
-// RemoveWhenIDs removes the when edge to EmployeeWorkingHours by ids.
-func (m *ShiftMutation) RemoveWhenIDs(ids ...int) {
-	if m.removedwhen == nil {
-		m.removedwhen = make(map[int]struct{})
-	}
-	for i := range ids {
-		m.removedwhen[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedWhen returns the removed ids of when.
-func (m *ShiftMutation) RemovedWhenIDs() (ids []int) {
-	for id := range m.removedwhen {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// WhenIDs returns the when ids in the mutation.
-func (m *ShiftMutation) WhenIDs() (ids []int) {
-	for id := range m.when {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ResetWhen reset all changes of the "when" edge.
-func (m *ShiftMutation) ResetWhen() {
-	m.when = nil
-	m.removedwhen = nil
-}
-
-// Op returns the operation name.
-func (m *ShiftMutation) Op() Op {
-	return m.op
-}
-
-// Type returns the node type of this mutation (Shift).
-func (m *ShiftMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during
-// this mutation. Note that, in order to get all numeric
-// fields that were in/decremented, call AddedFields().
-func (m *ShiftMutation) Fields() []string {
-	fields := make([]string, 0, 3)
-	if m._Name != nil {
-		fields = append(fields, shift.FieldName)
-	}
-	if m._TimeStart != nil {
-		fields = append(fields, shift.FieldTimeStart)
-	}
-	if m._TimeEnd != nil {
-		fields = append(fields, shift.FieldTimeEnd)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name.
-// The second boolean value indicates that this field was
-// not set, or was not define in the schema.
-func (m *ShiftMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case shift.FieldName:
-		return m.Name()
-	case shift.FieldTimeStart:
-		return m.TimeStart()
-	case shift.FieldTimeEnd:
-		return m.TimeEnd()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database.
-// An error is returned if the mutation operation is not UpdateOne,
-// or the query to the database was failed.
-func (m *ShiftMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case shift.FieldName:
-		return m.OldName(ctx)
-	case shift.FieldTimeStart:
-		return m.OldTimeStart(ctx)
-	case shift.FieldTimeEnd:
-		return m.OldTimeEnd(ctx)
-	}
-	return nil, fmt.Errorf("unknown Shift field %s", name)
-}
-
-// SetField sets the value for the given name. It returns an
-// error if the field is not defined in the schema, or if the
-// type mismatch the field type.
-func (m *ShiftMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case shift.FieldName:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetName(v)
-		return nil
-	case shift.FieldTimeStart:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTimeStart(v)
-		return nil
-	case shift.FieldTimeEnd:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTimeEnd(v)
-		return nil
-	}
-	return fmt.Errorf("unknown Shift field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented
-// or decremented during this mutation.
-func (m *ShiftMutation) AddedFields() []string {
-	return nil
-}
-
-// AddedField returns the numeric value that was in/decremented
-// from a field with the given name. The second value indicates
-// that this field was not set, or was not define in the schema.
-func (m *ShiftMutation) AddedField(name string) (ent.Value, bool) {
-	return nil, false
-}
-
-// AddField adds the value for the given name. It returns an
-// error if the field is not defined in the schema, or if the
-// type mismatch the field type.
-func (m *ShiftMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown Shift numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared
-// during this mutation.
-func (m *ShiftMutation) ClearedFields() []string {
-	return nil
-}
-
-// FieldCleared returns a boolean indicates if this field was
-// cleared in this mutation.
-func (m *ShiftMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value for the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *ShiftMutation) ClearField(name string) error {
-	return fmt.Errorf("unknown Shift nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation regarding the
-// given field name. It returns an error if the field is not
-// defined in the schema.
-func (m *ShiftMutation) ResetField(name string) error {
-	switch name {
-	case shift.FieldName:
-		m.ResetName()
-		return nil
-	case shift.FieldTimeStart:
-		m.ResetTimeStart()
-		return nil
-	case shift.FieldTimeEnd:
-		m.ResetTimeEnd()
-		return nil
-	}
-	return fmt.Errorf("unknown Shift field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this
-// mutation.
-func (m *ShiftMutation) AddedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.when != nil {
-		edges = append(edges, shift.EdgeWhen)
-	}
-	return edges
-}
-
-// AddedIDs returns all ids (to other nodes) that were added for
-// the given edge name.
-func (m *ShiftMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case shift.EdgeWhen:
-		ids := make([]ent.Value, 0, len(m.when))
-		for id := range m.when {
-			ids = append(ids, id)
-		}
-		return ids
-	}
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this
-// mutation.
-func (m *ShiftMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.removedwhen != nil {
-		edges = append(edges, shift.EdgeWhen)
-	}
-	return edges
-}
-
-// RemovedIDs returns all ids (to other nodes) that were removed for
-// the given edge name.
-func (m *ShiftMutation) RemovedIDs(name string) []ent.Value {
-	switch name {
-	case shift.EdgeWhen:
-		ids := make([]ent.Value, 0, len(m.removedwhen))
-		for id := range m.removedwhen {
-			ids = append(ids, id)
-		}
-		return ids
-	}
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this
-// mutation.
-func (m *ShiftMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 1)
-	return edges
-}
-
-// EdgeCleared returns a boolean indicates if this edge was
-// cleared in this mutation.
-func (m *ShiftMutation) EdgeCleared(name string) bool {
-	switch name {
-	}
-	return false
-}
-
-// ClearEdge clears the value for the given name. It returns an
-// error if the edge name is not defined in the schema.
-func (m *ShiftMutation) ClearEdge(name string) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown Shift unique edge %s", name)
-}
-
-// ResetEdge resets all changes in the mutation regarding the
-// given edge name. It returns an error if the edge is not
-// defined in the schema.
-func (m *ShiftMutation) ResetEdge(name string) error {
-	switch name {
-	case shift.EdgeWhen:
-		m.ResetWhen()
-		return nil
-	}
-	return fmt.Errorf("unknown Shift edge %s", name)
 }
 
 // StockMutation represents an operation that mutate the Stocks

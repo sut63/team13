@@ -1,7 +1,7 @@
 package schema
 
 import (
-	"regexp"
+	//"regexp"
 	"github.com/facebookincubator/ent"
 	"github.com/facebookincubator/ent/schema/field"
 	"github.com/facebookincubator/ent/schema/edge"
@@ -18,7 +18,7 @@ func (Salary) Fields() []ent.Field {
 		field.Float("Salary").Min(0).Positive(),
 		field.Float("Bonus").Min(0).Positive(),
 		field.Time("SalaryDatetime"),
-		field.String("IDEmployee").Match(regexp.MustCompile("[E]\\d{6}")),
+		//field.String("IDEmployee").Match(regexp.MustCompile("[E]\\d{6}")),
         field.String("AccountNumber").MinLen(10).MaxLen(10),
 
 	}

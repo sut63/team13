@@ -28,7 +28,7 @@ type Salary struct {
 	Salarys		   float64
 	Bonus          float64
 	SalaryDate     string
-	IDEmployee	   string
+	//IDEmployee	   string
 	AccountNumber  string
 		
 
@@ -101,7 +101,7 @@ func (ctl *SalaryController) CreateSalary(c *gin.Context) {
 		SetBonus(obj.Bonus).
 		SetSalary(obj.Salarys).
 		SetSalaryDatetime(salaryDatetime).
-		SetIDEmployee(obj.IDEmployee).
+		//SetIDEmployee(obj.IDEmployee).
 		SetAccountNumber(obj.AccountNumber).
 		Save(context.Background())
 	if err != nil {

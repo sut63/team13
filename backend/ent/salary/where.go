@@ -114,13 +114,6 @@ func SalaryDatetime(v time.Time) predicate.Salary {
 	})
 }
 
-// IDEmployee applies equality check predicate on the "IDEmployee" field. It's identical to IDEmployeeEQ.
-func IDEmployee(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldIDEmployee), v))
-	})
-}
-
 // AccountNumber applies equality check predicate on the "AccountNumber" field. It's identical to AccountNumberEQ.
 func AccountNumber(v string) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
@@ -353,117 +346,6 @@ func SalaryDatetimeLT(v time.Time) predicate.Salary {
 func SalaryDatetimeLTE(v time.Time) predicate.Salary {
 	return predicate.Salary(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldSalaryDatetime), v))
-	})
-}
-
-// IDEmployeeEQ applies the EQ predicate on the "IDEmployee" field.
-func IDEmployeeEQ(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldIDEmployee), v))
-	})
-}
-
-// IDEmployeeNEQ applies the NEQ predicate on the "IDEmployee" field.
-func IDEmployeeNEQ(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldIDEmployee), v))
-	})
-}
-
-// IDEmployeeIn applies the In predicate on the "IDEmployee" field.
-func IDEmployeeIn(vs ...string) predicate.Salary {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Salary(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.In(s.C(FieldIDEmployee), v...))
-	})
-}
-
-// IDEmployeeNotIn applies the NotIn predicate on the "IDEmployee" field.
-func IDEmployeeNotIn(vs ...string) predicate.Salary {
-	v := make([]interface{}, len(vs))
-	for i := range v {
-		v[i] = vs[i]
-	}
-	return predicate.Salary(func(s *sql.Selector) {
-		// if not arguments were provided, append the FALSE constants,
-		// since we can't apply "IN ()". This will make this predicate falsy.
-		if len(v) == 0 {
-			s.Where(sql.False())
-			return
-		}
-		s.Where(sql.NotIn(s.C(FieldIDEmployee), v...))
-	})
-}
-
-// IDEmployeeGT applies the GT predicate on the "IDEmployee" field.
-func IDEmployeeGT(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldIDEmployee), v))
-	})
-}
-
-// IDEmployeeGTE applies the GTE predicate on the "IDEmployee" field.
-func IDEmployeeGTE(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldIDEmployee), v))
-	})
-}
-
-// IDEmployeeLT applies the LT predicate on the "IDEmployee" field.
-func IDEmployeeLT(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldIDEmployee), v))
-	})
-}
-
-// IDEmployeeLTE applies the LTE predicate on the "IDEmployee" field.
-func IDEmployeeLTE(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldIDEmployee), v))
-	})
-}
-
-// IDEmployeeContains applies the Contains predicate on the "IDEmployee" field.
-func IDEmployeeContains(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldIDEmployee), v))
-	})
-}
-
-// IDEmployeeHasPrefix applies the HasPrefix predicate on the "IDEmployee" field.
-func IDEmployeeHasPrefix(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldIDEmployee), v))
-	})
-}
-
-// IDEmployeeHasSuffix applies the HasSuffix predicate on the "IDEmployee" field.
-func IDEmployeeHasSuffix(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldIDEmployee), v))
-	})
-}
-
-// IDEmployeeEqualFold applies the EqualFold predicate on the "IDEmployee" field.
-func IDEmployeeEqualFold(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldIDEmployee), v))
-	})
-}
-
-// IDEmployeeContainsFold applies the ContainsFold predicate on the "IDEmployee" field.
-func IDEmployeeContainsFold(v string) predicate.Salary {
-	return predicate.Salary(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldIDEmployee), v))
 	})
 }
 

@@ -259,6 +259,232 @@ var doc = `{
                 }
             }
         },
+        "/beginworks": {
+            "get": {
+                "description": "list beginwork entities",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List beginwork entities",
+                "operationId": "list-beginwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.BeginWork"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create beginwork",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create beginwork",
+                "operationId": "create-beginwork",
+                "parameters": [
+                    {
+                        "description": "BeginWork entity",
+                        "name": "beginwork",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.BeginWork"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.BeginWork"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/beginworks/{id}": {
+            "get": {
+                "description": "get beginwork by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a beginwork entity by ID",
+                "operationId": "get-beginwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "BeginWork ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.BeginWork"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update beginwork by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update a beginwork entity by ID",
+                "operationId": "update-beginwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "BeginWork ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "BeginWork entity",
+                        "name": "beginwork",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.BeginWork"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.BeginWork"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "get beginwork by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a beginwork entity by ID",
+                "operationId": "delete-beginwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "BeginWork ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
         "/companys": {
             "get": {
                 "description": "list company entities",
@@ -1493,6 +1719,232 @@ var doc = `{
                     {
                         "type": "integer",
                         "description": "EmployeeWorkingHours ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/getoffworks": {
+            "get": {
+                "description": "list getoffwork entities",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List getoffwork entities",
+                "operationId": "list-getoffwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.GetOffWork"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create getoffwork",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create getoffwork",
+                "operationId": "create-getoffwork",
+                "parameters": [
+                    {
+                        "description": "GetOffWork entity",
+                        "name": "getoffwork",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.GetOffWork"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.GetOffWork"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/getoffworks/{id}": {
+            "get": {
+                "description": "get getoffwork by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a getoffwork entity by ID",
+                "operationId": "get-getoffwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "GetOffWork ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.GetOffWork"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update getoffwork by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update a getoffwork entity by ID",
+                "operationId": "update-getoffwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "GetOffWork ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "GetOffWork entity",
+                        "name": "getoffwork",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.GetOffWork"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.GetOffWork"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "get getoffwork by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a getoffwork entity by ID",
+                "operationId": "delete-getoffwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "GetOffWork ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3561,232 +4013,6 @@ var doc = `{
                 }
             }
         },
-        "/shifts": {
-            "get": {
-                "description": "list shift entities",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "List shift entities",
-                "operationId": "list-shift",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Limit",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Offset",
-                        "name": "offset",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ent.Shift"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create shift",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Create shift",
-                "operationId": "create-shift",
-                "parameters": [
-                    {
-                        "description": "Shift entity",
-                        "name": "shift",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.Shift"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.Shift"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
-        "/shifts/{id}": {
-            "get": {
-                "description": "get shift by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Get a shift entity by ID",
-                "operationId": "get-shift",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Shift ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.Shift"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "update shift by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Update a shift entity by ID",
-                "operationId": "update-shift",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Shift ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Shift entity",
-                        "name": "shift",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.Shift"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.Shift"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "get shift by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Delete a shift entity by ID",
-                "operationId": "delete-shift",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Shift ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
         "/stocks": {
             "get": {
                 "description": "list stock entities",
@@ -4473,10 +4699,19 @@ var doc = `{
         "controllers.EmployeeWorkingHours": {
             "type": "object",
             "properties": {
+                "beginWork": {
+                    "type": "integer"
+                },
+                "codeWork": {
+                    "type": "string"
+                },
                 "day": {
                     "type": "integer"
                 },
                 "employee": {
+                    "type": "integer"
+                },
+                "getOffWork": {
                     "type": "integer"
                 },
                 "idemployee": {
@@ -4486,9 +4721,6 @@ var doc = `{
                     "type": "string"
                 },
                 "role": {
-                    "type": "integer"
-                },
-                "shift": {
                     "type": "integer"
                 },
                 "wages": {
@@ -4581,6 +4813,7 @@ var doc = `{
             "type": "object",
             "properties": {
                 "accountNumber": {
+                    "description": "IDEmployee\t   string",
                     "type": "string"
                 },
                 "assessmentID": {
@@ -4591,9 +4824,6 @@ var doc = `{
                 },
                 "employeeID": {
                     "type": "integer"
-                },
-                "idemployee": {
-                    "type": "string"
                 },
                 "positionID": {
                     "type": "integer"
@@ -4661,6 +4891,36 @@ var doc = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ent.Salary"
+                    }
+                }
+            }
+        },
+        "ent.BeginWork": {
+            "type": "object",
+            "properties": {
+                "BeginWork": {
+                    "description": "BeginWork holds the value of the \"BeginWork\" field.",
+                    "type": "string"
+                },
+                "edges": {
+                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the BeginWorkQuery when eager-loading is set.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.BeginWorkEdges"
+                },
+                "id": {
+                    "description": "ID of the ent.",
+                    "type": "integer"
+                }
+            }
+        },
+        "ent.BeginWorkEdges": {
+            "type": "object",
+            "properties": {
+                "whenwork": {
+                    "description": "Whenwork holds the value of the whenwork edge.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.EmployeeWorkingHours"
                     }
                 }
             }
@@ -4856,8 +5116,8 @@ var doc = `{
         "ent.EmployeeWorkingHours": {
             "type": "object",
             "properties": {
-                "IDEmployee": {
-                    "description": "IDEmployee holds the value of the \"IDEmployee\" field.",
+                "CodeWork": {
+                    "description": "CodeWork holds the value of the \"CodeWork\" field.",
                     "type": "string"
                 },
                 "IDNumber": {
@@ -4882,6 +5142,11 @@ var doc = `{
         "ent.EmployeeWorkingHoursEdges": {
             "type": "object",
             "properties": {
+                "beginwork": {
+                    "description": "Beginwork holds the value of the beginwork edge.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.BeginWork"
+                },
                 "day": {
                     "description": "Day holds the value of the day edge.",
                     "type": "object",
@@ -4892,15 +5157,45 @@ var doc = `{
                     "type": "object",
                     "$ref": "#/definitions/ent.Employee"
                 },
+                "getoffwork": {
+                    "description": "Getoffwork holds the value of the getoffwork edge.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.GetOffWork"
+                },
                 "role": {
                     "description": "Role holds the value of the role edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Role"
+                }
+            }
+        },
+        "ent.GetOffWork": {
+            "type": "object",
+            "properties": {
+                "GetOffWork": {
+                    "description": "GetOffWork holds the value of the \"GetOffWork\" field.",
+                    "type": "string"
                 },
-                "shift": {
-                    "description": "Shift holds the value of the shift edge.",
+                "edges": {
+                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the GetOffWorkQuery when eager-loading is set.",
                     "type": "object",
-                    "$ref": "#/definitions/ent.Shift"
+                    "$ref": "#/definitions/ent.GetOffWorkEdges"
+                },
+                "id": {
+                    "description": "ID of the ent.",
+                    "type": "integer"
+                }
+            }
+        },
+        "ent.GetOffWorkEdges": {
+            "type": "object",
+            "properties": {
+                "whenendwork": {
+                    "description": "Whenendwork holds the value of the whenendwork edge.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.EmployeeWorkingHours"
+                    }
                 }
             }
         },
@@ -5292,10 +5587,6 @@ var doc = `{
                     "description": "Bonus holds the value of the \"Bonus\" field.",
                     "type": "number"
                 },
-                "IDEmployee": {
-                    "description": "IDEmployee holds the value of the \"IDEmployee\" field.",
-                    "type": "string"
-                },
                 "Salary": {
                     "description": "Salary holds the value of the \"Salary\" field.",
                     "type": "number"
@@ -5332,44 +5623,6 @@ var doc = `{
                     "description": "Position holds the value of the position edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Position"
-                }
-            }
-        },
-        "ent.Shift": {
-            "type": "object",
-            "properties": {
-                "Name": {
-                    "description": "Name holds the value of the \"Name\" field.",
-                    "type": "string"
-                },
-                "TimeEnd": {
-                    "description": "TimeEnd holds the value of the \"TimeEnd\" field.",
-                    "type": "string"
-                },
-                "TimeStart": {
-                    "description": "TimeStart holds the value of the \"TimeStart\" field.",
-                    "type": "string"
-                },
-                "edges": {
-                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the ShiftQuery when eager-loading is set.",
-                    "type": "object",
-                    "$ref": "#/definitions/ent.ShiftEdges"
-                },
-                "id": {
-                    "description": "ID of the ent.",
-                    "type": "integer"
-                }
-            }
-        },
-        "ent.ShiftEdges": {
-            "type": "object",
-            "properties": {
-                "when": {
-                    "description": "When holds the value of the when edge.",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ent.EmployeeWorkingHours"
-                    }
                 }
             }
         },

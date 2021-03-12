@@ -29,6 +29,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
+import { FormControl, InputLabel, TextField } from '@material-ui/core';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 const Toast = Swal.mixin({
@@ -98,18 +99,22 @@ export default function MenuAppBar() {
   var cookieName = ck.GetName()
   const classes = useStyles();
   const api = new DefaultApi();
-
+  const [search, setSearch] = useState(false);
+  const [checkProductName, setProductNames] = useState(false);
   const [products, setProducts] = useState<EntProduct[]>([]);
   const [loading, setLoading] = useState(true);
-  const [productid, setProductid] = useState(Number);
+  const [productid, setProductid] = useState(String);
+  const alertMessage = (icon: any, title: any) => {
+    Toast.fire({
+      icon: icon,
+      title: title,
+    });
+    setSearch(false);
+  }
 
-  let managerID = Number(cookieID)
-  let productID = Number(productid)
-  console.log(managerID)
 
 
-
-  const [orderproducts, setOrderproducts] = useState<EntOrderproduct[]>();
+  const [orderproducts, setOrderproducts] = useState<EntOrderproduct[]>([]);
 
 
   const deleteSystemequipments = async (id: number) => {
@@ -118,42 +123,45 @@ export default function MenuAppBar() {
   };
   useEffect(() => {
     const getproducts = async () => {
-      const pr = await api.listProduct({ limit: 10, offset: 0 });
+      const pr = await api.listProduct({ offset: 0 });
       setLoading(false);
       setProducts(pr);
     };
     getproducts();
+    const getOrderproduct = async () => {
+      const sp = await api.listOrderproduct({ offset: 0 });
+      setLoading(false);
+      setOrderproducts(sp);
+    };
+    getOrderproduct();
   }, [loading]);
 
-  const orderproduct = {
-    managerID,
-    productID,
-  }
-  console.log(orderproduct)
 
-  const Product_id_handleChange = (event: any) => {
-    setProductid(event.target.value);
+  const Product_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setProductid(event.target.value as string);
+    setProductNames(false);
+    setSearch(false);
   }
-  var lenOrderproduct: number
-  const getsorder = async () => {
-  
-    const res = await api.getOrderproduct({ id: productid })
-    setOrderproducts(res)
-    lenOrderproduct = res.length
-    if (lenOrderproduct > 0) {
-      //setOpen(true)
-      Toast.fire({
-        icon: 'success',
-        title: 'ค้นหาข้อมูลสำเร็จ',
-      })
-    } else {
-      //setFail(true)
-      Toast.fire({
-        icon: 'error',
-        title: 'ค้นหาข้อมูลไม่พบ',
-      })
+
+  const getCheckOrderproduct = async () => {
+    var check = false;
+    orderproducts.map(item => {
+      if (productid != "") {
+        if (item.edges?.product?.nameProduct?.startsWith(productid)) {
+          setProductNames(true);
+          alertMessage("success", "ค้นหาข้อมูลสำเร็จ");
+          check = true;
+        }
+      }
+    })
+    if (!check) {
+      alertMessage("error", "ไม่พบข้อมูลที่ค้นหา");
     }
-  }
+    console.log(checkProductName)
+    if (productid == "") {
+      alertMessage("info", "กรอกชื่อสินค้า");
+    }
+  };
 
   function HomeIcon(props: any) {
     return (
@@ -166,8 +174,8 @@ export default function MenuAppBar() {
   function BackIcon() {
     return (
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 18 18">
-        <path d="M15 8.25H5.87l4.19-4.19L9 3 3 9l6 6 1.06-1.06-4.19-4.19H15v-1.5z"/>
-        </svg>
+        <path d="M15 8.25H5.87l4.19-4.19L9 3 3 9l6 6 1.06-1.06-4.19-4.19H15v-1.5z" />
+      </svg>
     );
   }
 
@@ -186,12 +194,12 @@ export default function MenuAppBar() {
 
             </Grid>
             <Grid item >
-            <IconButton
+              <IconButton
                 style={{ marginLeft: 20 }}
                 component={RouterLink}
                 to="/SplitsystemManager"
               >
-                <BackIcon/>
+                <BackIcon />
               </IconButton>
             </Grid>
             <Grid item>
@@ -203,7 +211,7 @@ export default function MenuAppBar() {
                 <HomeIcon color="inherit" />
               </IconButton>
             </Grid>
-            
+
             <Grid item>
               <Button className={classes.button} variant="outlined" color="inherit"
                 size="small" component={RouterLink}
@@ -295,25 +303,26 @@ export default function MenuAppBar() {
                 ชื่อสินค้าที่ต้องการค้นหา
               </Typography>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={4}>
+              <FormControl
+                fullWidth
+                variant="outlined"
 
-              <Select
-                labelId="Equipment_id-label"
-                label="Equipment"
-                id="Equipment_id"
-                onChange={Product_id_handleChange}
-                style={{ width: 200 }}
-              >
-                {products.map((item: EntProduct) =>
-                  <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
-              </Select>
+              ><TextField
+                  id="product"
+                  label="product"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
+                  value={productid}
+                  onChange={Product_id_handleChange}
+                  style={{ marginRight: 300, width: 300 }}
+                />
+              </FormControl>
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
 
-
-
-            <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}>
@@ -324,7 +333,8 @@ export default function MenuAppBar() {
                 size="large"
                 className={classes.button}
                 onClick={() => {
-                  getsorder();
+                  getCheckOrderproduct();
+                  setSearch(true);
                 }}
 
                 startIcon={<SearchIcon
@@ -357,55 +367,114 @@ export default function MenuAppBar() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">No.</TableCell>
-              <TableCell align="center">Manager</TableCell>
-              <TableCell align="center">Product</TableCell>
-              <TableCell align="center">Typeproduct</TableCell>
-              <TableCell align="center">Company</TableCell>
-              <TableCell align="center">Stock</TableCell>
-              <TableCell align="center">Date</TableCell>
-              <TableCell align="center">Shipment</TableCell>
-              <TableCell align="center">Detail</TableCell>
-              <TableCell align="center">Manage</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {orderproducts === undefined
-              ? null
-              : orderproducts.map((item: any) => (
-                <TableRow key={item.id}>
-                  <TableCell align="center">{item.id}</TableCell>
-                  <TableCell align="center">{item.edges?.managers.name}</TableCell>
-                  <TableCell align="center">{item.edges?.product.nameProduct}</TableCell>
-                  <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
-                  <TableCell align="center">{item.edges?.company?.name}</TableCell>
-                  <TableCell align="center">{item.stock}</TableCell>
-                  <TableCell align="center">{moment(item.addedtime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
-                  <TableCell align="center">{item.shipment}</TableCell>
-                  <TableCell align="center">{item.detail}</TableCell>
+      <Grid item xs={12}>
+        <Paper>
+          {search ? (
+            <div>
+              {  checkProductName ? (
+                <TableContainer component={Paper}>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center">No.</TableCell>
+                        <TableCell align="center">Manager</TableCell>
+                        <TableCell align="center">Product</TableCell>
+                        <TableCell align="center">Typeproduct</TableCell>
+                        <TableCell align="center">Company</TableCell>
+                        <TableCell align="center">Stock</TableCell>
+                        <TableCell align="center">Date</TableCell>
+                        <TableCell align="center">Shipment</TableCell>
+                        <TableCell align="center">Detail</TableCell>
+                        <TableCell align="center">Manage</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {orderproducts.filter((filter: any) =>
+                        filter.edges?.product?.nameProduct.startsWith(productid)).map((item: any) => (
+                          <TableRow key={item.id}>
+                            <TableCell align="center">{item.id}</TableCell>
+                            <TableCell align="center">{item.edges?.managers.name}</TableCell>
+                            <TableCell align="center">{item.edges?.product.nameProduct}</TableCell>
+                            <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
+                            <TableCell align="center">{item.edges?.company?.name}</TableCell>
+                            <TableCell align="center">{item.stock}</TableCell>
+                            <TableCell align="center">{moment(item.addedtime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
+                            <TableCell align="center">{item.shipment}</TableCell>
+                            <TableCell align="center">{item.detail}</TableCell>
 
-                  <TableCell align="center">
-                    <Button
-                      onClick={() => {
-                        deleteSystemequipments(item.id);
-                      }}
-                      style={{ marginLeft: 10 }}
-                      variant="contained"
-                      color="secondary"
-                    >
-                      Delete
+                            <TableCell align="center">
+                              <Button
+                                onClick={() => {
+                                  deleteSystemequipments(item.id);
+                                }}
+                                style={{ marginLeft: 10 }}
+                                variant="contained"
+                                color="secondary"
+                              >
+                                Delete
                </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )
+                : productid == "" ? (
+                  <div>
+                    <TableContainer component={Paper}>
+                      <Table className={classes.table} aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center">No.</TableCell>
+                            <TableCell align="center">Manager</TableCell>
+                            <TableCell align="center">Product</TableCell>
+                            <TableCell align="center">Typeproduct</TableCell>
+                            <TableCell align="center">Company</TableCell>
+                            <TableCell align="center">Stock</TableCell>
+                            <TableCell align="center">Date</TableCell>
+                            <TableCell align="center">Shipment</TableCell>
+                            <TableCell align="center">Detail</TableCell>
+                            <TableCell align="center">Manage</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {orderproducts.filter((filter: any) =>
+                            filter.edges?.product?.nameProduct.startsWith(productid)).map((item: any) => (
+                              <TableRow key={item.id}>
+                                <TableCell align="center">{item.id}</TableCell>
+                                <TableCell align="center">{item.edges?.managers.name}</TableCell>
+                                <TableCell align="center">{item.edges?.product.nameProduct}</TableCell>
+                                <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
+                                <TableCell align="center">{item.edges?.company?.name}</TableCell>
+                                <TableCell align="center">{item.stock}</TableCell>
+                                <TableCell align="center">{moment(item.addedtime).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
+                                <TableCell align="center">{item.shipment}</TableCell>
+                                <TableCell align="center">{item.detail}</TableCell>
 
+                                <TableCell align="center">
+                                  <Button
+                                    onClick={() => {
+                                      deleteSystemequipments(item.id);
+                                    }}
+                                    style={{ marginLeft: 10 }}
+                                    variant="contained"
+                                    color="secondary"
+                                  >
+                                    Delete
+               </Button>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </div>
+                ) : null}
+            </div>
+          ) : null}
+        </Paper>
+      </Grid>
     </div>
   );
 }

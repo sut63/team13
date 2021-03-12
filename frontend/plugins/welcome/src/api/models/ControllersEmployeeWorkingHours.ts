@@ -24,6 +24,18 @@ export interface ControllersEmployeeWorkingHours {
      * @type {number}
      * @memberof ControllersEmployeeWorkingHours
      */
+    beginWork?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ControllersEmployeeWorkingHours
+     */
+    codeWork?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ControllersEmployeeWorkingHours
+     */
     day?: number;
     /**
      * 
@@ -31,6 +43,12 @@ export interface ControllersEmployeeWorkingHours {
      * @memberof ControllersEmployeeWorkingHours
      */
     employee?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ControllersEmployeeWorkingHours
+     */
+    getOffWork?: number;
     /**
      * 
      * @type {string}
@@ -54,12 +72,6 @@ export interface ControllersEmployeeWorkingHours {
      * @type {number}
      * @memberof ControllersEmployeeWorkingHours
      */
-    shift?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ControllersEmployeeWorkingHours
-     */
     wages?: number;
 }
 
@@ -73,12 +85,14 @@ export function ControllersEmployeeWorkingHoursFromJSONTyped(json: any, ignoreDi
     }
     return {
         
+        'beginWork': !exists(json, 'beginWork') ? undefined : json['beginWork'],
+        'codeWork': !exists(json, 'codeWork') ? undefined : json['codeWork'],
         'day': !exists(json, 'day') ? undefined : json['day'],
         'employee': !exists(json, 'employee') ? undefined : json['employee'],
+        'getOffWork': !exists(json, 'getOffWork') ? undefined : json['getOffWork'],
         'idemployee': !exists(json, 'idemployee') ? undefined : json['idemployee'],
         'idnumber': !exists(json, 'idnumber') ? undefined : json['idnumber'],
         'role': !exists(json, 'role') ? undefined : json['role'],
-        'shift': !exists(json, 'shift') ? undefined : json['shift'],
         'wages': !exists(json, 'wages') ? undefined : json['wages'],
     };
 }
@@ -92,12 +106,14 @@ export function ControllersEmployeeWorkingHoursToJSON(value?: ControllersEmploye
     }
     return {
         
+        'beginWork': value.beginWork,
+        'codeWork': value.codeWork,
         'day': value.day,
         'employee': value.employee,
+        'getOffWork': value.getOffWork,
         'idemployee': value.idemployee,
         'idnumber': value.idnumber,
         'role': value.role,
-        'shift': value.shift,
         'wages': value.wages,
     };
 }

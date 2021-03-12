@@ -10,18 +10,21 @@ import (
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/employeeworkinghours"
 	"github.com/team13/app/ent/role"
-	"github.com/team13/app/ent/shift"
+	"github.com/team13/app/ent/beginwork"
+	"github.com/team13/app/ent/getoffwork"
 	"github.com/gin-gonic/gin"
 )
 
 // EmployeeWorkingHoursController defines the struct for the employeeWorkingHours
 type EmployeeWorkingHours struct {
+	CodeWork	string
 	IDEmployee	string
 	IDNumber	string
 	Employee 	int
 	Day     	int
 	Role	  	int
-	Shift		int
+	BeginWork	int
+	GetOffWork	int
 	Wages		float64
 }
 
@@ -87,27 +90,40 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 		return
 	}
 
-	sh, err := ctl.client.Shift.
+	bw, err := ctl.client.BeginWork.
 		Query().
-		Where(shift.IDEQ(int(obj.Shift))).
+		Where(beginwork.IDEQ(int(obj.BeginWork))).
 		Only(context.Background())
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "Shift not found",
+			"error": "BeginWork not found",
+		})
+		return
+	}
+
+	gw, err := ctl.client.GetOffWork.
+		Query().
+		Where(getoffwork.IDEQ(int(obj.GetOffWork))).
+		Only(context.Background())
+
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "GetOffWork not found",
 		})
 		return
 	}
 
 	e, err := ctl.client.EmployeeWorkingHours.
 		Create().
-		SetIDEmployee(obj.IDEmployee).
+		SetCodeWork(obj.CodeWork).
 		SetIDNumber(obj.IDNumber).
 		SetWages(obj.Wages).
 		SetEmployee(em).
 		SetDay(d).
 		SetRole(r).
-		SetShift(sh).
+		SetBeginwork(bw).
+		SetGetoffwork(gw).
 		Save(context.Background())
 
 	if err != nil {
@@ -150,7 +166,8 @@ func (ctl *EmployeeWorkingHoursController) GetEmployeeWorkingHours(c *gin.Contex
 		WithDay().
 		WithEmployee().
 		WithRole().
-		WithShift().
+		WithBeginwork().
+		WithGetoffwork().
 		Where(employeeworkinghours.HasEmployeeWith(employee.IDEQ(int(id)))).
 		All(context.Background())
 	if err != nil {
@@ -196,7 +213,8 @@ func (ctl *EmployeeWorkingHoursController) ListEmployeeWorkingHours(c *gin.Conte
 		WithDay().
 		WithEmployee().
 		WithRole().
-		WithShift().
+		WithBeginwork().
+		WithGetoffwork().
 		All(context.Background())
 		if err != nil {
 		c.JSON(400, gin.H{"error": err.Error(),})
