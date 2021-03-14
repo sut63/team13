@@ -234,30 +234,6 @@ func (f AssessmentMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Muta
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.AssessmentMutation", m)
 }
 
-// The BeginWorkQueryRuleFunc type is an adapter to allow the use of ordinary
-// functions as a query rule.
-type BeginWorkQueryRuleFunc func(context.Context, *ent.BeginWorkQuery) error
-
-// EvalQuery return f(ctx, q).
-func (f BeginWorkQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.BeginWorkQuery); ok {
-		return f(ctx, q)
-	}
-	return Denyf("ent/privacy: unexpected query type %T, expect *ent.BeginWorkQuery", q)
-}
-
-// The BeginWorkMutationRuleFunc type is an adapter to allow the use of ordinary
-// functions as a mutation rule.
-type BeginWorkMutationRuleFunc func(context.Context, *ent.BeginWorkMutation) error
-
-// EvalMutation calls f(ctx, m).
-func (f BeginWorkMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
-	if m, ok := m.(*ent.BeginWorkMutation); ok {
-		return f(ctx, m)
-	}
-	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.BeginWorkMutation", m)
-}
-
 // The CompanyQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type CompanyQueryRuleFunc func(context.Context, *ent.CompanyQuery) error
@@ -402,28 +378,28 @@ func (f EmployeeWorkingHoursMutationRuleFunc) EvalMutation(ctx context.Context, 
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.EmployeeWorkingHoursMutation", m)
 }
 
-// The GetOffWorkQueryRuleFunc type is an adapter to allow the use of ordinary
+// The EndWorkQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
-type GetOffWorkQueryRuleFunc func(context.Context, *ent.GetOffWorkQuery) error
+type EndWorkQueryRuleFunc func(context.Context, *ent.EndWorkQuery) error
 
 // EvalQuery return f(ctx, q).
-func (f GetOffWorkQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.GetOffWorkQuery); ok {
+func (f EndWorkQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.EndWorkQuery); ok {
 		return f(ctx, q)
 	}
-	return Denyf("ent/privacy: unexpected query type %T, expect *ent.GetOffWorkQuery", q)
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.EndWorkQuery", q)
 }
 
-// The GetOffWorkMutationRuleFunc type is an adapter to allow the use of ordinary
+// The EndWorkMutationRuleFunc type is an adapter to allow the use of ordinary
 // functions as a mutation rule.
-type GetOffWorkMutationRuleFunc func(context.Context, *ent.GetOffWorkMutation) error
+type EndWorkMutationRuleFunc func(context.Context, *ent.EndWorkMutation) error
 
 // EvalMutation calls f(ctx, m).
-func (f GetOffWorkMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
-	if m, ok := m.(*ent.GetOffWorkMutation); ok {
+func (f EndWorkMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.EndWorkMutation); ok {
 		return f(ctx, m)
 	}
-	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.GetOffWorkMutation", m)
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.EndWorkMutation", m)
 }
 
 // The GiveawayQueryRuleFunc type is an adapter to allow the use of ordinary
@@ -664,6 +640,30 @@ func (f SalaryMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation
 		return f(ctx, m)
 	}
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.SalaryMutation", m)
+}
+
+// The StartWorkQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type StartWorkQueryRuleFunc func(context.Context, *ent.StartWorkQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f StartWorkQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.StartWorkQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.StartWorkQuery", q)
+}
+
+// The StartWorkMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type StartWorkMutationRuleFunc func(context.Context, *ent.StartWorkMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f StartWorkMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.StartWorkMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.StartWorkMutation", m)
 }
 
 // The StockQueryRuleFunc type is an adapter to allow the use of ordinary

@@ -20,18 +20,6 @@ var (
 		PrimaryKey:  []*schema.Column{AssessmentsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{},
 	}
-	// BeginWorksColumns holds the columns for the "begin_works" table.
-	BeginWorksColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "begin_work", Type: field.TypeTime},
-	}
-	// BeginWorksTable holds the schema information for the "begin_works" table.
-	BeginWorksTable = &schema.Table{
-		Name:        "begin_works",
-		Columns:     BeginWorksColumns,
-		PrimaryKey:  []*schema.Column{BeginWorksColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{},
-	}
 	// CompaniesColumns holds the columns for the "companies" table.
 	CompaniesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -104,11 +92,11 @@ var (
 		{Name: "code_work", Type: field.TypeString},
 		{Name: "id_number", Type: field.TypeString, Size: 13},
 		{Name: "wages", Type: field.TypeFloat64},
-		{Name: "begin_work_whenwork", Type: field.TypeInt, Nullable: true},
 		{Name: "day_whatday", Type: field.TypeInt, Nullable: true},
 		{Name: "employee_whose", Type: field.TypeInt, Nullable: true},
-		{Name: "get_off_work_whenendwork", Type: field.TypeInt, Nullable: true},
+		{Name: "end_work_whenendwork", Type: field.TypeInt, Nullable: true},
 		{Name: "role_todo", Type: field.TypeInt, Nullable: true},
+		{Name: "start_work_whenwork", Type: field.TypeInt, Nullable: true},
 	}
 	// EmployeeWorkingHoursTable holds the schema information for the "employee_working_hours" table.
 	EmployeeWorkingHoursTable = &schema.Table{
@@ -117,52 +105,52 @@ var (
 		PrimaryKey: []*schema.Column{EmployeeWorkingHoursColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:  "employee_working_hours_begin_works_whenwork",
-				Columns: []*schema.Column{EmployeeWorkingHoursColumns[4]},
-
-				RefColumns: []*schema.Column{BeginWorksColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-			{
 				Symbol:  "employee_working_hours_days_whatday",
-				Columns: []*schema.Column{EmployeeWorkingHoursColumns[5]},
+				Columns: []*schema.Column{EmployeeWorkingHoursColumns[4]},
 
 				RefColumns: []*schema.Column{DaysColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "employee_working_hours_employees_whose",
-				Columns: []*schema.Column{EmployeeWorkingHoursColumns[6]},
+				Columns: []*schema.Column{EmployeeWorkingHoursColumns[5]},
 
 				RefColumns: []*schema.Column{EmployeesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:  "employee_working_hours_get_off_works_whenendwork",
-				Columns: []*schema.Column{EmployeeWorkingHoursColumns[7]},
+				Symbol:  "employee_working_hours_end_works_whenendwork",
+				Columns: []*schema.Column{EmployeeWorkingHoursColumns[6]},
 
-				RefColumns: []*schema.Column{GetOffWorksColumns[0]},
+				RefColumns: []*schema.Column{EndWorksColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "employee_working_hours_roles_todo",
-				Columns: []*schema.Column{EmployeeWorkingHoursColumns[8]},
+				Columns: []*schema.Column{EmployeeWorkingHoursColumns[7]},
 
 				RefColumns: []*schema.Column{RolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
+			{
+				Symbol:  "employee_working_hours_start_works_whenwork",
+				Columns: []*schema.Column{EmployeeWorkingHoursColumns[8]},
+
+				RefColumns: []*schema.Column{StartWorksColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
 		},
 	}
-	// GetOffWorksColumns holds the columns for the "get_off_works" table.
-	GetOffWorksColumns = []*schema.Column{
+	// EndWorksColumns holds the columns for the "end_works" table.
+	EndWorksColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "get_off_work", Type: field.TypeTime},
+		{Name: "end_work", Type: field.TypeTime},
 	}
-	// GetOffWorksTable holds the schema information for the "get_off_works" table.
-	GetOffWorksTable = &schema.Table{
-		Name:        "get_off_works",
-		Columns:     GetOffWorksColumns,
-		PrimaryKey:  []*schema.Column{GetOffWorksColumns[0]},
+	// EndWorksTable holds the schema information for the "end_works" table.
+	EndWorksTable = &schema.Table{
+		Name:        "end_works",
+		Columns:     EndWorksColumns,
+		PrimaryKey:  []*schema.Column{EndWorksColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{},
 	}
 	// GiveawaysColumns holds the columns for the "giveaways" table.
@@ -417,6 +405,18 @@ var (
 			},
 		},
 	}
+	// StartWorksColumns holds the columns for the "start_works" table.
+	StartWorksColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "start_work", Type: field.TypeTime},
+	}
+	// StartWorksTable holds the schema information for the "start_works" table.
+	StartWorksTable = &schema.Table{
+		Name:        "start_works",
+		Columns:     StartWorksColumns,
+		PrimaryKey:  []*schema.Column{StartWorksColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{},
+	}
 	// StocksColumns holds the columns for the "stocks" table.
 	StocksColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -492,14 +492,13 @@ var (
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		AssessmentsTable,
-		BeginWorksTable,
 		CompaniesTable,
 		CustomersTable,
 		DaysTable,
 		DiscountsTable,
 		EmployeesTable,
 		EmployeeWorkingHoursTable,
-		GetOffWorksTable,
+		EndWorksTable,
 		GiveawaysTable,
 		ManagersTable,
 		OrderonlinesTable,
@@ -510,6 +509,7 @@ var (
 		PromotionsTable,
 		RolesTable,
 		SalariesTable,
+		StartWorksTable,
 		StocksTable,
 		TypeproductsTable,
 		ZoneproductsTable,
@@ -517,11 +517,11 @@ var (
 )
 
 func init() {
-	EmployeeWorkingHoursTable.ForeignKeys[0].RefTable = BeginWorksTable
-	EmployeeWorkingHoursTable.ForeignKeys[1].RefTable = DaysTable
-	EmployeeWorkingHoursTable.ForeignKeys[2].RefTable = EmployeesTable
-	EmployeeWorkingHoursTable.ForeignKeys[3].RefTable = GetOffWorksTable
-	EmployeeWorkingHoursTable.ForeignKeys[4].RefTable = RolesTable
+	EmployeeWorkingHoursTable.ForeignKeys[0].RefTable = DaysTable
+	EmployeeWorkingHoursTable.ForeignKeys[1].RefTable = EmployeesTable
+	EmployeeWorkingHoursTable.ForeignKeys[2].RefTable = EndWorksTable
+	EmployeeWorkingHoursTable.ForeignKeys[3].RefTable = RolesTable
+	EmployeeWorkingHoursTable.ForeignKeys[4].RefTable = StartWorksTable
 	OrderonlinesTable.ForeignKeys[0].RefTable = CustomersTable
 	OrderonlinesTable.ForeignKeys[1].RefTable = PaymentchannelsTable
 	OrderonlinesTable.ForeignKeys[2].RefTable = ProductsTable

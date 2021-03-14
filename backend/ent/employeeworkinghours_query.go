@@ -11,13 +11,13 @@ import (
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
-	"github.com/team13/app/ent/beginwork"
 	"github.com/team13/app/ent/day"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/employeeworkinghours"
-	"github.com/team13/app/ent/getoffwork"
+	"github.com/team13/app/ent/endwork"
 	"github.com/team13/app/ent/predicate"
 	"github.com/team13/app/ent/role"
+	"github.com/team13/app/ent/startwork"
 )
 
 // EmployeeWorkingHoursQuery is the builder for querying EmployeeWorkingHours entities.
@@ -29,12 +29,12 @@ type EmployeeWorkingHoursQuery struct {
 	unique     []string
 	predicates []predicate.EmployeeWorkingHours
 	// eager-loading edges.
-	withEmployee   *EmployeeQuery
-	withDay        *DayQuery
-	withBeginwork  *BeginWorkQuery
-	withGetoffwork *GetOffWorkQuery
-	withRole       *RoleQuery
-	withFKs        bool
+	withEmployee  *EmployeeQuery
+	withDay       *DayQuery
+	withStartwork *StartWorkQuery
+	withEndwork   *EndWorkQuery
+	withRole      *RoleQuery
+	withFKs       bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -100,17 +100,17 @@ func (ewhq *EmployeeWorkingHoursQuery) QueryDay() *DayQuery {
 	return query
 }
 
-// QueryBeginwork chains the current query on the beginwork edge.
-func (ewhq *EmployeeWorkingHoursQuery) QueryBeginwork() *BeginWorkQuery {
-	query := &BeginWorkQuery{config: ewhq.config}
+// QueryStartwork chains the current query on the startwork edge.
+func (ewhq *EmployeeWorkingHoursQuery) QueryStartwork() *StartWorkQuery {
+	query := &StartWorkQuery{config: ewhq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := ewhq.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(employeeworkinghours.Table, employeeworkinghours.FieldID, ewhq.sqlQuery()),
-			sqlgraph.To(beginwork.Table, beginwork.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.BeginworkTable, employeeworkinghours.BeginworkColumn),
+			sqlgraph.To(startwork.Table, startwork.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.StartworkTable, employeeworkinghours.StartworkColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(ewhq.driver.Dialect(), step)
 		return fromU, nil
@@ -118,17 +118,17 @@ func (ewhq *EmployeeWorkingHoursQuery) QueryBeginwork() *BeginWorkQuery {
 	return query
 }
 
-// QueryGetoffwork chains the current query on the getoffwork edge.
-func (ewhq *EmployeeWorkingHoursQuery) QueryGetoffwork() *GetOffWorkQuery {
-	query := &GetOffWorkQuery{config: ewhq.config}
+// QueryEndwork chains the current query on the endwork edge.
+func (ewhq *EmployeeWorkingHoursQuery) QueryEndwork() *EndWorkQuery {
+	query := &EndWorkQuery{config: ewhq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := ewhq.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(employeeworkinghours.Table, employeeworkinghours.FieldID, ewhq.sqlQuery()),
-			sqlgraph.To(getoffwork.Table, getoffwork.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.GetoffworkTable, employeeworkinghours.GetoffworkColumn),
+			sqlgraph.To(endwork.Table, endwork.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.EndworkTable, employeeworkinghours.EndworkColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(ewhq.driver.Dialect(), step)
 		return fromU, nil
@@ -355,25 +355,25 @@ func (ewhq *EmployeeWorkingHoursQuery) WithDay(opts ...func(*DayQuery)) *Employe
 	return ewhq
 }
 
-//  WithBeginwork tells the query-builder to eager-loads the nodes that are connected to
-// the "beginwork" edge. The optional arguments used to configure the query builder of the edge.
-func (ewhq *EmployeeWorkingHoursQuery) WithBeginwork(opts ...func(*BeginWorkQuery)) *EmployeeWorkingHoursQuery {
-	query := &BeginWorkQuery{config: ewhq.config}
+//  WithStartwork tells the query-builder to eager-loads the nodes that are connected to
+// the "startwork" edge. The optional arguments used to configure the query builder of the edge.
+func (ewhq *EmployeeWorkingHoursQuery) WithStartwork(opts ...func(*StartWorkQuery)) *EmployeeWorkingHoursQuery {
+	query := &StartWorkQuery{config: ewhq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	ewhq.withBeginwork = query
+	ewhq.withStartwork = query
 	return ewhq
 }
 
-//  WithGetoffwork tells the query-builder to eager-loads the nodes that are connected to
-// the "getoffwork" edge. The optional arguments used to configure the query builder of the edge.
-func (ewhq *EmployeeWorkingHoursQuery) WithGetoffwork(opts ...func(*GetOffWorkQuery)) *EmployeeWorkingHoursQuery {
-	query := &GetOffWorkQuery{config: ewhq.config}
+//  WithEndwork tells the query-builder to eager-loads the nodes that are connected to
+// the "endwork" edge. The optional arguments used to configure the query builder of the edge.
+func (ewhq *EmployeeWorkingHoursQuery) WithEndwork(opts ...func(*EndWorkQuery)) *EmployeeWorkingHoursQuery {
+	query := &EndWorkQuery{config: ewhq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	ewhq.withGetoffwork = query
+	ewhq.withEndwork = query
 	return ewhq
 }
 
@@ -458,12 +458,12 @@ func (ewhq *EmployeeWorkingHoursQuery) sqlAll(ctx context.Context) ([]*EmployeeW
 		loadedTypes = [5]bool{
 			ewhq.withEmployee != nil,
 			ewhq.withDay != nil,
-			ewhq.withBeginwork != nil,
-			ewhq.withGetoffwork != nil,
+			ewhq.withStartwork != nil,
+			ewhq.withEndwork != nil,
 			ewhq.withRole != nil,
 		}
 	)
-	if ewhq.withEmployee != nil || ewhq.withDay != nil || ewhq.withBeginwork != nil || ewhq.withGetoffwork != nil || ewhq.withRole != nil {
+	if ewhq.withEmployee != nil || ewhq.withDay != nil || ewhq.withStartwork != nil || ewhq.withEndwork != nil || ewhq.withRole != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -543,16 +543,16 @@ func (ewhq *EmployeeWorkingHoursQuery) sqlAll(ctx context.Context) ([]*EmployeeW
 		}
 	}
 
-	if query := ewhq.withBeginwork; query != nil {
+	if query := ewhq.withStartwork; query != nil {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*EmployeeWorkingHours)
 		for i := range nodes {
-			if fk := nodes[i].begin_work_whenwork; fk != nil {
+			if fk := nodes[i].start_work_whenwork; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
 		}
-		query.Where(beginwork.IDIn(ids...))
+		query.Where(startwork.IDIn(ids...))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
@@ -560,24 +560,24 @@ func (ewhq *EmployeeWorkingHoursQuery) sqlAll(ctx context.Context) ([]*EmployeeW
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "begin_work_whenwork" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "start_work_whenwork" returned %v`, n.ID)
 			}
 			for i := range nodes {
-				nodes[i].Edges.Beginwork = n
+				nodes[i].Edges.Startwork = n
 			}
 		}
 	}
 
-	if query := ewhq.withGetoffwork; query != nil {
+	if query := ewhq.withEndwork; query != nil {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*EmployeeWorkingHours)
 		for i := range nodes {
-			if fk := nodes[i].get_off_work_whenendwork; fk != nil {
+			if fk := nodes[i].end_work_whenendwork; fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
 		}
-		query.Where(getoffwork.IDIn(ids...))
+		query.Where(endwork.IDIn(ids...))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
@@ -585,10 +585,10 @@ func (ewhq *EmployeeWorkingHoursQuery) sqlAll(ctx context.Context) ([]*EmployeeW
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "get_off_work_whenendwork" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "end_work_whenendwork" returned %v`, n.ID)
 			}
 			for i := range nodes {
-				nodes[i].Edges.Getoffwork = n
+				nodes[i].Edges.Endwork = n
 			}
 		}
 	}

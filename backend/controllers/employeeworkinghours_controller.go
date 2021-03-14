@@ -10,8 +10,8 @@ import (
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/employeeworkinghours"
 	"github.com/team13/app/ent/role"
-	"github.com/team13/app/ent/beginwork"
-	"github.com/team13/app/ent/getoffwork"
+	"github.com/team13/app/ent/startwork"
+	"github.com/team13/app/ent/endwork"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,8 +23,8 @@ type EmployeeWorkingHours struct {
 	Employee 	int
 	Day     	int
 	Role	  	int
-	BeginWork	int
-	GetOffWork	int
+	StartWork	int
+	EndWork		int
 	Wages		float64
 }
 
@@ -90,26 +90,26 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 		return
 	}
 
-	bw, err := ctl.client.BeginWork.
+	sw, err := ctl.client.StartWork.
 		Query().
-		Where(beginwork.IDEQ(int(obj.BeginWork))).
+		Where(startwork.IDEQ(int(obj.StartWork))).
 		Only(context.Background())
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "BeginWork not found",
+			"error": "StartWork not found",
 		})
 		return
 	}
 
-	gw, err := ctl.client.GetOffWork.
+	ew, err := ctl.client.EndWork.
 		Query().
-		Where(getoffwork.IDEQ(int(obj.GetOffWork))).
+		Where(endwork.IDEQ(int(obj.EndWork))).
 		Only(context.Background())
 
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "GetOffWork not found",
+			"error": "EndWork not found",
 		})
 		return
 	}
@@ -122,8 +122,8 @@ func (ctl *EmployeeWorkingHoursController) CreateEmployeeWorkingHours(c *gin.Con
 		SetEmployee(em).
 		SetDay(d).
 		SetRole(r).
-		SetBeginwork(bw).
-		SetGetoffwork(gw).
+		SetStartwork(sw).
+		SetEndwork(ew).
 		Save(context.Background())
 
 	if err != nil {
@@ -166,8 +166,8 @@ func (ctl *EmployeeWorkingHoursController) GetEmployeeWorkingHours(c *gin.Contex
 		WithDay().
 		WithEmployee().
 		WithRole().
-		WithBeginwork().
-		WithGetoffwork().
+		WithStartwork().
+		WithEndwork().
 		Where(employeeworkinghours.HasEmployeeWith(employee.IDEQ(int(id)))).
 		All(context.Background())
 	if err != nil {
@@ -213,8 +213,8 @@ func (ctl *EmployeeWorkingHoursController) ListEmployeeWorkingHours(c *gin.Conte
 		WithDay().
 		WithEmployee().
 		WithRole().
-		WithBeginwork().
-		WithGetoffwork().
+		WithStartwork().
+		WithEndwork().
 		All(context.Background())
 		if err != nil {
 		c.JSON(400, gin.H{"error": err.Error(),})

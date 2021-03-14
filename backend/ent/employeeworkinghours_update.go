@@ -9,13 +9,13 @@ import (
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
-	"github.com/team13/app/ent/beginwork"
 	"github.com/team13/app/ent/day"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/employeeworkinghours"
-	"github.com/team13/app/ent/getoffwork"
+	"github.com/team13/app/ent/endwork"
 	"github.com/team13/app/ent/predicate"
 	"github.com/team13/app/ent/role"
+	"github.com/team13/app/ent/startwork"
 )
 
 // EmployeeWorkingHoursUpdate is the builder for updating EmployeeWorkingHours entities.
@@ -95,42 +95,42 @@ func (ewhu *EmployeeWorkingHoursUpdate) SetDay(d *Day) *EmployeeWorkingHoursUpda
 	return ewhu.SetDayID(d.ID)
 }
 
-// SetBeginworkID sets the beginwork edge to BeginWork by id.
-func (ewhu *EmployeeWorkingHoursUpdate) SetBeginworkID(id int) *EmployeeWorkingHoursUpdate {
-	ewhu.mutation.SetBeginworkID(id)
+// SetStartworkID sets the startwork edge to StartWork by id.
+func (ewhu *EmployeeWorkingHoursUpdate) SetStartworkID(id int) *EmployeeWorkingHoursUpdate {
+	ewhu.mutation.SetStartworkID(id)
 	return ewhu
 }
 
-// SetNillableBeginworkID sets the beginwork edge to BeginWork by id if the given value is not nil.
-func (ewhu *EmployeeWorkingHoursUpdate) SetNillableBeginworkID(id *int) *EmployeeWorkingHoursUpdate {
+// SetNillableStartworkID sets the startwork edge to StartWork by id if the given value is not nil.
+func (ewhu *EmployeeWorkingHoursUpdate) SetNillableStartworkID(id *int) *EmployeeWorkingHoursUpdate {
 	if id != nil {
-		ewhu = ewhu.SetBeginworkID(*id)
+		ewhu = ewhu.SetStartworkID(*id)
 	}
 	return ewhu
 }
 
-// SetBeginwork sets the beginwork edge to BeginWork.
-func (ewhu *EmployeeWorkingHoursUpdate) SetBeginwork(b *BeginWork) *EmployeeWorkingHoursUpdate {
-	return ewhu.SetBeginworkID(b.ID)
+// SetStartwork sets the startwork edge to StartWork.
+func (ewhu *EmployeeWorkingHoursUpdate) SetStartwork(s *StartWork) *EmployeeWorkingHoursUpdate {
+	return ewhu.SetStartworkID(s.ID)
 }
 
-// SetGetoffworkID sets the getoffwork edge to GetOffWork by id.
-func (ewhu *EmployeeWorkingHoursUpdate) SetGetoffworkID(id int) *EmployeeWorkingHoursUpdate {
-	ewhu.mutation.SetGetoffworkID(id)
+// SetEndworkID sets the endwork edge to EndWork by id.
+func (ewhu *EmployeeWorkingHoursUpdate) SetEndworkID(id int) *EmployeeWorkingHoursUpdate {
+	ewhu.mutation.SetEndworkID(id)
 	return ewhu
 }
 
-// SetNillableGetoffworkID sets the getoffwork edge to GetOffWork by id if the given value is not nil.
-func (ewhu *EmployeeWorkingHoursUpdate) SetNillableGetoffworkID(id *int) *EmployeeWorkingHoursUpdate {
+// SetNillableEndworkID sets the endwork edge to EndWork by id if the given value is not nil.
+func (ewhu *EmployeeWorkingHoursUpdate) SetNillableEndworkID(id *int) *EmployeeWorkingHoursUpdate {
 	if id != nil {
-		ewhu = ewhu.SetGetoffworkID(*id)
+		ewhu = ewhu.SetEndworkID(*id)
 	}
 	return ewhu
 }
 
-// SetGetoffwork sets the getoffwork edge to GetOffWork.
-func (ewhu *EmployeeWorkingHoursUpdate) SetGetoffwork(g *GetOffWork) *EmployeeWorkingHoursUpdate {
-	return ewhu.SetGetoffworkID(g.ID)
+// SetEndwork sets the endwork edge to EndWork.
+func (ewhu *EmployeeWorkingHoursUpdate) SetEndwork(e *EndWork) *EmployeeWorkingHoursUpdate {
+	return ewhu.SetEndworkID(e.ID)
 }
 
 // SetRoleID sets the role edge to Role by id.
@@ -169,15 +169,15 @@ func (ewhu *EmployeeWorkingHoursUpdate) ClearDay() *EmployeeWorkingHoursUpdate {
 	return ewhu
 }
 
-// ClearBeginwork clears the beginwork edge to BeginWork.
-func (ewhu *EmployeeWorkingHoursUpdate) ClearBeginwork() *EmployeeWorkingHoursUpdate {
-	ewhu.mutation.ClearBeginwork()
+// ClearStartwork clears the startwork edge to StartWork.
+func (ewhu *EmployeeWorkingHoursUpdate) ClearStartwork() *EmployeeWorkingHoursUpdate {
+	ewhu.mutation.ClearStartwork()
 	return ewhu
 }
 
-// ClearGetoffwork clears the getoffwork edge to GetOffWork.
-func (ewhu *EmployeeWorkingHoursUpdate) ClearGetoffwork() *EmployeeWorkingHoursUpdate {
-	ewhu.mutation.ClearGetoffwork()
+// ClearEndwork clears the endwork edge to EndWork.
+func (ewhu *EmployeeWorkingHoursUpdate) ClearEndwork() *EmployeeWorkingHoursUpdate {
+	ewhu.mutation.ClearEndwork()
 	return ewhu
 }
 
@@ -370,33 +370,33 @@ func (ewhu *EmployeeWorkingHoursUpdate) sqlSave(ctx context.Context) (n int, err
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if ewhu.mutation.BeginworkCleared() {
+	if ewhu.mutation.StartworkCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   employeeworkinghours.BeginworkTable,
-			Columns: []string{employeeworkinghours.BeginworkColumn},
+			Table:   employeeworkinghours.StartworkTable,
+			Columns: []string{employeeworkinghours.StartworkColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: beginwork.FieldID,
+					Column: startwork.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ewhu.mutation.BeginworkIDs(); len(nodes) > 0 {
+	if nodes := ewhu.mutation.StartworkIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   employeeworkinghours.BeginworkTable,
-			Columns: []string{employeeworkinghours.BeginworkColumn},
+			Table:   employeeworkinghours.StartworkTable,
+			Columns: []string{employeeworkinghours.StartworkColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: beginwork.FieldID,
+					Column: startwork.FieldID,
 				},
 			},
 		}
@@ -405,33 +405,33 @@ func (ewhu *EmployeeWorkingHoursUpdate) sqlSave(ctx context.Context) (n int, err
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if ewhu.mutation.GetoffworkCleared() {
+	if ewhu.mutation.EndworkCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   employeeworkinghours.GetoffworkTable,
-			Columns: []string{employeeworkinghours.GetoffworkColumn},
+			Table:   employeeworkinghours.EndworkTable,
+			Columns: []string{employeeworkinghours.EndworkColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: getoffwork.FieldID,
+					Column: endwork.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ewhu.mutation.GetoffworkIDs(); len(nodes) > 0 {
+	if nodes := ewhu.mutation.EndworkIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   employeeworkinghours.GetoffworkTable,
-			Columns: []string{employeeworkinghours.GetoffworkColumn},
+			Table:   employeeworkinghours.EndworkTable,
+			Columns: []string{employeeworkinghours.EndworkColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: getoffwork.FieldID,
+					Column: endwork.FieldID,
 				},
 			},
 		}
@@ -556,42 +556,42 @@ func (ewhuo *EmployeeWorkingHoursUpdateOne) SetDay(d *Day) *EmployeeWorkingHours
 	return ewhuo.SetDayID(d.ID)
 }
 
-// SetBeginworkID sets the beginwork edge to BeginWork by id.
-func (ewhuo *EmployeeWorkingHoursUpdateOne) SetBeginworkID(id int) *EmployeeWorkingHoursUpdateOne {
-	ewhuo.mutation.SetBeginworkID(id)
+// SetStartworkID sets the startwork edge to StartWork by id.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) SetStartworkID(id int) *EmployeeWorkingHoursUpdateOne {
+	ewhuo.mutation.SetStartworkID(id)
 	return ewhuo
 }
 
-// SetNillableBeginworkID sets the beginwork edge to BeginWork by id if the given value is not nil.
-func (ewhuo *EmployeeWorkingHoursUpdateOne) SetNillableBeginworkID(id *int) *EmployeeWorkingHoursUpdateOne {
+// SetNillableStartworkID sets the startwork edge to StartWork by id if the given value is not nil.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) SetNillableStartworkID(id *int) *EmployeeWorkingHoursUpdateOne {
 	if id != nil {
-		ewhuo = ewhuo.SetBeginworkID(*id)
+		ewhuo = ewhuo.SetStartworkID(*id)
 	}
 	return ewhuo
 }
 
-// SetBeginwork sets the beginwork edge to BeginWork.
-func (ewhuo *EmployeeWorkingHoursUpdateOne) SetBeginwork(b *BeginWork) *EmployeeWorkingHoursUpdateOne {
-	return ewhuo.SetBeginworkID(b.ID)
+// SetStartwork sets the startwork edge to StartWork.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) SetStartwork(s *StartWork) *EmployeeWorkingHoursUpdateOne {
+	return ewhuo.SetStartworkID(s.ID)
 }
 
-// SetGetoffworkID sets the getoffwork edge to GetOffWork by id.
-func (ewhuo *EmployeeWorkingHoursUpdateOne) SetGetoffworkID(id int) *EmployeeWorkingHoursUpdateOne {
-	ewhuo.mutation.SetGetoffworkID(id)
+// SetEndworkID sets the endwork edge to EndWork by id.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) SetEndworkID(id int) *EmployeeWorkingHoursUpdateOne {
+	ewhuo.mutation.SetEndworkID(id)
 	return ewhuo
 }
 
-// SetNillableGetoffworkID sets the getoffwork edge to GetOffWork by id if the given value is not nil.
-func (ewhuo *EmployeeWorkingHoursUpdateOne) SetNillableGetoffworkID(id *int) *EmployeeWorkingHoursUpdateOne {
+// SetNillableEndworkID sets the endwork edge to EndWork by id if the given value is not nil.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) SetNillableEndworkID(id *int) *EmployeeWorkingHoursUpdateOne {
 	if id != nil {
-		ewhuo = ewhuo.SetGetoffworkID(*id)
+		ewhuo = ewhuo.SetEndworkID(*id)
 	}
 	return ewhuo
 }
 
-// SetGetoffwork sets the getoffwork edge to GetOffWork.
-func (ewhuo *EmployeeWorkingHoursUpdateOne) SetGetoffwork(g *GetOffWork) *EmployeeWorkingHoursUpdateOne {
-	return ewhuo.SetGetoffworkID(g.ID)
+// SetEndwork sets the endwork edge to EndWork.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) SetEndwork(e *EndWork) *EmployeeWorkingHoursUpdateOne {
+	return ewhuo.SetEndworkID(e.ID)
 }
 
 // SetRoleID sets the role edge to Role by id.
@@ -630,15 +630,15 @@ func (ewhuo *EmployeeWorkingHoursUpdateOne) ClearDay() *EmployeeWorkingHoursUpda
 	return ewhuo
 }
 
-// ClearBeginwork clears the beginwork edge to BeginWork.
-func (ewhuo *EmployeeWorkingHoursUpdateOne) ClearBeginwork() *EmployeeWorkingHoursUpdateOne {
-	ewhuo.mutation.ClearBeginwork()
+// ClearStartwork clears the startwork edge to StartWork.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) ClearStartwork() *EmployeeWorkingHoursUpdateOne {
+	ewhuo.mutation.ClearStartwork()
 	return ewhuo
 }
 
-// ClearGetoffwork clears the getoffwork edge to GetOffWork.
-func (ewhuo *EmployeeWorkingHoursUpdateOne) ClearGetoffwork() *EmployeeWorkingHoursUpdateOne {
-	ewhuo.mutation.ClearGetoffwork()
+// ClearEndwork clears the endwork edge to EndWork.
+func (ewhuo *EmployeeWorkingHoursUpdateOne) ClearEndwork() *EmployeeWorkingHoursUpdateOne {
+	ewhuo.mutation.ClearEndwork()
 	return ewhuo
 }
 
@@ -829,33 +829,33 @@ func (ewhuo *EmployeeWorkingHoursUpdateOne) sqlSave(ctx context.Context) (ewh *E
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if ewhuo.mutation.BeginworkCleared() {
+	if ewhuo.mutation.StartworkCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   employeeworkinghours.BeginworkTable,
-			Columns: []string{employeeworkinghours.BeginworkColumn},
+			Table:   employeeworkinghours.StartworkTable,
+			Columns: []string{employeeworkinghours.StartworkColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: beginwork.FieldID,
+					Column: startwork.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ewhuo.mutation.BeginworkIDs(); len(nodes) > 0 {
+	if nodes := ewhuo.mutation.StartworkIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   employeeworkinghours.BeginworkTable,
-			Columns: []string{employeeworkinghours.BeginworkColumn},
+			Table:   employeeworkinghours.StartworkTable,
+			Columns: []string{employeeworkinghours.StartworkColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: beginwork.FieldID,
+					Column: startwork.FieldID,
 				},
 			},
 		}
@@ -864,33 +864,33 @@ func (ewhuo *EmployeeWorkingHoursUpdateOne) sqlSave(ctx context.Context) (ewh *E
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if ewhuo.mutation.GetoffworkCleared() {
+	if ewhuo.mutation.EndworkCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   employeeworkinghours.GetoffworkTable,
-			Columns: []string{employeeworkinghours.GetoffworkColumn},
+			Table:   employeeworkinghours.EndworkTable,
+			Columns: []string{employeeworkinghours.EndworkColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: getoffwork.FieldID,
+					Column: endwork.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ewhuo.mutation.GetoffworkIDs(); len(nodes) > 0 {
+	if nodes := ewhuo.mutation.EndworkIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   employeeworkinghours.GetoffworkTable,
-			Columns: []string{employeeworkinghours.GetoffworkColumn},
+			Table:   employeeworkinghours.EndworkTable,
+			Columns: []string{employeeworkinghours.EndworkColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: getoffwork.FieldID,
+					Column: endwork.FieldID,
 				},
 			},
 		}

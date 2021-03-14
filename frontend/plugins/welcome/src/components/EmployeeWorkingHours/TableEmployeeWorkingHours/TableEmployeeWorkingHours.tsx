@@ -99,7 +99,7 @@ export default function ComponentsTable() {
       </SvgIcon>
     );
   }
-
+  console.log(EmployeeWorkingHourss)
   return (
     <div className={classes.root}>
       
@@ -162,8 +162,8 @@ export default function ComponentsTable() {
                 <TableCell align="center">{item.iDNumber}</TableCell>
                 <TableCell align="center">{item.codeWork}</TableCell>
                 <TableCell align="center">{item.edges?.day?.day}</TableCell>
-                <TableCell align="center">{moment(item.edges?.beginWork?.beginWork).format("LT")}</TableCell>
-                <TableCell align="center">{moment(item.edges?.getOffWork?.getOffWork).format("LT")}</TableCell>
+                <TableCell align="center">{moment(item.edges?.startwork?.startWork).format("LT")}</TableCell>
+                <TableCell align="center">{moment(item.edges?.endwork?.endWork).format("LT")}</TableCell>
                 <TableCell align="center">{item.edges?.role?.role}</TableCell>
                 <TableCell align="center">{item.wages}</TableCell>
                 <TableCell align="center">

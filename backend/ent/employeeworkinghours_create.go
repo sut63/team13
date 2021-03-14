@@ -9,12 +9,12 @@ import (
 
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
-	"github.com/team13/app/ent/beginwork"
 	"github.com/team13/app/ent/day"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/employeeworkinghours"
-	"github.com/team13/app/ent/getoffwork"
+	"github.com/team13/app/ent/endwork"
 	"github.com/team13/app/ent/role"
+	"github.com/team13/app/ent/startwork"
 )
 
 // EmployeeWorkingHoursCreate is the builder for creating a EmployeeWorkingHours entity.
@@ -80,42 +80,42 @@ func (ewhc *EmployeeWorkingHoursCreate) SetDay(d *Day) *EmployeeWorkingHoursCrea
 	return ewhc.SetDayID(d.ID)
 }
 
-// SetBeginworkID sets the beginwork edge to BeginWork by id.
-func (ewhc *EmployeeWorkingHoursCreate) SetBeginworkID(id int) *EmployeeWorkingHoursCreate {
-	ewhc.mutation.SetBeginworkID(id)
+// SetStartworkID sets the startwork edge to StartWork by id.
+func (ewhc *EmployeeWorkingHoursCreate) SetStartworkID(id int) *EmployeeWorkingHoursCreate {
+	ewhc.mutation.SetStartworkID(id)
 	return ewhc
 }
 
-// SetNillableBeginworkID sets the beginwork edge to BeginWork by id if the given value is not nil.
-func (ewhc *EmployeeWorkingHoursCreate) SetNillableBeginworkID(id *int) *EmployeeWorkingHoursCreate {
+// SetNillableStartworkID sets the startwork edge to StartWork by id if the given value is not nil.
+func (ewhc *EmployeeWorkingHoursCreate) SetNillableStartworkID(id *int) *EmployeeWorkingHoursCreate {
 	if id != nil {
-		ewhc = ewhc.SetBeginworkID(*id)
+		ewhc = ewhc.SetStartworkID(*id)
 	}
 	return ewhc
 }
 
-// SetBeginwork sets the beginwork edge to BeginWork.
-func (ewhc *EmployeeWorkingHoursCreate) SetBeginwork(b *BeginWork) *EmployeeWorkingHoursCreate {
-	return ewhc.SetBeginworkID(b.ID)
+// SetStartwork sets the startwork edge to StartWork.
+func (ewhc *EmployeeWorkingHoursCreate) SetStartwork(s *StartWork) *EmployeeWorkingHoursCreate {
+	return ewhc.SetStartworkID(s.ID)
 }
 
-// SetGetoffworkID sets the getoffwork edge to GetOffWork by id.
-func (ewhc *EmployeeWorkingHoursCreate) SetGetoffworkID(id int) *EmployeeWorkingHoursCreate {
-	ewhc.mutation.SetGetoffworkID(id)
+// SetEndworkID sets the endwork edge to EndWork by id.
+func (ewhc *EmployeeWorkingHoursCreate) SetEndworkID(id int) *EmployeeWorkingHoursCreate {
+	ewhc.mutation.SetEndworkID(id)
 	return ewhc
 }
 
-// SetNillableGetoffworkID sets the getoffwork edge to GetOffWork by id if the given value is not nil.
-func (ewhc *EmployeeWorkingHoursCreate) SetNillableGetoffworkID(id *int) *EmployeeWorkingHoursCreate {
+// SetNillableEndworkID sets the endwork edge to EndWork by id if the given value is not nil.
+func (ewhc *EmployeeWorkingHoursCreate) SetNillableEndworkID(id *int) *EmployeeWorkingHoursCreate {
 	if id != nil {
-		ewhc = ewhc.SetGetoffworkID(*id)
+		ewhc = ewhc.SetEndworkID(*id)
 	}
 	return ewhc
 }
 
-// SetGetoffwork sets the getoffwork edge to GetOffWork.
-func (ewhc *EmployeeWorkingHoursCreate) SetGetoffwork(g *GetOffWork) *EmployeeWorkingHoursCreate {
-	return ewhc.SetGetoffworkID(g.ID)
+// SetEndwork sets the endwork edge to EndWork.
+func (ewhc *EmployeeWorkingHoursCreate) SetEndwork(e *EndWork) *EmployeeWorkingHoursCreate {
+	return ewhc.SetEndworkID(e.ID)
 }
 
 // SetRoleID sets the role edge to Role by id.
@@ -290,17 +290,17 @@ func (ewhc *EmployeeWorkingHoursCreate) createSpec() (*EmployeeWorkingHours, *sq
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := ewhc.mutation.BeginworkIDs(); len(nodes) > 0 {
+	if nodes := ewhc.mutation.StartworkIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   employeeworkinghours.BeginworkTable,
-			Columns: []string{employeeworkinghours.BeginworkColumn},
+			Table:   employeeworkinghours.StartworkTable,
+			Columns: []string{employeeworkinghours.StartworkColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: beginwork.FieldID,
+					Column: startwork.FieldID,
 				},
 			},
 		}
@@ -309,17 +309,17 @@ func (ewhc *EmployeeWorkingHoursCreate) createSpec() (*EmployeeWorkingHours, *sq
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := ewhc.mutation.GetoffworkIDs(); len(nodes) > 0 {
+	if nodes := ewhc.mutation.EndworkIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   employeeworkinghours.GetoffworkTable,
-			Columns: []string{employeeworkinghours.GetoffworkColumn},
+			Table:   employeeworkinghours.EndworkTable,
+			Columns: []string{employeeworkinghours.EndworkColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: getoffwork.FieldID,
+					Column: endwork.FieldID,
 				},
 			},
 		}

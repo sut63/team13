@@ -20,7 +20,7 @@ import { exists, mapValues } from '../runtime';
  */
 export interface ControllersSalary {
     /**
-     * 
+     * IDEmployee	   string
      * @type {string}
      * @memberof ControllersSalary
      */
@@ -43,12 +43,6 @@ export interface ControllersSalary {
      * @memberof ControllersSalary
      */
     employeeID?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ControllersSalary
-     */
-    idemployee?: string;
     /**
      * 
      * @type {number}
@@ -83,7 +77,6 @@ export function ControllersSalaryFromJSONTyped(json: any, ignoreDiscriminator: b
         'assessmentID': !exists(json, 'assessmentID') ? undefined : json['assessmentID'],
         'bonus': !exists(json, 'bonus') ? undefined : json['bonus'],
         'employeeID': !exists(json, 'employeeID') ? undefined : json['employeeID'],
-        'idemployee': !exists(json, 'idemployee') ? undefined : json['idemployee'],
         'positionID': !exists(json, 'positionID') ? undefined : json['positionID'],
         'salaryDate': !exists(json, 'salaryDate') ? undefined : json['salaryDate'],
         'salarys': !exists(json, 'salarys') ? undefined : json['salarys'],
@@ -103,7 +96,6 @@ export function ControllersSalaryToJSON(value?: ControllersSalary | null): any {
         'assessmentID': value.assessmentID,
         'bonus': value.bonus,
         'employeeID': value.employeeID,
-        'idemployee': value.idemployee,
         'positionID': value.positionID,
         'salaryDate': value.salaryDate,
         'salarys': value.salarys,
