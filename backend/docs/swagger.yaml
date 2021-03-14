@@ -2265,18 +2265,18 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a manager entity by ID
-  /orderonlines:
+  /order:
     get:
-      description: list orderonline entities
-      operationId: list-orderonline
+      description: Search orderonline entities
+      operationId: Search-orderonline
       parameters:
-      - description: Limit
+      - description: Name
         in: query
-        name: limit
-        type: integer
-      - description: Offset
+        name: name
+        type: string
+      - description: Userid
         in: query
-        name: offset
+        name: userid
         type: integer
       produces:
       - application/json
@@ -2295,7 +2295,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: List orderonline entities
+      summary: Search orderonline entities
+  /orderonlines:
     post:
       consumes:
       - application/json

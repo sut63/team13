@@ -160,49 +160,44 @@ func (ctl *OrderonlineController) GetOrderonline(c *gin.Context) {
 	}
 	c.JSON(200, pa)
  }
- // ListOrderonline handles request to get a list of orderonline entities
-// @Summary List orderonline entities
-// @Description list orderonline entities
-// @ID list-orderonline
+
+// SearchOrderonlines handles request to get a search of orderonline entities
+// @Summary Search orderonline entities
+// @Description Search orderonline entities
+// @ID Search-orderonline
 // @Produce json
-// @Param limit  query int false "Limit"
-// @Param offset query int false "Offset"
+// @Param name  query string false "Name"
+// @Param userid query int false "Userid"
 // @Success 200 {array} ent.Orderonline
 // @Failure 400 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /orderonlines [get]
-func (ctl *OrderonlineController) ListOrderonline(c *gin.Context) {
-	limitQuery := c.Query("limit")
-	limit := 10
-	if limitQuery != "" {
-		limit64, err := strconv.ParseInt(limitQuery, 10, 64)
-		if err == nil {limit = int(limit64)}
+// @Router /order [get]
+func (ctl *OrderonlineController) SearchOrderonlines(c *gin.Context) {
+	t1 := c.Query("name")
+	useridQuery := c.Query("userid")
+	uid := 0
+	if useridQuery != "" {
+		limit64, err := strconv.ParseInt(useridQuery, 10, 64)
+		if err == nil {uid = int(limit64)}
 	}
-	offsetQuery := c.Query("offset")
-	offset := 0
-	if offsetQuery != "" {
-		offset64, err := strconv.ParseInt(offsetQuery, 10, 64)
-		if err == nil {offset = int(offset64)}
-	}
-	orderonlines, err := ctl.client.Orderonline.
+	order, err := ctl.client.Orderonline.
 		Query().
 		Where(orderonline.And(
-			orderonline.HasProductWith(product.IDEQ(int(offset))),
-			orderonline.HasCustomerWith(customer.IDEQ(int(limit))),
+			orderonline.HasProductWith(product.NameProductContains(t1)),
+			orderonline.HasCustomerWith(customer.IDEQ(int(uid))),
 			)).
 		WithCustomer().
 		WithPaymentchannel().
 		WithTypeproduct().
 		WithProduct().
-		Limit(10).
-		Offset(0).
 		All(context.Background())
 		if err != nil {
 		c.JSON(400, gin.H{"error": err.Error(),})
 		return
 	}
-	c.JSON(200, orderonlines)
+	c.JSON(200, order)
  }
+
 // DeleteOrderonline handles DELETE requests to delete a orderonline entity
 // @Summary Delete a orderonline entity by ID
 // @Description get orderonline by ID
@@ -309,8 +304,8 @@ func NewOrderonlineController(router gin.IRouter, client *ent.Client) *Orderonli
 // InitOrderonlineController registers routes to the main engine
  func (ctl *OrderonlineController) register() {
 	orderonlines := ctl.router.Group("/orderonlines")
-	
-	orderonlines.GET("", ctl.ListOrderonline)
+	order := ctl.router.Group("/order")
+	order.GET("", ctl.SearchOrderonlines)
 	// CRUD
 	orderonlines.POST("", ctl.CreateOrderonline)
 	orderonlines.GET(":id", ctl.GetOrderonline)

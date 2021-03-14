@@ -407,11 +407,6 @@ export interface ListManagerRequest {
     offset?: number;
 }
 
-export interface ListOrderonlineRequest {
-    limit?: number;
-    offset?: number;
-}
-
 export interface ListOrderproductRequest {
     limit?: number;
     offset?: number;
@@ -465,6 +460,11 @@ export interface ListTypeproductRequest {
 export interface ListZoneproductRequest {
     limit?: number;
     offset?: number;
+}
+
+export interface SearchOrderonlineRequest {
+    name?: string;
+    userid?: number;
 }
 
 export interface UpdateAssessmentRequest {
@@ -3032,42 +3032,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * list orderonline entities
-     * List orderonline entities
-     */
-    async listOrderonlineRaw(requestParameters: ListOrderonlineRequest): Promise<runtime.ApiResponse<Array<EntOrderonline>>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        if (requestParameters.limit !== undefined) {
-            queryParameters['limit'] = requestParameters.limit;
-        }
-
-        if (requestParameters.offset !== undefined) {
-            queryParameters['offset'] = requestParameters.offset;
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/orderonlines`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntOrderonlineFromJSON));
-    }
-
-    /**
-     * list orderonline entities
-     * List orderonline entities
-     */
-    async listOrderonline(requestParameters: ListOrderonlineRequest): Promise<Array<EntOrderonline>> {
-        const response = await this.listOrderonlineRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
      * list orderproduct entities
      * List orderproduct entities
      */
@@ -3460,6 +3424,42 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async listZoneproduct(requestParameters: ListZoneproductRequest): Promise<Array<EntZoneproduct>> {
         const response = await this.listZoneproductRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Search orderonline entities
+     * Search orderonline entities
+     */
+    async searchOrderonlineRaw(requestParameters: SearchOrderonlineRequest): Promise<runtime.ApiResponse<Array<EntOrderonline>>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.name !== undefined) {
+            queryParameters['name'] = requestParameters.name;
+        }
+
+        if (requestParameters.userid !== undefined) {
+            queryParameters['userid'] = requestParameters.userid;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/order`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntOrderonlineFromJSON));
+    }
+
+    /**
+     * Search orderonline entities
+     * Search orderonline entities
+     */
+    async searchOrderonline(requestParameters: SearchOrderonlineRequest): Promise<Array<EntOrderonline>> {
+        const response = await this.searchOrderonlineRaw(requestParameters);
         return await response.value();
     }
 
