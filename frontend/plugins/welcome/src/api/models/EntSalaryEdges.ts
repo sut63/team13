@@ -64,9 +64,9 @@ export function EntSalaryEdgesFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'assessment': !exists(json, 'assessment') ? undefined : EntAssessmentFromJSON(json['assessment']),
-        'employee': !exists(json, 'employee') ? undefined : EntEmployeeFromJSON(json['employee']),
-        'position': !exists(json, 'position') ? undefined : EntPositionFromJSON(json['position']),
+        'assessment': !exists(json, 'Assessment') ? undefined : EntAssessmentFromJSON(json['Assessment']),
+        'employee': !exists(json, 'Employee') ? undefined : EntEmployeeFromJSON(json['Employee']),
+        'position': !exists(json, 'Position') ? undefined : EntPositionFromJSON(json['Position']),
     };
 }
 

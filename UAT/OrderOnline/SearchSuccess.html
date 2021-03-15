@@ -32,12 +32,9 @@ WebUI.openBrowser('https://www.google.com/')
 def driver = DriverFactory.getWebDriver()
 String baseUrl = "https://www.google.com/"
 selenium = new WebDriverBackedSelenium(driver, baseUrl)
-selenium.open("http://localhost:3000/SignInOrderonline")
-selenium.click("id=email")
-selenium.type("id=email", "NAME@gmail.com")
-selenium.click("id=password")
-selenium.type("id=password", "1235")
-selenium.click("//div[@id='root']/div/article/main/div/form/a/span")
+selenium.open("http://localhost:3000/Orderonline")
 selenium.click("//div[@id='root']/div/div/article/div[2]/form/div/td[3]/a/span")
+selenium.click("id=product")
+selenium.type("id=product", "แชมพู")
 selenium.click("//div[@id='root']/div/div/article/div/form/div/div/div/td/button/span")
-assertEquals("ค้นหาข้อมูลไม่พบ", selenium.getText("id=swal2-title"));
+assertEquals("ค้นหาข้อมูลสำเร็จ", selenium.getText("id=swal2-title"));
