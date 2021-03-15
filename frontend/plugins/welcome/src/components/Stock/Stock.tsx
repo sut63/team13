@@ -183,39 +183,7 @@ export default function Stock() {
   }
 
 
-  //validate
-  /*const validateIdcardemployee = (val: string) => {
- /* //validate
-  const validateIdcardemployee = (val: string) => {
-    return val.match("[E]\\d{4}");
-  }
 
-  const validateAmount = (val: Number) => {
-    return val > 0  ? true : false;
-  }
-
-  // ฟังก์ชั่นสำหรับ validate 
-  const validatePrice = (val: Number) => {
-    return val  > 0 ? false : true;
-  }
-*/
-
-  /* checkPattern
-  const checkPattern  = (id: string, value: string) => {
-    switch(id) { 
-      case 'IDcardemployee':
-        validateIdcardemployee(value) ? setIdcardemployeeError('') : setIdcardemployeeError('ห้ามเกิน 50 ตัวอักษร');
-        return;
-      case 'Priceproduct': 
-        validatePrice(Number(value)) ? setPriceError('') : setPriceError('Ex 0850583300');
-        return;
-      case 'Amount':
-        validateAmount(Number(value)) ? setAmountError('') : setAmountError('เข้าพักได้ไม่เกินห้องละ 5 คน')
-        return;
-      default:
-        return;
-    }
-  }*/
 
   const checkCaseSaveError = (field: string) => {
     switch(field) {
@@ -592,35 +560,6 @@ export default function Stock() {
 
 
 
-
-            <Grid item xs={4}><center>
-              <h3 align='right'>เวลาที่บันทึก</h3></center>
-            </Grid>
-            <Grid item xs={4}>
-
-              <FormControl
-                fullWidth
-                className={classes.margin}
-                variant="outlined"
-                style={{ marginRight: 500, width: 2000 }}
-              >
-                <TextField
-                  id="date"
-                  label="Datetime"
-                  type="datetime-local"
-                  value={time}
-                  onChange={handletimeChange}
-                  //defaultValue="2020-05-24"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </FormControl>
-
-            </Grid>
-            <Grid item xs={4}>
-            </Grid>
 
 
 

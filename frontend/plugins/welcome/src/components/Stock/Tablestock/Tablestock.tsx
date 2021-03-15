@@ -106,10 +106,7 @@ export default function ComponentsTable() {
 }
 console.log(stock)
 
-const Product_id_handleChange = (event: any) => {
-  setProductid(event.target.value);
 }
-var lenstock: number
 
 const getCheckstock = async () => {
   const res = await api.getStock({ id: productid })
