@@ -93,10 +93,10 @@ func IDLTE(id int) predicate.Stock {
 	})
 }
 
-// IDcardemployee applies equality check predicate on the "IDcardemployee" field. It's identical to IDcardemployeeEQ.
-func IDcardemployee(v string) predicate.Stock {
+// IDstock applies equality check predicate on the "IDstock" field. It's identical to IDstockEQ.
+func IDstock(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldIDcardemployee), v))
+		s.Where(sql.EQ(s.C(FieldIDstock), v))
 	})
 }
 
@@ -121,22 +121,22 @@ func Time(v time.Time) predicate.Stock {
 	})
 }
 
-// IDcardemployeeEQ applies the EQ predicate on the "IDcardemployee" field.
-func IDcardemployeeEQ(v string) predicate.Stock {
+// IDstockEQ applies the EQ predicate on the "IDstock" field.
+func IDstockEQ(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldIDcardemployee), v))
+		s.Where(sql.EQ(s.C(FieldIDstock), v))
 	})
 }
 
-// IDcardemployeeNEQ applies the NEQ predicate on the "IDcardemployee" field.
-func IDcardemployeeNEQ(v string) predicate.Stock {
+// IDstockNEQ applies the NEQ predicate on the "IDstock" field.
+func IDstockNEQ(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldIDcardemployee), v))
+		s.Where(sql.NEQ(s.C(FieldIDstock), v))
 	})
 }
 
-// IDcardemployeeIn applies the In predicate on the "IDcardemployee" field.
-func IDcardemployeeIn(vs ...string) predicate.Stock {
+// IDstockIn applies the In predicate on the "IDstock" field.
+func IDstockIn(vs ...string) predicate.Stock {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -148,12 +148,12 @@ func IDcardemployeeIn(vs ...string) predicate.Stock {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldIDcardemployee), v...))
+		s.Where(sql.In(s.C(FieldIDstock), v...))
 	})
 }
 
-// IDcardemployeeNotIn applies the NotIn predicate on the "IDcardemployee" field.
-func IDcardemployeeNotIn(vs ...string) predicate.Stock {
+// IDstockNotIn applies the NotIn predicate on the "IDstock" field.
+func IDstockNotIn(vs ...string) predicate.Stock {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -165,70 +165,70 @@ func IDcardemployeeNotIn(vs ...string) predicate.Stock {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldIDcardemployee), v...))
+		s.Where(sql.NotIn(s.C(FieldIDstock), v...))
 	})
 }
 
-// IDcardemployeeGT applies the GT predicate on the "IDcardemployee" field.
-func IDcardemployeeGT(v string) predicate.Stock {
+// IDstockGT applies the GT predicate on the "IDstock" field.
+func IDstockGT(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldIDcardemployee), v))
+		s.Where(sql.GT(s.C(FieldIDstock), v))
 	})
 }
 
-// IDcardemployeeGTE applies the GTE predicate on the "IDcardemployee" field.
-func IDcardemployeeGTE(v string) predicate.Stock {
+// IDstockGTE applies the GTE predicate on the "IDstock" field.
+func IDstockGTE(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldIDcardemployee), v))
+		s.Where(sql.GTE(s.C(FieldIDstock), v))
 	})
 }
 
-// IDcardemployeeLT applies the LT predicate on the "IDcardemployee" field.
-func IDcardemployeeLT(v string) predicate.Stock {
+// IDstockLT applies the LT predicate on the "IDstock" field.
+func IDstockLT(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldIDcardemployee), v))
+		s.Where(sql.LT(s.C(FieldIDstock), v))
 	})
 }
 
-// IDcardemployeeLTE applies the LTE predicate on the "IDcardemployee" field.
-func IDcardemployeeLTE(v string) predicate.Stock {
+// IDstockLTE applies the LTE predicate on the "IDstock" field.
+func IDstockLTE(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldIDcardemployee), v))
+		s.Where(sql.LTE(s.C(FieldIDstock), v))
 	})
 }
 
-// IDcardemployeeContains applies the Contains predicate on the "IDcardemployee" field.
-func IDcardemployeeContains(v string) predicate.Stock {
+// IDstockContains applies the Contains predicate on the "IDstock" field.
+func IDstockContains(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldIDcardemployee), v))
+		s.Where(sql.Contains(s.C(FieldIDstock), v))
 	})
 }
 
-// IDcardemployeeHasPrefix applies the HasPrefix predicate on the "IDcardemployee" field.
-func IDcardemployeeHasPrefix(v string) predicate.Stock {
+// IDstockHasPrefix applies the HasPrefix predicate on the "IDstock" field.
+func IDstockHasPrefix(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldIDcardemployee), v))
+		s.Where(sql.HasPrefix(s.C(FieldIDstock), v))
 	})
 }
 
-// IDcardemployeeHasSuffix applies the HasSuffix predicate on the "IDcardemployee" field.
-func IDcardemployeeHasSuffix(v string) predicate.Stock {
+// IDstockHasSuffix applies the HasSuffix predicate on the "IDstock" field.
+func IDstockHasSuffix(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldIDcardemployee), v))
+		s.Where(sql.HasSuffix(s.C(FieldIDstock), v))
 	})
 }
 
-// IDcardemployeeEqualFold applies the EqualFold predicate on the "IDcardemployee" field.
-func IDcardemployeeEqualFold(v string) predicate.Stock {
+// IDstockEqualFold applies the EqualFold predicate on the "IDstock" field.
+func IDstockEqualFold(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldIDcardemployee), v))
+		s.Where(sql.EqualFold(s.C(FieldIDstock), v))
 	})
 }
 
-// IDcardemployeeContainsFold applies the ContainsFold predicate on the "IDcardemployee" field.
-func IDcardemployeeContainsFold(v string) predicate.Stock {
+// IDstockContainsFold applies the ContainsFold predicate on the "IDstock" field.
+func IDstockContainsFold(v string) predicate.Stock {
 	return predicate.Stock(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldIDcardemployee), v))
+		s.Where(sql.ContainsFold(s.C(FieldIDstock), v))
 	})
 }
 
