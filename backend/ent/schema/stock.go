@@ -1,4 +1,5 @@
 package schema
+import "regexp"
 import (
 	"github.com/facebookincubator/ent"
 	"github.com/facebookincubator/ent/schema/field"
@@ -13,9 +14,11 @@ type Stock struct {
 // Fields of the Stock.
 func (Stock) Fields() []ent.Field {
 	return []ent.Field{
+		field.String("IDstock").Match(regexp.MustCompile("[A-Z]\\d{6}")),
 		field.Float("Priceproduct").Min(0).Positive(),
 		field.Int("Amount").Min(0).Positive(),
         field.Time("Time"),
+		
 	}
 }
 

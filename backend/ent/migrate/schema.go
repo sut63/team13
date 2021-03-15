@@ -403,7 +403,7 @@ var (
 	// StocksColumns holds the columns for the "stocks" table.
 	StocksColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "idcardemployee", Type: field.TypeString},
+		{Name: "idstock", Type: field.TypeString},
 		{Name: "priceproduct", Type: field.TypeFloat64},
 		{Name: "amount", Type: field.TypeInt},
 		{Name: "time", Type: field.TypeTime},

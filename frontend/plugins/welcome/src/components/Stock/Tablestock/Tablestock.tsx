@@ -22,7 +22,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Swal from 'sweetalert2';
 import { Cookies } from '../LoginEmployee/Cookie';
 import { EntProduct } from '../../../api';
-import { Content, ContentHeader, Header, Page, pageTheme } from '@backstage/core';
+import { Content, Header, Page, pageTheme } from '@backstage/core';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -76,56 +76,76 @@ export default function ComponentsTable() {
  var cookieName = ck.GetName()
  const [products, setProducts] = useState<EntProduct[]>([]);
  const [loading, setLoading] = useState(true);
- const [productid, setProductid] = useState(Number);
+ const [productid, setProductid] = useState(String);
+ const [checkProductName, setProductNames] = useState(false);
  const [alert, setAlert] = useState(true);
  const profile = { givenName: '' };
-
- const [stocks, setStocks] = useState<EntStock[]>();
+ const [search, setSearch] = useState(false);
+ //const [checkvalue, setCheckValue] = useState(false);
+ const [stocks, setStocks] = useState<EntStock[]>([]);
  
- let employeeID = Number(cookieID)
- let productID = Number(productid)
- console.log(employeeID)
+ const alertMessage = (icon: any, title: any) => {
+  Toast.fire({
+    icon: icon,
+    title: title,
+  });
+  setSearch(false);
+}
+
  
  useEffect(() => {
    const getProducts = async () => {
-     const pr = await api.listProduct({ limit: 10, offset: 0 });
+     const pr = await api.listProduct({ offset: 0 });
      setLoading(false);
      setProducts(pr);
    };
    getProducts();
+   const getStockproduct = async () => {
+     const sp = await api.listStock({ offset: 0 });
+     setLoading(false);
+     setStocks(sp);
+   };
+   getStockproduct();
  }, [loading]);
  
- const deleteStocks = async (id: number) => {
-   const res = await api.deleteStock({ id: id });
-   setLoading(true);
- };
 
- const stock = {
-  employeeID,
-  productID,
-}
-console.log(stock)
 
-}
+
+const Product_id_handleChange = (event: React.ChangeEvent<{ value : unknown }>) => {
+  setProductid(event.target.value as string);
+  setProductNames(false);
+  setSearch(false);
+};
+
+/*const cleardata = () => {
+  setProductid("");
+  setSearch(false);
+  setProductNames(false);
+  setSearch(false);
+
+}*/
 
 const getCheckstock = async () => {
-  const res = await api.getStock({ id: productid })
-  setStocks(res)
-  lenstock = res.length
-  if (lenstock > 0) {
-    //setOpen(true)
-    Toast.fire({
-      icon: 'success',
-      title: 'มีสินค้าใน Stock ค้นหาสำเร็จ',
-    })
-  } else {
-    //setFail(true)
-    Toast.fire({
-      icon: 'error',
-      title: 'ไม่มีสินค้าใน Stock ค้นหาไม่สำเร็จ',
-    })
-  }
-}
+  var check = false;
+  stocks.map(item => {
+    if(productid != "") {
+      if(item.edges?.product?.nameProduct?.startsWith(productid)){
+        setProductNames(true);
+        alertMessage("success", "ค้นหาข้อมูลสำเร็จ");
+        check = true;
+      }
+    }
+  })
+  if (!check ){
+    alertMessage("error", "ไม่พบข้อมูลที่ค้นหา");
+    }
+    console.log(checkProductName)
+    if (productid == "") {
+      alertMessage("info", "กรอกชื่อสินค้า");
+    }
+  };
+
+
 
 const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -255,26 +275,25 @@ const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
 
             
-            <Grid item xs={4}><center>
-              <h3 align='right'>สินค้า</h3></center>
+     <Grid item xs={4}><center>
+              <h3 align='right'>ชื่อสินค้า</h3></center>
             </Grid>
             <Grid item xs={4}>
               <FormControl
                 fullWidth
                 className={classes.margin}
                 variant="outlined"
-              ><InputLabel>Product</InputLabel>
-                <Select
-                  labelId="product_id-label"
+
+              ><TextField
+                  id="product"
                   label="product"
-                  id="product_id"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
                   value={productid}
                   onChange={Product_id_handleChange}
                   style={{ marginRight: 300, width: 300 }}
-                >
-                  {products.map((item: EntProduct) =>
-                    <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
-                </Select>
+                />
               </FormControl>
             </Grid>
             <Grid item xs={4}>
@@ -300,6 +319,7 @@ const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
              <Button
               onClick={() => {
                 getCheckstock();
+                setSearch(true);
               }}
         variant="outlined"
         color="inherit"
@@ -309,58 +329,52 @@ const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
       >
         Search
       </Button>
-              
-             
-             
-
-
             </Grid>
 
             <Grid item xs={4}></Grid>
 
 
-           
+         
+      
 
-
-
-
-
-
-
-
-
-   
-  
-   <TableContainer component={Paper}>
+   <Grid container justify="center"></Grid>
+            <Grid item xs={12}>
+            <Paper>
+              {search ? (
+                <div>
+                  {  checkProductName ? (
+                
+            <TableContainer component={Paper}>
      <Table className={classes.table} aria-label="simple table">
        <TableHead>
          <TableRow>
-           <TableCell align="center">No.</TableCell>
-           <TableCell align="center">Employee</TableCell>
-           <TableCell align="center">IDEmployee</TableCell>
+         <TableCell align="center">No.</TableCell>
+           <TableCell align="center">Employee</TableCell> 
+           <TableCell align="center">IDstock</TableCell>
            <TableCell align="center">Typeproduct</TableCell>
            <TableCell align="center">Product</TableCell>
            <TableCell align="center">Zoneproduct</TableCell>
            <TableCell align="center">Priceproduct</TableCell>
            <TableCell align="center">Amount</TableCell>
-           <TableCell align="center">Time</TableCell>
+           
+           <TableCell align="center">TimeSave</TableCell>
            
          </TableRow>
        </TableHead>
        <TableBody>
-       {stocks === undefined 
-          ? null
-          : stocks.map((item : any)=> (
+       {stocks.filter((filter:any) => filter.edges?.product?.nameProduct.startsWith(productid)).map((item : any)=> (
            <TableRow key={item.id}>
              <TableCell align="center">{item.id}</TableCell>
-             <TableCell align="center">{item.edges?.employee?.name}</TableCell>
-             <TableCell align="center">{item.iDcardemployee}</TableCell>
+             <TableCell align="center">{item.edges?.employee?.name}</TableCell> 
+             <TableCell align="center">{item.iDstock}</TableCell>
              <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
              <TableCell align="center">{item.edges?.product?.nameProduct}</TableCell>
              <TableCell align="center">{item.edges?.zoneproduct?.zone}</TableCell>
              <TableCell align="center">{item.priceproduct}</TableCell>
              <TableCell align="center">{item.amount}</TableCell>
+             
              <TableCell align="center">{item.time}</TableCell>
+             
              
              
              
@@ -379,14 +393,70 @@ const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
        </TableBody>
      </Table>
    </TableContainer>
+                  )
+                  : productid == "" ? (
+                    <div> 
+                      <TableContainer component={Paper}>
+     <Table className={classes.table} aria-label="simple table">
+       <TableHead>
+         <TableRow>
+         <TableCell align="center">No.</TableCell>
+           <TableCell align="center">Employee</TableCell> 
+           <TableCell align="center">IDstock</TableCell>
+           <TableCell align="center">Typeproduct</TableCell>
+           <TableCell align="center">Product</TableCell>
+           <TableCell align="center">Zoneproduct</TableCell>
+           <TableCell align="center">Priceproduct</TableCell>
+           <TableCell align="center">Amount</TableCell>
+           
+           <TableCell align="center">TimeSave</TableCell>
+           
+         </TableRow>
+       </TableHead>
+       <TableBody>
+       {stocks.filter((filter:any) => filter.edges?.product?.nameProduct.startsWith(productid)).map((item : any)=> (
+           <TableRow key={item.id}>
+            <TableCell align="center">{item.id}</TableCell>
+             <TableCell align="center">{item.edges?.employee?.name}</TableCell> 
+             <TableCell align="center">{item.iDstock}</TableCell>
+             <TableCell align="center">{item.edges?.typeproduct?.typeproduct}</TableCell>
+             <TableCell align="center">{item.edges?.product?.nameProduct}</TableCell>
+             <TableCell align="center">{item.edges?.zoneproduct?.zone}</TableCell>
+             <TableCell align="center">{item.priceproduct}</TableCell>
+             <TableCell align="center">{item.amount}</TableCell>
+            
+             <TableCell align="center">{item.time}</TableCell>
+             
+             
+             
+             
 
-   <Grid item xs={12}></Grid>
-            <Grid item xs={12}></Grid>
+             <TableCell align="center"></TableCell>
+             
+          
+             
+           </TableRow>
+         ))}
+       </TableBody>
+     </Table>
+   </TableContainer>
+
+   </div>
+                    ) : null}
+                </div>
+              ) : null}
+            </Paper>
+            </Grid>
+
+            
           </Grid>
 
+
+
+
         </div>
-
-
+        
+        
       </Content>
     </Page>
 

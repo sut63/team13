@@ -30,7 +30,7 @@ type Stock struct {
 	Priceproduct  float64
 	Amount        int
 	Time          string
-	IDcardemployee	string
+	IDstock		  string
 
 }
 
@@ -101,8 +101,9 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 			})
 			return
 		}
-	
-		times, err := time.Parse(time.RFC3339, obj.Time)
+
+		settime := time.Now().Format("2006-01-02T15:04:05Z07:00")
+		time, err := time.Parse(time.RFC3339, settime)
 		
 	
 
@@ -114,8 +115,8 @@ func (ctl *StockController) CreateStock(c *gin.Context) {
 		SetEmployee(em).
 		SetAmount(obj.Amount).
 		SetPriceproduct(obj.Priceproduct).
-		SetIDcardemployee(obj.IDcardemployee).
-		SetTime(times).
+		SetTime(time).
+		SetIDstock(obj.IDstock).
 		Save(context.Background())
 
 		if err != nil {

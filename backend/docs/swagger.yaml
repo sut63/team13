@@ -95,7 +95,7 @@ definitions:
         type: integer
       employeeID:
         type: integer
-      idcardemployee:
+      idstock:
         type: string
       priceproduct:
         type: number
@@ -682,8 +682,8 @@ definitions:
       Amount:
         description: Amount holds the value of the "Amount" field.
         type: integer
-      IDcardemployee:
-        description: IDcardemployee holds the value of the "IDcardemployee" field.
+      IDstock:
+        description: IDstock holds the value of the "IDstock" field.
         type: string
       Priceproduct:
         description: Priceproduct holds the value of the "Priceproduct" field.
