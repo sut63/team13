@@ -24,9 +24,9 @@ type StockCreate struct {
 	hooks    []Hook
 }
 
-// SetIDcardemployee sets the IDcardemployee field.
-func (sc *StockCreate) SetIDcardemployee(s string) *StockCreate {
-	sc.mutation.SetIDcardemployee(s)
+// SetIDstock sets the IDstock field.
+func (sc *StockCreate) SetIDstock(s string) *StockCreate {
+	sc.mutation.SetIDstock(s)
 	return sc
 }
 
@@ -131,12 +131,12 @@ func (sc *StockCreate) Mutation() *StockMutation {
 
 // Save creates the Stock in the database.
 func (sc *StockCreate) Save(ctx context.Context) (*Stock, error) {
-	if _, ok := sc.mutation.IDcardemployee(); !ok {
-		return nil, &ValidationError{Name: "IDcardemployee", err: errors.New("ent: missing required field \"IDcardemployee\"")}
+	if _, ok := sc.mutation.IDstock(); !ok {
+		return nil, &ValidationError{Name: "IDstock", err: errors.New("ent: missing required field \"IDstock\"")}
 	}
-	if v, ok := sc.mutation.IDcardemployee(); ok {
-		if err := stock.IDcardemployeeValidator(v); err != nil {
-			return nil, &ValidationError{Name: "IDcardemployee", err: fmt.Errorf("ent: validator failed for field \"IDcardemployee\": %w", err)}
+	if v, ok := sc.mutation.IDstock(); ok {
+		if err := stock.IDstockValidator(v); err != nil {
+			return nil, &ValidationError{Name: "IDstock", err: fmt.Errorf("ent: validator failed for field \"IDstock\": %w", err)}
 		}
 	}
 	if _, ok := sc.mutation.Priceproduct(); !ok {
@@ -218,13 +218,13 @@ func (sc *StockCreate) createSpec() (*Stock, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
-	if value, ok := sc.mutation.IDcardemployee(); ok {
+	if value, ok := sc.mutation.IDstock(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: stock.FieldIDcardemployee,
+			Column: stock.FieldIDstock,
 		})
-		s.IDcardemployee = value
+		s.IDstock = value
 	}
 	if value, ok := sc.mutation.Priceproduct(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{

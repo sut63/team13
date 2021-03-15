@@ -363,12 +363,12 @@ func (sq *StockQuery) WithTypeproduct(opts ...func(*TypeproductQuery)) *StockQue
 // Example:
 //
 //	var v []struct {
-//		IDcardemployee string `json:"IDcardemployee,omitempty"`
+//		IDstock string `json:"IDstock,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Stock.Query().
-//		GroupBy(stock.FieldIDcardemployee).
+//		GroupBy(stock.FieldIDstock).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -389,11 +389,11 @@ func (sq *StockQuery) GroupBy(field string, fields ...string) *StockGroupBy {
 // Example:
 //
 //	var v []struct {
-//		IDcardemployee string `json:"IDcardemployee,omitempty"`
+//		IDstock string `json:"IDstock,omitempty"`
 //	}
 //
 //	client.Stock.Query().
-//		Select(stock.FieldIDcardemployee).
+//		Select(stock.FieldIDstock).
 //		Scan(ctx, &v)
 //
 func (sq *StockQuery) Select(field string, fields ...string) *StockSelect {

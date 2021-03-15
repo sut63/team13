@@ -14,7 +14,7 @@ type Stock struct {
 // Fields of the Stock.
 func (Stock) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("IDcardemployee").Match(regexp.MustCompile("[E]\\d{4}")),
+		field.String("IDstock").Match(regexp.MustCompile("[A-Z]\\d{6}")),
 		field.Float("Priceproduct").Min(0).Positive(),
 		field.Int("Amount").Min(0).Positive(),
         field.Time("Time"),
