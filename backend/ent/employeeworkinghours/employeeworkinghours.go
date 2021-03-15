@@ -18,10 +18,10 @@ const (
 	EdgeEmployee = "employee"
 	// EdgeDay holds the string denoting the day edge name in mutations.
 	EdgeDay = "day"
-	// EdgeBeginwork holds the string denoting the beginwork edge name in mutations.
-	EdgeBeginwork = "beginwork"
-	// EdgeGetoffwork holds the string denoting the getoffwork edge name in mutations.
-	EdgeGetoffwork = "getoffwork"
+	// EdgeStartwork holds the string denoting the startwork edge name in mutations.
+	EdgeStartwork = "startwork"
+	// EdgeEndwork holds the string denoting the endwork edge name in mutations.
+	EdgeEndwork = "endwork"
 	// EdgeRole holds the string denoting the role edge name in mutations.
 	EdgeRole = "role"
 
@@ -41,20 +41,20 @@ const (
 	DayInverseTable = "days"
 	// DayColumn is the table column denoting the day relation/edge.
 	DayColumn = "day_whatday"
-	// BeginworkTable is the table the holds the beginwork relation/edge.
-	BeginworkTable = "employee_working_hours"
-	// BeginworkInverseTable is the table name for the BeginWork entity.
-	// It exists in this package in order to avoid circular dependency with the "beginwork" package.
-	BeginworkInverseTable = "begin_works"
-	// BeginworkColumn is the table column denoting the beginwork relation/edge.
-	BeginworkColumn = "begin_work_whenwork"
-	// GetoffworkTable is the table the holds the getoffwork relation/edge.
-	GetoffworkTable = "employee_working_hours"
-	// GetoffworkInverseTable is the table name for the GetOffWork entity.
-	// It exists in this package in order to avoid circular dependency with the "getoffwork" package.
-	GetoffworkInverseTable = "get_off_works"
-	// GetoffworkColumn is the table column denoting the getoffwork relation/edge.
-	GetoffworkColumn = "get_off_work_whenendwork"
+	// StartworkTable is the table the holds the startwork relation/edge.
+	StartworkTable = "employee_working_hours"
+	// StartworkInverseTable is the table name for the StartWork entity.
+	// It exists in this package in order to avoid circular dependency with the "startwork" package.
+	StartworkInverseTable = "start_works"
+	// StartworkColumn is the table column denoting the startwork relation/edge.
+	StartworkColumn = "start_work_whenwork"
+	// EndworkTable is the table the holds the endwork relation/edge.
+	EndworkTable = "employee_working_hours"
+	// EndworkInverseTable is the table name for the EndWork entity.
+	// It exists in this package in order to avoid circular dependency with the "endwork" package.
+	EndworkInverseTable = "end_works"
+	// EndworkColumn is the table column denoting the endwork relation/edge.
+	EndworkColumn = "end_work_whenendwork"
 	// RoleTable is the table the holds the role relation/edge.
 	RoleTable = "employee_working_hours"
 	// RoleInverseTable is the table name for the Role entity.
@@ -74,11 +74,11 @@ var Columns = []string{
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the EmployeeWorkingHours type.
 var ForeignKeys = []string{
-	"begin_work_whenwork",
 	"day_whatday",
 	"employee_whose",
-	"get_off_work_whenendwork",
+	"end_work_whenendwork",
 	"role_todo",
+	"start_work_whenwork",
 }
 
 var (

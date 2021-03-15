@@ -25,14 +25,13 @@ type config struct {
 // hooks per client, for fast access.
 type hooks struct {
 	Assessment           []ent.Hook
-	BeginWork            []ent.Hook
 	Company              []ent.Hook
 	Customer             []ent.Hook
 	Day                  []ent.Hook
 	Discount             []ent.Hook
 	Employee             []ent.Hook
 	EmployeeWorkingHours []ent.Hook
-	GetOffWork           []ent.Hook
+	EndWork              []ent.Hook
 	Giveaway             []ent.Hook
 	Manager              []ent.Hook
 	Orderonline          []ent.Hook
@@ -43,6 +42,7 @@ type hooks struct {
 	Promotion            []ent.Hook
 	Role                 []ent.Hook
 	Salary               []ent.Hook
+	StartWork            []ent.Hook
 	Stock                []ent.Hook
 	Typeproduct          []ent.Hook
 	Zoneproduct          []ent.Hook

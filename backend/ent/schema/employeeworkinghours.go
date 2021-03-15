@@ -31,10 +31,10 @@ func (EmployeeWorkingHours) Edges() []ent.Edge {
 		edge.From("day", Day.Type).
 			Ref("whatday").
 			Unique(),
-		edge.From("beginwork", BeginWork.Type).
+		edge.From("startwork", StartWork.Type).
 			Ref("whenwork").
 			Unique(),
-		edge.From("getoffwork", GetOffWork.Type).
+		edge.From("endwork", EndWork.Type).
 			Ref("whenendwork").
 			Unique(),
 		edge.From("role", Role.Type).

@@ -106,20 +106,20 @@ type Role struct {
 	Role string
 }
 
-type BeginWorks struct {
-	BeginWork []BeginWork
+type StartWorks struct {
+	StartWork []StartWork
 }
 
-type BeginWork struct {
-	BeginWork time.Time
+type StartWork struct {
+	StartWork time.Time
 }
 
-type GetOffWorks struct {
-	GetOffWork []GetOffWork
+type EndWorks struct {
+	EndWork []EndWork
 }
 
-type GetOffWork struct {
-	GetOffWork time.Time
+type EndWork struct {
+	EndWork time.Time
 }
 
 type Assessments struct {
@@ -227,8 +227,8 @@ func main() {
 	controllers.NewEmployeeController(v1, client)
 	controllers.NewEmployeeWorkingHoursController(v1, client)
 	controllers.NewRoleController(v1, client)
-	controllers.NewBeginWorkController(v1, client)
-	controllers.NewGetOffWorkController(v1, client)
+	controllers.NewStartWorkController(v1, client)
+	controllers.NewEndWorkController(v1, client)
 
 	controllers.NewAssessmentController(v1, client)
 	controllers.NewPositionController(v1, client)
@@ -429,33 +429,33 @@ func main() {
 			Save(context.Background())
 	}
 
-	BeginWorks := BeginWorks{
-		BeginWork: []BeginWork{
-			{time.Date(0, 0, 0, 6, 30, 0, 0, time.Local)},
-			{time.Date(0, 0, 0, 13, 0, 0, 0, time.Local)},
-			{time.Date(0, 0, 0, 22, 0, 0, 0, time.Local)},
+	StartWorks := StartWorks{
+		StartWork: []StartWork{
+			{time.Date(2020, 1, 1, 6, 30, 0, 0, time.Local)},
+			{time.Date(2020, 1, 1, 13, 0, 0, 0, time.Local)},
+			{time.Date(2020, 1, 1, 22, 0, 0, 0, time.Local)},
 		},
 	}
 
-	for _, bw := range BeginWorks.BeginWork {
-		client.BeginWork.
+	for _, sw := range StartWorks.StartWork {
+		client.StartWork.
 			Create().
-			SetBeginWork(bw.BeginWork).
+			SetStartWork(sw.StartWork).
 			Save(context.Background())
 	}
 
-	GetOffWorks := GetOffWorks{
-		GetOffWork: []GetOffWork{
-			{time.Date(0, 0, 0, 14, 0, 0, 0, time.Local)},
-			{time.Date(0, 0, 0, 22, 0, 0, 0, time.Local)},
-			{time.Date(0, 0, 0, 7, 0, 0, 0, time.Local)},
+	EndWorks := EndWorks{
+		EndWork: []EndWork{
+			{time.Date(2020, 1, 1, 14, 0, 0, 0, time.Local)},
+			{time.Date(2020, 1, 1, 22, 0, 0, 0, time.Local)},
+			{time.Date(2020, 1, 1, 7, 0, 0, 0, time.Local)},
 		},
 	}
 
-	for _, bw := range GetOffWorks.GetOffWork {
-		client.GetOffWork.
+	for _, ew := range EndWorks.EndWork {
+		client.EndWork.
 			Create().
-			SetGetOffWork(bw.GetOffWork).
+			SetEndWork(ew.EndWork).
 			Save(context.Background())
 	}
 

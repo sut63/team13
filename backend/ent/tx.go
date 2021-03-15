@@ -14,8 +14,6 @@ type Tx struct {
 	config
 	// Assessment is the client for interacting with the Assessment builders.
 	Assessment *AssessmentClient
-	// BeginWork is the client for interacting with the BeginWork builders.
-	BeginWork *BeginWorkClient
 	// Company is the client for interacting with the Company builders.
 	Company *CompanyClient
 	// Customer is the client for interacting with the Customer builders.
@@ -28,8 +26,8 @@ type Tx struct {
 	Employee *EmployeeClient
 	// EmployeeWorkingHours is the client for interacting with the EmployeeWorkingHours builders.
 	EmployeeWorkingHours *EmployeeWorkingHoursClient
-	// GetOffWork is the client for interacting with the GetOffWork builders.
-	GetOffWork *GetOffWorkClient
+	// EndWork is the client for interacting with the EndWork builders.
+	EndWork *EndWorkClient
 	// Giveaway is the client for interacting with the Giveaway builders.
 	Giveaway *GiveawayClient
 	// Manager is the client for interacting with the Manager builders.
@@ -50,6 +48,8 @@ type Tx struct {
 	Role *RoleClient
 	// Salary is the client for interacting with the Salary builders.
 	Salary *SalaryClient
+	// StartWork is the client for interacting with the StartWork builders.
+	StartWork *StartWorkClient
 	// Stock is the client for interacting with the Stock builders.
 	Stock *StockClient
 	// Typeproduct is the client for interacting with the Typeproduct builders.
@@ -192,14 +192,13 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.Assessment = NewAssessmentClient(tx.config)
-	tx.BeginWork = NewBeginWorkClient(tx.config)
 	tx.Company = NewCompanyClient(tx.config)
 	tx.Customer = NewCustomerClient(tx.config)
 	tx.Day = NewDayClient(tx.config)
 	tx.Discount = NewDiscountClient(tx.config)
 	tx.Employee = NewEmployeeClient(tx.config)
 	tx.EmployeeWorkingHours = NewEmployeeWorkingHoursClient(tx.config)
-	tx.GetOffWork = NewGetOffWorkClient(tx.config)
+	tx.EndWork = NewEndWorkClient(tx.config)
 	tx.Giveaway = NewGiveawayClient(tx.config)
 	tx.Manager = NewManagerClient(tx.config)
 	tx.Orderonline = NewOrderonlineClient(tx.config)
@@ -210,6 +209,7 @@ func (tx *Tx) init() {
 	tx.Promotion = NewPromotionClient(tx.config)
 	tx.Role = NewRoleClient(tx.config)
 	tx.Salary = NewSalaryClient(tx.config)
+	tx.StartWork = NewStartWorkClient(tx.config)
 	tx.Stock = NewStockClient(tx.config)
 	tx.Typeproduct = NewTypeproductClient(tx.config)
 	tx.Zoneproduct = NewZoneproductClient(tx.config)

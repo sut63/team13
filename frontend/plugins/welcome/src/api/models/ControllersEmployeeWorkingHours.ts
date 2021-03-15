@@ -21,12 +21,6 @@ import { exists, mapValues } from '../runtime';
 export interface ControllersEmployeeWorkingHours {
     /**
      * 
-     * @type {number}
-     * @memberof ControllersEmployeeWorkingHours
-     */
-    beginWork?: number;
-    /**
-     * 
      * @type {string}
      * @memberof ControllersEmployeeWorkingHours
      */
@@ -48,7 +42,7 @@ export interface ControllersEmployeeWorkingHours {
      * @type {number}
      * @memberof ControllersEmployeeWorkingHours
      */
-    getOffWork?: number;
+    endWork?: number;
     /**
      * 
      * @type {string}
@@ -72,6 +66,12 @@ export interface ControllersEmployeeWorkingHours {
      * @type {number}
      * @memberof ControllersEmployeeWorkingHours
      */
+    startWork?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ControllersEmployeeWorkingHours
+     */
     wages?: number;
 }
 
@@ -85,14 +85,14 @@ export function ControllersEmployeeWorkingHoursFromJSONTyped(json: any, ignoreDi
     }
     return {
         
-        'beginWork': !exists(json, 'beginWork') ? undefined : json['beginWork'],
         'codeWork': !exists(json, 'codeWork') ? undefined : json['codeWork'],
         'day': !exists(json, 'day') ? undefined : json['day'],
         'employee': !exists(json, 'employee') ? undefined : json['employee'],
-        'getOffWork': !exists(json, 'getOffWork') ? undefined : json['getOffWork'],
+        'endWork': !exists(json, 'endWork') ? undefined : json['endWork'],
         'idemployee': !exists(json, 'idemployee') ? undefined : json['idemployee'],
         'idnumber': !exists(json, 'idnumber') ? undefined : json['idnumber'],
         'role': !exists(json, 'role') ? undefined : json['role'],
+        'startWork': !exists(json, 'startWork') ? undefined : json['startWork'],
         'wages': !exists(json, 'wages') ? undefined : json['wages'],
     };
 }
@@ -106,14 +106,14 @@ export function ControllersEmployeeWorkingHoursToJSON(value?: ControllersEmploye
     }
     return {
         
-        'beginWork': value.beginWork,
         'codeWork': value.codeWork,
         'day': value.day,
         'employee': value.employee,
-        'getOffWork': value.getOffWork,
+        'endWork': value.endWork,
         'idemployee': value.idemployee,
         'idnumber': value.idnumber,
         'role': value.role,
+        'startWork': value.startWork,
         'wages': value.wages,
     };
 }

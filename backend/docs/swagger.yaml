@@ -2,21 +2,21 @@ basePath: /api/v1
 definitions:
   controllers.EmployeeWorkingHours:
     properties:
-      beginWork:
-        type: integer
       codeWork:
         type: string
       day:
         type: integer
       employee:
         type: integer
-      getOffWork:
+      endWork:
         type: integer
       idemployee:
         type: string
       idnumber:
         type: string
       role:
+        type: integer
+      startWork:
         type: integer
       wages:
         type: number
@@ -132,29 +132,6 @@ definitions:
         description: Formassessment holds the value of the formassessment edge.
         items:
           $ref: '#/definitions/ent.Salary'
-        type: array
-    type: object
-  ent.BeginWork:
-    properties:
-      BeginWork:
-        description: BeginWork holds the value of the "BeginWork" field.
-        type: string
-      edges:
-        $ref: '#/definitions/ent.BeginWorkEdges'
-        description: |-
-          Edges holds the relations/edges for other nodes in the graph.
-          The values are being populated by the BeginWorkQuery when eager-loading is set.
-        type: object
-      id:
-        description: ID of the ent.
-        type: integer
-    type: object
-  ent.BeginWorkEdges:
-    properties:
-      whenwork:
-        description: Whenwork holds the value of the whenwork edge.
-        items:
-          $ref: '#/definitions/ent.EmployeeWorkingHours'
         type: array
     type: object
   ent.Company:
@@ -323,10 +300,6 @@ definitions:
     type: object
   ent.EmployeeWorkingHoursEdges:
     properties:
-      beginwork:
-        $ref: '#/definitions/ent.BeginWork'
-        description: Beginwork holds the value of the beginwork edge.
-        type: object
       day:
         $ref: '#/definitions/ent.Day'
         description: Day holds the value of the day edge.
@@ -335,31 +308,35 @@ definitions:
         $ref: '#/definitions/ent.Employee'
         description: Employee holds the value of the employee edge.
         type: object
-      getoffwork:
-        $ref: '#/definitions/ent.GetOffWork'
-        description: Getoffwork holds the value of the getoffwork edge.
+      endwork:
+        $ref: '#/definitions/ent.EndWork'
+        description: Endwork holds the value of the endwork edge.
         type: object
       role:
         $ref: '#/definitions/ent.Role'
         description: Role holds the value of the role edge.
         type: object
+      startwork:
+        $ref: '#/definitions/ent.StartWork'
+        description: Startwork holds the value of the startwork edge.
+        type: object
     type: object
-  ent.GetOffWork:
+  ent.EndWork:
     properties:
-      GetOffWork:
-        description: GetOffWork holds the value of the "GetOffWork" field.
+      EndWork:
+        description: EndWork holds the value of the "EndWork" field.
         type: string
       edges:
-        $ref: '#/definitions/ent.GetOffWorkEdges'
+        $ref: '#/definitions/ent.EndWorkEdges'
         description: |-
           Edges holds the relations/edges for other nodes in the graph.
-          The values are being populated by the GetOffWorkQuery when eager-loading is set.
+          The values are being populated by the EndWorkQuery when eager-loading is set.
         type: object
       id:
         description: ID of the ent.
         type: integer
     type: object
-  ent.GetOffWorkEdges:
+  ent.EndWorkEdges:
     properties:
       whenendwork:
         description: Whenendwork holds the value of the whenendwork edge.
@@ -698,6 +675,29 @@ definitions:
         description: Position holds the value of the position edge.
         type: object
     type: object
+  ent.StartWork:
+    properties:
+      StartWork:
+        description: StartWork holds the value of the "StartWork" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.StartWorkEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the StartWorkQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.StartWorkEdges:
+    properties:
+      whenwork:
+        description: Whenwork holds the value of the whenwork edge.
+        items:
+          $ref: '#/definitions/ent.EmployeeWorkingHours'
+        type: array
+    type: object
   ent.Stock:
     properties:
       Amount:
@@ -966,157 +966,6 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a assessment entity by ID
-  /beginworks:
-    get:
-      description: list beginwork entities
-      operationId: list-beginwork
-      parameters:
-      - description: Limit
-        in: query
-        name: limit
-        type: integer
-      - description: Offset
-        in: query
-        name: offset
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/ent.BeginWork'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: List beginwork entities
-    post:
-      consumes:
-      - application/json
-      description: Create beginwork
-      operationId: create-beginwork
-      parameters:
-      - description: BeginWork entity
-        in: body
-        name: beginwork
-        required: true
-        schema:
-          $ref: '#/definitions/ent.BeginWork'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.BeginWork'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Create beginwork
-  /beginworks/{id}:
-    delete:
-      description: get beginwork by ID
-      operationId: delete-beginwork
-      parameters:
-      - description: BeginWork ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/gin.H'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Delete a beginwork entity by ID
-    get:
-      description: get beginwork by ID
-      operationId: get-beginwork
-      parameters:
-      - description: BeginWork ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.BeginWork'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Get a beginwork entity by ID
-    put:
-      consumes:
-      - application/json
-      description: update beginwork by ID
-      operationId: update-beginwork
-      parameters:
-      - description: BeginWork ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: BeginWork entity
-        in: body
-        name: beginwork
-        required: true
-        schema:
-          $ref: '#/definitions/ent.BeginWork'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ent.BeginWork'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Update a beginwork entity by ID
   /companys:
     get:
       description: list company entities
@@ -1963,10 +1812,10 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a employeeworkinghours entity by ID
-  /getoffworks:
+  /endworks:
     get:
-      description: list getoffwork entities
-      operationId: list-getoffwork
+      description: list endwork entities
+      operationId: list-endwork
       parameters:
       - description: Limit
         in: query
@@ -1983,7 +1832,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/ent.GetOffWork'
+              $ref: '#/definitions/ent.EndWork'
             type: array
         "400":
           description: Bad Request
@@ -1993,26 +1842,26 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: List getoffwork entities
+      summary: List endwork entities
     post:
       consumes:
       - application/json
-      description: Create getoffwork
-      operationId: create-getoffwork
+      description: Create endwork
+      operationId: create-endwork
       parameters:
-      - description: GetOffWork entity
+      - description: EndWork entity
         in: body
-        name: getoffwork
+        name: endwork
         required: true
         schema:
-          $ref: '#/definitions/ent.GetOffWork'
+          $ref: '#/definitions/ent.EndWork'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.GetOffWork'
+            $ref: '#/definitions/ent.EndWork'
         "400":
           description: Bad Request
           schema:
@@ -2021,13 +1870,13 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Create getoffwork
-  /getoffworks/{id}:
+      summary: Create endwork
+  /endworks/{id}:
     delete:
-      description: get getoffwork by ID
-      operationId: delete-getoffwork
+      description: get endwork by ID
+      operationId: delete-endwork
       parameters:
-      - description: GetOffWork ID
+      - description: EndWork ID
         in: path
         name: id
         required: true
@@ -2051,12 +1900,12 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Delete a getoffwork entity by ID
+      summary: Delete a endwork entity by ID
     get:
-      description: get getoffwork by ID
-      operationId: get-getoffwork
+      description: get endwork by ID
+      operationId: get-endwork
       parameters:
-      - description: GetOffWork ID
+      - description: EndWork ID
         in: path
         name: id
         required: true
@@ -2067,7 +1916,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.GetOffWork'
+            $ref: '#/definitions/ent.EndWork'
         "400":
           description: Bad Request
           schema:
@@ -2080,31 +1929,31 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Get a getoffwork entity by ID
+      summary: Get a endwork entity by ID
     put:
       consumes:
       - application/json
-      description: update getoffwork by ID
-      operationId: update-getoffwork
+      description: update endwork by ID
+      operationId: update-endwork
       parameters:
-      - description: GetOffWork ID
+      - description: EndWork ID
         in: path
         name: id
         required: true
         type: integer
-      - description: GetOffWork entity
+      - description: EndWork entity
         in: body
-        name: getoffwork
+        name: endwork
         required: true
         schema:
-          $ref: '#/definitions/ent.GetOffWork'
+          $ref: '#/definitions/ent.EndWork'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.GetOffWork'
+            $ref: '#/definitions/ent.EndWork'
         "400":
           description: Bad Request
           schema:
@@ -2113,7 +1962,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Update a getoffwork entity by ID
+      summary: Update a endwork entity by ID
   /giveaways:
     get:
       description: list giveaway entities
@@ -3472,6 +3321,157 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Get a salary entity by ID
+  /startworks:
+    get:
+      description: list startwork entities
+      operationId: list-startwork
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.StartWork'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List startwork entities
+    post:
+      consumes:
+      - application/json
+      description: Create startwork
+      operationId: create-startwork
+      parameters:
+      - description: StartWork entity
+        in: body
+        name: startwork
+        required: true
+        schema:
+          $ref: '#/definitions/ent.StartWork'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.StartWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create startwork
+  /startworks/{id}:
+    delete:
+      description: get startwork by ID
+      operationId: delete-startwork
+      parameters:
+      - description: StartWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a startwork entity by ID
+    get:
+      description: get startwork by ID
+      operationId: get-startwork
+      parameters:
+      - description: StartWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.StartWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a startwork entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update startwork by ID
+      operationId: update-startwork
+      parameters:
+      - description: StartWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: StartWork entity
+        in: body
+        name: startwork
+        required: true
+        schema:
+          $ref: '#/definitions/ent.StartWork'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.StartWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a startwork entity by ID
   /stocks:
     get:
       description: list stock entities

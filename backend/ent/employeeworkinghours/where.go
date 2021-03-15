@@ -466,25 +466,25 @@ func HasDayWith(preds ...predicate.Day) predicate.EmployeeWorkingHours {
 	})
 }
 
-// HasBeginwork applies the HasEdge predicate on the "beginwork" edge.
-func HasBeginwork() predicate.EmployeeWorkingHours {
+// HasStartwork applies the HasEdge predicate on the "startwork" edge.
+func HasStartwork() predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(BeginworkTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, BeginworkTable, BeginworkColumn),
+			sqlgraph.To(StartworkTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, StartworkTable, StartworkColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasBeginworkWith applies the HasEdge predicate on the "beginwork" edge with a given conditions (other predicates).
-func HasBeginworkWith(preds ...predicate.BeginWork) predicate.EmployeeWorkingHours {
+// HasStartworkWith applies the HasEdge predicate on the "startwork" edge with a given conditions (other predicates).
+func HasStartworkWith(preds ...predicate.StartWork) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(BeginworkInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, BeginworkTable, BeginworkColumn),
+			sqlgraph.To(StartworkInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, StartworkTable, StartworkColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
@@ -494,25 +494,25 @@ func HasBeginworkWith(preds ...predicate.BeginWork) predicate.EmployeeWorkingHou
 	})
 }
 
-// HasGetoffwork applies the HasEdge predicate on the "getoffwork" edge.
-func HasGetoffwork() predicate.EmployeeWorkingHours {
+// HasEndwork applies the HasEdge predicate on the "endwork" edge.
+func HasEndwork() predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(GetoffworkTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, GetoffworkTable, GetoffworkColumn),
+			sqlgraph.To(EndworkTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, EndworkTable, EndworkColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasGetoffworkWith applies the HasEdge predicate on the "getoffwork" edge with a given conditions (other predicates).
-func HasGetoffworkWith(preds ...predicate.GetOffWork) predicate.EmployeeWorkingHours {
+// HasEndworkWith applies the HasEdge predicate on the "endwork" edge with a given conditions (other predicates).
+func HasEndworkWith(preds ...predicate.EndWork) predicate.EmployeeWorkingHours {
 	return predicate.EmployeeWorkingHours(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(GetoffworkInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, GetoffworkTable, GetoffworkColumn),
+			sqlgraph.To(EndworkInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, EndworkTable, EndworkColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

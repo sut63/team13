@@ -333,8 +333,8 @@ export default function MenuAppBar() {
                   <TableCell align="center">{item.iDNumber}</TableCell>
                   <TableCell align="center">{item.codeWork}</TableCell>
                   <TableCell align="center">{item.edges?.day?.day}</TableCell>
-                  <TableCell align="center">{moment(item.edges?.beginWork?.beginWork).format("LT")}</TableCell>
-                  <TableCell align="center">{moment(item.edges?.getOffWork?.getOffWork).format("LT")}</TableCell>
+                  <TableCell align="center">{moment(item.edges?.startWork?.startWork).format("LT")}</TableCell>
+                  <TableCell align="center">{moment(item.edges?.endWork?.endWork).format("LT")}</TableCell>
                   <TableCell align="center">{item.edges?.role?.role}</TableCell>
                   <TableCell align="center">{item.wages}</TableCell>
                 </TableRow>

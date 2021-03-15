@@ -29,8 +29,8 @@ import { DefaultApi } from '../../api/apis'; // Api Gennerate From Command
 import { EntEmployee } from '../../api/models/EntEmployee'; // import interface Employee
 import { EntDay } from '../../api/models/EntDay'; // import interface Day
 import { EntRole } from '../../api/models/EntRole'; // import interface Role
-import { EntBeginWork } from '../../api/models/EntBeginWork'; // import interface EntBeginWork
-import { EntGetOffWork } from '../../api/models/EntGetOffWork'; // import interface EntBeginWork
+import { EntStartWork } from '../../api/models/EntStartWork'; // import interface EntBeginWork
+import { EntEndWork } from '../../api/models/EntEndWork'; // import interface EntBeginWork
 
 //import { Cookies } from './orderproduct/SignInOrderproduct/Cookie';
 import SearchIcon from '@material-ui/icons/Search';
@@ -89,8 +89,8 @@ interface EmployeeWorkingHours {
   Employee:   number;
   Day:        number;
   Role:       number;
-  BeginWork:  number;
-  GetOffWork: number;
+  StartWork:  number;
+  EndWork: number;
   Wages:      number;
   // create_by: number;
 }
@@ -113,8 +113,8 @@ const EmployeeWorkingHours: FC<{}> = () => {
   const [Days, setDays] = React.useState<EntDay[]>([]);
   const [Roles, setRoles] = React.useState<EntRole[]>([]);
   const [Employees, setEmployees] = React.useState<EntEmployee[]>([]);
-  const [BeginWorks, setBeginWorks] = React.useState<EntBeginWork[]>([]);
-  const [GetOffWorks, setGetOffWorks] = React.useState<EntGetOffWork[]>([]);
+  const [StartWorks, setStartWorks] = React.useState<EntStartWork[]>([]);
+  const [EndWorks, setEndWorks] = React.useState<EntEndWork[]>([]);
 
   //const [Day, SetDayid] = useState(Number);
   //const [Role, SetRolesid] = useState(Number);
@@ -165,16 +165,16 @@ const EmployeeWorkingHours: FC<{}> = () => {
     setRoles(res);
   };
 
-  const getBeginWork = async () => {
-    const res = await http.listBeginwork({ limit: 10, offset: 0 });
+  const getStartWork = async () => {
+    const res = await http.listStartwork({ limit: 10, offset: 0 });
     setLoading(false);
-    setBeginWorks(res);
+    setStartWorks(res);
   };
 
-  const getGetOffWork = async () => {
-    const res = await http.listGetoffwork({ limit: 10, offset: 0 });
+  const getEndWork = async () => {
+    const res = await http.listEndwork({ limit: 10, offset: 0 });
     setLoading(false);
-    setGetOffWorks(res);
+    setEndWorks(res);
   };
 
   // Lifecycle Hooks
@@ -182,8 +182,8 @@ const EmployeeWorkingHours: FC<{}> = () => {
     getEmployee();
     getDay();
     getRole();
-    getBeginWork();
-    getGetOffWork();
+    getStartWork();
+    getEndWork();
   }, [loading]);
 
   //const EmployeehandleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -229,8 +229,8 @@ const EmployeeWorkingHours: FC<{}> = () => {
 
   const checkCaseSaveError = (field: string) => {
     switch(field) {
-      case 'IDEmployee':
-        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 5 หลัก");
+      case 'CodeWork':
+        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 7 หลัก");
         return;
       case 'IDNumber':
         alertMessage("error","กรุณากรอกเลขบัตรประชาชน 13 หลักให้ถูกต้อง");
@@ -256,6 +256,9 @@ const EmployeeWorkingHours: FC<{}> = () => {
       if(EmployeeWorkingHourss.Wages){
           var Wages : number = +EmployeeWorkingHourss.Wages;
           EmployeeWorkingHourss.Wages = Wages;        
+      }
+      if(EmployeeWorkingHourss.StartWork){
+        EmployeeWorkingHourss.EndWork = EmployeeWorkingHourss.StartWork;
       }
       const apiUrl = 'http://localhost:8080/api/v1/employeeworkinghourss';
       const requestOptions = {
@@ -433,14 +436,14 @@ const EmployeeWorkingHours: FC<{}> = () => {
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel>เลือกเวลา เริ่มงาน</InputLabel>
                 <Select
-                  name="BeginWork"
-                  value={EmployeeWorkingHourss.BeginWork || ''} // (undefined || '') = ''
+                  name="StartWork"
+                  value={EmployeeWorkingHourss.StartWork || ''} // (undefined || '') = ''
                   onChange={handleChange}
                 >
-                  {BeginWorks.map(item => {
+                  {StartWorks.map(item => {
                     return (
                       <MenuItem key={item.id} value={item.id}>
-                        {moment(item.beginWork).format("LT")}
+                        {moment(item.startWork).format("LT")}
                       </MenuItem>
                     );
                   })}
@@ -451,17 +454,17 @@ const EmployeeWorkingHours: FC<{}> = () => {
               <div className={classes.paper}>เวลาเลิกงาน</div>
             </Grid>
             <Grid item xs={9}>
-              <FormControl variant="outlined" className={classes.formControl}>
+              <FormControl variant="filled" className={classes.formControl}>
                 <InputLabel>เลือกเวลา เลิกงาน</InputLabel>
                 <Select
-                  name="GetOffWork"
-                  value={EmployeeWorkingHourss.GetOffWork || ''} // (undefined || '') = ''
+                  name="EndWork"
+                  value={EmployeeWorkingHourss.StartWork || ''} // (undefined || '') = ''
                   onChange={handleChange}
                 >
-                  {GetOffWorks.map(item => {
+                  {EndWorks.map(item => {
                     return (
                       <MenuItem key={item.id} value={item.id}>
-                        {moment(item.getOffWork).format("LT")}
+                        {moment(item.endWork).format("LT")}
                       </MenuItem>
                     );
                   })}

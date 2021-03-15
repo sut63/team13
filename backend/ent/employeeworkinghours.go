@@ -7,12 +7,12 @@ import (
 	"strings"
 
 	"github.com/facebookincubator/ent/dialect/sql"
-	"github.com/team13/app/ent/beginwork"
 	"github.com/team13/app/ent/day"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/employeeworkinghours"
-	"github.com/team13/app/ent/getoffwork"
+	"github.com/team13/app/ent/endwork"
 	"github.com/team13/app/ent/role"
+	"github.com/team13/app/ent/startwork"
 )
 
 // EmployeeWorkingHours is the model entity for the EmployeeWorkingHours schema.
@@ -28,12 +28,12 @@ type EmployeeWorkingHours struct {
 	Wages float64 `json:"Wages,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the EmployeeWorkingHoursQuery when eager-loading is set.
-	Edges                    EmployeeWorkingHoursEdges `json:"edges"`
-	begin_work_whenwork      *int
-	day_whatday              *int
-	employee_whose           *int
-	get_off_work_whenendwork *int
-	role_todo                *int
+	Edges                EmployeeWorkingHoursEdges `json:"edges"`
+	day_whatday          *int
+	employee_whose       *int
+	end_work_whenendwork *int
+	role_todo            *int
+	start_work_whenwork  *int
 }
 
 // EmployeeWorkingHoursEdges holds the relations/edges for other nodes in the graph.
@@ -42,10 +42,10 @@ type EmployeeWorkingHoursEdges struct {
 	Employee *Employee
 	// Day holds the value of the day edge.
 	Day *Day
-	// Beginwork holds the value of the beginwork edge.
-	Beginwork *BeginWork
-	// Getoffwork holds the value of the getoffwork edge.
-	Getoffwork *GetOffWork
+	// Startwork holds the value of the startwork edge.
+	Startwork *StartWork
+	// Endwork holds the value of the endwork edge.
+	Endwork *EndWork
 	// Role holds the value of the role edge.
 	Role *Role
 	// loadedTypes holds the information for reporting if a
@@ -81,32 +81,32 @@ func (e EmployeeWorkingHoursEdges) DayOrErr() (*Day, error) {
 	return nil, &NotLoadedError{edge: "day"}
 }
 
-// BeginworkOrErr returns the Beginwork value or an error if the edge
+// StartworkOrErr returns the Startwork value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e EmployeeWorkingHoursEdges) BeginworkOrErr() (*BeginWork, error) {
+func (e EmployeeWorkingHoursEdges) StartworkOrErr() (*StartWork, error) {
 	if e.loadedTypes[2] {
-		if e.Beginwork == nil {
-			// The edge beginwork was loaded in eager-loading,
+		if e.Startwork == nil {
+			// The edge startwork was loaded in eager-loading,
 			// but was not found.
-			return nil, &NotFoundError{label: beginwork.Label}
+			return nil, &NotFoundError{label: startwork.Label}
 		}
-		return e.Beginwork, nil
+		return e.Startwork, nil
 	}
-	return nil, &NotLoadedError{edge: "beginwork"}
+	return nil, &NotLoadedError{edge: "startwork"}
 }
 
-// GetoffworkOrErr returns the Getoffwork value or an error if the edge
+// EndworkOrErr returns the Endwork value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e EmployeeWorkingHoursEdges) GetoffworkOrErr() (*GetOffWork, error) {
+func (e EmployeeWorkingHoursEdges) EndworkOrErr() (*EndWork, error) {
 	if e.loadedTypes[3] {
-		if e.Getoffwork == nil {
-			// The edge getoffwork was loaded in eager-loading,
+		if e.Endwork == nil {
+			// The edge endwork was loaded in eager-loading,
 			// but was not found.
-			return nil, &NotFoundError{label: getoffwork.Label}
+			return nil, &NotFoundError{label: endwork.Label}
 		}
-		return e.Getoffwork, nil
+		return e.Endwork, nil
 	}
-	return nil, &NotLoadedError{edge: "getoffwork"}
+	return nil, &NotLoadedError{edge: "endwork"}
 }
 
 // RoleOrErr returns the Role value or an error if the edge
@@ -136,11 +136,11 @@ func (*EmployeeWorkingHours) scanValues() []interface{} {
 // fkValues returns the types for scanning foreign-keys values from sql.Rows.
 func (*EmployeeWorkingHours) fkValues() []interface{} {
 	return []interface{}{
-		&sql.NullInt64{}, // begin_work_whenwork
 		&sql.NullInt64{}, // day_whatday
 		&sql.NullInt64{}, // employee_whose
-		&sql.NullInt64{}, // get_off_work_whenendwork
+		&sql.NullInt64{}, // end_work_whenendwork
 		&sql.NullInt64{}, // role_todo
+		&sql.NullInt64{}, // start_work_whenwork
 	}
 }
 
@@ -174,34 +174,34 @@ func (ewh *EmployeeWorkingHours) assignValues(values ...interface{}) error {
 	values = values[3:]
 	if len(values) == len(employeeworkinghours.ForeignKeys) {
 		if value, ok := values[0].(*sql.NullInt64); !ok {
-			return fmt.Errorf("unexpected type %T for edge-field begin_work_whenwork", value)
-		} else if value.Valid {
-			ewh.begin_work_whenwork = new(int)
-			*ewh.begin_work_whenwork = int(value.Int64)
-		}
-		if value, ok := values[1].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field day_whatday", value)
 		} else if value.Valid {
 			ewh.day_whatday = new(int)
 			*ewh.day_whatday = int(value.Int64)
 		}
-		if value, ok := values[2].(*sql.NullInt64); !ok {
+		if value, ok := values[1].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field employee_whose", value)
 		} else if value.Valid {
 			ewh.employee_whose = new(int)
 			*ewh.employee_whose = int(value.Int64)
 		}
-		if value, ok := values[3].(*sql.NullInt64); !ok {
-			return fmt.Errorf("unexpected type %T for edge-field get_off_work_whenendwork", value)
+		if value, ok := values[2].(*sql.NullInt64); !ok {
+			return fmt.Errorf("unexpected type %T for edge-field end_work_whenendwork", value)
 		} else if value.Valid {
-			ewh.get_off_work_whenendwork = new(int)
-			*ewh.get_off_work_whenendwork = int(value.Int64)
+			ewh.end_work_whenendwork = new(int)
+			*ewh.end_work_whenendwork = int(value.Int64)
 		}
-		if value, ok := values[4].(*sql.NullInt64); !ok {
+		if value, ok := values[3].(*sql.NullInt64); !ok {
 			return fmt.Errorf("unexpected type %T for edge-field role_todo", value)
 		} else if value.Valid {
 			ewh.role_todo = new(int)
 			*ewh.role_todo = int(value.Int64)
+		}
+		if value, ok := values[4].(*sql.NullInt64); !ok {
+			return fmt.Errorf("unexpected type %T for edge-field start_work_whenwork", value)
+		} else if value.Valid {
+			ewh.start_work_whenwork = new(int)
+			*ewh.start_work_whenwork = int(value.Int64)
 		}
 	}
 	return nil
@@ -217,14 +217,14 @@ func (ewh *EmployeeWorkingHours) QueryDay() *DayQuery {
 	return (&EmployeeWorkingHoursClient{config: ewh.config}).QueryDay(ewh)
 }
 
-// QueryBeginwork queries the beginwork edge of the EmployeeWorkingHours.
-func (ewh *EmployeeWorkingHours) QueryBeginwork() *BeginWorkQuery {
-	return (&EmployeeWorkingHoursClient{config: ewh.config}).QueryBeginwork(ewh)
+// QueryStartwork queries the startwork edge of the EmployeeWorkingHours.
+func (ewh *EmployeeWorkingHours) QueryStartwork() *StartWorkQuery {
+	return (&EmployeeWorkingHoursClient{config: ewh.config}).QueryStartwork(ewh)
 }
 
-// QueryGetoffwork queries the getoffwork edge of the EmployeeWorkingHours.
-func (ewh *EmployeeWorkingHours) QueryGetoffwork() *GetOffWorkQuery {
-	return (&EmployeeWorkingHoursClient{config: ewh.config}).QueryGetoffwork(ewh)
+// QueryEndwork queries the endwork edge of the EmployeeWorkingHours.
+func (ewh *EmployeeWorkingHours) QueryEndwork() *EndWorkQuery {
+	return (&EmployeeWorkingHoursClient{config: ewh.config}).QueryEndwork(ewh)
 }
 
 // QueryRole queries the role edge of the EmployeeWorkingHours.

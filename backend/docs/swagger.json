@@ -244,232 +244,6 @@
                 }
             }
         },
-        "/beginworks": {
-            "get": {
-                "description": "list beginwork entities",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "List beginwork entities",
-                "operationId": "list-beginwork",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Limit",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Offset",
-                        "name": "offset",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ent.BeginWork"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create beginwork",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Create beginwork",
-                "operationId": "create-beginwork",
-                "parameters": [
-                    {
-                        "description": "BeginWork entity",
-                        "name": "beginwork",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.BeginWork"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.BeginWork"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
-        "/beginworks/{id}": {
-            "get": {
-                "description": "get beginwork by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Get a beginwork entity by ID",
-                "operationId": "get-beginwork",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "BeginWork ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.BeginWork"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "update beginwork by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Update a beginwork entity by ID",
-                "operationId": "update-beginwork",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "BeginWork ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "BeginWork entity",
-                        "name": "beginwork",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ent.BeginWork"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ent.BeginWork"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "get beginwork by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Delete a beginwork entity by ID",
-                "operationId": "delete-beginwork",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "BeginWork ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
         "/companys": {
             "get": {
                 "description": "list company entities",
@@ -1737,14 +1511,14 @@
                 }
             }
         },
-        "/getoffworks": {
+        "/endworks": {
             "get": {
-                "description": "list getoffwork entities",
+                "description": "list endwork entities",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "List getoffwork entities",
-                "operationId": "list-getoffwork",
+                "summary": "List endwork entities",
+                "operationId": "list-endwork",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1765,7 +1539,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ent.GetOffWork"
+                                "$ref": "#/definitions/ent.EndWork"
                             }
                         }
                     },
@@ -1784,23 +1558,23 @@
                 }
             },
             "post": {
-                "description": "Create getoffwork",
+                "description": "Create endwork",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Create getoffwork",
-                "operationId": "create-getoffwork",
+                "summary": "Create endwork",
+                "operationId": "create-endwork",
                 "parameters": [
                     {
-                        "description": "GetOffWork entity",
-                        "name": "getoffwork",
+                        "description": "EndWork entity",
+                        "name": "endwork",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ent.GetOffWork"
+                            "$ref": "#/definitions/ent.EndWork"
                         }
                     }
                 ],
@@ -1808,7 +1582,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.GetOffWork"
+                            "$ref": "#/definitions/ent.EndWork"
                         }
                     },
                     "400": {
@@ -1826,18 +1600,18 @@
                 }
             }
         },
-        "/getoffworks/{id}": {
+        "/endworks/{id}": {
             "get": {
-                "description": "get getoffwork by ID",
+                "description": "get endwork by ID",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Get a getoffwork entity by ID",
-                "operationId": "get-getoffwork",
+                "summary": "Get a endwork entity by ID",
+                "operationId": "get-endwork",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "GetOffWork ID",
+                        "description": "EndWork ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1847,7 +1621,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.GetOffWork"
+                            "$ref": "#/definitions/ent.EndWork"
                         }
                     },
                     "400": {
@@ -1871,30 +1645,30 @@
                 }
             },
             "put": {
-                "description": "update getoffwork by ID",
+                "description": "update endwork by ID",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Update a getoffwork entity by ID",
-                "operationId": "update-getoffwork",
+                "summary": "Update a endwork entity by ID",
+                "operationId": "update-endwork",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "GetOffWork ID",
+                        "description": "EndWork ID",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "GetOffWork entity",
-                        "name": "getoffwork",
+                        "description": "EndWork entity",
+                        "name": "endwork",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ent.GetOffWork"
+                            "$ref": "#/definitions/ent.EndWork"
                         }
                     }
                 ],
@@ -1902,7 +1676,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/ent.GetOffWork"
+                            "$ref": "#/definitions/ent.EndWork"
                         }
                     },
                     "400": {
@@ -1920,16 +1694,16 @@
                 }
             },
             "delete": {
-                "description": "get getoffwork by ID",
+                "description": "get endwork by ID",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Delete a getoffwork entity by ID",
-                "operationId": "delete-getoffwork",
+                "summary": "Delete a endwork entity by ID",
+                "operationId": "delete-endwork",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "GetOffWork ID",
+                        "description": "EndWork ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3998,6 +3772,232 @@
                 }
             }
         },
+        "/startworks": {
+            "get": {
+                "description": "list startwork entities",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List startwork entities",
+                "operationId": "list-startwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.StartWork"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create startwork",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create startwork",
+                "operationId": "create-startwork",
+                "parameters": [
+                    {
+                        "description": "StartWork entity",
+                        "name": "startwork",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.StartWork"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.StartWork"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/startworks/{id}": {
+            "get": {
+                "description": "get startwork by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a startwork entity by ID",
+                "operationId": "get-startwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StartWork ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.StartWork"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update startwork by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update a startwork entity by ID",
+                "operationId": "update-startwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StartWork ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "StartWork entity",
+                        "name": "startwork",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ent.StartWork"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ent.StartWork"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "get startwork by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a startwork entity by ID",
+                "operationId": "delete-startwork",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "StartWork ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
         "/stocks": {
             "get": {
                 "description": "list stock entities",
@@ -4684,9 +4684,6 @@
         "controllers.EmployeeWorkingHours": {
             "type": "object",
             "properties": {
-                "beginWork": {
-                    "type": "integer"
-                },
                 "codeWork": {
                     "type": "string"
                 },
@@ -4696,7 +4693,7 @@
                 "employee": {
                     "type": "integer"
                 },
-                "getOffWork": {
+                "endWork": {
                     "type": "integer"
                 },
                 "idemployee": {
@@ -4706,6 +4703,9 @@
                     "type": "string"
                 },
                 "role": {
+                    "type": "integer"
+                },
+                "startWork": {
                     "type": "integer"
                 },
                 "wages": {
@@ -4876,36 +4876,6 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ent.Salary"
-                    }
-                }
-            }
-        },
-        "ent.BeginWork": {
-            "type": "object",
-            "properties": {
-                "BeginWork": {
-                    "description": "BeginWork holds the value of the \"BeginWork\" field.",
-                    "type": "string"
-                },
-                "edges": {
-                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the BeginWorkQuery when eager-loading is set.",
-                    "type": "object",
-                    "$ref": "#/definitions/ent.BeginWorkEdges"
-                },
-                "id": {
-                    "description": "ID of the ent.",
-                    "type": "integer"
-                }
-            }
-        },
-        "ent.BeginWorkEdges": {
-            "type": "object",
-            "properties": {
-                "whenwork": {
-                    "description": "Whenwork holds the value of the whenwork edge.",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ent.EmployeeWorkingHours"
                     }
                 }
             }
@@ -5127,11 +5097,6 @@
         "ent.EmployeeWorkingHoursEdges": {
             "type": "object",
             "properties": {
-                "beginwork": {
-                    "description": "Beginwork holds the value of the beginwork edge.",
-                    "type": "object",
-                    "$ref": "#/definitions/ent.BeginWork"
-                },
                 "day": {
                     "description": "Day holds the value of the day edge.",
                     "type": "object",
@@ -5142,29 +5107,34 @@
                     "type": "object",
                     "$ref": "#/definitions/ent.Employee"
                 },
-                "getoffwork": {
-                    "description": "Getoffwork holds the value of the getoffwork edge.",
+                "endwork": {
+                    "description": "Endwork holds the value of the endwork edge.",
                     "type": "object",
-                    "$ref": "#/definitions/ent.GetOffWork"
+                    "$ref": "#/definitions/ent.EndWork"
                 },
                 "role": {
                     "description": "Role holds the value of the role edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Role"
+                },
+                "startwork": {
+                    "description": "Startwork holds the value of the startwork edge.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.StartWork"
                 }
             }
         },
-        "ent.GetOffWork": {
+        "ent.EndWork": {
             "type": "object",
             "properties": {
-                "GetOffWork": {
-                    "description": "GetOffWork holds the value of the \"GetOffWork\" field.",
+                "EndWork": {
+                    "description": "EndWork holds the value of the \"EndWork\" field.",
                     "type": "string"
                 },
                 "edges": {
-                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the GetOffWorkQuery when eager-loading is set.",
+                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the EndWorkQuery when eager-loading is set.",
                     "type": "object",
-                    "$ref": "#/definitions/ent.GetOffWorkEdges"
+                    "$ref": "#/definitions/ent.EndWorkEdges"
                 },
                 "id": {
                     "description": "ID of the ent.",
@@ -5172,7 +5142,7 @@
                 }
             }
         },
-        "ent.GetOffWorkEdges": {
+        "ent.EndWorkEdges": {
             "type": "object",
             "properties": {
                 "whenendwork": {
@@ -5608,6 +5578,36 @@
                     "description": "Position holds the value of the position edge.",
                     "type": "object",
                     "$ref": "#/definitions/ent.Position"
+                }
+            }
+        },
+        "ent.StartWork": {
+            "type": "object",
+            "properties": {
+                "StartWork": {
+                    "description": "StartWork holds the value of the \"StartWork\" field.",
+                    "type": "string"
+                },
+                "edges": {
+                    "description": "Edges holds the relations/edges for other nodes in the graph.\nThe values are being populated by the StartWorkQuery when eager-loading is set.",
+                    "type": "object",
+                    "$ref": "#/definitions/ent.StartWorkEdges"
+                },
+                "id": {
+                    "description": "ID of the ent.",
+                    "type": "integer"
+                }
+            }
+        },
+        "ent.StartWorkEdges": {
+            "type": "object",
+            "properties": {
+                "whenwork": {
+                    "description": "Whenwork holds the value of the whenwork edge.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ent.EmployeeWorkingHours"
+                    }
                 }
             }
         },

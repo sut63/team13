@@ -22,19 +22,6 @@ func (f AssessmentFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, 
 	return f(ctx, mv)
 }
 
-// The BeginWorkFunc type is an adapter to allow the use of ordinary
-// function as BeginWork mutator.
-type BeginWorkFunc func(context.Context, *ent.BeginWorkMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f BeginWorkFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.BeginWorkMutation)
-	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BeginWorkMutation", m)
-	}
-	return f(ctx, mv)
-}
-
 // The CompanyFunc type is an adapter to allow the use of ordinary
 // function as Company mutator.
 type CompanyFunc func(context.Context, *ent.CompanyMutation) (ent.Value, error)
@@ -113,15 +100,15 @@ func (f EmployeeWorkingHoursFunc) Mutate(ctx context.Context, m ent.Mutation) (e
 	return f(ctx, mv)
 }
 
-// The GetOffWorkFunc type is an adapter to allow the use of ordinary
-// function as GetOffWork mutator.
-type GetOffWorkFunc func(context.Context, *ent.GetOffWorkMutation) (ent.Value, error)
+// The EndWorkFunc type is an adapter to allow the use of ordinary
+// function as EndWork mutator.
+type EndWorkFunc func(context.Context, *ent.EndWorkMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f GetOffWorkFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.GetOffWorkMutation)
+func (f EndWorkFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.EndWorkMutation)
 	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.GetOffWorkMutation", m)
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.EndWorkMutation", m)
 	}
 	return f(ctx, mv)
 }
@@ -252,6 +239,19 @@ func (f SalaryFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, erro
 	mv, ok := m.(*ent.SalaryMutation)
 	if !ok {
 		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SalaryMutation", m)
+	}
+	return f(ctx, mv)
+}
+
+// The StartWorkFunc type is an adapter to allow the use of ordinary
+// function as StartWork mutator.
+type StartWorkFunc func(context.Context, *ent.StartWorkMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f StartWorkFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.StartWorkMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.StartWorkMutation", m)
 	}
 	return f(ctx, mv)
 }
