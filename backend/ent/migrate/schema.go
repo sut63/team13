@@ -297,7 +297,7 @@ var (
 	// PromotionsColumns holds the columns for the "promotions" table.
 	PromotionsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "promotion_name", Type: field.TypeString},
+		{Name: "promotion_name", Type: field.TypeString, Unique: true},
 		{Name: "duration_promotion", Type: field.TypeString},
 		{Name: "price", Type: field.TypeFloat64},
 		{Name: "discount_fordiscount", Type: field.TypeInt, Nullable: true},

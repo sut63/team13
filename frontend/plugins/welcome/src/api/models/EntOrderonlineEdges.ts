@@ -74,10 +74,10 @@ export function EntOrderonlineEdgesFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'customer': !exists(json, 'Customer') ? undefined : EntCustomerFromJSON(json['Customer']),
-        'paymentchannel': !exists(json, 'Paymentchannel') ? undefined : EntPaymentchannelFromJSON(json['Paymentchannel']),
-        'product': !exists(json, 'Product') ? undefined : EntProductFromJSON(json['Product']),
-        'typeproduct': !exists(json, 'Typeproduct') ? undefined : EntTypeproductFromJSON(json['Typeproduct']),
+        'customer': !exists(json, 'customer') ? undefined : EntCustomerFromJSON(json['customer']),
+        'paymentchannel': !exists(json, 'paymentchannel') ? undefined : EntPaymentchannelFromJSON(json['paymentchannel']),
+        'product': !exists(json, 'product') ? undefined : EntProductFromJSON(json['product']),
+        'typeproduct': !exists(json, 'typeproduct') ? undefined : EntTypeproductFromJSON(json['typeproduct']),
     };
 }
 
