@@ -62,7 +62,6 @@ export default function ComponentsTable() {
            <TableCell align="center">Zoneproduct</TableCell>
            <TableCell align="center">Priceproduct</TableCell>
            <TableCell align="center">Amount</TableCell>
-           
            <TableCell align="center">TimeSave</TableCell>
            <Button
               style={{ marginLeft: 20 ,width : 100 }}
@@ -87,7 +86,6 @@ export default function ComponentsTable() {
              <TableCell align="center">{item.edges?.zoneproduct?.zone}</TableCell>
              <TableCell align="center">{item.priceproduct}</TableCell>
              <TableCell align="center">{item.amount}</TableCell>
-            
              <TableCell align="center">{item.time}</TableCell>
              
              

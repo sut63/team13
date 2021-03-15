@@ -104,7 +104,6 @@ export default function Stock() {
   const [productid, setProductid] = useState(Number);
   const [priceproducts, setPriceproduct] = useState(Number);
   const [amounts, setAmount] = useState(Number);
-  //const [time, setTime] = useState(String);
   const [typeproductid, setTypeproductid] = useState(Number);
   const [employeeid, setEmployeeid] = useState(Number);
   const [zoneproductid, setZoneproductid] = useState(Number);
@@ -189,7 +188,7 @@ export default function Stock() {
   const checkCaseSaveError = (field: string) => {
     switch(field) {
       case 'IDstock':
-        alertMessage("error","ID Stock ขึ้นต้นด้วยตัวอักษร A-Z และตัวเลขจำนวน 6 ตัว");
+        alertMessage("error","ID Stock ขึ้นต้นด้วยตัวอักษร A-Z และตัวเลขจำนวน 6 ตัว กรุณากรอกให้ถูกต้อง");
         return;
       case 'Priceproduct':
         alertMessage("error","ราคาต้องเป็นตัวเลขและห้ามติดลบ กรุณากรอกราคาให้ถูกต้อง");
@@ -228,7 +227,7 @@ export default function Stock() {
           icon: 'success',
           title: 'บันทึกข้อมูลสำเร็จ',
 
-        });//window.setTimeout(function(){location.reload()},8000);
+        });
       } else {
         checkCaseSaveError(data.error.Name)
       }
