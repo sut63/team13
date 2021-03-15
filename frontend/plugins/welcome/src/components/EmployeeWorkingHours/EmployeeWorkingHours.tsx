@@ -229,8 +229,8 @@ const EmployeeWorkingHours: FC<{}> = () => {
 
   const checkCaseSaveError = (field: string) => {
     switch(field) {
-      case 'IDEmployee':
-        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 5 หลัก");
+      case 'CodeWork':
+        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 7 หลัก");
         return;
       case 'IDNumber':
         alertMessage("error","กรุณากรอกเลขบัตรประชาชน 13 หลักให้ถูกต้อง");
