@@ -32,9 +32,9 @@ func (su *StockUpdate) Where(ps ...predicate.Stock) *StockUpdate {
 	return su
 }
 
-// SetIDcardemployee sets the IDcardemployee field.
-func (su *StockUpdate) SetIDcardemployee(s string) *StockUpdate {
-	su.mutation.SetIDcardemployee(s)
+// SetIDstock sets the IDstock field.
+func (su *StockUpdate) SetIDstock(s string) *StockUpdate {
+	su.mutation.SetIDstock(s)
 	return su
 }
 
@@ -177,9 +177,9 @@ func (su *StockUpdate) ClearTypeproduct() *StockUpdate {
 
 // Save executes the query and returns the number of rows/vertices matched by this operation.
 func (su *StockUpdate) Save(ctx context.Context) (int, error) {
-	if v, ok := su.mutation.IDcardemployee(); ok {
-		if err := stock.IDcardemployeeValidator(v); err != nil {
-			return 0, &ValidationError{Name: "IDcardemployee", err: fmt.Errorf("ent: validator failed for field \"IDcardemployee\": %w", err)}
+	if v, ok := su.mutation.IDstock(); ok {
+		if err := stock.IDstockValidator(v); err != nil {
+			return 0, &ValidationError{Name: "IDstock", err: fmt.Errorf("ent: validator failed for field \"IDstock\": %w", err)}
 		}
 	}
 	if v, ok := su.mutation.Priceproduct(); ok {
@@ -260,11 +260,11 @@ func (su *StockUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := su.mutation.IDcardemployee(); ok {
+	if value, ok := su.mutation.IDstock(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: stock.FieldIDcardemployee,
+			Column: stock.FieldIDstock,
 		})
 	}
 	if value, ok := su.mutation.Priceproduct(); ok {
@@ -460,9 +460,9 @@ type StockUpdateOne struct {
 	mutation *StockMutation
 }
 
-// SetIDcardemployee sets the IDcardemployee field.
-func (suo *StockUpdateOne) SetIDcardemployee(s string) *StockUpdateOne {
-	suo.mutation.SetIDcardemployee(s)
+// SetIDstock sets the IDstock field.
+func (suo *StockUpdateOne) SetIDstock(s string) *StockUpdateOne {
+	suo.mutation.SetIDstock(s)
 	return suo
 }
 
@@ -605,9 +605,9 @@ func (suo *StockUpdateOne) ClearTypeproduct() *StockUpdateOne {
 
 // Save executes the query and returns the updated entity.
 func (suo *StockUpdateOne) Save(ctx context.Context) (*Stock, error) {
-	if v, ok := suo.mutation.IDcardemployee(); ok {
-		if err := stock.IDcardemployeeValidator(v); err != nil {
-			return nil, &ValidationError{Name: "IDcardemployee", err: fmt.Errorf("ent: validator failed for field \"IDcardemployee\": %w", err)}
+	if v, ok := suo.mutation.IDstock(); ok {
+		if err := stock.IDstockValidator(v); err != nil {
+			return nil, &ValidationError{Name: "IDstock", err: fmt.Errorf("ent: validator failed for field \"IDstock\": %w", err)}
 		}
 	}
 	if v, ok := suo.mutation.Priceproduct(); ok {
@@ -686,11 +686,11 @@ func (suo *StockUpdateOne) sqlSave(ctx context.Context) (s *Stock, err error) {
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Stock.ID for update")}
 	}
 	_spec.Node.ID.Value = id
-	if value, ok := suo.mutation.IDcardemployee(); ok {
+	if value, ok := suo.mutation.IDstock(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: stock.FieldIDcardemployee,
+			Column: stock.FieldIDstock,
 		})
 	}
 	if value, ok := suo.mutation.Priceproduct(); ok {

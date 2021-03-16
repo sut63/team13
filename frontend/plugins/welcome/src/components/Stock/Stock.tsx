@@ -103,11 +103,10 @@ export default function Stock() {
   const [productid, setProductid] = useState(Number);
   const [priceproducts, setPriceproduct] = useState(Number);
   const [amounts, setAmount] = useState(Number);
-  const [time, setTime] = useState(String);
   const [typeproductid, setTypeproductid] = useState(Number);
   const [employeeid, setEmployeeid] = useState(Number);
   const [zoneproductid, setZoneproductid] = useState(Number);
-  const [idcardemployee, setidcardemployee] = useState(String);
+  const [idstock, setidstock] = useState(String);
 
   
 
@@ -117,7 +116,7 @@ export default function Stock() {
   let typeproductID = Number(typeproductid)
   let amount = Number(amounts)
   let priceproduct = Number(priceproducts)
-  let iDcardemployee = String(idcardemployee)
+  let iDstock = String(idstock)
 
   
 
@@ -171,9 +170,9 @@ export default function Stock() {
     productID,
     zoneID,
     priceproduct,
-    iDcardemployee,
+    iDstock,
     amount,
-    time: time + ":00+07:00"
+    
   }
   const alertMessage = (icon: any, title: any) => {
     Toast.fire({
@@ -219,8 +218,8 @@ export default function Stock() {
 
   const checkCaseSaveError = (field: string) => {
     switch(field) {
-      case 'IDcardemployee':
-        alertMessage("error","รหัสพนักงานต้องขึ้นต้นตัวอักษร E เท่านั้นและมีตัวเลข 4 ตัว กรุณากรอกข้อมูลให้ถูกต้อง");
+      case 'IDstock':
+        alertMessage("error","รหัส Stock ต้องขึ้นต้นตัวอักษร A-Z เท่านั้นและมีตัวเลข 6 ตัว กรุณากรอกข้อมูลให้ถูกต้อง");
         return;
       case 'Priceproduct':
         alertMessage("error","ราคาต้องเป็นตัวเลขและห้ามติดลบ กรุณากรอกราคาให้ถูกต้อง");
@@ -305,15 +304,13 @@ export default function Stock() {
     
   };
 
-  const idcardemployee_id_handleChange = (event: any) => {
-    setidcardemployee(event.target.value);
+  const idstock_id_handleChange = (event: any) => {
+    setidstock(event.target.value);
     
 
   };
 
-  const handletimeChange = (event: any) => {
-    setTime(event.target.value as string);
-  };
+  
 
 
   return (
@@ -427,7 +424,7 @@ export default function Stock() {
 
 
             <Grid item xs={4}><center>
-              <h3 align='right'>รหัสพนักงาน</h3></center>
+              <h3 align='right'>รหัส Stock</h3></center>
             </Grid>
             <Grid item xs={4}>
               <FormControl
@@ -436,13 +433,13 @@ export default function Stock() {
                 variant="outlined"
 
               ><TextField
-                  id="Idcardemployee"
-                  label="Id-employee"
+                  id="idstock"
+                  label="Idstock"
                   variant="outlined"
                   type="string"
                   size="medium"
-                  value={idcardemployee}
-                  onChange={idcardemployee_id_handleChange}
+                  value={idstock}
+                  onChange={idstock_id_handleChange}
                   style={{ marginRight: 300, width: 300 }}
                 />
               </FormControl>
@@ -593,34 +590,6 @@ export default function Stock() {
 
 
 
-            <Grid item xs={4}><center>
-              <h3 align='right'>เวลาที่บันทึก</h3></center>
-            </Grid>
-            <Grid item xs={4}>
-
-              <FormControl
-                fullWidth
-                className={classes.margin}
-                variant="outlined"
-                style={{ marginRight: 500, width: 2000 }}
-              >
-                <TextField
-                  id="date"
-                  label="Datetime"
-                  type="datetime-local"
-                  value={time}
-                  onChange={handletimeChange}
-                  //defaultValue="2020-05-24"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </FormControl>
-
-            </Grid>
-            <Grid item xs={4}>
-            </Grid>
 
 
 

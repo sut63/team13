@@ -20,8 +20,8 @@ type Stock struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// IDcardemployee holds the value of the "IDcardemployee" field.
-	IDcardemployee string `json:"IDcardemployee,omitempty"`
+	// IDstock holds the value of the "IDstock" field.
+	IDstock string `json:"IDstock,omitempty"`
 	// Priceproduct holds the value of the "Priceproduct" field.
 	Priceproduct float64 `json:"Priceproduct,omitempty"`
 	// Amount holds the value of the "Amount" field.
@@ -112,7 +112,7 @@ func (e StockEdges) TypeproductOrErr() (*Typeproduct, error) {
 func (*Stock) scanValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{},   // id
-		&sql.NullString{},  // IDcardemployee
+		&sql.NullString{},  // IDstock
 		&sql.NullFloat64{}, // Priceproduct
 		&sql.NullInt64{},   // Amount
 		&sql.NullTime{},    // Time
@@ -142,9 +142,9 @@ func (s *Stock) assignValues(values ...interface{}) error {
 	s.ID = int(value.Int64)
 	values = values[1:]
 	if value, ok := values[0].(*sql.NullString); !ok {
-		return fmt.Errorf("unexpected type %T for field IDcardemployee", values[0])
+		return fmt.Errorf("unexpected type %T for field IDstock", values[0])
 	} else if value.Valid {
-		s.IDcardemployee = value.String
+		s.IDstock = value.String
 	}
 	if value, ok := values[1].(*sql.NullFloat64); !ok {
 		return fmt.Errorf("unexpected type %T for field Priceproduct", values[1])
@@ -234,8 +234,8 @@ func (s *Stock) String() string {
 	var builder strings.Builder
 	builder.WriteString("Stock(")
 	builder.WriteString(fmt.Sprintf("id=%v", s.ID))
-	builder.WriteString(", IDcardemployee=")
-	builder.WriteString(s.IDcardemployee)
+	builder.WriteString(", IDstock=")
+	builder.WriteString(s.IDstock)
 	builder.WriteString(", Priceproduct=")
 	builder.WriteString(fmt.Sprintf("%v", s.Priceproduct))
 	builder.WriteString(", Amount=")

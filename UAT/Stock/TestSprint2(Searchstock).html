@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+	<title>TestSprint2(Searchstock)</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">ค้นหาสำเร็จ</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Stock<datalist><option>http://localhost:3000/Stock</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>css=span.MuiButton-startIcon.MuiButton-iconSizeSmall &gt; svg.MuiSvgIcon-root<datalist><option>css=span.MuiButton-startIcon.MuiButton-iconSizeSmall &gt; svg.MuiSvgIcon-root</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=product<datalist><option>id=product</option><option>//input[@id='product']</option><option>//div[@id='root']/div/div/article/div/div/div[7]/div/div/div/input</option><option>//input</option><option>css=#product</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=product<datalist><option>id=product</option><option>//input[@id='product']</option><option>//div[@id='root']/div/div/article/div/div/div[7]/div/div/div/input</option><option>//input</option><option>css=#product</option></datalist></td><td>แชมพู</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/div/article/div/div/div[10]/button/span<datalist><option>//div[@id='root']/div/div/article/div/div/div[10]/button/span</option><option>//div[10]/button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.MuiButton-colorInherit.MuiButton-outlinedSizeLarge.MuiButton-sizeLarge &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>//div[3]/div/div<datalist><option>//div[3]/div/div</option><option>css=div.swal2-header</option></datalist></td><td>ค้นหาข้อมูลสำเร็จ</td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">ค้นหาไม่สำเร็จ</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:3000/Tablestock<datalist><option>http://localhost:3000/Tablestock</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/div/header/div[2]/a/span<datalist><option>//div[@id='root']/div/div/header/div[2]/a/span</option><option>//a/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/div/header/div[2]/a/span<datalist><option>//div[@id='root']/div/div/header/div[2]/a/span</option><option>//a/span</option><option>css=span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>id=product<datalist><option>id=product</option><option>//input[@id='product']</option><option>//div[@id='root']/div/div/article/div/div/div[7]/div/div/div/input</option><option>//input</option><option>css=#product</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>id=product<datalist><option>id=product</option><option>//input[@id='product']</option><option>//div[@id='root']/div/div/article/div/div/div[7]/div/div/div/input</option><option>//input</option><option>css=#product</option></datalist></td><td>อาหารหมา</td>
+</tr>
+<tr><td>click</td><td>//div[@id='root']/div/div/article/div/div/div[10]/button/span<datalist><option>//div[@id='root']/div/div/article/div/div/div[10]/button/span</option><option>//div[10]/button/span</option><option>css=button.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.MuiButton-colorInherit.MuiButton-outlinedSizeLarge.MuiButton-sizeLarge &gt; span.MuiButton-label</option></datalist></td><td></td>
+</tr>
+<tr><td>assertText</td><td>id=swal2-title<datalist><option>id=swal2-title</option><option>//h2[@id='swal2-title']</option><option>//h2</option><option>css=#swal2-title</option></datalist></td><td>ไม่พบข้อมูลที่ค้นหา</td>
+</tr>
+</tbody></table>
+</body>
+</html>

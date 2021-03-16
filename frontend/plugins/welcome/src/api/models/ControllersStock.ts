@@ -36,7 +36,7 @@ export interface ControllersStock {
      * @type {string}
      * @memberof ControllersStock
      */
-    idcardemployee?: string;
+    idstock?: string;
     /**
      * 
      * @type {number}
@@ -81,7 +81,7 @@ export function ControllersStockFromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'amount': !exists(json, 'amount') ? undefined : json['amount'],
         'employeeID': !exists(json, 'employeeID') ? undefined : json['employeeID'],
-        'idcardemployee': !exists(json, 'idcardemployee') ? undefined : json['idcardemployee'],
+        'idstock': !exists(json, 'idstock') ? undefined : json['idstock'],
         'priceproduct': !exists(json, 'priceproduct') ? undefined : json['priceproduct'],
         'productID': !exists(json, 'productID') ? undefined : json['productID'],
         'time': !exists(json, 'time') ? undefined : json['time'],
@@ -101,7 +101,7 @@ export function ControllersStockToJSON(value?: ControllersStock | null): any {
         
         'amount': value.amount,
         'employeeID': value.employeeID,
-        'idcardemployee': value.idcardemployee,
+        'idstock': value.idstock,
         'priceproduct': value.priceproduct,
         'productID': value.productID,
         'time': value.time,
