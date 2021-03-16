@@ -7,8 +7,8 @@ const (
 	Label = "employee_working_hours"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldIDEmployee holds the string denoting the idemployee field in the database.
-	FieldIDEmployee = "id_employee"
+	// FieldCodeWork holds the string denoting the codework field in the database.
+	FieldCodeWork = "code_work"
 	// FieldIDNumber holds the string denoting the idnumber field in the database.
 	FieldIDNumber = "id_number"
 	// FieldWages holds the string denoting the wages field in the database.
@@ -18,8 +18,10 @@ const (
 	EdgeEmployee = "employee"
 	// EdgeDay holds the string denoting the day edge name in mutations.
 	EdgeDay = "day"
-	// EdgeShift holds the string denoting the shift edge name in mutations.
-	EdgeShift = "shift"
+	// EdgeStartwork holds the string denoting the startwork edge name in mutations.
+	EdgeStartwork = "startwork"
+	// EdgeEndwork holds the string denoting the endwork edge name in mutations.
+	EdgeEndwork = "endwork"
 	// EdgeRole holds the string denoting the role edge name in mutations.
 	EdgeRole = "role"
 
@@ -39,13 +41,20 @@ const (
 	DayInverseTable = "days"
 	// DayColumn is the table column denoting the day relation/edge.
 	DayColumn = "day_whatday"
-	// ShiftTable is the table the holds the shift relation/edge.
-	ShiftTable = "employee_working_hours"
-	// ShiftInverseTable is the table name for the Shift entity.
-	// It exists in this package in order to avoid circular dependency with the "shift" package.
-	ShiftInverseTable = "shifts"
-	// ShiftColumn is the table column denoting the shift relation/edge.
-	ShiftColumn = "shift_when"
+	// StartworkTable is the table the holds the startwork relation/edge.
+	StartworkTable = "employee_working_hours"
+	// StartworkInverseTable is the table name for the StartWork entity.
+	// It exists in this package in order to avoid circular dependency with the "startwork" package.
+	StartworkInverseTable = "start_works"
+	// StartworkColumn is the table column denoting the startwork relation/edge.
+	StartworkColumn = "start_work_whenwork"
+	// EndworkTable is the table the holds the endwork relation/edge.
+	EndworkTable = "employee_working_hours"
+	// EndworkInverseTable is the table name for the EndWork entity.
+	// It exists in this package in order to avoid circular dependency with the "endwork" package.
+	EndworkInverseTable = "end_works"
+	// EndworkColumn is the table column denoting the endwork relation/edge.
+	EndworkColumn = "end_work_whenendwork"
 	// RoleTable is the table the holds the role relation/edge.
 	RoleTable = "employee_working_hours"
 	// RoleInverseTable is the table name for the Role entity.
@@ -58,7 +67,7 @@ const (
 // Columns holds all SQL columns for employeeworkinghours fields.
 var Columns = []string{
 	FieldID,
-	FieldIDEmployee,
+	FieldCodeWork,
 	FieldIDNumber,
 	FieldWages,
 }
@@ -67,13 +76,14 @@ var Columns = []string{
 var ForeignKeys = []string{
 	"day_whatday",
 	"employee_whose",
+	"end_work_whenendwork",
 	"role_todo",
-	"shift_when",
+	"start_work_whenwork",
 }
 
 var (
-	// IDEmployeeValidator is a validator for the "IDEmployee" field. It is called by the builders before save.
-	IDEmployeeValidator func(string) error
+	// CodeWorkValidator is a validator for the "CodeWork" field. It is called by the builders before save.
+	CodeWorkValidator func(string) error
 	// IDNumberValidator is a validator for the "IDNumber" field. It is called by the builders before save.
 	IDNumberValidator func(string) error
 	// WagesValidator is a validator for the "Wages" field. It is called by the builders before save.

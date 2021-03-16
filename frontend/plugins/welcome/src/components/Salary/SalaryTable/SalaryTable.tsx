@@ -68,7 +68,7 @@ export default function ComponentsTable() {
        <TableHead>
          <TableRow>
            <TableCell align="center">หมายเลข</TableCell>
-           <TableCell align="center">รหัสพนักงาน</TableCell>
+           {/*<TableCell align="center">รหัสพนักงาน</TableCell>*/}
            <TableCell align="center">เลขบัญชีธนาคาร</TableCell>
            <TableCell align="center">รายชื่อพนักงาน</TableCell>
            <TableCell align="center">ตำแหน่ง</TableCell>
@@ -82,7 +82,7 @@ export default function ComponentsTable() {
          {salarys.map((item:any) => (
            <TableRow key={item.id}>
              <TableCell align="center">{item.id}</TableCell>
-             <TableCell align="center">{item.iDEmployee}</TableCell>
+             {/*<TableCell align="center">{item.iDEmployee}</TableCell>*/}
              <TableCell align="center">{item.accountNumber}</TableCell>
              <TableCell align="center">{item.edges?.employee?.name}</TableCell>
              <TableCell align="center">{item.edges?.position?.position}</TableCell>

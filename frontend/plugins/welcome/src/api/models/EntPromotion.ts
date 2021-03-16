@@ -27,11 +27,11 @@ import {
  */
 export interface EntPromotion {
     /**
-     * DurationPromotion holds the value of the "DurationPromotion" field.
+     * EndPromotion holds the value of the "EndPromotion" field.
      * @type {string}
      * @memberof EntPromotion
      */
-    durationPromotion?: string;
+    endPromotion?: string;
     /**
      * Price holds the value of the "Price" field.
      * @type {number}
@@ -44,6 +44,12 @@ export interface EntPromotion {
      * @memberof EntPromotion
      */
     promotionName?: string;
+    /**
+     * StartPromotion holds the value of the "StartPromotion" field.
+     * @type {string}
+     * @memberof EntPromotion
+     */
+    startPromotion?: string;
     /**
      * 
      * @type {EntPromotionEdges}
@@ -68,9 +74,10 @@ export function EntPromotionFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'durationPromotion': !exists(json, 'DurationPromotion') ? undefined : json['DurationPromotion'],
+        'endPromotion': !exists(json, 'EndPromotion') ? undefined : json['EndPromotion'],
         'price': !exists(json, 'Price') ? undefined : json['Price'],
         'promotionName': !exists(json, 'PromotionName') ? undefined : json['PromotionName'],
+        'startPromotion': !exists(json, 'StartPromotion') ? undefined : json['StartPromotion'],
         'edges': !exists(json, 'edges') ? undefined : EntPromotionEdgesFromJSON(json['edges']),
         'id': !exists(json, 'id') ? undefined : json['id'],
     };
@@ -85,9 +92,10 @@ export function EntPromotionToJSON(value?: EntPromotion | null): any {
     }
     return {
         
-        'DurationPromotion': value.durationPromotion,
+        'EndPromotion': value.endPromotion,
         'Price': value.price,
         'PromotionName': value.promotionName,
+        'StartPromotion': value.startPromotion,
         'edges': EntPromotionEdgesToJSON(value.edges),
         'id': value.id,
     };

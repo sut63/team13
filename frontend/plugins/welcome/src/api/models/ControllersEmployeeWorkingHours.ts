@@ -21,6 +21,12 @@ import { exists, mapValues } from '../runtime';
 export interface ControllersEmployeeWorkingHours {
     /**
      * 
+     * @type {string}
+     * @memberof ControllersEmployeeWorkingHours
+     */
+    codeWork?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ControllersEmployeeWorkingHours
      */
@@ -31,6 +37,12 @@ export interface ControllersEmployeeWorkingHours {
      * @memberof ControllersEmployeeWorkingHours
      */
     employee?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ControllersEmployeeWorkingHours
+     */
+    endWork?: number;
     /**
      * 
      * @type {string}
@@ -54,7 +66,7 @@ export interface ControllersEmployeeWorkingHours {
      * @type {number}
      * @memberof ControllersEmployeeWorkingHours
      */
-    shift?: number;
+    startWork?: number;
     /**
      * 
      * @type {number}
@@ -73,12 +85,14 @@ export function ControllersEmployeeWorkingHoursFromJSONTyped(json: any, ignoreDi
     }
     return {
         
+        'codeWork': !exists(json, 'codeWork') ? undefined : json['codeWork'],
         'day': !exists(json, 'day') ? undefined : json['day'],
         'employee': !exists(json, 'employee') ? undefined : json['employee'],
+        'endWork': !exists(json, 'endWork') ? undefined : json['endWork'],
         'idemployee': !exists(json, 'idemployee') ? undefined : json['idemployee'],
         'idnumber': !exists(json, 'idnumber') ? undefined : json['idnumber'],
         'role': !exists(json, 'role') ? undefined : json['role'],
-        'shift': !exists(json, 'shift') ? undefined : json['shift'],
+        'startWork': !exists(json, 'startWork') ? undefined : json['startWork'],
         'wages': !exists(json, 'wages') ? undefined : json['wages'],
     };
 }
@@ -92,12 +106,14 @@ export function ControllersEmployeeWorkingHoursToJSON(value?: ControllersEmploye
     }
     return {
         
+        'codeWork': value.codeWork,
         'day': value.day,
         'employee': value.employee,
+        'endWork': value.endWork,
         'idemployee': value.idemployee,
         'idnumber': value.idnumber,
         'role': value.role,
-        'shift': value.shift,
+        'startWork': value.startWork,
         'wages': value.wages,
     };
 }

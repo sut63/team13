@@ -16,6 +16,7 @@ import (
 	"github.com/team13/app/ent/discount"
 	"github.com/team13/app/ent/employee"
 	"github.com/team13/app/ent/employeeworkinghours"
+	"github.com/team13/app/ent/endwork"
 	"github.com/team13/app/ent/giveaway"
 	"github.com/team13/app/ent/manager"
 	"github.com/team13/app/ent/orderonline"
@@ -26,7 +27,7 @@ import (
 	"github.com/team13/app/ent/promotion"
 	"github.com/team13/app/ent/role"
 	"github.com/team13/app/ent/salary"
-	"github.com/team13/app/ent/shift"
+	"github.com/team13/app/ent/startwork"
 	"github.com/team13/app/ent/stock"
 	"github.com/team13/app/ent/typeproduct"
 	"github.com/team13/app/ent/zoneproduct"
@@ -55,6 +56,8 @@ type Client struct {
 	Employee *EmployeeClient
 	// EmployeeWorkingHours is the client for interacting with the EmployeeWorkingHours builders.
 	EmployeeWorkingHours *EmployeeWorkingHoursClient
+	// EndWork is the client for interacting with the EndWork builders.
+	EndWork *EndWorkClient
 	// Giveaway is the client for interacting with the Giveaway builders.
 	Giveaway *GiveawayClient
 	// Manager is the client for interacting with the Manager builders.
@@ -75,8 +78,8 @@ type Client struct {
 	Role *RoleClient
 	// Salary is the client for interacting with the Salary builders.
 	Salary *SalaryClient
-	// Shift is the client for interacting with the Shift builders.
-	Shift *ShiftClient
+	// StartWork is the client for interacting with the StartWork builders.
+	StartWork *StartWorkClient
 	// Stock is the client for interacting with the Stock builders.
 	Stock *StockClient
 	// Typeproduct is the client for interacting with the Typeproduct builders.
@@ -103,6 +106,7 @@ func (c *Client) init() {
 	c.Discount = NewDiscountClient(c.config)
 	c.Employee = NewEmployeeClient(c.config)
 	c.EmployeeWorkingHours = NewEmployeeWorkingHoursClient(c.config)
+	c.EndWork = NewEndWorkClient(c.config)
 	c.Giveaway = NewGiveawayClient(c.config)
 	c.Manager = NewManagerClient(c.config)
 	c.Orderonline = NewOrderonlineClient(c.config)
@@ -113,7 +117,7 @@ func (c *Client) init() {
 	c.Promotion = NewPromotionClient(c.config)
 	c.Role = NewRoleClient(c.config)
 	c.Salary = NewSalaryClient(c.config)
-	c.Shift = NewShiftClient(c.config)
+	c.StartWork = NewStartWorkClient(c.config)
 	c.Stock = NewStockClient(c.config)
 	c.Typeproduct = NewTypeproductClient(c.config)
 	c.Zoneproduct = NewZoneproductClient(c.config)
@@ -156,6 +160,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		Discount:             NewDiscountClient(cfg),
 		Employee:             NewEmployeeClient(cfg),
 		EmployeeWorkingHours: NewEmployeeWorkingHoursClient(cfg),
+		EndWork:              NewEndWorkClient(cfg),
 		Giveaway:             NewGiveawayClient(cfg),
 		Manager:              NewManagerClient(cfg),
 		Orderonline:          NewOrderonlineClient(cfg),
@@ -166,7 +171,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		Promotion:            NewPromotionClient(cfg),
 		Role:                 NewRoleClient(cfg),
 		Salary:               NewSalaryClient(cfg),
-		Shift:                NewShiftClient(cfg),
+		StartWork:            NewStartWorkClient(cfg),
 		Stock:                NewStockClient(cfg),
 		Typeproduct:          NewTypeproductClient(cfg),
 		Zoneproduct:          NewZoneproductClient(cfg),
@@ -192,6 +197,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		Discount:             NewDiscountClient(cfg),
 		Employee:             NewEmployeeClient(cfg),
 		EmployeeWorkingHours: NewEmployeeWorkingHoursClient(cfg),
+		EndWork:              NewEndWorkClient(cfg),
 		Giveaway:             NewGiveawayClient(cfg),
 		Manager:              NewManagerClient(cfg),
 		Orderonline:          NewOrderonlineClient(cfg),
@@ -202,7 +208,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		Promotion:            NewPromotionClient(cfg),
 		Role:                 NewRoleClient(cfg),
 		Salary:               NewSalaryClient(cfg),
-		Shift:                NewShiftClient(cfg),
+		StartWork:            NewStartWorkClient(cfg),
 		Stock:                NewStockClient(cfg),
 		Typeproduct:          NewTypeproductClient(cfg),
 		Zoneproduct:          NewZoneproductClient(cfg),
@@ -241,6 +247,7 @@ func (c *Client) Use(hooks ...Hook) {
 	c.Discount.Use(hooks...)
 	c.Employee.Use(hooks...)
 	c.EmployeeWorkingHours.Use(hooks...)
+	c.EndWork.Use(hooks...)
 	c.Giveaway.Use(hooks...)
 	c.Manager.Use(hooks...)
 	c.Orderonline.Use(hooks...)
@@ -251,7 +258,7 @@ func (c *Client) Use(hooks ...Hook) {
 	c.Promotion.Use(hooks...)
 	c.Role.Use(hooks...)
 	c.Salary.Use(hooks...)
-	c.Shift.Use(hooks...)
+	c.StartWork.Use(hooks...)
 	c.Stock.Use(hooks...)
 	c.Typeproduct.Use(hooks...)
 	c.Zoneproduct.Use(hooks...)
@@ -993,15 +1000,31 @@ func (c *EmployeeWorkingHoursClient) QueryDay(ewh *EmployeeWorkingHours) *DayQue
 	return query
 }
 
-// QueryShift queries the shift edge of a EmployeeWorkingHours.
-func (c *EmployeeWorkingHoursClient) QueryShift(ewh *EmployeeWorkingHours) *ShiftQuery {
-	query := &ShiftQuery{config: c.config}
+// QueryStartwork queries the startwork edge of a EmployeeWorkingHours.
+func (c *EmployeeWorkingHoursClient) QueryStartwork(ewh *EmployeeWorkingHours) *StartWorkQuery {
+	query := &StartWorkQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := ewh.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(employeeworkinghours.Table, employeeworkinghours.FieldID, id),
-			sqlgraph.To(shift.Table, shift.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.ShiftTable, employeeworkinghours.ShiftColumn),
+			sqlgraph.To(startwork.Table, startwork.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.StartworkTable, employeeworkinghours.StartworkColumn),
+		)
+		fromV = sqlgraph.Neighbors(ewh.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryEndwork queries the endwork edge of a EmployeeWorkingHours.
+func (c *EmployeeWorkingHoursClient) QueryEndwork(ewh *EmployeeWorkingHours) *EndWorkQuery {
+	query := &EndWorkQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := ewh.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(employeeworkinghours.Table, employeeworkinghours.FieldID, id),
+			sqlgraph.To(endwork.Table, endwork.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, employeeworkinghours.EndworkTable, employeeworkinghours.EndworkColumn),
 		)
 		fromV = sqlgraph.Neighbors(ewh.driver.Dialect(), step)
 		return fromV, nil
@@ -1028,6 +1051,105 @@ func (c *EmployeeWorkingHoursClient) QueryRole(ewh *EmployeeWorkingHours) *RoleQ
 // Hooks returns the client hooks.
 func (c *EmployeeWorkingHoursClient) Hooks() []Hook {
 	return c.hooks.EmployeeWorkingHours
+}
+
+// EndWorkClient is a client for the EndWork schema.
+type EndWorkClient struct {
+	config
+}
+
+// NewEndWorkClient returns a client for the EndWork from the given config.
+func NewEndWorkClient(c config) *EndWorkClient {
+	return &EndWorkClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `endwork.Hooks(f(g(h())))`.
+func (c *EndWorkClient) Use(hooks ...Hook) {
+	c.hooks.EndWork = append(c.hooks.EndWork, hooks...)
+}
+
+// Create returns a create builder for EndWork.
+func (c *EndWorkClient) Create() *EndWorkCreate {
+	mutation := newEndWorkMutation(c.config, OpCreate)
+	return &EndWorkCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Update returns an update builder for EndWork.
+func (c *EndWorkClient) Update() *EndWorkUpdate {
+	mutation := newEndWorkMutation(c.config, OpUpdate)
+	return &EndWorkUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *EndWorkClient) UpdateOne(ew *EndWork) *EndWorkUpdateOne {
+	mutation := newEndWorkMutation(c.config, OpUpdateOne, withEndWork(ew))
+	return &EndWorkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *EndWorkClient) UpdateOneID(id int) *EndWorkUpdateOne {
+	mutation := newEndWorkMutation(c.config, OpUpdateOne, withEndWorkID(id))
+	return &EndWorkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for EndWork.
+func (c *EndWorkClient) Delete() *EndWorkDelete {
+	mutation := newEndWorkMutation(c.config, OpDelete)
+	return &EndWorkDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a delete builder for the given entity.
+func (c *EndWorkClient) DeleteOne(ew *EndWork) *EndWorkDeleteOne {
+	return c.DeleteOneID(ew.ID)
+}
+
+// DeleteOneID returns a delete builder for the given id.
+func (c *EndWorkClient) DeleteOneID(id int) *EndWorkDeleteOne {
+	builder := c.Delete().Where(endwork.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &EndWorkDeleteOne{builder}
+}
+
+// Create returns a query builder for EndWork.
+func (c *EndWorkClient) Query() *EndWorkQuery {
+	return &EndWorkQuery{config: c.config}
+}
+
+// Get returns a EndWork entity by its id.
+func (c *EndWorkClient) Get(ctx context.Context, id int) (*EndWork, error) {
+	return c.Query().Where(endwork.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *EndWorkClient) GetX(ctx context.Context, id int) *EndWork {
+	ew, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return ew
+}
+
+// QueryWhenendwork queries the whenendwork edge of a EndWork.
+func (c *EndWorkClient) QueryWhenendwork(ew *EndWork) *EmployeeWorkingHoursQuery {
+	query := &EmployeeWorkingHoursQuery{config: c.config}
+	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
+		id := ew.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(endwork.Table, endwork.FieldID, id),
+			sqlgraph.To(employeeworkinghours.Table, employeeworkinghours.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, endwork.WhenendworkTable, endwork.WhenendworkColumn),
+		)
+		fromV = sqlgraph.Neighbors(ew.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *EndWorkClient) Hooks() []Hook {
+	return c.hooks.EndWork
 }
 
 // GiveawayClient is a client for the Giveaway schema.
@@ -2228,103 +2350,103 @@ func (c *SalaryClient) Hooks() []Hook {
 	return c.hooks.Salary
 }
 
-// ShiftClient is a client for the Shift schema.
-type ShiftClient struct {
+// StartWorkClient is a client for the StartWork schema.
+type StartWorkClient struct {
 	config
 }
 
-// NewShiftClient returns a client for the Shift from the given config.
-func NewShiftClient(c config) *ShiftClient {
-	return &ShiftClient{config: c}
+// NewStartWorkClient returns a client for the StartWork from the given config.
+func NewStartWorkClient(c config) *StartWorkClient {
+	return &StartWorkClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `shift.Hooks(f(g(h())))`.
-func (c *ShiftClient) Use(hooks ...Hook) {
-	c.hooks.Shift = append(c.hooks.Shift, hooks...)
+// A call to `Use(f, g, h)` equals to `startwork.Hooks(f(g(h())))`.
+func (c *StartWorkClient) Use(hooks ...Hook) {
+	c.hooks.StartWork = append(c.hooks.StartWork, hooks...)
 }
 
-// Create returns a create builder for Shift.
-func (c *ShiftClient) Create() *ShiftCreate {
-	mutation := newShiftMutation(c.config, OpCreate)
-	return &ShiftCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a create builder for StartWork.
+func (c *StartWorkClient) Create() *StartWorkCreate {
+	mutation := newStartWorkMutation(c.config, OpCreate)
+	return &StartWorkCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Update returns an update builder for Shift.
-func (c *ShiftClient) Update() *ShiftUpdate {
-	mutation := newShiftMutation(c.config, OpUpdate)
-	return &ShiftUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for StartWork.
+func (c *StartWorkClient) Update() *StartWorkUpdate {
+	mutation := newStartWorkMutation(c.config, OpUpdate)
+	return &StartWorkUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *ShiftClient) UpdateOne(s *Shift) *ShiftUpdateOne {
-	mutation := newShiftMutation(c.config, OpUpdateOne, withShift(s))
-	return &ShiftUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *StartWorkClient) UpdateOne(sw *StartWork) *StartWorkUpdateOne {
+	mutation := newStartWorkMutation(c.config, OpUpdateOne, withStartWork(sw))
+	return &StartWorkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *ShiftClient) UpdateOneID(id int) *ShiftUpdateOne {
-	mutation := newShiftMutation(c.config, OpUpdateOne, withShiftID(id))
-	return &ShiftUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *StartWorkClient) UpdateOneID(id int) *StartWorkUpdateOne {
+	mutation := newStartWorkMutation(c.config, OpUpdateOne, withStartWorkID(id))
+	return &StartWorkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for Shift.
-func (c *ShiftClient) Delete() *ShiftDelete {
-	mutation := newShiftMutation(c.config, OpDelete)
-	return &ShiftDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for StartWork.
+func (c *StartWorkClient) Delete() *StartWorkDelete {
+	mutation := newStartWorkMutation(c.config, OpDelete)
+	return &StartWorkDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a delete builder for the given entity.
-func (c *ShiftClient) DeleteOne(s *Shift) *ShiftDeleteOne {
-	return c.DeleteOneID(s.ID)
+func (c *StartWorkClient) DeleteOne(sw *StartWork) *StartWorkDeleteOne {
+	return c.DeleteOneID(sw.ID)
 }
 
 // DeleteOneID returns a delete builder for the given id.
-func (c *ShiftClient) DeleteOneID(id int) *ShiftDeleteOne {
-	builder := c.Delete().Where(shift.ID(id))
+func (c *StartWorkClient) DeleteOneID(id int) *StartWorkDeleteOne {
+	builder := c.Delete().Where(startwork.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &ShiftDeleteOne{builder}
+	return &StartWorkDeleteOne{builder}
 }
 
-// Create returns a query builder for Shift.
-func (c *ShiftClient) Query() *ShiftQuery {
-	return &ShiftQuery{config: c.config}
+// Create returns a query builder for StartWork.
+func (c *StartWorkClient) Query() *StartWorkQuery {
+	return &StartWorkQuery{config: c.config}
 }
 
-// Get returns a Shift entity by its id.
-func (c *ShiftClient) Get(ctx context.Context, id int) (*Shift, error) {
-	return c.Query().Where(shift.ID(id)).Only(ctx)
+// Get returns a StartWork entity by its id.
+func (c *StartWorkClient) Get(ctx context.Context, id int) (*StartWork, error) {
+	return c.Query().Where(startwork.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *ShiftClient) GetX(ctx context.Context, id int) *Shift {
-	s, err := c.Get(ctx, id)
+func (c *StartWorkClient) GetX(ctx context.Context, id int) *StartWork {
+	sw, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
 	}
-	return s
+	return sw
 }
 
-// QueryWhen queries the when edge of a Shift.
-func (c *ShiftClient) QueryWhen(s *Shift) *EmployeeWorkingHoursQuery {
+// QueryWhenwork queries the whenwork edge of a StartWork.
+func (c *StartWorkClient) QueryWhenwork(sw *StartWork) *EmployeeWorkingHoursQuery {
 	query := &EmployeeWorkingHoursQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
-		id := s.ID
+		id := sw.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(shift.Table, shift.FieldID, id),
+			sqlgraph.From(startwork.Table, startwork.FieldID, id),
 			sqlgraph.To(employeeworkinghours.Table, employeeworkinghours.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, shift.WhenTable, shift.WhenColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, startwork.WhenworkTable, startwork.WhenworkColumn),
 		)
-		fromV = sqlgraph.Neighbors(s.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(sw.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // Hooks returns the client hooks.
-func (c *ShiftClient) Hooks() []Hook {
-	return c.hooks.Shift
+func (c *StartWorkClient) Hooks() []Hook {
+	return c.hooks.StartWork
 }
 
 // StockClient is a client for the Stock schema.

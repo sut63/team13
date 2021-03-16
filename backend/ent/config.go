@@ -31,6 +31,7 @@ type hooks struct {
 	Discount             []ent.Hook
 	Employee             []ent.Hook
 	EmployeeWorkingHours []ent.Hook
+	EndWork              []ent.Hook
 	Giveaway             []ent.Hook
 	Manager              []ent.Hook
 	Orderonline          []ent.Hook
@@ -41,7 +42,7 @@ type hooks struct {
 	Promotion            []ent.Hook
 	Role                 []ent.Hook
 	Salary               []ent.Hook
-	Shift                []ent.Hook
+	StartWork            []ent.Hook
 	Stock                []ent.Hook
 	Typeproduct          []ent.Hook
 	Zoneproduct          []ent.Hook

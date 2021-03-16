@@ -5,6 +5,7 @@ package ent
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
@@ -36,9 +37,15 @@ func (pu *PromotionUpdate) SetPromotionName(s string) *PromotionUpdate {
 	return pu
 }
 
-// SetDurationPromotion sets the DurationPromotion field.
-func (pu *PromotionUpdate) SetDurationPromotion(s string) *PromotionUpdate {
-	pu.mutation.SetDurationPromotion(s)
+// SetStartPromotion sets the StartPromotion field.
+func (pu *PromotionUpdate) SetStartPromotion(t time.Time) *PromotionUpdate {
+	pu.mutation.SetStartPromotion(t)
+	return pu
+}
+
+// SetEndPromotion sets the EndPromotion field.
+func (pu *PromotionUpdate) SetEndPromotion(t time.Time) *PromotionUpdate {
+	pu.mutation.SetEndPromotion(t)
 	return pu
 }
 
@@ -142,11 +149,6 @@ func (pu *PromotionUpdate) Save(ctx context.Context) (int, error) {
 			return 0, &ValidationError{Name: "PromotionName", err: fmt.Errorf("ent: validator failed for field \"PromotionName\": %w", err)}
 		}
 	}
-	if v, ok := pu.mutation.DurationPromotion(); ok {
-		if err := promotion.DurationPromotionValidator(v); err != nil {
-			return 0, &ValidationError{Name: "DurationPromotion", err: fmt.Errorf("ent: validator failed for field \"DurationPromotion\": %w", err)}
-		}
-	}
 	if v, ok := pu.mutation.Price(); ok {
 		if err := promotion.PriceValidator(v); err != nil {
 			return 0, &ValidationError{Name: "Price", err: fmt.Errorf("ent: validator failed for field \"Price\": %w", err)}
@@ -227,11 +229,18 @@ func (pu *PromotionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: promotion.FieldPromotionName,
 		})
 	}
-	if value, ok := pu.mutation.DurationPromotion(); ok {
+	if value, ok := pu.mutation.StartPromotion(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeTime,
 			Value:  value,
-			Column: promotion.FieldDurationPromotion,
+			Column: promotion.FieldStartPromotion,
+		})
+	}
+	if value, ok := pu.mutation.EndPromotion(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: promotion.FieldEndPromotion,
 		})
 	}
 	if value, ok := pu.mutation.Price(); ok {
@@ -377,9 +386,15 @@ func (puo *PromotionUpdateOne) SetPromotionName(s string) *PromotionUpdateOne {
 	return puo
 }
 
-// SetDurationPromotion sets the DurationPromotion field.
-func (puo *PromotionUpdateOne) SetDurationPromotion(s string) *PromotionUpdateOne {
-	puo.mutation.SetDurationPromotion(s)
+// SetStartPromotion sets the StartPromotion field.
+func (puo *PromotionUpdateOne) SetStartPromotion(t time.Time) *PromotionUpdateOne {
+	puo.mutation.SetStartPromotion(t)
+	return puo
+}
+
+// SetEndPromotion sets the EndPromotion field.
+func (puo *PromotionUpdateOne) SetEndPromotion(t time.Time) *PromotionUpdateOne {
+	puo.mutation.SetEndPromotion(t)
 	return puo
 }
 
@@ -483,11 +498,6 @@ func (puo *PromotionUpdateOne) Save(ctx context.Context) (*Promotion, error) {
 			return nil, &ValidationError{Name: "PromotionName", err: fmt.Errorf("ent: validator failed for field \"PromotionName\": %w", err)}
 		}
 	}
-	if v, ok := puo.mutation.DurationPromotion(); ok {
-		if err := promotion.DurationPromotionValidator(v); err != nil {
-			return nil, &ValidationError{Name: "DurationPromotion", err: fmt.Errorf("ent: validator failed for field \"DurationPromotion\": %w", err)}
-		}
-	}
 	if v, ok := puo.mutation.Price(); ok {
 		if err := promotion.PriceValidator(v); err != nil {
 			return nil, &ValidationError{Name: "Price", err: fmt.Errorf("ent: validator failed for field \"Price\": %w", err)}
@@ -566,11 +576,18 @@ func (puo *PromotionUpdateOne) sqlSave(ctx context.Context) (pr *Promotion, err 
 			Column: promotion.FieldPromotionName,
 		})
 	}
-	if value, ok := puo.mutation.DurationPromotion(); ok {
+	if value, ok := puo.mutation.StartPromotion(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeTime,
 			Value:  value,
-			Column: promotion.FieldDurationPromotion,
+			Column: promotion.FieldStartPromotion,
+		})
+	}
+	if value, ok := puo.mutation.EndPromotion(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: promotion.FieldEndPromotion,
 		})
 	}
 	if value, ok := puo.mutation.Price(); ok {

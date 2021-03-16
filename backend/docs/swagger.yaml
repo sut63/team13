@@ -2,9 +2,13 @@ basePath: /api/v1
 definitions:
   controllers.EmployeeWorkingHours:
     properties:
+      codeWork:
+        type: string
       day:
         type: integer
       employee:
+        type: integer
+      endWork:
         type: integer
       idemployee:
         type: string
@@ -12,7 +16,7 @@ definitions:
         type: string
       role:
         type: integer
-      shift:
+      startWork:
         type: integer
       wages:
         type: number
@@ -59,7 +63,7 @@ definitions:
     properties:
       discount:
         type: integer
-      durationPromotion:
+      endPromotion:
         type: string
       giveaway:
         type: integer
@@ -69,10 +73,13 @@ definitions:
         type: integer
       promotionName:
         type: string
+      startPromotion:
+        type: string
     type: object
   controllers.Salary:
     properties:
       accountNumber:
+        description: "IDEmployee\t   string"
         type: string
       assessmentID:
         type: integer
@@ -80,8 +87,6 @@ definitions:
         type: number
       employeeID:
         type: integer
-      idemployee:
-        type: string
       positionID:
         type: integer
       salaryDate:
@@ -276,8 +281,8 @@ definitions:
     type: object
   ent.EmployeeWorkingHours:
     properties:
-      IDEmployee:
-        description: IDEmployee holds the value of the "IDEmployee" field.
+      CodeWork:
+        description: CodeWork holds the value of the "CodeWork" field.
         type: string
       IDNumber:
         description: IDNumber holds the value of the "IDNumber" field.
@@ -305,14 +310,41 @@ definitions:
         $ref: '#/definitions/ent.Employee'
         description: Employee holds the value of the employee edge.
         type: object
+      endwork:
+        $ref: '#/definitions/ent.EndWork'
+        description: Endwork holds the value of the endwork edge.
+        type: object
       role:
         $ref: '#/definitions/ent.Role'
         description: Role holds the value of the role edge.
         type: object
-      shift:
-        $ref: '#/definitions/ent.Shift'
-        description: Shift holds the value of the shift edge.
+      startwork:
+        $ref: '#/definitions/ent.StartWork'
+        description: Startwork holds the value of the startwork edge.
         type: object
+    type: object
+  ent.EndWork:
+    properties:
+      EndWork:
+        description: EndWork holds the value of the "EndWork" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.EndWorkEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the EndWorkQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.EndWorkEdges:
+    properties:
+      whenendwork:
+        description: Whenendwork holds the value of the whenendwork edge.
+        items:
+          $ref: '#/definitions/ent.EmployeeWorkingHours'
+        type: array
     type: object
   ent.Giveaway:
     properties:
@@ -548,15 +580,17 @@ definitions:
     type: object
   ent.Promotion:
     properties:
-      DurationPromotion:
-        description: DurationPromotion holds the value of the "DurationPromotion"
-          field.
+      EndPromotion:
+        description: EndPromotion holds the value of the "EndPromotion" field.
         type: string
       Price:
         description: Price holds the value of the "Price" field.
         type: number
       PromotionName:
         description: PromotionName holds the value of the "PromotionName" field.
+        type: string
+      StartPromotion:
+        description: StartPromotion holds the value of the "StartPromotion" field.
         type: string
       edges:
         $ref: '#/definitions/ent.PromotionEdges'
@@ -614,9 +648,6 @@ definitions:
       Bonus:
         description: Bonus holds the value of the "Bonus" field.
         type: number
-      IDEmployee:
-        description: IDEmployee holds the value of the "IDEmployee" field.
-        type: string
       Salary:
         description: Salary holds the value of the "Salary" field.
         type: number
@@ -648,31 +679,25 @@ definitions:
         description: Position holds the value of the position edge.
         type: object
     type: object
-  ent.Shift:
+  ent.StartWork:
     properties:
-      Name:
-        description: Name holds the value of the "Name" field.
-        type: string
-      TimeEnd:
-        description: TimeEnd holds the value of the "TimeEnd" field.
-        type: string
-      TimeStart:
-        description: TimeStart holds the value of the "TimeStart" field.
+      StartWork:
+        description: StartWork holds the value of the "StartWork" field.
         type: string
       edges:
-        $ref: '#/definitions/ent.ShiftEdges'
+        $ref: '#/definitions/ent.StartWorkEdges'
         description: |-
           Edges holds the relations/edges for other nodes in the graph.
-          The values are being populated by the ShiftQuery when eager-loading is set.
+          The values are being populated by the StartWorkQuery when eager-loading is set.
         type: object
       id:
         description: ID of the ent.
         type: integer
     type: object
-  ent.ShiftEdges:
+  ent.StartWorkEdges:
     properties:
-      when:
-        description: When holds the value of the when edge.
+      whenwork:
+        description: Whenwork holds the value of the whenwork edge.
         items:
           $ref: '#/definitions/ent.EmployeeWorkingHours'
         type: array
@@ -1791,6 +1816,157 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a employeeworkinghours entity by ID
+  /endworks:
+    get:
+      description: list endwork entities
+      operationId: list-endwork
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.EndWork'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List endwork entities
+    post:
+      consumes:
+      - application/json
+      description: Create endwork
+      operationId: create-endwork
+      parameters:
+      - description: EndWork entity
+        in: body
+        name: endwork
+        required: true
+        schema:
+          $ref: '#/definitions/ent.EndWork'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.EndWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create endwork
+  /endworks/{id}:
+    delete:
+      description: get endwork by ID
+      operationId: delete-endwork
+      parameters:
+      - description: EndWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a endwork entity by ID
+    get:
+      description: get endwork by ID
+      operationId: get-endwork
+      parameters:
+      - description: EndWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.EndWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a endwork entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update endwork by ID
+      operationId: update-endwork
+      parameters:
+      - description: EndWork ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: EndWork entity
+        in: body
+        name: endwork
+        required: true
+        schema:
+          $ref: '#/definitions/ent.EndWork'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.EndWork'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a endwork entity by ID
   /giveaways:
     get:
       description: list giveaway entities
@@ -2093,18 +2269,18 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a manager entity by ID
-  /orderonlines:
+  /order:
     get:
-      description: list orderonline entities
-      operationId: list-orderonline
+      description: Search orderonline entities
+      operationId: Search-orderonline
       parameters:
-      - description: Limit
+      - description: Name
         in: query
-        name: limit
-        type: integer
-      - description: Offset
+        name: name
+        type: string
+      - description: Userid
         in: query
-        name: offset
+        name: userid
         type: integer
       produces:
       - application/json
@@ -2123,7 +2299,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: List orderonline entities
+      summary: Search orderonline entities
+  /orderonlines:
     post:
       consumes:
       - application/json
@@ -2757,6 +2934,37 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a product entity by ID
+  /promo:
+    get:
+      description: get promotion
+      operationId: get-promotion
+      parameters:
+      - description: Product
+        in: query
+        name: product
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Promotion'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a promotion entity
   /promotions:
     get:
       description: list promotion entities
@@ -2846,37 +3054,6 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Delete a promotion entity by ID
-    get:
-      description: get promotion by ID
-      operationId: get-promotion
-      parameters:
-      - description: Promotion ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/ent.Promotion'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Get a promotion entity by ID
   /roles:
     get:
       description: list role entities
@@ -3148,10 +3325,10 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Get a salary entity by ID
-  /shifts:
+  /startworks:
     get:
-      description: list shift entities
-      operationId: list-shift
+      description: list startwork entities
+      operationId: list-startwork
       parameters:
       - description: Limit
         in: query
@@ -3168,7 +3345,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/ent.Shift'
+              $ref: '#/definitions/ent.StartWork'
             type: array
         "400":
           description: Bad Request
@@ -3178,26 +3355,26 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: List shift entities
+      summary: List startwork entities
     post:
       consumes:
       - application/json
-      description: Create shift
-      operationId: create-shift
+      description: Create startwork
+      operationId: create-startwork
       parameters:
-      - description: Shift entity
+      - description: StartWork entity
         in: body
-        name: shift
+        name: startwork
         required: true
         schema:
-          $ref: '#/definitions/ent.Shift'
+          $ref: '#/definitions/ent.StartWork'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.Shift'
+            $ref: '#/definitions/ent.StartWork'
         "400":
           description: Bad Request
           schema:
@@ -3206,13 +3383,13 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Create shift
-  /shifts/{id}:
+      summary: Create startwork
+  /startworks/{id}:
     delete:
-      description: get shift by ID
-      operationId: delete-shift
+      description: get startwork by ID
+      operationId: delete-startwork
       parameters:
-      - description: Shift ID
+      - description: StartWork ID
         in: path
         name: id
         required: true
@@ -3236,12 +3413,12 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Delete a shift entity by ID
+      summary: Delete a startwork entity by ID
     get:
-      description: get shift by ID
-      operationId: get-shift
+      description: get startwork by ID
+      operationId: get-startwork
       parameters:
-      - description: Shift ID
+      - description: StartWork ID
         in: path
         name: id
         required: true
@@ -3252,7 +3429,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.Shift'
+            $ref: '#/definitions/ent.StartWork'
         "400":
           description: Bad Request
           schema:
@@ -3265,31 +3442,31 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Get a shift entity by ID
+      summary: Get a startwork entity by ID
     put:
       consumes:
       - application/json
-      description: update shift by ID
-      operationId: update-shift
+      description: update startwork by ID
+      operationId: update-startwork
       parameters:
-      - description: Shift ID
+      - description: StartWork ID
         in: path
         name: id
         required: true
         type: integer
-      - description: Shift entity
+      - description: StartWork entity
         in: body
-        name: shift
+        name: startwork
         required: true
         schema:
-          $ref: '#/definitions/ent.Shift'
+          $ref: '#/definitions/ent.StartWork'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/ent.Shift'
+            $ref: '#/definitions/ent.StartWork'
         "400":
           description: Bad Request
           schema:
@@ -3298,7 +3475,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/gin.H'
-      summary: Update a shift entity by ID
+      summary: Update a startwork entity by ID
   /stocks:
     get:
       description: list stock entities

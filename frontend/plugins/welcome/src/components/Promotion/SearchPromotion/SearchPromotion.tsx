@@ -29,6 +29,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 import { Cookies } from '../../orderproduct/SignInOrderproduct/Cookie';
+import TextField from '@material-ui/core/TextField';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 const Toast = Swal.mixin({
@@ -101,7 +102,7 @@ export default function MenuAppBar() {
 
   const [products, setProducts] = useState<EntProduct[]>([]);
   const [loading, setLoading] = useState(true);
-  const [productid, setProductid] = useState(Number);
+  const [productid, setProductid] = useState(String);
 
   let managerID = Number(cookieID)
   let productID = Number(productid)
@@ -125,13 +126,13 @@ export default function MenuAppBar() {
   }
   console.log(Promotion)
 
-  const Product_id_handleChange = (event: any) => {
-    setProductid(event.target.value);
-  }
+  const Product_id_handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setProductid(event.target.value as string);
+  };
   var lenPromotion: number
   
   const getCheckinsorder = async () => {
-    const res = await api.getPromotion({ id: productid })
+    const res = await api.getPromotion({ product: productid })
     setPromotion(res)
     lenPromotion = res.length
     if (lenPromotion > 0) {
@@ -263,17 +264,16 @@ export default function MenuAppBar() {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-
-              <Select
-                labelId="Equipment_id-label"
-                label="Equipment"
-                id="Equipment_id"
-                onChange={Product_id_handleChange}
-                style={{ width: 200 }}
-              >
-                {products.map((item: EntProduct) =>
-                  <MenuItem key={item.id} value={item.id}>{item.nameProduct}</MenuItem>)}
-              </Select>
+            <TextField
+                  id="product"
+                  label="product"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
+                  value={productid}
+                  onChange={Product_id_handleChange}
+                  style={{ marginRight: 300, width: 300 }}
+                />
             </Grid>
             <Grid item xs={2}></Grid>
             <Grid item xs={2}> </Grid>
@@ -333,6 +333,8 @@ export default function MenuAppBar() {
               <TableCell align="center">สินค้า</TableCell>
               <TableCell align="center">Barcode</TableCell>
               <TableCell align="center">วันหมดอายุ</TableCell>
+              <TableCell align="center">วันเริ่มโปรโมชั่น</TableCell>
+              <TableCell align="center">วันหมดโปรโมชั่น</TableCell>
               <TableCell align="center">ของแถม</TableCell>
               <TableCell align="center">ส่วนลด</TableCell>
               <TableCell align="center">ราคา</TableCell>
@@ -348,6 +350,8 @@ export default function MenuAppBar() {
                   <TableCell align="center">{item.edges?.product?.nameProduct}</TableCell>
                   <TableCell align="center">{item.edges?.product?.barcodeProduct}</TableCell>
                   <TableCell align="center">{item.edges?.product?.eXP}</TableCell>
+                  <TableCell align="center">{moment(item.startPromotion).format('DD/MM/YYYY HH:mm')}</TableCell>
+                  <TableCell align="center">{moment(item.endPromotion).format('DD/MM/YYYY HH:mm')}</TableCell>
                   <TableCell align="center">{item.edges?.give?.giveawayName}</TableCell>
                   <TableCell align="center">{item.edges?.sale?.sale}</TableCell>
                   <TableCell align="center">{item.price}</TableCell>

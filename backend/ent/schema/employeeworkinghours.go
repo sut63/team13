@@ -16,7 +16,7 @@ type EmployeeWorkingHours struct {
 // Fields of the EmployeeWorkingHours.
 func (EmployeeWorkingHours) Fields() []ent.Field {
 	return []ent.Field{
-        field.String("IDEmployee").Match(regexp.MustCompile("[ABC]\\d{5}")),
+        field.String("CodeWork").Match(regexp.MustCompile("[ABC]\\d{7}")),
         field.String("IDNumber").MinLen(13).MaxLen(13).Match(regexp.MustCompile("[0-9]")),
         field.Float("Wages").Min(0).Positive(),
     }
@@ -31,8 +31,11 @@ func (EmployeeWorkingHours) Edges() []ent.Edge {
 		edge.From("day", Day.Type).
 			Ref("whatday").
 			Unique(),
-		edge.From("shift", Shift.Type).
-			Ref("when").
+		edge.From("startwork", StartWork.Type).
+			Ref("whenwork").
+			Unique(),
+		edge.From("endwork", EndWork.Type).
+			Ref("whenendwork").
 			Unique(),
 		edge.From("role", Role.Type).
 			Ref("todo").

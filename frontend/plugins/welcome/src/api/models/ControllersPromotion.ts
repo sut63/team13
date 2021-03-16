@@ -30,7 +30,7 @@ export interface ControllersPromotion {
      * @type {string}
      * @memberof ControllersPromotion
      */
-    durationPromotion?: string;
+    endPromotion?: string;
     /**
      * 
      * @type {number}
@@ -55,6 +55,12 @@ export interface ControllersPromotion {
      * @memberof ControllersPromotion
      */
     promotionName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ControllersPromotion
+     */
+    startPromotion?: string;
 }
 
 export function ControllersPromotionFromJSON(json: any): ControllersPromotion {
@@ -68,11 +74,12 @@ export function ControllersPromotionFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'discount': !exists(json, 'discount') ? undefined : json['discount'],
-        'durationPromotion': !exists(json, 'durationPromotion') ? undefined : json['durationPromotion'],
+        'endPromotion': !exists(json, 'endPromotion') ? undefined : json['endPromotion'],
         'giveaway': !exists(json, 'giveaway') ? undefined : json['giveaway'],
         'price': !exists(json, 'price') ? undefined : json['price'],
         'product': !exists(json, 'product') ? undefined : json['product'],
         'promotionName': !exists(json, 'promotionName') ? undefined : json['promotionName'],
+        'startPromotion': !exists(json, 'startPromotion') ? undefined : json['startPromotion'],
     };
 }
 
@@ -86,11 +93,12 @@ export function ControllersPromotionToJSON(value?: ControllersPromotion | null):
     return {
         
         'discount': value.discount,
-        'durationPromotion': value.durationPromotion,
+        'endPromotion': value.endPromotion,
         'giveaway': value.giveaway,
         'price': value.price,
         'product': value.product,
         'promotionName': value.promotionName,
+        'startPromotion': value.startPromotion,
     };
 }
 

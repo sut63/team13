@@ -15,7 +15,8 @@ type Promotion struct {
 func (Promotion) Fields() []ent.Field {
     return []ent.Field{
         field.String("PromotionName").MinLen(10).Unique(),
-        field.String("DurationPromotion").MinLen(5),
+        field.Time("StartPromotion"),
+        field.Time("EndPromotion"),
         field.Float("Price").Min(0).Positive(),
     }
 }

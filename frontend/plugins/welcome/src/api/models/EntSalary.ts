@@ -39,12 +39,6 @@ export interface EntSalary {
      */
     bonus?: number;
     /**
-     * IDEmployee holds the value of the "IDEmployee" field.
-     * @type {string}
-     * @memberof EntSalary
-     */
-    iDEmployee?: string;
-    /**
      * Salary holds the value of the "Salary" field.
      * @type {number}
      * @memberof EntSalary
@@ -82,7 +76,6 @@ export function EntSalaryFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         
         'accountNumber': !exists(json, 'AccountNumber') ? undefined : json['AccountNumber'],
         'bonus': !exists(json, 'Bonus') ? undefined : json['Bonus'],
-        'iDEmployee': !exists(json, 'IDEmployee') ? undefined : json['IDEmployee'],
         'salary': !exists(json, 'Salary') ? undefined : json['Salary'],
         'salaryDatetime': !exists(json, 'SalaryDatetime') ? undefined : json['SalaryDatetime'],
         'edges': !exists(json, 'edges') ? undefined : EntSalaryEdgesFromJSON(json['edges']),
@@ -101,7 +94,6 @@ export function EntSalaryToJSON(value?: EntSalary | null): any {
         
         'AccountNumber': value.accountNumber,
         'Bonus': value.bonus,
-        'IDEmployee': value.iDEmployee,
         'Salary': value.salary,
         'SalaryDatetime': value.salaryDatetime,
         'edges': EntSalaryEdgesToJSON(value.edges),

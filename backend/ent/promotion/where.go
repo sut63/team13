@@ -3,6 +3,8 @@
 package promotion
 
 import (
+	"time"
+
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/team13/app/ent/predicate"
@@ -98,10 +100,17 @@ func PromotionName(v string) predicate.Promotion {
 	})
 }
 
-// DurationPromotion applies equality check predicate on the "DurationPromotion" field. It's identical to DurationPromotionEQ.
-func DurationPromotion(v string) predicate.Promotion {
+// StartPromotion applies equality check predicate on the "StartPromotion" field. It's identical to StartPromotionEQ.
+func StartPromotion(v time.Time) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldDurationPromotion), v))
+		s.Where(sql.EQ(s.C(FieldStartPromotion), v))
+	})
+}
+
+// EndPromotion applies equality check predicate on the "EndPromotion" field. It's identical to EndPromotionEQ.
+func EndPromotion(v time.Time) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEndPromotion), v))
 	})
 }
 
@@ -223,22 +232,22 @@ func PromotionNameContainsFold(v string) predicate.Promotion {
 	})
 }
 
-// DurationPromotionEQ applies the EQ predicate on the "DurationPromotion" field.
-func DurationPromotionEQ(v string) predicate.Promotion {
+// StartPromotionEQ applies the EQ predicate on the "StartPromotion" field.
+func StartPromotionEQ(v time.Time) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldDurationPromotion), v))
+		s.Where(sql.EQ(s.C(FieldStartPromotion), v))
 	})
 }
 
-// DurationPromotionNEQ applies the NEQ predicate on the "DurationPromotion" field.
-func DurationPromotionNEQ(v string) predicate.Promotion {
+// StartPromotionNEQ applies the NEQ predicate on the "StartPromotion" field.
+func StartPromotionNEQ(v time.Time) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldDurationPromotion), v))
+		s.Where(sql.NEQ(s.C(FieldStartPromotion), v))
 	})
 }
 
-// DurationPromotionIn applies the In predicate on the "DurationPromotion" field.
-func DurationPromotionIn(vs ...string) predicate.Promotion {
+// StartPromotionIn applies the In predicate on the "StartPromotion" field.
+func StartPromotionIn(vs ...time.Time) predicate.Promotion {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -250,12 +259,12 @@ func DurationPromotionIn(vs ...string) predicate.Promotion {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldDurationPromotion), v...))
+		s.Where(sql.In(s.C(FieldStartPromotion), v...))
 	})
 }
 
-// DurationPromotionNotIn applies the NotIn predicate on the "DurationPromotion" field.
-func DurationPromotionNotIn(vs ...string) predicate.Promotion {
+// StartPromotionNotIn applies the NotIn predicate on the "StartPromotion" field.
+func StartPromotionNotIn(vs ...time.Time) predicate.Promotion {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -267,70 +276,111 @@ func DurationPromotionNotIn(vs ...string) predicate.Promotion {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldDurationPromotion), v...))
+		s.Where(sql.NotIn(s.C(FieldStartPromotion), v...))
 	})
 }
 
-// DurationPromotionGT applies the GT predicate on the "DurationPromotion" field.
-func DurationPromotionGT(v string) predicate.Promotion {
+// StartPromotionGT applies the GT predicate on the "StartPromotion" field.
+func StartPromotionGT(v time.Time) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldDurationPromotion), v))
+		s.Where(sql.GT(s.C(FieldStartPromotion), v))
 	})
 }
 
-// DurationPromotionGTE applies the GTE predicate on the "DurationPromotion" field.
-func DurationPromotionGTE(v string) predicate.Promotion {
+// StartPromotionGTE applies the GTE predicate on the "StartPromotion" field.
+func StartPromotionGTE(v time.Time) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldDurationPromotion), v))
+		s.Where(sql.GTE(s.C(FieldStartPromotion), v))
 	})
 }
 
-// DurationPromotionLT applies the LT predicate on the "DurationPromotion" field.
-func DurationPromotionLT(v string) predicate.Promotion {
+// StartPromotionLT applies the LT predicate on the "StartPromotion" field.
+func StartPromotionLT(v time.Time) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldDurationPromotion), v))
+		s.Where(sql.LT(s.C(FieldStartPromotion), v))
 	})
 }
 
-// DurationPromotionLTE applies the LTE predicate on the "DurationPromotion" field.
-func DurationPromotionLTE(v string) predicate.Promotion {
+// StartPromotionLTE applies the LTE predicate on the "StartPromotion" field.
+func StartPromotionLTE(v time.Time) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldDurationPromotion), v))
+		s.Where(sql.LTE(s.C(FieldStartPromotion), v))
 	})
 }
 
-// DurationPromotionContains applies the Contains predicate on the "DurationPromotion" field.
-func DurationPromotionContains(v string) predicate.Promotion {
+// EndPromotionEQ applies the EQ predicate on the "EndPromotion" field.
+func EndPromotionEQ(v time.Time) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldDurationPromotion), v))
+		s.Where(sql.EQ(s.C(FieldEndPromotion), v))
 	})
 }
 
-// DurationPromotionHasPrefix applies the HasPrefix predicate on the "DurationPromotion" field.
-func DurationPromotionHasPrefix(v string) predicate.Promotion {
+// EndPromotionNEQ applies the NEQ predicate on the "EndPromotion" field.
+func EndPromotionNEQ(v time.Time) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldDurationPromotion), v))
+		s.Where(sql.NEQ(s.C(FieldEndPromotion), v))
 	})
 }
 
-// DurationPromotionHasSuffix applies the HasSuffix predicate on the "DurationPromotion" field.
-func DurationPromotionHasSuffix(v string) predicate.Promotion {
+// EndPromotionIn applies the In predicate on the "EndPromotion" field.
+func EndPromotionIn(vs ...time.Time) predicate.Promotion {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldDurationPromotion), v))
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldEndPromotion), v...))
 	})
 }
 
-// DurationPromotionEqualFold applies the EqualFold predicate on the "DurationPromotion" field.
-func DurationPromotionEqualFold(v string) predicate.Promotion {
+// EndPromotionNotIn applies the NotIn predicate on the "EndPromotion" field.
+func EndPromotionNotIn(vs ...time.Time) predicate.Promotion {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldDurationPromotion), v))
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldEndPromotion), v...))
 	})
 }
 
-// DurationPromotionContainsFold applies the ContainsFold predicate on the "DurationPromotion" field.
-func DurationPromotionContainsFold(v string) predicate.Promotion {
+// EndPromotionGT applies the GT predicate on the "EndPromotion" field.
+func EndPromotionGT(v time.Time) predicate.Promotion {
 	return predicate.Promotion(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldDurationPromotion), v))
+		s.Where(sql.GT(s.C(FieldEndPromotion), v))
+	})
+}
+
+// EndPromotionGTE applies the GTE predicate on the "EndPromotion" field.
+func EndPromotionGTE(v time.Time) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldEndPromotion), v))
+	})
+}
+
+// EndPromotionLT applies the LT predicate on the "EndPromotion" field.
+func EndPromotionLT(v time.Time) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldEndPromotion), v))
+	})
+}
+
+// EndPromotionLTE applies the LTE predicate on the "EndPromotion" field.
+func EndPromotionLTE(v time.Time) predicate.Promotion {
+	return predicate.Promotion(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldEndPromotion), v))
 	})
 }
 

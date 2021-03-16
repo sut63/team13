@@ -100,6 +100,19 @@ func (f EmployeeWorkingHoursFunc) Mutate(ctx context.Context, m ent.Mutation) (e
 	return f(ctx, mv)
 }
 
+// The EndWorkFunc type is an adapter to allow the use of ordinary
+// function as EndWork mutator.
+type EndWorkFunc func(context.Context, *ent.EndWorkMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f EndWorkFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.EndWorkMutation)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.EndWorkMutation", m)
+	}
+	return f(ctx, mv)
+}
+
 // The GiveawayFunc type is an adapter to allow the use of ordinary
 // function as Giveaway mutator.
 type GiveawayFunc func(context.Context, *ent.GiveawayMutation) (ent.Value, error)
@@ -230,15 +243,15 @@ func (f SalaryFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, erro
 	return f(ctx, mv)
 }
 
-// The ShiftFunc type is an adapter to allow the use of ordinary
-// function as Shift mutator.
-type ShiftFunc func(context.Context, *ent.ShiftMutation) (ent.Value, error)
+// The StartWorkFunc type is an adapter to allow the use of ordinary
+// function as StartWork mutator.
+type StartWorkFunc func(context.Context, *ent.StartWorkMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f ShiftFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.ShiftMutation)
+func (f StartWorkFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.StartWorkMutation)
 	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ShiftMutation", m)
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.StartWorkMutation", m)
 	}
 	return f(ctx, mv)
 }

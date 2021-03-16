@@ -26,6 +26,8 @@ type Tx struct {
 	Employee *EmployeeClient
 	// EmployeeWorkingHours is the client for interacting with the EmployeeWorkingHours builders.
 	EmployeeWorkingHours *EmployeeWorkingHoursClient
+	// EndWork is the client for interacting with the EndWork builders.
+	EndWork *EndWorkClient
 	// Giveaway is the client for interacting with the Giveaway builders.
 	Giveaway *GiveawayClient
 	// Manager is the client for interacting with the Manager builders.
@@ -46,8 +48,8 @@ type Tx struct {
 	Role *RoleClient
 	// Salary is the client for interacting with the Salary builders.
 	Salary *SalaryClient
-	// Shift is the client for interacting with the Shift builders.
-	Shift *ShiftClient
+	// StartWork is the client for interacting with the StartWork builders.
+	StartWork *StartWorkClient
 	// Stock is the client for interacting with the Stock builders.
 	Stock *StockClient
 	// Typeproduct is the client for interacting with the Typeproduct builders.
@@ -196,6 +198,7 @@ func (tx *Tx) init() {
 	tx.Discount = NewDiscountClient(tx.config)
 	tx.Employee = NewEmployeeClient(tx.config)
 	tx.EmployeeWorkingHours = NewEmployeeWorkingHoursClient(tx.config)
+	tx.EndWork = NewEndWorkClient(tx.config)
 	tx.Giveaway = NewGiveawayClient(tx.config)
 	tx.Manager = NewManagerClient(tx.config)
 	tx.Orderonline = NewOrderonlineClient(tx.config)
@@ -206,7 +209,7 @@ func (tx *Tx) init() {
 	tx.Promotion = NewPromotionClient(tx.config)
 	tx.Role = NewRoleClient(tx.config)
 	tx.Salary = NewSalaryClient(tx.config)
-	tx.Shift = NewShiftClient(tx.config)
+	tx.StartWork = NewStartWorkClient(tx.config)
 	tx.Stock = NewStockClient(tx.config)
 	tx.Typeproduct = NewTypeproductClient(tx.config)
 	tx.Zoneproduct = NewZoneproductClient(tx.config)

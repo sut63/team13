@@ -77,10 +77,10 @@ func init() {
 	employee.AgeValidator = employeeDescAge.Validators[0].(func(int) error)
 	employeeworkinghoursFields := schema.EmployeeWorkingHours{}.Fields()
 	_ = employeeworkinghoursFields
-	// employeeworkinghoursDescIDEmployee is the schema descriptor for IDEmployee field.
-	employeeworkinghoursDescIDEmployee := employeeworkinghoursFields[0].Descriptor()
-	// employeeworkinghours.IDEmployeeValidator is a validator for the "IDEmployee" field. It is called by the builders before save.
-	employeeworkinghours.IDEmployeeValidator = employeeworkinghoursDescIDEmployee.Validators[0].(func(string) error)
+	// employeeworkinghoursDescCodeWork is the schema descriptor for CodeWork field.
+	employeeworkinghoursDescCodeWork := employeeworkinghoursFields[0].Descriptor()
+	// employeeworkinghours.CodeWorkValidator is a validator for the "CodeWork" field. It is called by the builders before save.
+	employeeworkinghours.CodeWorkValidator = employeeworkinghoursDescCodeWork.Validators[0].(func(string) error)
 	// employeeworkinghoursDescIDNumber is the schema descriptor for IDNumber field.
 	employeeworkinghoursDescIDNumber := employeeworkinghoursFields[1].Descriptor()
 	// employeeworkinghours.IDNumberValidator is a validator for the "IDNumber" field. It is called by the builders before save.
@@ -226,12 +226,8 @@ func init() {
 	promotionDescPromotionName := promotionFields[0].Descriptor()
 	// promotion.PromotionNameValidator is a validator for the "PromotionName" field. It is called by the builders before save.
 	promotion.PromotionNameValidator = promotionDescPromotionName.Validators[0].(func(string) error)
-	// promotionDescDurationPromotion is the schema descriptor for DurationPromotion field.
-	promotionDescDurationPromotion := promotionFields[1].Descriptor()
-	// promotion.DurationPromotionValidator is a validator for the "DurationPromotion" field. It is called by the builders before save.
-	promotion.DurationPromotionValidator = promotionDescDurationPromotion.Validators[0].(func(string) error)
 	// promotionDescPrice is the schema descriptor for Price field.
-	promotionDescPrice := promotionFields[2].Descriptor()
+	promotionDescPrice := promotionFields[3].Descriptor()
 	// promotion.PriceValidator is a validator for the "Price" field. It is called by the builders before save.
 	promotion.PriceValidator = func() func(float64) error {
 		validators := promotionDescPrice.Validators
@@ -292,12 +288,8 @@ func init() {
 			return nil
 		}
 	}()
-	// salaryDescIDEmployee is the schema descriptor for IDEmployee field.
-	salaryDescIDEmployee := salaryFields[3].Descriptor()
-	// salary.IDEmployeeValidator is a validator for the "IDEmployee" field. It is called by the builders before save.
-	salary.IDEmployeeValidator = salaryDescIDEmployee.Validators[0].(func(string) error)
 	// salaryDescAccountNumber is the schema descriptor for AccountNumber field.
-	salaryDescAccountNumber := salaryFields[4].Descriptor()
+	salaryDescAccountNumber := salaryFields[3].Descriptor()
 	// salary.AccountNumberValidator is a validator for the "AccountNumber" field. It is called by the builders before save.
 	salary.AccountNumberValidator = func() func(string) error {
 		validators := salaryDescAccountNumber.Validators

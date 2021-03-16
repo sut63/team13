@@ -27,6 +27,9 @@ type Employee func(*sql.Selector)
 // EmployeeWorkingHours is the predicate function for employeeworkinghours builders.
 type EmployeeWorkingHours func(*sql.Selector)
 
+// EndWork is the predicate function for endwork builders.
+type EndWork func(*sql.Selector)
+
 // Giveaway is the predicate function for giveaway builders.
 type Giveaway func(*sql.Selector)
 
@@ -57,8 +60,8 @@ type Role func(*sql.Selector)
 // Salary is the predicate function for salary builders.
 type Salary func(*sql.Selector)
 
-// Shift is the predicate function for shift builders.
-type Shift func(*sql.Selector)
+// StartWork is the predicate function for startwork builders.
+type StartWork func(*sql.Selector)
 
 // Stock is the predicate function for stock builders.
 type Stock func(*sql.Selector)

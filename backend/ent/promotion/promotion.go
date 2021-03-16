@@ -9,8 +9,10 @@ const (
 	FieldID = "id"
 	// FieldPromotionName holds the string denoting the promotionname field in the database.
 	FieldPromotionName = "promotion_name"
-	// FieldDurationPromotion holds the string denoting the durationpromotion field in the database.
-	FieldDurationPromotion = "duration_promotion"
+	// FieldStartPromotion holds the string denoting the startpromotion field in the database.
+	FieldStartPromotion = "start_promotion"
+	// FieldEndPromotion holds the string denoting the endpromotion field in the database.
+	FieldEndPromotion = "end_promotion"
 	// FieldPrice holds the string denoting the price field in the database.
 	FieldPrice = "price"
 
@@ -50,7 +52,8 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldPromotionName,
-	FieldDurationPromotion,
+	FieldStartPromotion,
+	FieldEndPromotion,
 	FieldPrice,
 }
 
@@ -64,8 +67,6 @@ var ForeignKeys = []string{
 var (
 	// PromotionNameValidator is a validator for the "PromotionName" field. It is called by the builders before save.
 	PromotionNameValidator func(string) error
-	// DurationPromotionValidator is a validator for the "DurationPromotion" field. It is called by the builders before save.
-	DurationPromotionValidator func(string) error
 	// PriceValidator is a validator for the "Price" field. It is called by the builders before save.
 	PriceValidator func(float64) error
 )

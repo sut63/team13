@@ -89,13 +89,14 @@ var (
 	// EmployeeWorkingHoursColumns holds the columns for the "employee_working_hours" table.
 	EmployeeWorkingHoursColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "id_employee", Type: field.TypeString},
+		{Name: "code_work", Type: field.TypeString},
 		{Name: "id_number", Type: field.TypeString, Size: 13},
 		{Name: "wages", Type: field.TypeFloat64},
 		{Name: "day_whatday", Type: field.TypeInt, Nullable: true},
 		{Name: "employee_whose", Type: field.TypeInt, Nullable: true},
+		{Name: "end_work_whenendwork", Type: field.TypeInt, Nullable: true},
 		{Name: "role_todo", Type: field.TypeInt, Nullable: true},
-		{Name: "shift_when", Type: field.TypeInt, Nullable: true},
+		{Name: "start_work_whenwork", Type: field.TypeInt, Nullable: true},
 	}
 	// EmployeeWorkingHoursTable holds the schema information for the "employee_working_hours" table.
 	EmployeeWorkingHoursTable = &schema.Table{
@@ -118,20 +119,39 @@ var (
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:  "employee_working_hours_roles_todo",
+				Symbol:  "employee_working_hours_end_works_whenendwork",
 				Columns: []*schema.Column{EmployeeWorkingHoursColumns[6]},
+
+				RefColumns: []*schema.Column{EndWorksColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:  "employee_working_hours_roles_todo",
+				Columns: []*schema.Column{EmployeeWorkingHoursColumns[7]},
 
 				RefColumns: []*schema.Column{RolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:  "employee_working_hours_shifts_when",
-				Columns: []*schema.Column{EmployeeWorkingHoursColumns[7]},
+				Symbol:  "employee_working_hours_start_works_whenwork",
+				Columns: []*schema.Column{EmployeeWorkingHoursColumns[8]},
 
-				RefColumns: []*schema.Column{ShiftsColumns[0]},
+				RefColumns: []*schema.Column{StartWorksColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
+	}
+	// EndWorksColumns holds the columns for the "end_works" table.
+	EndWorksColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "end_work", Type: field.TypeTime},
+	}
+	// EndWorksTable holds the schema information for the "end_works" table.
+	EndWorksTable = &schema.Table{
+		Name:        "end_works",
+		Columns:     EndWorksColumns,
+		PrimaryKey:  []*schema.Column{EndWorksColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{},
 	}
 	// GiveawaysColumns holds the columns for the "giveaways" table.
 	GiveawaysColumns = []*schema.Column{
@@ -298,7 +318,8 @@ var (
 	PromotionsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "promotion_name", Type: field.TypeString, Unique: true},
-		{Name: "duration_promotion", Type: field.TypeString},
+		{Name: "start_promotion", Type: field.TypeTime},
+		{Name: "end_promotion", Type: field.TypeTime},
 		{Name: "price", Type: field.TypeFloat64},
 		{Name: "discount_fordiscount", Type: field.TypeInt, Nullable: true},
 		{Name: "giveaway_forgiveaway", Type: field.TypeInt, Nullable: true},
@@ -312,21 +333,21 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "promotions_discounts_fordiscount",
-				Columns: []*schema.Column{PromotionsColumns[4]},
+				Columns: []*schema.Column{PromotionsColumns[5]},
 
 				RefColumns: []*schema.Column{DiscountsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "promotions_giveaways_forgiveaway",
-				Columns: []*schema.Column{PromotionsColumns[5]},
+				Columns: []*schema.Column{PromotionsColumns[6]},
 
 				RefColumns: []*schema.Column{GiveawaysColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "promotions_products_forproduct",
-				Columns: []*schema.Column{PromotionsColumns[6]},
+				Columns: []*schema.Column{PromotionsColumns[7]},
 
 				RefColumns: []*schema.Column{ProductsColumns[0]},
 				OnDelete:   schema.SetNull,
@@ -351,7 +372,6 @@ var (
 		{Name: "salary", Type: field.TypeFloat64},
 		{Name: "bonus", Type: field.TypeFloat64},
 		{Name: "salary_datetime", Type: field.TypeTime},
-		{Name: "id_employee", Type: field.TypeString},
 		{Name: "account_number", Type: field.TypeString, Size: 10},
 		{Name: "assessment_formassessment", Type: field.TypeInt, Nullable: true},
 		{Name: "employee_formemployee", Type: field.TypeInt, Nullable: true},
@@ -365,39 +385,37 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:  "salaries_assessments_formassessment",
-				Columns: []*schema.Column{SalariesColumns[6]},
+				Columns: []*schema.Column{SalariesColumns[5]},
 
 				RefColumns: []*schema.Column{AssessmentsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "salaries_employees_formemployee",
-				Columns: []*schema.Column{SalariesColumns[7]},
+				Columns: []*schema.Column{SalariesColumns[6]},
 
 				RefColumns: []*schema.Column{EmployeesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:  "salaries_positions_formposition",
-				Columns: []*schema.Column{SalariesColumns[8]},
+				Columns: []*schema.Column{SalariesColumns[7]},
 
 				RefColumns: []*schema.Column{PositionsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 	}
-	// ShiftsColumns holds the columns for the "shifts" table.
-	ShiftsColumns = []*schema.Column{
+	// StartWorksColumns holds the columns for the "start_works" table.
+	StartWorksColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "name", Type: field.TypeString},
-		{Name: "time_start", Type: field.TypeTime},
-		{Name: "time_end", Type: field.TypeTime},
+		{Name: "start_work", Type: field.TypeTime},
 	}
-	// ShiftsTable holds the schema information for the "shifts" table.
-	ShiftsTable = &schema.Table{
-		Name:        "shifts",
-		Columns:     ShiftsColumns,
-		PrimaryKey:  []*schema.Column{ShiftsColumns[0]},
+	// StartWorksTable holds the schema information for the "start_works" table.
+	StartWorksTable = &schema.Table{
+		Name:        "start_works",
+		Columns:     StartWorksColumns,
+		PrimaryKey:  []*schema.Column{StartWorksColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{},
 	}
 	// StocksColumns holds the columns for the "stocks" table.
@@ -481,6 +499,7 @@ var (
 		DiscountsTable,
 		EmployeesTable,
 		EmployeeWorkingHoursTable,
+		EndWorksTable,
 		GiveawaysTable,
 		ManagersTable,
 		OrderonlinesTable,
@@ -491,7 +510,7 @@ var (
 		PromotionsTable,
 		RolesTable,
 		SalariesTable,
-		ShiftsTable,
+		StartWorksTable,
 		StocksTable,
 		TypeproductsTable,
 		ZoneproductsTable,
@@ -501,8 +520,9 @@ var (
 func init() {
 	EmployeeWorkingHoursTable.ForeignKeys[0].RefTable = DaysTable
 	EmployeeWorkingHoursTable.ForeignKeys[1].RefTable = EmployeesTable
-	EmployeeWorkingHoursTable.ForeignKeys[2].RefTable = RolesTable
-	EmployeeWorkingHoursTable.ForeignKeys[3].RefTable = ShiftsTable
+	EmployeeWorkingHoursTable.ForeignKeys[2].RefTable = EndWorksTable
+	EmployeeWorkingHoursTable.ForeignKeys[3].RefTable = RolesTable
+	EmployeeWorkingHoursTable.ForeignKeys[4].RefTable = StartWorksTable
 	OrderonlinesTable.ForeignKeys[0].RefTable = CustomersTable
 	OrderonlinesTable.ForeignKeys[1].RefTable = PaymentchannelsTable
 	OrderonlinesTable.ForeignKeys[2].RefTable = ProductsTable

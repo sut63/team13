@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
@@ -28,9 +29,15 @@ func (pc *PromotionCreate) SetPromotionName(s string) *PromotionCreate {
 	return pc
 }
 
-// SetDurationPromotion sets the DurationPromotion field.
-func (pc *PromotionCreate) SetDurationPromotion(s string) *PromotionCreate {
-	pc.mutation.SetDurationPromotion(s)
+// SetStartPromotion sets the StartPromotion field.
+func (pc *PromotionCreate) SetStartPromotion(t time.Time) *PromotionCreate {
+	pc.mutation.SetStartPromotion(t)
+	return pc
+}
+
+// SetEndPromotion sets the EndPromotion field.
+func (pc *PromotionCreate) SetEndPromotion(t time.Time) *PromotionCreate {
+	pc.mutation.SetEndPromotion(t)
 	return pc
 }
 
@@ -112,13 +119,11 @@ func (pc *PromotionCreate) Save(ctx context.Context) (*Promotion, error) {
 			return nil, &ValidationError{Name: "PromotionName", err: fmt.Errorf("ent: validator failed for field \"PromotionName\": %w", err)}
 		}
 	}
-	if _, ok := pc.mutation.DurationPromotion(); !ok {
-		return nil, &ValidationError{Name: "DurationPromotion", err: errors.New("ent: missing required field \"DurationPromotion\"")}
+	if _, ok := pc.mutation.StartPromotion(); !ok {
+		return nil, &ValidationError{Name: "StartPromotion", err: errors.New("ent: missing required field \"StartPromotion\"")}
 	}
-	if v, ok := pc.mutation.DurationPromotion(); ok {
-		if err := promotion.DurationPromotionValidator(v); err != nil {
-			return nil, &ValidationError{Name: "DurationPromotion", err: fmt.Errorf("ent: validator failed for field \"DurationPromotion\": %w", err)}
-		}
+	if _, ok := pc.mutation.EndPromotion(); !ok {
+		return nil, &ValidationError{Name: "EndPromotion", err: errors.New("ent: missing required field \"EndPromotion\"")}
 	}
 	if _, ok := pc.mutation.Price(); !ok {
 		return nil, &ValidationError{Name: "Price", err: errors.New("ent: missing required field \"Price\"")}
@@ -196,13 +201,21 @@ func (pc *PromotionCreate) createSpec() (*Promotion, *sqlgraph.CreateSpec) {
 		})
 		pr.PromotionName = value
 	}
-	if value, ok := pc.mutation.DurationPromotion(); ok {
+	if value, ok := pc.mutation.StartPromotion(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
+			Type:   field.TypeTime,
 			Value:  value,
-			Column: promotion.FieldDurationPromotion,
+			Column: promotion.FieldStartPromotion,
 		})
-		pr.DurationPromotion = value
+		pr.StartPromotion = value
+	}
+	if value, ok := pc.mutation.EndPromotion(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: promotion.FieldEndPromotion,
+		})
+		pr.EndPromotion = value
 	}
 	if value, ok := pc.mutation.Price(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
