@@ -230,7 +230,7 @@ const EmployeeWorkingHours: FC<{}> = () => {
   const checkCaseSaveError = (field: string) => {
     switch(field) {
       case 'CodeWork':
-        alertMessage("error","รหัสพนักงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 7 หลัก");
+        alertMessage("error","รหัสทำงานขึ้นต้นด้วย A,B,C ตามด้วยเลข 7 หลัก");
         return;
       case 'IDNumber':
         alertMessage("error","กรุณากรอกเลขบัตรประชาชน 13 หลักให้ถูกต้อง");
@@ -390,7 +390,7 @@ const EmployeeWorkingHours: FC<{}> = () => {
 
             <Grid item xs={12}></Grid>
             <Grid item xs={3}>
-              <div className={classes.paper}>รหัสพนักงาน</div>
+              <div className={classes.paper}>รหัสทำงาน</div>
             </Grid>
             <Grid item xs={9}>
               <FormControl variant="outlined" className={classes.formControl}>
