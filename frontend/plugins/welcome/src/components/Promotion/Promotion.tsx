@@ -12,7 +12,7 @@ import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
 import { Alert } from '@material-ui/lab';
 import { DefaultApi } from '../../api/apis';
-import { Paper, Select, TextField } from '@material-ui/core';
+import { FormControl, Paper, Select, TextField } from '@material-ui/core';
 import { ContentHeader } from '@backstage/core';
 import Swal from 'sweetalert2';
 
@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
+    },
+    margin: {
+      margin: theme.spacing(1),
+    },
+    textField: {
+      width: '25ch',
     },
   }),
 );
@@ -66,7 +72,8 @@ export default function MenuAppBar() {
   const [discountID, setDiscountid] = useState(Number);
   const [giveawayID, setGiveawayid] = useState(Number);
   const [promotionname, setPromotionname] = useState(String);
-  const [durationpromotion, setDurationpromotion ] = useState(String);
+  const [Sdatetime, setSdatetime ] = useState(String);
+  const [Edatetime, setEdatetime ] = useState(String);
   const [price, setPrice] = useState(Number);
 
 
@@ -101,11 +108,12 @@ export default function MenuAppBar() {
       discount: discountID,
       product: productID,
       giveaway: giveawayID,
-      DurationPromotion: durationpromotion,
+      StartPromotion: Sdatetime + ":00+07:00",
+      EndPromotion: Edatetime + ":00+07:00",
       promotionName: promotionname,
       price: pc,
     }
-
+    console.log(Promotions)
 
     const alertMessage = (icon: any, title: any) => {
       Toast.fire({
@@ -122,9 +130,9 @@ export default function MenuAppBar() {
         case 'Price':
           alertMessage("error","กรุณากรอกราคาให้ถูกต้อง");
           return;
-        case 'DurationPromotion':
-          alertMessage("error","กรุณาระบุระยะเวลาโปรโมชั่นให้ถูกต้อง");
-          return;
+        case 'timepromotion':
+            alertMessage("error","กรุณาระบุวันที่");
+            return;
         default:
           alertMessage("error","บันทึกข้อมูลไม่สำเร็จ");
           return;
@@ -184,8 +192,12 @@ function save() {
     setPromotionname(event.target.value as string);
   };
 
-  const Duration_id_handleChange = (event: any) => {
-    setDurationpromotion(event.target.value as string);
+  const handleDatetimeChange = (event: any) => {
+    setSdatetime(event.target.value as string);
+  };
+
+  const handleEDatetimeChange = (event: any) => {
+    setEdatetime(event.target.value as string);
   };
 
   const handleClose = () => {
@@ -315,18 +327,35 @@ function save() {
           <Grid item xs={2}><p></p></Grid>
 
           <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><p></p></Grid>
-          <Grid item xs={2}><h3>ระยะเวลาโปรโมชั่น</h3></Grid>
+          <Grid item xs={2}><p><h3>ระยะเวลาเริ่มโปรโมชั่น</h3></p></Grid>
           <Grid item xs={2}>
-          <Paper >
-                <TextField id="ระยะ Promotion" type='string'  InputLabelProps={{
-                  shrink: true,}}label="" variant="outlined"
-                  onChange = {Duration_id_handleChange}
-                  value={durationpromotion}
-                  />
-          </Paper>
+            <TextField
+                  id="date"
+                  label="Date"
+                  type="datetime-local"
+                  value={Sdatetime || ''}
+                  onChange={handleDatetimeChange}
+                  //defaultValue="2020-05-24"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                /></Grid>
+          <Grid item xs={2}><h3>ระยะเวลาสิ้นสุดโปรโมชั่น</h3></Grid>
+          <Grid item xs={2}>
+          <TextField
+                  id="date"
+                  label="Date"
+                  type="datetime-local"
+                  value={Edatetime || ''}
+                  onChange={handleEDatetimeChange}
+                  //defaultValue="2020-05-24"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
           </Grid>
-          <Grid item xs={2}><p>(วันที่เริ่มโปรโมชั่น - วันที่หมดโปรโมชั่น)(ตัวอย่าง: 3 มค - 10 มค 2564)</p></Grid>
           <Grid item xs={2}><p></p></Grid>
 
           <Grid item xs={2}><p></p></Grid>
@@ -405,12 +434,7 @@ function save() {
       </AppBar>
 
 
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-          </Typography>
-        </Toolbar>
-      </AppBar>
+
     </div>
 
 

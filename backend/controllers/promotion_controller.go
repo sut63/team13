@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-
+	"time"
 	"github.com/team13/app/ent"
 	"github.com/team13/app/ent/discount"
 	"github.com/team13/app/ent/giveaway"
@@ -25,7 +25,8 @@ type Promotion struct {
 	Giveaway       		int
 	Product		   		int
 	PromotionName  		string
-	DurationPromotion 	string
+	StartPromotion      string
+	EndPromotion        string
 	Price		   		float64
 }
 
@@ -84,7 +85,16 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 		})
 		return
 	}
-
+	print(obj.StartPromotion)
+	if obj.StartPromotion == ":00+07:00" || obj.EndPromotion == ":00+07:00" {
+		c.JSON(400, gin.H{
+			"status" : false,
+			"error": "timepromotion",
+		})
+		return
+	}
+	Stimes, err := time.Parse(time.RFC3339, obj.StartPromotion)
+	Etimes, err := time.Parse(time.RFC3339, obj.EndPromotion)
 
 	po, err := ctl.client.Promotion.
 		Create().
@@ -92,7 +102,8 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 		SetProduct(p).
 		SetGive(g).
 		SetSale(d).
-		SetDurationPromotion(obj.DurationPromotion).
+		SetStartPromotion(Stimes).
+		SetEndPromotion(Etimes).
 		SetPrice(obj.Price).
 	
 		Save(context.Background())
@@ -112,30 +123,25 @@ func (ctl *PromotionController) CreatePromotion(c *gin.Context) {
 }
 
 // GetPromotion handles GET requests to retrieve a promotion entity
-// @Summary Get a promotion entity by ID
-// @Description get promotion by ID
+// @Summary Get a promotion entity 
+// @Description get promotion 
 // @ID get-promotion
 // @Produce  json
-// @Param id path int true "Promotion ID"
+// @Param product  query string false "Product"
 // @Success 200 {array} ent.Promotion
 // @Failure 400 {object} gin.H
 // @Failure 404 {object} gin.H
 // @Failure 500 {object} gin.H
-// @Router /promotions/{id} [get]
+// @Router /promo [get]
 func (ctl *PromotionController) GetPromotion(c *gin.Context) {
-	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
+	t1 := c.Query("product")
+
 	pa, err := ctl.client.Promotion.
 		Query().
 		WithGive().
 		WithProduct().
 		WithSale().
-		Where(promotion.HasProductWith(product.IDEQ(int(id)))).
+		Where(promotion.HasProductWith(product.NameProductContains(t1))).
 		All(context.Background())
 
 	if err != nil {
@@ -304,11 +310,11 @@ func NewPromotionController(router gin.IRouter, client *ent.Client) *PromotionCo
 // InitUserController registers routes to the main engine
 func (ctl *PromotionController) register() {
 	promotions := ctl.router.Group("/promotions")
-
+	pro := ctl.router.Group("/promo")
 	promotions.GET("", ctl.ListPromotion)
 	// CRUD
 	promotions.POST("", ctl.CreatePromotion)
-	promotions.GET(":id", ctl.GetPromotion)
+	pro.GET("", ctl.GetPromotion)
 	promotions.PUT(":id", ctl.UpdatePromotion)
 	promotions.DELETE(":id", ctl.DeletePromotion)
 }

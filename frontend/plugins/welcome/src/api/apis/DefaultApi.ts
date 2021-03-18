@@ -330,7 +330,7 @@ export interface GetProductRequest {
 }
 
 export interface GetPromotionRequest {
-    id: number;
+    product?: string;
 }
 
 export interface GetRoleRequest {
@@ -2448,20 +2448,20 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * get promotion by ID
-     * Get a promotion entity by ID
+     * get promotion
+     * Get a promotion entity
      */
     async getPromotionRaw(requestParameters: GetPromotionRequest): Promise<runtime.ApiResponse<Array<EntPromotion>>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getPromotion.');
-        }
-
         const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.product !== undefined) {
+            queryParameters['product'] = requestParameters.product;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/promotions/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/promo`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -2471,8 +2471,8 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * get promotion by ID
-     * Get a promotion entity by ID
+     * get promotion
+     * Get a promotion entity
      */
     async getPromotion(requestParameters: GetPromotionRequest): Promise<Array<EntPromotion>> {
         const response = await this.getPromotionRaw(requestParameters);

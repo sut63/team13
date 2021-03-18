@@ -63,7 +63,7 @@ definitions:
     properties:
       discount:
         type: integer
-      durationPromotion:
+      endPromotion:
         type: string
       giveaway:
         type: integer
@@ -72,6 +72,8 @@ definitions:
       product:
         type: integer
       promotionName:
+        type: string
+      startPromotion:
         type: string
     type: object
   controllers.Salary:
@@ -98,7 +100,7 @@ definitions:
         type: integer
       employeeID:
         type: integer
-      idcardemployee:
+      idstock:
         type: string
       priceproduct:
         type: number
@@ -578,15 +580,17 @@ definitions:
     type: object
   ent.Promotion:
     properties:
-      DurationPromotion:
-        description: DurationPromotion holds the value of the "DurationPromotion"
-          field.
+      EndPromotion:
+        description: EndPromotion holds the value of the "EndPromotion" field.
         type: string
       Price:
         description: Price holds the value of the "Price" field.
         type: number
       PromotionName:
         description: PromotionName holds the value of the "PromotionName" field.
+        type: string
+      StartPromotion:
+        description: StartPromotion holds the value of the "StartPromotion" field.
         type: string
       edges:
         $ref: '#/definitions/ent.PromotionEdges'
@@ -703,8 +707,8 @@ definitions:
       Amount:
         description: Amount holds the value of the "Amount" field.
         type: integer
-      IDcardemployee:
-        description: IDcardemployee holds the value of the "IDcardemployee" field.
+      IDstock:
+        description: IDstock holds the value of the "IDstock" field.
         type: string
       Priceproduct:
         description: Priceproduct holds the value of the "Priceproduct" field.
@@ -2930,6 +2934,37 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Update a product entity by ID
+  /promo:
+    get:
+      description: get promotion
+      operationId: get-promotion
+      parameters:
+      - description: Product
+        in: query
+        name: product
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Promotion'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a promotion entity
   /promotions:
     get:
       description: list promotion entities
@@ -3019,37 +3054,6 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Delete a promotion entity by ID
-    get:
-      description: get promotion by ID
-      operationId: get-promotion
-      parameters:
-      - description: Promotion ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/ent.Promotion'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/gin.H'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/gin.H'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Get a promotion entity by ID
   /roles:
     get:
       description: list role entities

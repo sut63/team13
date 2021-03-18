@@ -226,12 +226,8 @@ func init() {
 	promotionDescPromotionName := promotionFields[0].Descriptor()
 	// promotion.PromotionNameValidator is a validator for the "PromotionName" field. It is called by the builders before save.
 	promotion.PromotionNameValidator = promotionDescPromotionName.Validators[0].(func(string) error)
-	// promotionDescDurationPromotion is the schema descriptor for DurationPromotion field.
-	promotionDescDurationPromotion := promotionFields[1].Descriptor()
-	// promotion.DurationPromotionValidator is a validator for the "DurationPromotion" field. It is called by the builders before save.
-	promotion.DurationPromotionValidator = promotionDescDurationPromotion.Validators[0].(func(string) error)
 	// promotionDescPrice is the schema descriptor for Price field.
-	promotionDescPrice := promotionFields[2].Descriptor()
+	promotionDescPrice := promotionFields[3].Descriptor()
 	// promotion.PriceValidator is a validator for the "Price" field. It is called by the builders before save.
 	promotion.PriceValidator = func() func(float64) error {
 		validators := promotionDescPrice.Validators
@@ -312,10 +308,10 @@ func init() {
 	}()
 	stockFields := schema.Stock{}.Fields()
 	_ = stockFields
-	// stockDescIDcardemployee is the schema descriptor for IDcardemployee field.
-	stockDescIDcardemployee := stockFields[0].Descriptor()
-	// stock.IDcardemployeeValidator is a validator for the "IDcardemployee" field. It is called by the builders before save.
-	stock.IDcardemployeeValidator = stockDescIDcardemployee.Validators[0].(func(string) error)
+	// stockDescIDstock is the schema descriptor for IDstock field.
+	stockDescIDstock := stockFields[0].Descriptor()
+	// stock.IDstockValidator is a validator for the "IDstock" field. It is called by the builders before save.
+	stock.IDstockValidator = stockDescIDstock.Validators[0].(func(string) error)
 	// stockDescPriceproduct is the schema descriptor for Priceproduct field.
 	stockDescPriceproduct := stockFields[1].Descriptor()
 	// stock.PriceproductValidator is a validator for the "Priceproduct" field. It is called by the builders before save.

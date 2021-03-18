@@ -7749,22 +7749,23 @@ func (m *ProductMutation) ResetEdge(name string) error {
 // nodes in the graph.
 type PromotionMutation struct {
 	config
-	op                 Op
-	typ                string
-	id                 *int
-	_PromotionName     *string
-	_DurationPromotion *string
-	_Price             *float64
-	add_Price          *float64
-	clearedFields      map[string]struct{}
-	sale               *int
-	clearedsale        bool
-	give               *int
-	clearedgive        bool
-	product            *int
-	clearedproduct     bool
-	done               bool
-	oldValue           func(context.Context) (*Promotion, error)
+	op              Op
+	typ             string
+	id              *int
+	_PromotionName  *string
+	_StartPromotion *time.Time
+	_EndPromotion   *time.Time
+	_Price          *float64
+	add_Price       *float64
+	clearedFields   map[string]struct{}
+	sale            *int
+	clearedsale     bool
+	give            *int
+	clearedgive     bool
+	product         *int
+	clearedproduct  bool
+	done            bool
+	oldValue        func(context.Context) (*Promotion, error)
 }
 
 var _ ent.Mutation = (*PromotionMutation)(nil)
@@ -7883,41 +7884,78 @@ func (m *PromotionMutation) ResetPromotionName() {
 	m._PromotionName = nil
 }
 
-// SetDurationPromotion sets the DurationPromotion field.
-func (m *PromotionMutation) SetDurationPromotion(s string) {
-	m._DurationPromotion = &s
+// SetStartPromotion sets the StartPromotion field.
+func (m *PromotionMutation) SetStartPromotion(t time.Time) {
+	m._StartPromotion = &t
 }
 
-// DurationPromotion returns the DurationPromotion value in the mutation.
-func (m *PromotionMutation) DurationPromotion() (r string, exists bool) {
-	v := m._DurationPromotion
+// StartPromotion returns the StartPromotion value in the mutation.
+func (m *PromotionMutation) StartPromotion() (r time.Time, exists bool) {
+	v := m._StartPromotion
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldDurationPromotion returns the old DurationPromotion value of the Promotion.
+// OldStartPromotion returns the old StartPromotion value of the Promotion.
 // If the Promotion object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *PromotionMutation) OldDurationPromotion(ctx context.Context) (v string, err error) {
+func (m *PromotionMutation) OldStartPromotion(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldDurationPromotion is allowed only on UpdateOne operations")
+		return v, fmt.Errorf("OldStartPromotion is allowed only on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldDurationPromotion requires an ID field in the mutation")
+		return v, fmt.Errorf("OldStartPromotion requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDurationPromotion: %w", err)
+		return v, fmt.Errorf("querying old value for OldStartPromotion: %w", err)
 	}
-	return oldValue.DurationPromotion, nil
+	return oldValue.StartPromotion, nil
 }
 
-// ResetDurationPromotion reset all changes of the "DurationPromotion" field.
-func (m *PromotionMutation) ResetDurationPromotion() {
-	m._DurationPromotion = nil
+// ResetStartPromotion reset all changes of the "StartPromotion" field.
+func (m *PromotionMutation) ResetStartPromotion() {
+	m._StartPromotion = nil
+}
+
+// SetEndPromotion sets the EndPromotion field.
+func (m *PromotionMutation) SetEndPromotion(t time.Time) {
+	m._EndPromotion = &t
+}
+
+// EndPromotion returns the EndPromotion value in the mutation.
+func (m *PromotionMutation) EndPromotion() (r time.Time, exists bool) {
+	v := m._EndPromotion
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEndPromotion returns the old EndPromotion value of the Promotion.
+// If the Promotion object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *PromotionMutation) OldEndPromotion(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldEndPromotion is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldEndPromotion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEndPromotion: %w", err)
+	}
+	return oldValue.EndPromotion, nil
+}
+
+// ResetEndPromotion reset all changes of the "EndPromotion" field.
+func (m *PromotionMutation) ResetEndPromotion() {
+	m._EndPromotion = nil
 }
 
 // SetPrice sets the Price field.
@@ -8108,12 +8146,15 @@ func (m *PromotionMutation) Type() string {
 // this mutation. Note that, in order to get all numeric
 // fields that were in/decremented, call AddedFields().
 func (m *PromotionMutation) Fields() []string {
-	fields := make([]string, 0, 3)
+	fields := make([]string, 0, 4)
 	if m._PromotionName != nil {
 		fields = append(fields, promotion.FieldPromotionName)
 	}
-	if m._DurationPromotion != nil {
-		fields = append(fields, promotion.FieldDurationPromotion)
+	if m._StartPromotion != nil {
+		fields = append(fields, promotion.FieldStartPromotion)
+	}
+	if m._EndPromotion != nil {
+		fields = append(fields, promotion.FieldEndPromotion)
 	}
 	if m._Price != nil {
 		fields = append(fields, promotion.FieldPrice)
@@ -8128,8 +8169,10 @@ func (m *PromotionMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case promotion.FieldPromotionName:
 		return m.PromotionName()
-	case promotion.FieldDurationPromotion:
-		return m.DurationPromotion()
+	case promotion.FieldStartPromotion:
+		return m.StartPromotion()
+	case promotion.FieldEndPromotion:
+		return m.EndPromotion()
 	case promotion.FieldPrice:
 		return m.Price()
 	}
@@ -8143,8 +8186,10 @@ func (m *PromotionMutation) OldField(ctx context.Context, name string) (ent.Valu
 	switch name {
 	case promotion.FieldPromotionName:
 		return m.OldPromotionName(ctx)
-	case promotion.FieldDurationPromotion:
-		return m.OldDurationPromotion(ctx)
+	case promotion.FieldStartPromotion:
+		return m.OldStartPromotion(ctx)
+	case promotion.FieldEndPromotion:
+		return m.OldEndPromotion(ctx)
 	case promotion.FieldPrice:
 		return m.OldPrice(ctx)
 	}
@@ -8163,12 +8208,19 @@ func (m *PromotionMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetPromotionName(v)
 		return nil
-	case promotion.FieldDurationPromotion:
-		v, ok := value.(string)
+	case promotion.FieldStartPromotion:
+		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetDurationPromotion(v)
+		m.SetStartPromotion(v)
+		return nil
+	case promotion.FieldEndPromotion:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEndPromotion(v)
 		return nil
 	case promotion.FieldPrice:
 		v, ok := value.(float64)
@@ -8245,8 +8297,11 @@ func (m *PromotionMutation) ResetField(name string) error {
 	case promotion.FieldPromotionName:
 		m.ResetPromotionName()
 		return nil
-	case promotion.FieldDurationPromotion:
-		m.ResetDurationPromotion()
+	case promotion.FieldStartPromotion:
+		m.ResetStartPromotion()
+		return nil
+	case promotion.FieldEndPromotion:
+		m.ResetEndPromotion()
 		return nil
 	case promotion.FieldPrice:
 		m.ResetPrice()
@@ -9828,7 +9883,7 @@ type StockMutation struct {
 	op                  Op
 	typ                 string
 	id                  *int
-	_IDcardemployee     *string
+	_IDstock            *string
 	_Priceproduct       *float64
 	add_Priceproduct    *float64
 	_Amount             *int
@@ -9926,41 +9981,41 @@ func (m *StockMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
-// SetIDcardemployee sets the IDcardemployee field.
-func (m *StockMutation) SetIDcardemployee(s string) {
-	m._IDcardemployee = &s
+// SetIDstock sets the IDstock field.
+func (m *StockMutation) SetIDstock(s string) {
+	m._IDstock = &s
 }
 
-// IDcardemployee returns the IDcardemployee value in the mutation.
-func (m *StockMutation) IDcardemployee() (r string, exists bool) {
-	v := m._IDcardemployee
+// IDstock returns the IDstock value in the mutation.
+func (m *StockMutation) IDstock() (r string, exists bool) {
+	v := m._IDstock
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldIDcardemployee returns the old IDcardemployee value of the Stock.
+// OldIDstock returns the old IDstock value of the Stock.
 // If the Stock object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *StockMutation) OldIDcardemployee(ctx context.Context) (v string, err error) {
+func (m *StockMutation) OldIDstock(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldIDcardemployee is allowed only on UpdateOne operations")
+		return v, fmt.Errorf("OldIDstock is allowed only on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldIDcardemployee requires an ID field in the mutation")
+		return v, fmt.Errorf("OldIDstock requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldIDcardemployee: %w", err)
+		return v, fmt.Errorf("querying old value for OldIDstock: %w", err)
 	}
-	return oldValue.IDcardemployee, nil
+	return oldValue.IDstock, nil
 }
 
-// ResetIDcardemployee reset all changes of the "IDcardemployee" field.
-func (m *StockMutation) ResetIDcardemployee() {
-	m._IDcardemployee = nil
+// ResetIDstock reset all changes of the "IDstock" field.
+func (m *StockMutation) ResetIDstock() {
+	m._IDstock = nil
 }
 
 // SetPriceproduct sets the Priceproduct field.
@@ -10285,8 +10340,8 @@ func (m *StockMutation) Type() string {
 // fields that were in/decremented, call AddedFields().
 func (m *StockMutation) Fields() []string {
 	fields := make([]string, 0, 4)
-	if m._IDcardemployee != nil {
-		fields = append(fields, stock.FieldIDcardemployee)
+	if m._IDstock != nil {
+		fields = append(fields, stock.FieldIDstock)
 	}
 	if m._Priceproduct != nil {
 		fields = append(fields, stock.FieldPriceproduct)
@@ -10305,8 +10360,8 @@ func (m *StockMutation) Fields() []string {
 // not set, or was not define in the schema.
 func (m *StockMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case stock.FieldIDcardemployee:
-		return m.IDcardemployee()
+	case stock.FieldIDstock:
+		return m.IDstock()
 	case stock.FieldPriceproduct:
 		return m.Priceproduct()
 	case stock.FieldAmount:
@@ -10322,8 +10377,8 @@ func (m *StockMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *StockMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case stock.FieldIDcardemployee:
-		return m.OldIDcardemployee(ctx)
+	case stock.FieldIDstock:
+		return m.OldIDstock(ctx)
 	case stock.FieldPriceproduct:
 		return m.OldPriceproduct(ctx)
 	case stock.FieldAmount:
@@ -10339,12 +10394,12 @@ func (m *StockMutation) OldField(ctx context.Context, name string) (ent.Value, e
 // type mismatch the field type.
 func (m *StockMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case stock.FieldIDcardemployee:
+	case stock.FieldIDstock:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetIDcardemployee(v)
+		m.SetIDstock(v)
 		return nil
 	case stock.FieldPriceproduct:
 		v, ok := value.(float64)
@@ -10444,8 +10499,8 @@ func (m *StockMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *StockMutation) ResetField(name string) error {
 	switch name {
-	case stock.FieldIDcardemployee:
-		m.ResetIDcardemployee()
+	case stock.FieldIDstock:
+		m.ResetIDstock()
 		return nil
 	case stock.FieldPriceproduct:
 		m.ResetPriceproduct()

@@ -7,8 +7,8 @@ const (
 	Label = "stock"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldIDcardemployee holds the string denoting the idcardemployee field in the database.
-	FieldIDcardemployee = "idcardemployee"
+	// FieldIDstock holds the string denoting the idstock field in the database.
+	FieldIDstock = "idstock"
 	// FieldPriceproduct holds the string denoting the priceproduct field in the database.
 	FieldPriceproduct = "priceproduct"
 	// FieldAmount holds the string denoting the amount field in the database.
@@ -60,7 +60,7 @@ const (
 // Columns holds all SQL columns for stock fields.
 var Columns = []string{
 	FieldID,
-	FieldIDcardemployee,
+	FieldIDstock,
 	FieldPriceproduct,
 	FieldAmount,
 	FieldTime,
@@ -75,8 +75,8 @@ var ForeignKeys = []string{
 }
 
 var (
-	// IDcardemployeeValidator is a validator for the "IDcardemployee" field. It is called by the builders before save.
-	IDcardemployeeValidator func(string) error
+	// IDstockValidator is a validator for the "IDstock" field. It is called by the builders before save.
+	IDstockValidator func(string) error
 	// PriceproductValidator is a validator for the "Priceproduct" field. It is called by the builders before save.
 	PriceproductValidator func(float64) error
 	// AmountValidator is a validator for the "Amount" field. It is called by the builders before save.

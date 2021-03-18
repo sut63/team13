@@ -29,6 +29,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 import { FormControl, InputLabel, TextField } from '@material-ui/core';
+import { Cookies } from '../../orderproduct/SignInOrderproduct/Cookie'
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 const Toast = Swal.mixin({
@@ -173,6 +175,11 @@ export default function MenuAppBar() {
     );
   }
 
+  var ck = new Cookies()
+  //var cookieEmail = ck.GetCookie()
+  //var cookieID = ck.GetID()
+  var cookieName = ck.GetName()
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -189,6 +196,22 @@ export default function MenuAppBar() {
               </Typography>
             </Grid>
             <Grid item>
+            <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+                </Grid>
+            <Grid item>
+              
+            <Typography color="inherit" variant="h6" component="h2">
+                {cookieName}
+              </Typography>
+                </Grid>
+            <Grid item>
                 <IconButton 
                 style={{ marginLeft: 20 }}
                 component={RouterLink}
@@ -198,6 +221,8 @@ export default function MenuAppBar() {
                 </IconButton>
                 </Grid>
                 <Grid item>
+              
+      
                   
             <Button className={classes.button} variant="outlined" color="inherit" 
             size="small" component={RouterLink}

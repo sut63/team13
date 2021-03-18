@@ -3201,6 +3201,53 @@ var doc = `{
                 }
             }
         },
+        "/promo": {
+            "get": {
+                "description": "get promotion",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a promotion entity",
+                "operationId": "get-promotion",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product",
+                        "name": "product",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ent.Promotion"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
         "/promotions": {
             "get": {
                 "description": "list promotion entities",
@@ -3291,52 +3338,6 @@ var doc = `{
             }
         },
         "/promotions/{id}": {
-            "get": {
-                "description": "get promotion by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Get a promotion entity by ID",
-                "operationId": "get-promotion",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Promotion ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ent.Promotion"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            },
             "delete": {
                 "description": "get promotion by ID",
                 "produces": [
@@ -4792,7 +4793,7 @@ var doc = `{
                 "discount": {
                     "type": "integer"
                 },
-                "durationPromotion": {
+                "endPromotion": {
                     "type": "string"
                 },
                 "giveaway": {
@@ -4805,6 +4806,9 @@ var doc = `{
                     "type": "integer"
                 },
                 "promotionName": {
+                    "type": "string"
+                },
+                "startPromotion": {
                     "type": "string"
                 }
             }
@@ -4845,7 +4849,7 @@ var doc = `{
                 "employeeID": {
                     "type": "integer"
                 },
-                "idcardemployee": {
+                "idstock": {
                     "type": "string"
                 },
                 "priceproduct": {
@@ -5473,8 +5477,8 @@ var doc = `{
         "ent.Promotion": {
             "type": "object",
             "properties": {
-                "DurationPromotion": {
-                    "description": "DurationPromotion holds the value of the \"DurationPromotion\" field.",
+                "EndPromotion": {
+                    "description": "EndPromotion holds the value of the \"EndPromotion\" field.",
                     "type": "string"
                 },
                 "Price": {
@@ -5483,6 +5487,10 @@ var doc = `{
                 },
                 "PromotionName": {
                     "description": "PromotionName holds the value of the \"PromotionName\" field.",
+                    "type": "string"
+                },
+                "StartPromotion": {
+                    "description": "StartPromotion holds the value of the \"StartPromotion\" field.",
                     "type": "string"
                 },
                 "edges": {
@@ -5633,8 +5641,8 @@ var doc = `{
                     "description": "Amount holds the value of the \"Amount\" field.",
                     "type": "integer"
                 },
-                "IDcardemployee": {
-                    "description": "IDcardemployee holds the value of the \"IDcardemployee\" field.",
+                "IDstock": {
+                    "description": "IDstock holds the value of the \"IDstock\" field.",
                     "type": "string"
                 },
                 "Priceproduct": {
